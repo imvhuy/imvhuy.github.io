@@ -1,108 +1,91 @@
 ---
 title: "Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS"
-date: 2025-01-15
+date: 2025-06-23
 weight: 1
 chapter: false
 ---
 
-# Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS
+# Xây dựng ETL Data Pipeline cho E-commerce trên AWS
 
 #### Tổng quan
 
-Trong workshop toàn diện này, bạn sẽ học cách xây dựng một **hệ thống ETL (Extract, Transform, Load) data pipeline thời gian thực** cho nền tảng thương mại điện tử sử dụng các dịch vụ AWS khác nhau. Workshop thực hành này sẽ hướng dẫn bạn tạo ra một hệ thống xử lý dữ liệu có thể mở rộng, tiết kiệm chi phí để xử lý các luồng dữ liệu e-commerce khối lượng lớn bao gồm đơn hàng khách hàng, tương tác sản phẩm và phân tích website.
+Workshop này sẽ xây dựng một **hệ thống ETL (Extract, Transform, Load) data pipeline** cho nền tảng thương mại điện tử sử dụng các dịch vụ AWS và dữ liệu được lấy từ DummyJSON API, thực hiện tạo ra một hệ thống xử lý dữ liệu đơn giản, hiệu quả chi phí để thu thập, biến đổi và phân tích dữ liệu e-commerce thực tế bao gồm sản phẩm, người dùng và giỏ hàng.
 
-#### Những gì bạn sẽ xây dựng
+#### Bài Workshop này sẽ thực hiện để xây dựng data pineline có khả năng:
+- **Thu thập** dữ liệu e-commerce thực tế từ DummyJSON API
+- **Xử lý** và biến đổi dữ liệu sử dụng AWS Lambda
+- **Lưu trữ** dữ liệu có cấu trúc trong S3 Data Lake
+- **Phân tích** dữ liệu sử dụng Amazon Athena
+- **Trực quan hóa** thông tin kinh doanh thông qua QuickSight dashboards
 
-Bạn sẽ tạo ra một **kiến trúc data pipeline hoàn chỉnh** có khả năng:
+![Kiến trúc ETL Pipeline](/images/etl/image.png?featherlight=false&width=90pc)
 
-- **Thu thập** các luồng dữ liệu e-commerce thời gian thực
-- **Xử lý** và chuyển đổi dữ liệu bằng serverless computing
-- **Lưu trữ** dữ liệu có cấu trúc cho phân tích và báo cáo
-- **Trực quan hóa** thông tin kinh doanh thông qua dashboard tương tác
+#### Các dịch vụ AWS sẽ dùng ở workshop này
+**Thu thập Dữ liệu:**
+- **AWS Lambda** - Serverless compute để thu thập và xử lý dữ liệu
+- **CloudWatch Events** - Thực thi theo lịch trình và tự động hóa
 
-![Kiến trúc ETL Pipeline](/images/etl/architecture.png?featherlight=false&width=90pc)
-
-{{% notice note %}}
-Workshop này được thiết kế cho các developer, data engineer và cloud architect muốn có kinh nghiệm thực hành với các dịch vụ AWS data. Kiến thức cơ bản về AWS và một số kinh nghiệm lập trình (Python/SQL) được khuyến nghị nhưng không bắt buộc.
-{{% /notice %}}
-
-#### Các dịch vụ AWS bạn sẽ học
-
-**Thu thập & Streaming dữ liệu:**
-
-- **Amazon Kinesis Data Streams** - Dịch vụ streaming dữ liệu thời gian thực
-- **Amazon Kinesis Data Firehose** - Dịch vụ phân phối dữ liệu cho phân tích
-
-**Serverless Computing:**
-
-- **AWS Lambda** - Serverless compute để xử lý dữ liệu
-- **Amazon API Gateway** - RESTful APIs để thu thập dữ liệu
-
-**Lưu trữ dữ liệu:**
-
+**Lưu trữ Dữ liệu:**
 - **Amazon S3** - Object storage có thể mở rộng cho data lake
-- **Amazon DynamoDB** - NoSQL database cho ứng dụng thời gian thực
+- **S3 Intelligent Tiering** - Tối ưu hóa chi phí lưu trữ dữ liệu
 
 **Phân tích & Trực quan hóa:**
-
-- **Amazon Athena** - Dịch vụ truy vấn tương tác
+- **Amazon Athena** - Dịch vụ truy vấn tương tác cho dữ liệu S3
 - **Amazon QuickSight** - Business intelligence và visualization
 
 **Giám sát & Quản lý:**
+- **Amazon CloudWatch** - Monitoring, logging và alerting
+- **AWS IAM** - Quản lý danh tính và quyền truy cập
 
-- **Amazon CloudWatch** - Monitoring và logging
-- **AWS CloudFormation** - Infrastructure as Code
+**Tích hợp Bên ngoài:**
+- **DummyJSON API** - Dữ liệu e-commerce 
 
 #### Các trường hợp sử dụng kinh doanh
-
-ETL pipeline này có thể xử lý các kịch bản e-commerce khác nhau:
-
-- **Xử lý đơn hàng** - Xác thực đơn hàng và cập nhật kho hàng thời gian thực
-- **Phân tích khách hàng** - Theo dõi hành vi người dùng và cá nhân hóa
-- **Quản lý kho hàng** - Giám sát mức tồn kho và cảnh báo
-- **Báo cáo bán hàng** - Dashboard bán hàng và KPI thời gian thực
-- **Phát hiện gian lận** - Phát hiện bất thường trong các mẫu giao dịch
+ETL pipeline này thể hiện các kịch bản phân tích e-commerce thực tế:
+- **Phân tích Sản phẩm** - Phân tích hiệu suất sản phẩm và thông tin kho hàng
+- **Phân tích Khách hàng** - Nhân khẩu học và mô hình hành vi người dùng
+- **Phân tích Bán hàng** - Phân tích giỏ hàng và theo dõi chuyển đổi
+- **Nghiên cứu Thị trường** - xu hướng danh mục sản phẩm và phân tích giá
+- **Business Intelligence** - Dashboard điều hành và báo cáo KPI
 
 #### Các thành phần kiến trúc
+1. **Nguồn dữ liệu** - DummyJSON API (sản phẩm, người dùng, giỏ hàng, bài viết, bình luận)
+2. **Lớp thu thập** - Lambda functions được lên lịch để lấy dữ liệu
+3. **Lớp xử lý** - Lambda functions để biến đổi dữ liệu và phân vùng
+4. **Lớp lưu trữ** - S3 Data Lake với cấu trúc tối ưu
+5. **Lớp phân tích** - Athena để truy vấn SQL và QuickSight để visualization
+6. **Giám sát** - CloudWatch cho logging, metrics và alerting
 
-1. **Nguồn dữ liệu** - Mô phỏng các sự kiện e-commerce (đơn hàng, click, review)
-2. **Lớp thu thập** - Kinesis Data Streams và API Gateway
-3. **Lớp xử lý** - Lambda functions để chuyển đổi dữ liệu
-4. **Lớp lưu trữ** - S3 Data Lake và DynamoDB cho dữ liệu có cấu trúc
-5. **Lớp phân tích** - Athena để truy vấn và QuickSight để visualization
-6. **Giám sát** - CloudWatch cho sức khỏe và hiệu suất hệ thống
-
-#### Kết quả mong đợi
-
-Sau khi hoàn thành workshop này, bạn sẽ:
-
-- ✅ Hiểu kiến trúc data pipeline hiện đại
-- ✅ Thành thạo xử lý dữ liệu serverless trên AWS
-- ✅ Xây dựng khả năng phân tích thời gian thực
-- ✅ Triển khai monitoring và alerting
-- ✅ Tạo dashboard kinh doanh tương tác
-- ✅ Tối ưu hóa chi phí sử dụng AWS Free Tier
+#### Mục đích
+- Hiểu kiến trúc data pipeline serverless hiện đại
+- Thành thạo AWS Lambda để thu thập và xử lý dữ liệu
+- Xây dựng khả năng phân tích batch sử dụng dữ liệu thực
+- Triển khai monitoring và tối ưu hóa chi phí
+- Tạo dashboard kinh doanh tương tác với QuickSight
+- Tích hợp external APIs vào AWS data pipelines
+- Tối ưu hóa chi phí với ít dịch vụ AWS (dưới $3/tháng)
 
 #### Thời gian workshop
 
 - **Tổng thời gian**: 4-6 giờ
 - **Mức độ kỹ năng**: Beginner đến Intermediate
-- **Chi phí**: Dưới $5 sử dụng AWS Free Tier
+- **Chi phí**: Dưới $3 sử dụng AWS Free Tier (kiến trúc đơn giản hóa)
 
 #### Yêu cầu tiên quyết
 
 - Tài khoản AWS hoạt động với quyền quản trị
 - Hiểu biết cơ bản về khái niệm cloud computing
-- Quen thuộc với định dạng dữ liệu JSON
+- Quen thuộc với định dạng dữ liệu JSON và REST APIs
+- Kết nối Internet để truy cập DummyJSON API
 - Tùy chọn: Kiến thức cơ bản Python hoặc SQL
 
 #### Các module workshop
 
 1. [Giới thiệu & Thiết kế kiến trúc](1-introduction-architecture/)
-2. [Thiết lập thu thập dữ liệu với Kinesis](2-data-ingestion-kinesis/)
-3. [Xây dựng xử lý dữ liệu Serverless với Lambda](3-serverless-processing-lambda/)
-4. [Triển khai giải pháp lưu trữ dữ liệu](4-data-storage-solutions/)
-5. [Tạo phân tích và trực quan hóa](5-analytics-visualization/)
-6. [Giám sát và tối ưu hóa](6-monitoring-optimization/)
-7. [Kiểm tra và xác thực](7-testing-validation/)
-8. [Dọn dẹp và bước tiếp theo](8-cleanup-next-steps/)
+2. [Thu thập Dữ liệu với Lambda](2-data-collection-lambda/)
+3. [Xử lý và Biến đổi Dữ liệu](3-data-processing/)
+4. [Thiết lập S3 Data Lake](4-s3-data-lake/)
+5. [Phân tích với Amazon Athena](5-analytics-athena/)
+6. [Visualization với QuickSight](6-visualization-quicksight/)
+7. [Giám sát và Tối ưu hóa](7-monitoring-optimization/)
+8. [Dọn dẹp và Bước tiếp theo](8-cleanup-next-steps/)

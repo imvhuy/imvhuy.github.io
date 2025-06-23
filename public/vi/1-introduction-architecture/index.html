@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="js csstransforms3d">
+<html lang="vi" class="js csstransforms3d">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Introduction &amp; Architecture Design :: Build ETL Data Pipeline for E-commerce on AWS</title>
+    <title>Giới thiệu &amp; Thiết kế Kiến trúc :: Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</title>
 
     
-    <link href="/css/nucleus.css?1750664386" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1750664386" rel="stylesheet">
-    <link href="/css/hybrid.css?1750664386" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1750664386" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1750664386" rel="stylesheet">
-    <link href="/css/auto-complete.css?1750664386" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1750664386" rel="stylesheet">
-    <link href="/css/theme.css?1750664386" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1750664386" rel="stylesheet">
+    <link href="/css/nucleus.css?1750663444" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1750663444" rel="stylesheet">
+    <link href="/css/hybrid.css?1750663444" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1750663444" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1750663444" rel="stylesheet">
+    <link href="/css/auto-complete.css?1750663444" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1750663444" rel="stylesheet">
+    <link href="/css/theme.css?1750663444" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1750663444" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1750664386" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1750663444" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1750664386"></script>
+    <script src="/js/jquery-3.3.1.min.js?1750663444"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/1-introduction-architecture/">
+  <body class="" data-url="/vi/1-introduction-architecture/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1750664386"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1750664386"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1750663444"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1750663444"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/localhost:1313\/";
+        var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1750664386"></script>
+<script type="text/javascript" src="/js/search.js?1750663444"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/1-introduction-architecture/" title="Introduction &amp; Architecture Design" class="dd-item 
+    <li data-nav-id="/vi/1-introduction-architecture/" title="Giới thiệu &amp; Thiết kế Kiến trúc" class="dd-item 
         
         active
         
         ">
-      <a href="/1-introduction-architecture/">
-           <b> 1. </b> Introduction &amp; Architecture Design
+      <a href="/vi/1-introduction-architecture/">
+           <b> 1. </b> Giới thiệu &amp; Thiết kế Kiến trúc
           
             <i class="fas fa-check read-icon"></i>
           
@@ -108,13 +108,13 @@
  
   
     
-    <li data-nav-id="/2-data-collection-lambda/" title="Data Collection with Lambda" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-lambda/" title="Thu thập Dữ liệu với Lambda" class="dd-item 
         
         
         
         ">
-      <a href="/2-data-collection-lambda/">
-           <b> 2. </b> Data Collection with Lambda
+      <a href="/vi/2-data-collection-lambda/">
+           <b> 2. </b> Thu thập Dữ liệu với Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -136,7 +136,11 @@
         <ul>
           
               <li> 
-                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj"><i class='fab fa-facebook'></i> AWS Study Group - FB Group</a>
+                  <a class="padding" href="http://awsstudygroup.com"><i class='fab fa-aws'></i> AWS Study Group - Blog</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj"><i class='fab fa-facebook'></i> AWS Study Group - Nhóm FB</a>
               </li>
           
         </ul>
@@ -161,7 +165,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/1-introduction-architecture/" selected>English</option>
+                      <option id="en" value="//localhost:1313/1-introduction-architecture/">English</option>
                     
                   
               
@@ -175,7 +179,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/1-introduction-architecture/">Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/1-introduction-architecture/" selected>Tiếng Việt</option>
                     
                   
               
@@ -257,7 +261,7 @@
             
           
           
-            <a href='/'>Building ETL Data Pipeline for E-commerce on AWS</a> > Introduction & Architecture Design
+            <a href='/vi/'>Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</a> > Giới thiệu & Thiết kế Kiến trúc
           
         
           
@@ -270,41 +274,41 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#workshop-overview">Workshop Overview</a>
+    <li><a href="#tổng-quan-workshop">Tổng quan Workshop</a>
       <ul>
-        <li><a href="#what-is-etl">What is ETL?</a></li>
-        <li><a href="#why-aws-for-etl">Why AWS for ETL?</a></li>
+        <li><a href="#etl-là-gì">ETL là gì?</a></li>
+        <li><a href="#tại-sao-chọn-aws-cho-etl">Tại sao chọn AWS cho ETL?</a></li>
       </ul>
     </li>
-    <li><a href="#architecture-overview">Architecture Overview</a>
+    <li><a href="#tổng-quan-kiến-trúc">Tổng quan Kiến trúc</a>
       <ul>
-        <li><a href="#1-data-sources-real-e-commerce-api">1. Data Sources (Real E-commerce API)</a></li>
-        <li><a href="#2-data-collection-layer">2. Data Collection Layer</a></li>
-        <li><a href="#3-data-processing-layer">3. Data Processing Layer</a></li>
-        <li><a href="#4-data-storage-layer">4. Data Storage Layer</a></li>
-        <li><a href="#5-analytics-layer">5. Analytics Layer</a></li>
-        <li><a href="#6-monitoring--management">6. Monitoring &amp; Management</a></li>
+        <li><a href="#1-nguồn-dữ-liệu-api-e-commerce-thực-tế">1. Nguồn Dữ liệu (API E-commerce Thực tế)</a></li>
+        <li><a href="#2-lớp-thu-thập-dữ-liệu">2. Lớp Thu thập Dữ liệu</a></li>
+        <li><a href="#3-lớp-xử-lý-dữ-liệu">3. Lớp Xử lý Dữ liệu</a></li>
+        <li><a href="#4-lớp-lưu-trữ-dữ-liệu">4. Lớp Lưu trữ Dữ liệu</a></li>
+        <li><a href="#5-lớp-phân-tích">5. Lớp Phân tích</a></li>
+        <li><a href="#6-giám-sát--quản-lý">6. Giám sát &amp; Quản lý</a></li>
       </ul>
     </li>
-    <li><a href="#data-flow-architecture">Data Flow Architecture</a>
+    <li><a href="#kiến-trúc-luồng-dữ-liệu">Kiến trúc Luồng Dữ liệu</a>
       <ul>
-        <li><a href="#etl-data-flow">ETL Data Flow:</a></li>
+        <li><a href="#luồng-dữ-liệu-etl">Luồng Dữ liệu ETL:</a></li>
       </ul>
     </li>
-    <li><a href="#sample-data-schema">Sample Data Schema</a>
+    <li><a href="#schema-dữ-liệu-mẫu">Schema Dữ liệu Mẫu</a>
       <ul>
-        <li><a href="#dummyjson-product-data">DummyJSON Product Data</a></li>
-        <li><a href="#dummyjson-user-data">DummyJSON User Data</a></li>
-        <li><a href="#transformed-e-commerce-event">Transformed E-commerce Event</a></li>
+        <li><a href="#dữ-liệu-sản-phẩm-dummyjson">Dữ liệu Sản phẩm DummyJSON</a></li>
+        <li><a href="#dữ-liệu-người-dùng-dummyjson">Dữ liệu Người dùng DummyJSON</a></li>
+        <li><a href="#sự-kiện-e-commerce-đã-biến-đổi">Sự kiện E-commerce Đã Biến đổi</a></li>
       </ul>
     </li>
-    <li><a href="#expected-outcomes">Expected Outcomes</a></li>
-    <li><a href="#prerequisites-check">Prerequisites Check</a>
+    <li><a href="#kết-quả-mong-đợi">Kết quả Mong đợi</a></li>
+    <li><a href="#kiểm-tra-điều-kiện-tiên-quyết">Kiểm tra Điều kiện tiên quyết</a>
       <ul>
-        <li><a href="#dummyjson-api-endpoints-well-use">DummyJSON API Endpoints We&rsquo;ll Use:</a></li>
+        <li><a href="#các-endpoint-dummyjson-api-chúng-ta-sẽ-sử-dụng">Các Endpoint DummyJSON API Chúng Ta Sẽ Sử Dụng:</a></li>
       </ul>
     </li>
-    <li><a href="#workshop-structure">Workshop Structure</a></li>
+    <li><a href="#cấu-trúc-workshop">Cấu trúc Workshop</a></li>
   </ul>
 </nav>
     </div>
@@ -322,7 +326,7 @@
           
             <h1>
               
-              Introduction &amp; Architecture Design
+              Giới thiệu &amp; Thiết kế Kiến trúc
             </h1>
           
 
@@ -330,86 +334,86 @@
 
 
 
-	<h2 id="workshop-overview">Workshop Overview</h2>
-<p>Welcome to this comprehensive workshop on building an <strong>ETL Data Pipeline for E-commerce</strong> using AWS services! This hands-on session will guide you through creating a modern, serverless data processing system that can handle real-world e-commerce scenarios.</p>
-<h3 id="what-is-etl">What is ETL?</h3>
-<p><strong>ETL</strong> stands for <strong>Extract, Transform, Load</strong> - a fundamental data integration process:</p>
+	<h2 id="tổng-quan-workshop">Tổng quan Workshop</h2>
+<p>Chào mừng bạn đến với workshop toàn diện về xây dựng <strong>Pipeline ETL xử lý dữ liệu E-commerce</strong> sử dụng các dịch vụ AWS! Buổi học thực hành này sẽ hướng dẫn bạn tạo ra một hệ thống xử lý dữ liệu serverless hiện đại có thể xử lý các tình huống thương mại điện tử thực tế.</p>
+<h3 id="etl-là-gì">ETL là gì?</h3>
+<p><strong>ETL</strong> viết tắt của <strong>Extract, Transform, Load</strong> - một quy trình tích hợp dữ liệu cơ bản:</p>
 <ul>
-<li><strong>Extract</strong>: Collect data from various sources (websites, databases, APIs)</li>
-<li><strong>Transform</strong>: Clean, validate, and restructure data for analysis</li>
-<li><strong>Load</strong>: Store processed data in target systems for analytics</li>
+<li><strong>Extract (Trích xuất)</strong>: Thu thập dữ liệu từ nhiều nguồn khác nhau (website, cơ sở dữ liệu, API)</li>
+<li><strong>Transform (Biến đổi)</strong>: Làm sạch, xác thực và tái cấu trúc dữ liệu để phân tích</li>
+<li><strong>Load (Tải)</strong>: Lưu trữ dữ liệu đã xử lý trong các hệ thống đích để phân tích</li>
 </ul>
-<p>In e-commerce, ETL pipelines are crucial for:</p>
+<p>Trong thương mại điện tử, pipeline ETL rất quan trọng cho:</p>
 <ul>
-<li>Processing customer orders in real-time</li>
-<li>Analyzing user behavior and website interactions</li>
-<li>Managing inventory and supply chain data</li>
-<li>Generating business intelligence reports</li>
+<li>Xử lý đơn hàng khách hàng theo thời gian thực</li>
+<li>Phân tích hành vi người dùng và tương tác trên website</li>
+<li>Quản lý hàng tồn kho và dữ liệu chuỗi cung ứng</li>
+<li>Tạo ra các báo cáo business intelligence</li>
 </ul>
-<h3 id="why-aws-for-etl">Why AWS for ETL?</h3>
-<p>AWS provides powerful, cost-effective services for building modern data pipelines:</p>
-<p><strong>Serverless Architecture</strong> - No server management, automatic scaling
-<strong>Pay-as-you-go</strong> - Only pay for what you use
-<strong>Managed Services</strong> - Focus on business logic, not infrastructure
-<strong>Real-time Processing</strong> - Handle streaming data efficiently
-<strong>Integration</strong> - Services work seamlessly together</p>
-<h2 id="architecture-overview">Architecture Overview</h2>
-<p>Our ETL pipeline will implement a <strong>modern data architecture</strong> with the following components:</p>
-<p><img src="/images/etl/architecture-overview.png?featherlight=false&amp;width=90pc" alt="ETL Pipeline Architecture"></p>
-<h3 id="1-data-sources-real-e-commerce-api">1. Data Sources (Real E-commerce API)</h3>
-<p>We&rsquo;ll use <strong>DummyJSON API</strong> to get realistic e-commerce data:</p>
+<h3 id="tại-sao-chọn-aws-cho-etl">Tại sao chọn AWS cho ETL?</h3>
+<p>AWS cung cấp các dịch vụ mạnh mẽ và hiệu quả về chi phí để xây dựng pipeline dữ liệu hiện đại:</p>
+<p><strong>Kiến trúc Serverless</strong> - Không cần quản lý server, tự động mở rộng
+<strong>Trả theo sử dụng</strong> - Chỉ trả tiền cho những gì bạn sử dụng
+<strong>Dịch vụ được quản lý</strong> - Tập trung vào logic business, không phải hạ tầng
+<strong>Xử lý thời gian thực</strong> - Xử lý streaming data hiệu quả
+<strong>Tích hợp</strong> - Các dịch vụ hoạt động liền mạch với nhau</p>
+<h2 id="tổng-quan-kiến-trúc">Tổng quan Kiến trúc</h2>
+<p>Pipeline ETL của chúng ta sẽ triển khai <strong>kiến trúc dữ liệu hiện đại</strong> với các thành phần sau:</p>
+<p><img src="/images/etl/architecture-overview.png?featherlight=false&amp;width=90pc" alt="Kiến trúc Pipeline ETL"></p>
+<h3 id="1-nguồn-dữ-liệu-api-e-commerce-thực-tế">1. Nguồn Dữ liệu (API E-commerce Thực tế)</h3>
+<p>Chúng ta sẽ sử dụng <strong>DummyJSON API</strong> để lấy dữ liệu e-commerce thực tế:</p>
 <ul>
-<li><strong>Products</strong>: 100+ real product catalog from DummyJSON <code>/products</code> endpoint</li>
-<li><strong>Users</strong>: 30 customer profiles from <code>/users</code> endpoint</li>
-<li><strong>Carts</strong>: 20 shopping cart transactions from <code>/carts</code> endpoint</li>
-<li><strong>Posts &amp; Comments</strong>: User-generated content for reviews simulation</li>
-<li><strong>Batch Processing</strong>: Daily data collection and analysis</li>
+<li><strong>Sản phẩm</strong>: 100+ catalog sản phẩm thực từ endpoint DummyJSON <code>/products</code></li>
+<li><strong>Người dùng</strong>: 30 hồ sơ khách hàng từ endpoint <code>/users</code></li>
+<li><strong>Giỏ hàng</strong>: 20 giao dịch giỏ hàng từ endpoint <code>/carts</code></li>
+<li><strong>Bài viết &amp; Bình luận</strong>: Nội dung do người dùng tạo để mô phỏng đánh giá</li>
+<li><strong>Xử lý Batch</strong>: Thu thập và phân tích dữ liệu hàng ngày</li>
 </ul>
-<h3 id="2-data-collection-layer">2. Data Collection Layer</h3>
-<p><strong>AWS Lambda (Scheduled)</strong> will collect data from DummyJSON:</p>
+<h3 id="2-lớp-thu-thập-dữ-liệu">2. Lớp Thu thập Dữ liệu</h3>
+<p><strong>AWS Lambda (Scheduled)</strong> sẽ thu thập dữ liệu từ DummyJSON:</p>
 <ul>
-<li>Serverless, cost-effective data collection</li>
-<li>Scheduled execution using CloudWatch Events</li>
-<li>No infrastructure management required</li>
-<li>Built-in retry and error handling</li>
+<li>Thu thập dữ liệu serverless, hiệu quả chi phí</li>
+<li>Thực thi theo lịch trình sử dụng CloudWatch Events</li>
+<li>Không cần quản lý hạ tầng</li>
+<li>Tích hợp sẵn retry và xử lý lỗi</li>
 </ul>
-<h3 id="3-data-processing-layer">3. Data Processing Layer</h3>
-<p><strong>AWS Lambda</strong> functions will transform and store data:</p>
+<h3 id="3-lớp-xử-lý-dữ-liệu">3. Lớp Xử lý Dữ liệu</h3>
+<p><strong>AWS Lambda</strong> functions sẽ biến đổi và lưu trữ dữ liệu:</p>
 <ul>
-<li>Clean and normalize DummyJSON data</li>
-<li>Transform JSON to Parquet format</li>
-<li>Partition data by date for efficient querying</li>
-<li>Generate analytics-ready datasets</li>
+<li>Làm sạch và chuẩn hóa dữ liệu DummyJSON</li>
+<li>Chuyển đổi JSON sang định dạng Parquet</li>
+<li>Phân vùng dữ liệu theo ngày để truy vấn hiệu quả</li>
+<li>Tạo datasets sẵn sàng cho phân tích</li>
 </ul>
-<h3 id="4-data-storage-layer">4. Data Storage Layer</h3>
-<p><strong>Amazon S3</strong> as our Data Lake:</p>
+<h3 id="4-lớp-lưu-trữ-dữ-liệu">4. Lớp Lưu trữ Dữ liệu</h3>
+<p><strong>Amazon S3</strong> làm Data Lake:</p>
 <ul>
-<li>Scalable, durable object storage</li>
-<li>Partitioned by date for efficient queries</li>
-<li>Multiple formats: Raw JSON and Parquet</li>
-<li>Cost-optimized with S3 Intelligent Tiering</li>
+<li>Lưu trữ object có thể mở rộng, bền vững</li>
+<li>Phân vùng theo ngày để truy vấn hiệu quả</li>
+<li>Nhiều định dạng: JSON thô và Parquet</li>
+<li>Tối ưu chi phí với S3 Intelligent Tiering</li>
 </ul>
-<h3 id="5-analytics-layer">5. Analytics Layer</h3>
-<p><strong>Amazon Athena</strong> for SQL queries:</p>
+<h3 id="5-lớp-phân-tích">5. Lớp Phân tích</h3>
+<p><strong>Amazon Athena</strong> cho truy vấn SQL:</p>
 <ul>
-<li>Serverless query service</li>
-<li>Query data directly in S3</li>
-<li>Standard SQL interface</li>
+<li>Dịch vụ truy vấn serverless</li>
+<li>Truy vấn dữ liệu trực tiếp trong S3</li>
+<li>Giao diện SQL tiêu chuẩn</li>
 </ul>
-<p><strong>Amazon QuickSight</strong> for visualization:</p>
+<p><strong>Amazon QuickSight</strong> cho visualization:</p>
 <ul>
-<li>Business intelligence service</li>
-<li>Interactive dashboards</li>
-<li>Mobile-friendly reports</li>
+<li>Dịch vụ business intelligence</li>
+<li>Dashboard tương tác</li>
+<li>Báo cáo thân thiện với mobile</li>
 </ul>
-<h3 id="6-monitoring--management">6. Monitoring &amp; Management</h3>
+<h3 id="6-giám-sát--quản-lý">6. Giám sát &amp; Quản lý</h3>
 <p><strong>Amazon CloudWatch</strong>:</p>
 <ul>
-<li>Monitor system health and performance</li>
-<li>Set up alerts and notifications</li>
-<li>Track costs and resource usage</li>
+<li>Giám sát sức khỏe và hiệu suất hệ thống</li>
+<li>Thiết lập cảnh báo và thông báo</li>
+<li>Theo dõi chi phí và sử dụng tài nguyên</li>
 </ul>
-<h2 id="data-flow-architecture">Data Flow Architecture</h2>
+<h2 id="kiến-trúc-luồng-dữ-liệu">Kiến trúc Luồng Dữ liệu</h2>
 <pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
     A[DummyJSON API] --&gt; B[Lambda Collector]
     C[CloudWatch Events] --&gt; B
@@ -419,18 +423,18 @@
     F --&gt; G[QuickSight]
     H[CloudWatch Logs] --&gt; B
     H --&gt; D
-</code></pre><h3 id="etl-data-flow">ETL Data Flow:</h3>
+</code></pre><h3 id="luồng-dữ-liệu-etl">Luồng Dữ liệu ETL:</h3>
 <ol>
-<li><strong>CloudWatch Events</strong> triggers Lambda on schedule (daily)</li>
-<li><strong>Lambda Collector</strong> fetches data from DummyJSON API endpoints</li>
-<li><strong>Lambda Processor</strong> transforms and validates data</li>
-<li><strong>S3 Data Lake</strong> stores both raw and processed data</li>
-<li><strong>Athena</strong> queries data using standard SQL</li>
-<li><strong>QuickSight</strong> creates interactive dashboards and reports</li>
+<li><strong>CloudWatch Events</strong> kích hoạt Lambda theo lịch trình (hàng ngày)</li>
+<li><strong>Lambda Collector</strong> lấy dữ liệu từ các endpoint DummyJSON API</li>
+<li><strong>Lambda Processor</strong> biến đổi và xác thực dữ liệu</li>
+<li><strong>S3 Data Lake</strong> lưu trữ cả dữ liệu thô và đã xử lý</li>
+<li><strong>Athena</strong> truy vấn dữ liệu sử dụng SQL tiêu chuẩn</li>
+<li><strong>QuickSight</strong> tạo dashboard và báo cáo tương tác</li>
 </ol>
-<h2 id="sample-data-schema">Sample Data Schema</h2>
-<p>Our pipeline will process real data from <strong>DummyJSON API</strong>. Here are the actual data structures:</p>
-<h3 id="dummyjson-product-data">DummyJSON Product Data</h3>
+<h2 id="schema-dữ-liệu-mẫu">Schema Dữ liệu Mẫu</h2>
+<p>Pipeline của chúng ta sẽ xử lý dữ liệu thực từ <strong>DummyJSON API</strong>. Dưới đây là cấu trúc dữ liệu thực tế:</p>
+<h3 id="dữ-liệu-sản-phẩm-dummyjson">Dữ liệu Sản phẩm DummyJSON</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;iPhone 9&#34;</span>,
@@ -444,7 +448,7 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;thumbnail&#34;</span>: <span style="color:#e6db74">&#34;https://dummyjson.com/image/i/products/1/thumbnail.jpg&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;images&#34;</span>: [<span style="color:#e6db74">&#34;https://dummyjson.com/image/i/products/1/1.jpg&#34;</span>]
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="dummyjson-user-data">DummyJSON User Data</h3>
+</span></span></code></pre></div><h3 id="dữ-liệu-người-dùng-dummyjson">Dữ liệu Người dùng DummyJSON</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;firstName&#34;</span>: <span style="color:#e6db74">&#34;Emily&#34;</span>,
@@ -462,7 +466,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;state&#34;</span>: <span style="color:#e6db74">&#34;Arizona&#34;</span>
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="transformed-e-commerce-event">Transformed E-commerce Event</h3>
+</span></span></code></pre></div><h3 id="sự-kiện-e-commerce-đã-biến-đổi">Sự kiện E-commerce Đã Biến đổi</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;event_type&#34;</span>: <span style="color:#e6db74">&#34;product_purchase&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#e6db74">&#34;2025-01-15T10:30:00Z&#34;</span>,
@@ -483,51 +487,51 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;country&#34;</span>: <span style="color:#e6db74">&#34;USA&#34;</span>
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="expected-outcomes">Expected Outcomes</h2>
-<p>By the end of this workshop, you&rsquo;ll have built:</p>
-<p>🎯 <strong>A complete ETL pipeline</strong> processing real e-commerce data from DummyJSON
-📊 <strong>Interactive dashboards</strong> showing product, user, and sales analytics
-🔧 <strong>Serverless architecture</strong> with minimal infrastructure management
-💰 <strong>Cost-optimized solution</strong> under $3/month using AWS Free Tier
-📈 <strong>Batch analytics</strong> capabilities for business insights and reporting</p>
-<h2 id="prerequisites-check">Prerequisites Check</h2>
-<p>Before we start building, ensure you have:</p>
+</span></span></code></pre></div><h2 id="kết-quả-mong-đợi">Kết quả Mong đợi</h2>
+<p>Khi kết thúc workshop này, bạn sẽ đã xây dựng được:</p>
+<p>🎯 <strong>Pipeline ETL hoàn chỉnh</strong> xử lý dữ liệu e-commerce thực tế từ DummyJSON
+📊 <strong>Dashboard tương tác</strong> hiển thị phân tích sản phẩm, người dùng và bán hàng
+🔧 <strong>Kiến trúc serverless</strong> với quản lý hạ tầng tối thiểu
+💰 <strong>Giải pháp tối ưu chi phí</strong> dưới $3/tháng sử dụng AWS Free Tier
+📈 <strong>Khả năng phân tích batch</strong> để có insight business và báo cáo</p>
+<h2 id="kiểm-tra-điều-kiện-tiên-quyết">Kiểm tra Điều kiện tiên quyết</h2>
+<p>Trước khi chúng ta bắt đầu xây dựng, hãy đảm bảo bạn có:</p>
 <ul>
-<li>✅ <strong>AWS Account</strong> with administrative access</li>
-<li>✅ <strong>AWS CLI</strong> installed and configured (optional)</li>
-<li>✅ <strong>Basic understanding</strong> of JSON data format and REST APIs</li>
-<li>✅ <strong>Internet connection</strong> to access DummyJSON API (<a href="https://dummyjson.com">https://dummyjson.com</a>)</li>
-<li>✅ <strong>Text editor</strong> for code editing</li>
-<li>✅ <strong>Web browser</strong> for AWS Console access</li>
+<li>✅ <strong>Tài khoản AWS</strong> với quyền quản trị</li>
+<li>✅ <strong>AWS CLI</strong> đã cài đặt và cấu hình (tùy chọn)</li>
+<li>✅ <strong>Hiểu biết cơ bản</strong> về định dạng dữ liệu JSON và REST APIs</li>
+<li>✅ <strong>Kết nối Internet</strong> để truy cập DummyJSON API (<a href="https://dummyjson.com">https://dummyjson.com</a>)</li>
+<li>✅ <strong>Text editor</strong> để chỉnh sửa code</li>
+<li>✅ <strong>Web browser</strong> để truy cập AWS Console</li>
 </ul>
-<h3 id="dummyjson-api-endpoints-well-use">DummyJSON API Endpoints We&rsquo;ll Use:</h3>
+<h3 id="các-endpoint-dummyjson-api-chúng-ta-sẽ-sử-dụng">Các Endpoint DummyJSON API Chúng Ta Sẽ Sử Dụng:</h3>
 <ul>
-<li>🛍️ <strong>Products</strong>: <code>https://dummyjson.com/products</code> (100 realistic products)</li>
-<li>👥 <strong>Users</strong>: <code>https://dummyjson.com/users</code> (30 sample users)</li>
-<li>🛒 <strong>Carts</strong>: <code>https://dummyjson.com/carts</code> (20 shopping carts)</li>
-<li>📝 <strong>Posts</strong>: <code>https://dummyjson.com/posts</code> (150 posts for review simulation)</li>
-<li>💬 <strong>Comments</strong>: <code>https://dummyjson.com/comments</code> (340 comments)</li>
+<li>🛍️ <strong>Sản phẩm</strong>: <code>https://dummyjson.com/products</code> (100 sản phẩm thực tế)</li>
+<li>👥 <strong>Người dùng</strong>: <code>https://dummyjson.com/users</code> (30 người dùng mẫu)</li>
+<li>🛒 <strong>Giỏ hàng</strong>: <code>https://dummyjson.com/carts</code> (20 giỏ hàng)</li>
+<li>📝 <strong>Bài viết</strong>: <code>https://dummyjson.com/posts</code> (150 bài viết để mô phỏng đánh giá)</li>
+<li>💬 <strong>Bình luận</strong>: <code>https://dummyjson.com/comments</code> (340 bình luận)</li>
 </ul>
 
-<div class="notices warning" ><p><strong>Cost Management</strong>: While this workshop uses AWS Free Tier services, always monitor your usage and set up billing alerts to avoid unexpected charges.</p>
+<div class="notices warning" ><p><strong>Quản lý Chi phí</strong>: Mặc dù workshop này sử dụng các dịch vụ AWS Free Tier, hãy luôn giám sát việc sử dụng của bạn và thiết lập cảnh báo billing để tránh các khoản phí không mong muốn.</p>
 </div>
 
-<h2 id="workshop-structure">Workshop Structure</h2>
-<p>This workshop is divided into 8 hands-on modules:</p>
+<h2 id="cấu-trúc-workshop">Cấu trúc Workshop</h2>
+<p>Workshop này được chia thành 8 module thực hành:</p>
 <ol>
-<li><strong>[Current]</strong> Introduction &amp; Architecture Design</li>
-<li><strong>[Next]</strong> Data Collection with Lambda</li>
-<li>Data Processing and Transformation</li>
-<li>Setting up S3 Data Lake</li>
-<li>Analytics with Amazon Athena</li>
-<li>Visualization with QuickSight</li>
-<li>Monitoring and Optimization</li>
-<li>Cleanup and Next Steps</li>
+<li><strong>[Hiện tại]</strong> Giới thiệu &amp; Thiết kế Kiến trúc</li>
+<li><strong>[Tiếp theo]</strong> Thu thập Dữ liệu với Lambda</li>
+<li>Xử lý và Biến đổi Dữ liệu</li>
+<li>Thiết lập S3 Data Lake</li>
+<li>Phân tích với Amazon Athena</li>
+<li>Visualization với QuickSight</li>
+<li>Giám sát và Tối ưu hóa</li>
+<li>Cleanup và Các bước tiếp theo</li>
 </ol>
 <hr>
-<p><strong>Ready to start building?</strong> Let&rsquo;s move to the next module where we&rsquo;ll create our Lambda function to collect data from DummyJSON!</p>
+<p><strong>Sẵn sàng bắt đầu xây dựng?</strong> Hãy chuyển sang module tiếp theo nơi chúng ta sẽ tạo Lambda function để thu thập dữ liệu từ DummyJSON!</p>
 
-<div class="notices info" ><p><strong>Estimated Time</strong>: This module took approximately 15 minutes to complete. The next module will involve hands-on Lambda function creation and DummyJSON integration.</p>
+<div class="notices info" ><p><strong>Thời gian ước tính</strong>: Module này mất khoảng 15 phút để hoàn thành. Module tiếp theo sẽ bao gồm tạo Lambda function thực hành và tích hợp DummyJSON.</p>
 </div>
 
 
@@ -610,10 +614,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/" title="Building ETL Data Pipeline for E-commerce on AWS"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/vi/" title="Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/2-data-collection-lambda/" title="Data Collection with Lambda" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/2-data-collection-lambda/" title="Thu thập Dữ liệu với Lambda" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -623,19 +627,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1750664386"></script>
-    <script src="/js/perfect-scrollbar.min.js?1750664386"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1750664386"></script>
-    <script src="/js/jquery.sticky.js?1750664386"></script>
-    <script src="/js/featherlight.min.js?1750664386"></script>
-    <script src="/js/highlight.pack.js?1750664386"></script>
+    <script src="/js/clipboard.min.js?1750663444"></script>
+    <script src="/js/perfect-scrollbar.min.js?1750663444"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1750663444"></script>
+    <script src="/js/jquery.sticky.js?1750663444"></script>
+    <script src="/js/featherlight.min.js?1750663444"></script>
+    <script src="/js/highlight.pack.js?1750663444"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1750664386"></script>
-    <script src="/js/learn.js?1750664386"></script>
-    <script src="/js/hugo-learn.js?1750664386"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1750663444"></script>
+    <script src="/js/learn.js?1750663444"></script>
+    <script src="/js/hugo-learn.js?1750663444"></script>
 
-    <link href="/mermaid/mermaid.css?1750664386" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1750664386"></script>
+    <link href="/mermaid/mermaid.css?1750663444" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1750663444"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

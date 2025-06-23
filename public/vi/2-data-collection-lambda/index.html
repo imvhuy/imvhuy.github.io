@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Tags :: Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</title>
+    <title>Thu thập Dữ liệu với Lambda :: Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</title>
 
     
     <link href="/css/nucleus.css?1750663444" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/vi/tags/">
+  <body class="" data-url="/vi/2-data-collection-lambda/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -110,7 +110,7 @@
     
     <li data-nav-id="/vi/2-data-collection-lambda/" title="Thu thập Dữ liệu với Lambda" class="dd-item 
         
-        
+        active
         
         ">
       <a href="/vi/2-data-collection-lambda/">
@@ -165,7 +165,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/tags/">English</option>
+                      <option id="en" value="//localhost:1313/2-data-collection-lambda/">English</option>
                     
                   
               
@@ -179,7 +179,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/tags/" selected>Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/2-data-collection-lambda/" selected>Tiếng Việt</option>
                     
                   
               
@@ -261,7 +261,7 @@
             
           
           
-            <a href='/vi/'>Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</a> > Tags
+            <a href='/vi/'>Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</a> > Thu thập Dữ liệu với Lambda
           
         
           
@@ -272,7 +272,17 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#tổng-quan-module">Tổng quan Module</a>
+      <ul>
+        <li><a href="#bạn-sẽ-học-được">Bạn sẽ học được</a></li>
+        <li><a href="#tổng-quan-kiến-trúc">Tổng quan Kiến trúc</a></li>
+        <li><a href="#kết-quả-mong-đợi">Kết quả Mong đợi</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
     </div>
 </div>
 
@@ -288,9 +298,7 @@
           
             <h1>
               
-                taxonomy ::
-              
-              Tags
+              Thu thập Dữ liệu với Lambda
             </h1>
           
 
@@ -298,11 +306,39 @@
 
 
 
-
-
+	<h2 id="tổng-quan-module">Tổng quan Module</h2>
+<p>Trong module này, chúng ta sẽ tạo một AWS Lambda function để thu thập dữ liệu từ DummyJSON API. Cách tiếp cận serverless này hoàn hảo cho use case của chúng ta vì DummyJSON cung cấp dữ liệu tĩnh không yêu cầu streaming thời gian thực.</p>
+<h3 id="bạn-sẽ-học-được">Bạn sẽ học được</h3>
 <ul>
-	
+<li>🔧 <strong>Tạo AWS Lambda functions</strong> để thu thập dữ liệu</li>
+<li>📅 <strong>Lên lịch thực thi Lambda</strong> sử dụng CloudWatch Events</li>
+<li>🌐 <strong>Tích hợp với external APIs</strong> (DummyJSON)</li>
+<li>💾 <strong>Lưu trữ dữ liệu trong S3</strong> để xử lý tiếp</li>
+<li>🔍 <strong>Giám sát và troubleshoot</strong> Lambda functions</li>
 </ul>
+<h3 id="tổng-quan-kiến-trúc">Tổng quan Kiến trúc</h3>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+    A[DummyJSON API] --&gt; B[Lambda Collector]
+    C[CloudWatch Events] --&gt; B
+    B --&gt; D[S3 Raw Data]
+    E[CloudWatch Logs] --&gt; B
+</code></pre><h3 id="kết-quả-mong-đợi">Kết quả Mong đợi</h3>
+<p>Kết thúc module này:</p>
+<ul>
+<li>✅ Lambda function thu thập dữ liệu từ DummyJSON</li>
+<li>✅ Thực thi theo lịch trình mỗi 6 giờ</li>
+<li>✅ Dữ liệu thô được lưu trong S3 buckets</li>
+<li>✅ Xử lý lỗi và logging phù hợp</li>
+</ul>
+<hr>
+<p>Hãy bắt đầu xây dựng pipeline thu thập dữ liệu!</p>
+
+<div class="notices info" ><p><strong>Thời gian ước tính</strong>: 45-60 phút để hoàn thành module này</p>
+</div>
+
+
+
+
 
 
 <footer class=" footline" >
@@ -359,6 +395,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -378,6 +415,8 @@
 
 	 
 	 
+		
+			<a class="nav nav-prev" href="/vi/1-introduction-architecture/" title="Giới thiệu &amp; Thiết kế Kiến trúc"> <i class="fa fa-chevron-left"></i></a>
 		
 		
 			<a class="nav nav-next" href="/vi/1-introduction-architecture/" title="Giới thiệu &amp; Thiết kế Kiến trúc" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>

@@ -1,12 +1,10 @@
 ---
 title: "Introduction & Architecture Design"
-date: 2025-01-15
+date: 2025-06-23
 weight: 1
 chapter: false
 pre: " <b> 1. </b> "
 ---
-
-# Introduction & Architecture Design
 
 ## Workshop Overview
 
@@ -43,51 +41,42 @@ Our ETL pipeline will implement a **modern data architecture** with the followin
 
 ![ETL Pipeline Architecture](/images/etl/architecture-overview.png?featherlight=false&width=90pc)
 
-### 1. Data Sources (E-commerce Events)
+### 1. Data Sources (Real E-commerce API)
 
-We'll simulate typical e-commerce events:
+We'll use **DummyJSON API** to get realistic e-commerce data:
 
-- **Customer Orders**: Purchase transactions, order items, payment info
-- **Website Interactions**: Page views, product clicks, search queries
-- **Product Reviews**: Customer feedback and ratings
-- **Inventory Updates**: Stock changes, new products
+- **Products**: 100+ real product catalog from DummyJSON `/products` endpoint
+- **Users**: 30 customer profiles from `/users` endpoint
+- **Carts**: 20 shopping cart transactions from `/carts` endpoint
+- **Posts & Comments**: User-generated content for reviews simulation
+- **Batch Processing**: Daily data collection and analysis
 
-### 2. Data Ingestion Layer
+### 2. Data Collection Layer
 
-**Amazon Kinesis Data Streams** will capture real-time events:
+**AWS Lambda (Scheduled)** will collect data from DummyJSON:
 
-- Handle high-throughput data streams
-- Provide durable, scalable data ingestion
-- Enable real-time processing capabilities
-
-**Amazon API Gateway** will provide REST endpoints:
-
-- Secure API access for data submission
-- Rate limiting and authentication
-- Integration with downstream services
+- Serverless, cost-effective data collection
+- Scheduled execution using CloudWatch Events
+- No infrastructure management required
+- Built-in retry and error handling
 
 ### 3. Data Processing Layer
 
-**AWS Lambda** functions will transform data:
+**AWS Lambda** functions will transform and store data:
 
-- Serverless, auto-scaling compute
-- Event-driven processing
-- Data validation and enrichment
-- Format conversions (JSON to Parquet)
+- Clean and normalize DummyJSON data
+- Transform JSON to Parquet format
+- Partition data by date for efficient querying
+- Generate analytics-ready datasets
 
 ### 4. Data Storage Layer
 
 **Amazon S3** as our Data Lake:
 
 - Scalable, durable object storage
-- Multiple storage classes for cost optimization
-- Foundation for analytics workloads
-
-**Amazon DynamoDB** for operational data:
-
-- Fast NoSQL database for real-time applications
-- Auto-scaling capabilities
-- Low-latency data access
+- Partitioned by date for efficient queries
+- Multiple formats: Raw JSON and Parquet
+- Cost-optimized with S3 Intelligent Tiering
 
 ### 5. Analytics Layer
 
@@ -115,84 +104,91 @@ We'll simulate typical e-commerce events:
 
 ```mermaid
 graph TD
-    A[E-commerce Website] --> B[API Gateway]
-    B --> C[Kinesis Data Streams]
-    C --> D[Lambda Functions]
+    A[DummyJSON API] --> B[Lambda Collector]
+    C[CloudWatch Events] --> B
+    B --> D[Lambda Processor]
     D --> E[S3 Data Lake]
-    D --> F[DynamoDB]
-    E --> G[Athena]
-    G --> H[QuickSight]
-    I[CloudWatch] --> D
-    I --> C
-    I --> F
+    E --> F[Athena]
+    F --> G[QuickSight]
+    H[CloudWatch Logs] --> B
+    H --> D
 ```
 
-### Real-time Flow:
+### ETL Data Flow:
 
-1. **Customer actions** generate events on e-commerce website
-2. **API Gateway** receives and validates incoming requests
-3. **Kinesis** streams capture events in real-time
-4. **Lambda** processes and transforms data
-5. **S3** stores processed data for analytics
-6. **DynamoDB** maintains operational data
-7. **Athena** queries historical data
-8. **QuickSight** creates visual dashboards
+1. **CloudWatch Events** triggers Lambda on schedule (daily)
+2. **Lambda Collector** fetches data from DummyJSON API endpoints
+3. **Lambda Processor** transforms and validates data
+4. **S3 Data Lake** stores both raw and processed data
+5. **Athena** queries data using standard SQL
+6. **QuickSight** creates interactive dashboards and reports
 
 ## Sample Data Schema
 
-Our pipeline will process various e-commerce events. Here are example schemas:
+Our pipeline will process real data from **DummyJSON API**. Here are the actual data structures:
 
-### Order Event
+### DummyJSON Product Data
 
 ```json
 {
-  "event_type": "order_created",
-  "timestamp": "2025-01-15T10:30:00Z",
-  "order_id": "ord_123456",
-  "customer_id": "cust_789",
-  "items": [
-    {
-      "product_id": "prod_001",
-      "quantity": 2,
-      "price": 29.99
-    }
-  ],
-  "total_amount": 59.98,
-  "payment_method": "credit_card",
-  "shipping_address": {
-    "city": "Ho Chi Minh City",
-    "country": "Vietnam"
+  "id": 1,
+  "title": "iPhone 9",
+  "description": "An apple mobile which is nothing like apple",
+  "price": 549,
+  "discountPercentage": 12.96,
+  "rating": 4.69,
+  "stock": 94,
+  "brand": "Apple",
+  "category": "smartphones",
+  "thumbnail": "https://dummyjson.com/image/i/products/1/thumbnail.jpg",
+  "images": ["https://dummyjson.com/image/i/products/1/1.jpg"]
+}
+```
+
+### DummyJSON User Data
+
+```json
+{
+  "id": 1,
+  "firstName": "Emily",
+  "lastName": "Johnson",
+  "maidenName": "Smith",
+  "age": 28,
+  "gender": "female",
+  "email": "emily.johnson@x.dummyjson.com",
+  "phone": "+81 965-431-3024",
+  "address": {
+    "address": "626 Main Street",
+    "city": "Phoenix",
+    "coordinates": { "lat": 33.4484, "lng": -112.074 },
+    "postalCode": "85001",
+    "state": "Arizona"
   }
 }
 ```
 
-### Click Event
+### Transformed E-commerce Event
 
 ```json
 {
-  "event_type": "product_view",
-  "timestamp": "2025-01-15T10:25:00Z",
-  "session_id": "sess_abc123",
-  "customer_id": "cust_789",
-  "product_id": "prod_001",
-  "category": "Electronics",
-  "page_url": "/products/laptop-gaming",
-  "referrer": "google.com"
-}
-```
-
-### Review Event
-
-```json
-{
-  "event_type": "review_submitted",
-  "timestamp": "2025-01-15T11:00:00Z",
-  "review_id": "rev_456",
-  "customer_id": "cust_789",
-  "product_id": "prod_001",
-  "rating": 5,
-  "review_text": "Excellent laptop!",
-  "verified_purchase": true
+  "event_type": "product_purchase",
+  "timestamp": "2025-01-15T10:30:00Z",
+  "transaction_id": "txn_123456",
+  "user_id": 1,
+  "product": {
+    "id": 1,
+    "title": "iPhone 9",
+    "price": 549,
+    "category": "smartphones",
+    "brand": "Apple"
+  },
+  "quantity": 1,
+  "total_amount": 549,
+  "user_location": {
+    "city": "Phoenix",
+    "state": "Arizona",
+    "country": "USA"
+  }
 }
 ```
 
@@ -200,11 +196,11 @@ Our pipeline will process various e-commerce events. Here are example schemas:
 
 By the end of this workshop, you'll have built:
 
-🎯 **A complete ETL pipeline** handling real-time e-commerce data
-📊 **Interactive dashboards** showing business metrics
-🔧 **Serverless architecture** that scales automatically
-💰 **Cost-optimized solution** using AWS Free Tier
-📈 **Real-time analytics** capabilities for business insights
+🎯 **A complete ETL pipeline** processing real e-commerce data from DummyJSON
+📊 **Interactive dashboards** showing product, user, and sales analytics
+🔧 **Serverless architecture** with minimal infrastructure management
+💰 **Cost-optimized solution** under $3/month using AWS Free Tier
+📈 **Batch analytics** capabilities for business insights and reporting
 
 ## Prerequisites Check
 
@@ -212,9 +208,18 @@ Before we start building, ensure you have:
 
 - ✅ **AWS Account** with administrative access
 - ✅ **AWS CLI** installed and configured (optional)
-- ✅ **Basic understanding** of JSON data format
+- ✅ **Basic understanding** of JSON data format and REST APIs
+- ✅ **Internet connection** to access DummyJSON API (https://dummyjson.com)
 - ✅ **Text editor** for code editing
 - ✅ **Web browser** for AWS Console access
+
+### DummyJSON API Endpoints We'll Use:
+
+- 🛍️ **Products**: `https://dummyjson.com/products` (100 realistic products)
+- 👥 **Users**: `https://dummyjson.com/users` (30 sample users)
+- 🛒 **Carts**: `https://dummyjson.com/carts` (20 shopping carts)
+- 📝 **Posts**: `https://dummyjson.com/posts` (150 posts for review simulation)
+- 💬 **Comments**: `https://dummyjson.com/comments` (340 comments)
 
 {{% notice warning %}}
 **Cost Management**: While this workshop uses AWS Free Tier services, always monitor your usage and set up billing alerts to avoid unexpected charges.
@@ -225,18 +230,18 @@ Before we start building, ensure you have:
 This workshop is divided into 8 hands-on modules:
 
 1. **[Current]** Introduction & Architecture Design
-2. **[Next]** Setting up Data Ingestion with Kinesis
-3. Building Serverless Data Processing with Lambda
-4. Implementing Data Storage Solutions
-5. Creating Analytics and Visualization
-6. Monitoring and Optimization
-7. Testing and Validation
+2. **[Next]** Data Collection with Lambda
+3. Data Processing and Transformation
+4. Setting up S3 Data Lake
+5. Analytics with Amazon Athena
+6. Visualization with QuickSight
+7. Monitoring and Optimization
 8. Cleanup and Next Steps
 
 ---
 
-**Ready to start building?** Let's move to the next module where we'll set up our data ingestion layer with Amazon Kinesis!
+**Ready to start building?** Let's move to the next module where we'll create our Lambda function to collect data from DummyJSON!
 
 {{% notice info %}}
-**Estimated Time**: This module took approximately 15 minutes to complete. The next module will involve hands-on AWS service configuration.
+**Estimated Time**: This module took approximately 15 minutes to complete. The next module will involve hands-on Lambda function creation and DummyJSON integration.
 {{% /notice %}}

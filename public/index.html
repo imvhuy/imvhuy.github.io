@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="js csstransforms3d">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
@@ -12,21 +12,21 @@
     <title>Building ETL Data Pipeline for E-commerce on AWS :: Build ETL Data Pipeline for E-commerce on AWS</title>
 
     
-    <link href="/css/nucleus.css?1750652058" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1750652058" rel="stylesheet">
-    <link href="/css/hybrid.css?1750652058" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1750652058" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1750652058" rel="stylesheet">
-    <link href="/css/auto-complete.css?1750652058" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1750652058" rel="stylesheet">
-    <link href="/css/theme.css?1750652058" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1750652058" rel="stylesheet">
+    <link href="/css/nucleus.css?1750664386" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1750664386" rel="stylesheet">
+    <link href="/css/hybrid.css?1750664386" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1750664386" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1750664386" rel="stylesheet">
+    <link href="/css/auto-complete.css?1750664386" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1750664386" rel="stylesheet">
+    <link href="/css/theme.css?1750664386" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1750664386" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1750652058" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1750664386" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1750652058"></script>
+    <script src="/js/jquery-3.3.1.min.js?1750664386"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1750652058"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1750652058"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1750664386"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1750664386"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/";
+        var baseurl = "\/\/localhost:1313\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1750652058"></script>
+<script type="text/javascript" src="/js/search.js?1750664386"></script>
 
     
   </div>
@@ -89,6 +89,32 @@
         ">
       <a href="/1-introduction-architecture/">
            <b> 1. </b> Introduction &amp; Architecture Design
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-data-collection-lambda/" title="Data Collection with Lambda" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-data-collection-lambda/">
+           <b> 2. </b> Data Collection with Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -135,7 +161,7 @@
                   
                     
                     
-                      <option id="en" value="/" selected>English</option>
+                      <option id="en" value="//localhost:1313/" selected>English</option>
                     
                   
               
@@ -149,7 +175,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/">Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/">Tiếng Việt</option>
                     
                   
               
@@ -224,96 +250,98 @@
  
 <h1 id="building-etl-data-pipeline-for-e-commerce-on-aws">Building ETL Data Pipeline for E-commerce on AWS</h1>
 <h4 id="overview">Overview</h4>
-<p>In this comprehensive workshop, you will learn how to build a <strong>real-time ETL (Extract, Transform, Load) data pipeline</strong> for an e-commerce platform using various AWS services. This hands-on workshop will guide you through creating a scalable, cost-effective data processing system that can handle high-volume e-commerce data streams including customer orders, product interactions, and website analytics.</p>
+<p>In this comprehensive workshop, you will learn how to build a <strong>serverless ETL (Extract, Transform, Load) data pipeline</strong> for an e-commerce platform using AWS services and real data from DummyJSON API. This hands-on workshop will guide you through creating a simple, cost-effective data processing system that collects, transforms, and analyzes real e-commerce data including products, users, and shopping carts.</p>
 <h4 id="what-youll-build">What You&rsquo;ll Build</h4>
-<p>You will create a complete <strong>data pipeline architecture</strong> that:</p>
+<p>You will create a complete <strong>serverless data pipeline</strong> that:</p>
 <ul>
-<li><strong>Ingests</strong> real-time e-commerce data streams</li>
-<li><strong>Processes</strong> and transforms data using serverless computing</li>
-<li><strong>Stores</strong> structured data for analytics and reporting</li>
-<li><strong>Visualizes</strong> business insights through interactive dashboards</li>
+<li><strong>Collects</strong> real e-commerce data from DummyJSON API</li>
+<li><strong>Processes</strong> and transforms data using AWS Lambda</li>
+<li><strong>Stores</strong> structured data in S3 Data Lake</li>
+<li><strong>Analyzes</strong> data using Amazon Athena</li>
+<li><strong>Visualizes</strong> business insights through QuickSight dashboards</li>
 </ul>
-<p><img src="/images/etl/architecture.png?featherlight=false&amp;width=90pc" alt="ETL Pipeline Architecture"></p>
+<p><img src="/images/etl/image.png?featherlight=false&amp;width=90pc" alt="ETL Pipeline Architecture"></p>
 
 <div class="notices note" ><p>This workshop is designed for developers, data engineers, and cloud architects who want to gain hands-on experience with AWS data services. Prior knowledge of AWS basics and some programming experience (Python/SQL) is recommended but not required.</p>
 </div>
 
 <h4 id="aws-services-youll-learn">AWS Services You&rsquo;ll Learn</h4>
-<p><strong>Data Ingestion &amp; Streaming:</strong></p>
+<p><strong>Data Collection:</strong></p>
 <ul>
-<li><strong>Amazon Kinesis Data Streams</strong> - Real-time data streaming service</li>
-<li><strong>Amazon Kinesis Data Firehose</strong> - Data delivery service for analytics</li>
-</ul>
-<p><strong>Serverless Computing:</strong></p>
-<ul>
-<li><strong>AWS Lambda</strong> - Serverless compute for data processing</li>
-<li><strong>Amazon API Gateway</strong> - RESTful APIs for data ingestion</li>
+<li><strong>AWS Lambda</strong> - Serverless compute for data collection and processing</li>
+<li><strong>CloudWatch Events</strong> - Scheduled execution and automation</li>
 </ul>
 <p><strong>Data Storage:</strong></p>
 <ul>
 <li><strong>Amazon S3</strong> - Scalable object storage for data lakes</li>
-<li><strong>Amazon DynamoDB</strong> - NoSQL database for real-time applications</li>
+<li><strong>S3 Intelligent Tiering</strong> - Cost optimization for data storage</li>
 </ul>
 <p><strong>Analytics &amp; Visualization:</strong></p>
 <ul>
-<li><strong>Amazon Athena</strong> - Interactive query service</li>
+<li><strong>Amazon Athena</strong> - Interactive query service for S3 data</li>
 <li><strong>Amazon QuickSight</strong> - Business intelligence and visualization</li>
 </ul>
 <p><strong>Monitoring &amp; Management:</strong></p>
 <ul>
-<li><strong>Amazon CloudWatch</strong> - Monitoring and logging</li>
-<li><strong>AWS CloudFormation</strong> - Infrastructure as Code</li>
+<li><strong>Amazon CloudWatch</strong> - Monitoring, logging, and alerting</li>
+<li><strong>AWS IAM</strong> - Identity and access management</li>
+</ul>
+<p><strong>External Integration:</strong></p>
+<ul>
+<li><strong>DummyJSON API</strong> - Real e-commerce data source</li>
 </ul>
 <h4 id="business-use-cases">Business Use Cases</h4>
-<p>This ETL pipeline can handle various e-commerce scenarios:</p>
+<p>This ETL pipeline demonstrates real e-commerce analytics scenarios:</p>
 <ul>
-<li><strong>Order Processing</strong> - Real-time order validation and inventory updates</li>
-<li><strong>Customer Analytics</strong> - User behavior tracking and personalization</li>
-<li><strong>Inventory Management</strong> - Stock level monitoring and alerts</li>
-<li><strong>Sales Reporting</strong> - Real-time sales dashboards and KPIs</li>
-<li><strong>Fraud Detection</strong> - Anomaly detection in transaction patterns</li>
+<li><strong>Product Analytics</strong> - Product performance analysis and inventory insights</li>
+<li><strong>Customer Analytics</strong> - User demographics and behavior patterns</li>
+<li><strong>Sales Analysis</strong> - Shopping cart analysis and conversion tracking</li>
+<li><strong>Market Research</strong> - Product category trends and pricing analysis</li>
+<li><strong>Business Intelligence</strong> - Executive dashboards and KPI reporting</li>
 </ul>
 <h4 id="architecture-components">Architecture Components</h4>
 <ol>
-<li><strong>Data Sources</strong> - Simulated e-commerce events (orders, clicks, reviews)</li>
-<li><strong>Ingestion Layer</strong> - Kinesis Data Streams and API Gateway</li>
-<li><strong>Processing Layer</strong> - Lambda functions for data transformation</li>
-<li><strong>Storage Layer</strong> - S3 Data Lake and DynamoDB for structured data</li>
-<li><strong>Analytics Layer</strong> - Athena for querying and QuickSight for visualization</li>
-<li><strong>Monitoring</strong> - CloudWatch for system health and performance</li>
+<li><strong>Data Sources</strong> - DummyJSON API (products, users, carts, posts, comments)</li>
+<li><strong>Collection Layer</strong> - Scheduled Lambda functions for data retrieval</li>
+<li><strong>Processing Layer</strong> - Lambda functions for data transformation and partitioning</li>
+<li><strong>Storage Layer</strong> - S3 Data Lake with optimized structure</li>
+<li><strong>Analytics Layer</strong> - Athena for SQL querying and QuickSight for visualization</li>
+<li><strong>Monitoring</strong> - CloudWatch for logging, metrics, and alerting</li>
 </ol>
 <h4 id="expected-outcomes">Expected Outcomes</h4>
 <p>By the end of this workshop, you will:</p>
 <ul>
-<li>✅ Understand modern data pipeline architectures</li>
-<li>✅ Master serverless data processing on AWS</li>
-<li>✅ Build real-time analytics capabilities</li>
-<li>✅ Implement monitoring and alerting</li>
-<li>✅ Create interactive business dashboards</li>
-<li>✅ Optimize costs using AWS Free Tier services</li>
+<li>Understand modern serverless data pipeline architectures</li>
+<li>Master AWS Lambda for data collection and processing</li>
+<li>Build batch analytics capabilities using real data</li>
+<li>Implement monitoring and cost optimization</li>
+<li>Create interactive business dashboards with QuickSight</li>
+<li>Integrate external APIs into AWS data pipelines</li>
+<li>Optimize costs with minimal AWS services (under $3/month)</li>
 </ul>
 <h4 id="workshop-duration">Workshop Duration</h4>
 <ul>
 <li><strong>Total Time</strong>: 4-6 hours</li>
 <li><strong>Skill Level</strong>: Beginner to Intermediate</li>
-<li><strong>Cost</strong>: Under $5 using AWS Free Tier</li>
+<li><strong>Cost</strong>: Under $3 using AWS Free Tier (simplified architecture)</li>
 </ul>
 <h4 id="prerequisites">Prerequisites</h4>
 <ul>
 <li>Active AWS account with administrative access</li>
 <li>Basic understanding of cloud computing concepts</li>
-<li>Familiarity with JSON data format</li>
+<li>Familiarity with JSON data format and REST APIs</li>
+<li>Internet connection to access DummyJSON API</li>
 <li>Optional: Basic Python or SQL knowledge</li>
 </ul>
 <h4 id="workshop-modules">Workshop Modules</h4>
 <ol>
 <li><a href="/1-introduction-architecture/">Introduction &amp; Architecture Design</a></li>
-<li><a href="2-data-ingestion-kinesis/">Setting up Data Ingestion with Kinesis</a></li>
-<li><a href="3-serverless-processing-lambda/">Building Serverless Data Processing with Lambda</a></li>
-<li><a href="4-data-storage-solutions/">Implementing Data Storage Solutions</a></li>
-<li><a href="5-analytics-visualization/">Creating Analytics and Visualization</a></li>
-<li><a href="6-monitoring-optimization/">Monitoring and Optimization</a></li>
-<li><a href="7-testing-validation/">Testing and Validation</a></li>
+<li><a href="/2-data-collection-lambda/">Data Collection with Lambda</a></li>
+<li><a href="3-data-processing/">Data Processing and Transformation</a></li>
+<li><a href="4-s3-data-lake/">Setting up S3 Data Lake</a></li>
+<li><a href="5-analytics-athena/">Analytics with Amazon Athena</a></li>
+<li><a href="6-visualization-quicksight/">Visualization with QuickSight</a></li>
+<li><a href="7-monitoring-optimization/">Monitoring and Optimization</a></li>
 <li><a href="8-cleanup-next-steps/">Cleanup and Next Steps</a></li>
 </ol>
 	
@@ -363,6 +391,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
         
@@ -383,19 +427,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1750652058"></script>
-    <script src="/js/perfect-scrollbar.min.js?1750652058"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1750652058"></script>
-    <script src="/js/jquery.sticky.js?1750652058"></script>
-    <script src="/js/featherlight.min.js?1750652058"></script>
-    <script src="/js/highlight.pack.js?1750652058"></script>
+    <script src="/js/clipboard.min.js?1750664386"></script>
+    <script src="/js/perfect-scrollbar.min.js?1750664386"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1750664386"></script>
+    <script src="/js/jquery.sticky.js?1750664386"></script>
+    <script src="/js/featherlight.min.js?1750664386"></script>
+    <script src="/js/highlight.pack.js?1750664386"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1750652058"></script>
-    <script src="/js/learn.js?1750652058"></script>
-    <script src="/js/hugo-learn.js?1750652058"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1750664386"></script>
+    <script src="/js/learn.js?1750664386"></script>
+    <script src="/js/hugo-learn.js?1750664386"></script>
 
-    <link href="/mermaid/mermaid.css?1750652058" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1750652058"></script>
+    <link href="/mermaid/mermaid.css?1750664386" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1750664386"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

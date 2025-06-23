@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi" class="js csstransforms3d">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
@@ -12,21 +12,21 @@
     <title>Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS :: Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</title>
 
     
-    <link href="/css/nucleus.css?1750652058" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1750652058" rel="stylesheet">
-    <link href="/css/hybrid.css?1750652058" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1750652058" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1750652058" rel="stylesheet">
-    <link href="/css/auto-complete.css?1750652058" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1750652058" rel="stylesheet">
-    <link href="/css/theme.css?1750652058" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1750652058" rel="stylesheet">
+    <link href="/css/nucleus.css?1750664386" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1750664386" rel="stylesheet">
+    <link href="/css/hybrid.css?1750664386" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1750664386" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1750664386" rel="stylesheet">
+    <link href="/css/auto-complete.css?1750664386" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1750664386" rel="stylesheet">
+    <link href="/css/theme.css?1750664386" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1750664386" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1750652058" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1750664386" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1750652058"></script>
+    <script src="/js/jquery-3.3.1.min.js?1750664386"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1750652058"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1750652058"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1750664386"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1750664386"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/vi";
+        var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1750652058"></script>
+<script type="text/javascript" src="/js/search.js?1750664386"></script>
 
     
   </div>
@@ -73,6 +73,58 @@
     <ul class="topics">
 
         
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/1-introduction-architecture/" title="Giới thiệu &amp; Thiết kế Kiến trúc" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/1-introduction-architecture/">
+           <b> 1. </b> Giới thiệu &amp; Thiết kế Kiến trúc
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-data-collection-lambda/" title="Thu thập Dữ liệu với Lambda" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-data-collection-lambda/">
+           <b> 2. </b> Thu thập Dữ liệu với Lambda
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
           
          
     </ul>
@@ -113,7 +165,7 @@
                   
                     
                     
-                      <option id="en" value="/">English</option>
+                      <option id="en" value="//localhost:1313/">English</option>
                     
                   
               
@@ -127,7 +179,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/" selected>Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/" selected>Tiếng Việt</option>
                     
                   
               
@@ -200,99 +252,95 @@
 </span>
 
  
-<h1 id="xây-dựng-hệ-thống-etl-data-pipeline-cho-e-commerce-trên-aws">Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</h1>
+<h1 id="xây-dựng-etl-data-pipeline-cho-e-commerce-trên-aws">Xây dựng ETL Data Pipeline cho E-commerce trên AWS</h1>
 <h4 id="tổng-quan">Tổng quan</h4>
-<p>Trong workshop toàn diện này, bạn sẽ học cách xây dựng một <strong>hệ thống ETL (Extract, Transform, Load) data pipeline thời gian thực</strong> cho nền tảng thương mại điện tử sử dụng các dịch vụ AWS khác nhau. Workshop thực hành này sẽ hướng dẫn bạn tạo ra một hệ thống xử lý dữ liệu có thể mở rộng, tiết kiệm chi phí để xử lý các luồng dữ liệu e-commerce khối lượng lớn bao gồm đơn hàng khách hàng, tương tác sản phẩm và phân tích website.</p>
-<h4 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</h4>
-<p>Bạn sẽ tạo ra một <strong>kiến trúc data pipeline hoàn chỉnh</strong> có khả năng:</p>
+<p>Workshop này sẽ xây dựng một <strong>hệ thống ETL (Extract, Transform, Load) data pipeline</strong> cho nền tảng thương mại điện tử sử dụng các dịch vụ AWS và dữ liệu được lấy từ DummyJSON API, thực hiện tạo ra một hệ thống xử lý dữ liệu đơn giản, hiệu quả chi phí để thu thập, biến đổi và phân tích dữ liệu e-commerce thực tế bao gồm sản phẩm, người dùng và giỏ hàng.</p>
+<h4 id="bài-workshop-này-sẽ-thực-hiện-để-xây-dựng-data-pineline-có-khả-năng">Bài Workshop này sẽ thực hiện để xây dựng data pineline có khả năng:</h4>
 <ul>
-<li><strong>Thu thập</strong> các luồng dữ liệu e-commerce thời gian thực</li>
-<li><strong>Xử lý</strong> và chuyển đổi dữ liệu bằng serverless computing</li>
-<li><strong>Lưu trữ</strong> dữ liệu có cấu trúc cho phân tích và báo cáo</li>
-<li><strong>Trực quan hóa</strong> thông tin kinh doanh thông qua dashboard tương tác</li>
+<li><strong>Thu thập</strong> dữ liệu e-commerce thực tế từ DummyJSON API</li>
+<li><strong>Xử lý</strong> và biến đổi dữ liệu sử dụng AWS Lambda</li>
+<li><strong>Lưu trữ</strong> dữ liệu có cấu trúc trong S3 Data Lake</li>
+<li><strong>Phân tích</strong> dữ liệu sử dụng Amazon Athena</li>
+<li><strong>Trực quan hóa</strong> thông tin kinh doanh thông qua QuickSight dashboards</li>
 </ul>
-<p><img src="/images/etl/architecture.png?featherlight=false&amp;width=90pc" alt="Kiến trúc ETL Pipeline"></p>
-
-<div class="notices note" ><p>Workshop này được thiết kế cho các developer, data engineer và cloud architect muốn có kinh nghiệm thực hành với các dịch vụ AWS data. Kiến thức cơ bản về AWS và một số kinh nghiệm lập trình (Python/SQL) được khuyến nghị nhưng không bắt buộc.</p>
-</div>
-
-<h4 id="các-dịch-vụ-aws-bạn-sẽ-học">Các dịch vụ AWS bạn sẽ học</h4>
-<p><strong>Thu thập &amp; Streaming dữ liệu:</strong></p>
+<p><img src="/images/etl/image.png?featherlight=false&amp;width=90pc" alt="Kiến trúc ETL Pipeline"></p>
+<h4 id="các-dịch-vụ-aws-sẽ-dùng-ở-workshop-này">Các dịch vụ AWS sẽ dùng ở workshop này</h4>
+<p><strong>Thu thập Dữ liệu:</strong></p>
 <ul>
-<li><strong>Amazon Kinesis Data Streams</strong> - Dịch vụ streaming dữ liệu thời gian thực</li>
-<li><strong>Amazon Kinesis Data Firehose</strong> - Dịch vụ phân phối dữ liệu cho phân tích</li>
+<li><strong>AWS Lambda</strong> - Serverless compute để thu thập và xử lý dữ liệu</li>
+<li><strong>CloudWatch Events</strong> - Thực thi theo lịch trình và tự động hóa</li>
 </ul>
-<p><strong>Serverless Computing:</strong></p>
-<ul>
-<li><strong>AWS Lambda</strong> - Serverless compute để xử lý dữ liệu</li>
-<li><strong>Amazon API Gateway</strong> - RESTful APIs để thu thập dữ liệu</li>
-</ul>
-<p><strong>Lưu trữ dữ liệu:</strong></p>
+<p><strong>Lưu trữ Dữ liệu:</strong></p>
 <ul>
 <li><strong>Amazon S3</strong> - Object storage có thể mở rộng cho data lake</li>
-<li><strong>Amazon DynamoDB</strong> - NoSQL database cho ứng dụng thời gian thực</li>
+<li><strong>S3 Intelligent Tiering</strong> - Tối ưu hóa chi phí lưu trữ dữ liệu</li>
 </ul>
 <p><strong>Phân tích &amp; Trực quan hóa:</strong></p>
 <ul>
-<li><strong>Amazon Athena</strong> - Dịch vụ truy vấn tương tác</li>
+<li><strong>Amazon Athena</strong> - Dịch vụ truy vấn tương tác cho dữ liệu S3</li>
 <li><strong>Amazon QuickSight</strong> - Business intelligence và visualization</li>
 </ul>
 <p><strong>Giám sát &amp; Quản lý:</strong></p>
 <ul>
-<li><strong>Amazon CloudWatch</strong> - Monitoring và logging</li>
-<li><strong>AWS CloudFormation</strong> - Infrastructure as Code</li>
+<li><strong>Amazon CloudWatch</strong> - Monitoring, logging và alerting</li>
+<li><strong>AWS IAM</strong> - Quản lý danh tính và quyền truy cập</li>
+</ul>
+<p><strong>Tích hợp Bên ngoài:</strong></p>
+<ul>
+<li><strong>DummyJSON API</strong> - Dữ liệu e-commerce</li>
 </ul>
 <h4 id="các-trường-hợp-sử-dụng-kinh-doanh">Các trường hợp sử dụng kinh doanh</h4>
-<p>ETL pipeline này có thể xử lý các kịch bản e-commerce khác nhau:</p>
+<p>ETL pipeline này thể hiện các kịch bản phân tích e-commerce thực tế:</p>
 <ul>
-<li><strong>Xử lý đơn hàng</strong> - Xác thực đơn hàng và cập nhật kho hàng thời gian thực</li>
-<li><strong>Phân tích khách hàng</strong> - Theo dõi hành vi người dùng và cá nhân hóa</li>
-<li><strong>Quản lý kho hàng</strong> - Giám sát mức tồn kho và cảnh báo</li>
-<li><strong>Báo cáo bán hàng</strong> - Dashboard bán hàng và KPI thời gian thực</li>
-<li><strong>Phát hiện gian lận</strong> - Phát hiện bất thường trong các mẫu giao dịch</li>
+<li><strong>Phân tích Sản phẩm</strong> - Phân tích hiệu suất sản phẩm và thông tin kho hàng</li>
+<li><strong>Phân tích Khách hàng</strong> - Nhân khẩu học và mô hình hành vi người dùng</li>
+<li><strong>Phân tích Bán hàng</strong> - Phân tích giỏ hàng và theo dõi chuyển đổi</li>
+<li><strong>Nghiên cứu Thị trường</strong> - xu hướng danh mục sản phẩm và phân tích giá</li>
+<li><strong>Business Intelligence</strong> - Dashboard điều hành và báo cáo KPI</li>
 </ul>
 <h4 id="các-thành-phần-kiến-trúc">Các thành phần kiến trúc</h4>
 <ol>
-<li><strong>Nguồn dữ liệu</strong> - Mô phỏng các sự kiện e-commerce (đơn hàng, click, review)</li>
-<li><strong>Lớp thu thập</strong> - Kinesis Data Streams và API Gateway</li>
-<li><strong>Lớp xử lý</strong> - Lambda functions để chuyển đổi dữ liệu</li>
-<li><strong>Lớp lưu trữ</strong> - S3 Data Lake và DynamoDB cho dữ liệu có cấu trúc</li>
-<li><strong>Lớp phân tích</strong> - Athena để truy vấn và QuickSight để visualization</li>
-<li><strong>Giám sát</strong> - CloudWatch cho sức khỏe và hiệu suất hệ thống</li>
+<li><strong>Nguồn dữ liệu</strong> - DummyJSON API (sản phẩm, người dùng, giỏ hàng, bài viết, bình luận)</li>
+<li><strong>Lớp thu thập</strong> - Lambda functions được lên lịch để lấy dữ liệu</li>
+<li><strong>Lớp xử lý</strong> - Lambda functions để biến đổi dữ liệu và phân vùng</li>
+<li><strong>Lớp lưu trữ</strong> - S3 Data Lake với cấu trúc tối ưu</li>
+<li><strong>Lớp phân tích</strong> - Athena để truy vấn SQL và QuickSight để visualization</li>
+<li><strong>Giám sát</strong> - CloudWatch cho logging, metrics và alerting</li>
 </ol>
-<h4 id="kết-quả-mong-đợi">Kết quả mong đợi</h4>
-<p>Sau khi hoàn thành workshop này, bạn sẽ:</p>
+<h4 id="mục-đích">Mục đích</h4>
 <ul>
-<li>✅ Hiểu kiến trúc data pipeline hiện đại</li>
-<li>✅ Thành thạo xử lý dữ liệu serverless trên AWS</li>
-<li>✅ Xây dựng khả năng phân tích thời gian thực</li>
-<li>✅ Triển khai monitoring và alerting</li>
-<li>✅ Tạo dashboard kinh doanh tương tác</li>
-<li>✅ Tối ưu hóa chi phí sử dụng AWS Free Tier</li>
+<li>Hiểu kiến trúc data pipeline serverless hiện đại</li>
+<li>Thành thạo AWS Lambda để thu thập và xử lý dữ liệu</li>
+<li>Xây dựng khả năng phân tích batch sử dụng dữ liệu thực</li>
+<li>Triển khai monitoring và tối ưu hóa chi phí</li>
+<li>Tạo dashboard kinh doanh tương tác với QuickSight</li>
+<li>Tích hợp external APIs vào AWS data pipelines</li>
+<li>Tối ưu hóa chi phí với ít dịch vụ AWS (dưới $3/tháng)</li>
 </ul>
 <h4 id="thời-gian-workshop">Thời gian workshop</h4>
 <ul>
 <li><strong>Tổng thời gian</strong>: 4-6 giờ</li>
 <li><strong>Mức độ kỹ năng</strong>: Beginner đến Intermediate</li>
-<li><strong>Chi phí</strong>: Dưới $5 sử dụng AWS Free Tier</li>
+<li><strong>Chi phí</strong>: Dưới $3 sử dụng AWS Free Tier (kiến trúc đơn giản hóa)</li>
 </ul>
 <h4 id="yêu-cầu-tiên-quyết">Yêu cầu tiên quyết</h4>
 <ul>
 <li>Tài khoản AWS hoạt động với quyền quản trị</li>
 <li>Hiểu biết cơ bản về khái niệm cloud computing</li>
-<li>Quen thuộc với định dạng dữ liệu JSON</li>
+<li>Quen thuộc với định dạng dữ liệu JSON và REST APIs</li>
+<li>Kết nối Internet để truy cập DummyJSON API</li>
 <li>Tùy chọn: Kiến thức cơ bản Python hoặc SQL</li>
 </ul>
 <h4 id="các-module-workshop">Các module workshop</h4>
 <ol>
-<li><a href="1-introduction-architecture/">Giới thiệu &amp; Thiết kế kiến trúc</a></li>
-<li><a href="2-data-ingestion-kinesis/">Thiết lập thu thập dữ liệu với Kinesis</a></li>
-<li><a href="3-serverless-processing-lambda/">Xây dựng xử lý dữ liệu Serverless với Lambda</a></li>
-<li><a href="4-data-storage-solutions/">Triển khai giải pháp lưu trữ dữ liệu</a></li>
-<li><a href="5-analytics-visualization/">Tạo phân tích và trực quan hóa</a></li>
-<li><a href="6-monitoring-optimization/">Giám sát và tối ưu hóa</a></li>
-<li><a href="7-testing-validation/">Kiểm tra và xác thực</a></li>
-<li><a href="8-cleanup-next-steps/">Dọn dẹp và bước tiếp theo</a></li>
+<li><a href="/vi/1-introduction-architecture/">Giới thiệu &amp; Thiết kế kiến trúc</a></li>
+<li><a href="/vi/2-data-collection-lambda/">Thu thập Dữ liệu với Lambda</a></li>
+<li><a href="3-data-processing/">Xử lý và Biến đổi Dữ liệu</a></li>
+<li><a href="4-s3-data-lake/">Thiết lập S3 Data Lake</a></li>
+<li><a href="5-analytics-athena/">Phân tích với Amazon Athena</a></li>
+<li><a href="6-visualization-quicksight/">Visualization với QuickSight</a></li>
+<li><a href="7-monitoring-optimization/">Giám sát và Tối ưu hóa</a></li>
+<li><a href="8-cleanup-next-steps/">Dọn dẹp và Bước tiếp theo</a></li>
 </ol>
 	
   
@@ -322,6 +370,41 @@
                     
 
                     
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
         
@@ -332,6 +415,8 @@
 	 
 		
 		
+			<a class="nav nav-next" href="/vi/1-introduction-architecture/" title="Giới thiệu &amp; Thiết kế Kiến trúc" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
 	
     </div>
 
@@ -340,19 +425,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1750652058"></script>
-    <script src="/js/perfect-scrollbar.min.js?1750652058"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1750652058"></script>
-    <script src="/js/jquery.sticky.js?1750652058"></script>
-    <script src="/js/featherlight.min.js?1750652058"></script>
-    <script src="/js/highlight.pack.js?1750652058"></script>
+    <script src="/js/clipboard.min.js?1750664386"></script>
+    <script src="/js/perfect-scrollbar.min.js?1750664386"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1750664386"></script>
+    <script src="/js/jquery.sticky.js?1750664386"></script>
+    <script src="/js/featherlight.min.js?1750664386"></script>
+    <script src="/js/highlight.pack.js?1750664386"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1750652058"></script>
-    <script src="/js/learn.js?1750652058"></script>
-    <script src="/js/hugo-learn.js?1750652058"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1750664386"></script>
+    <script src="/js/learn.js?1750664386"></script>
+    <script src="/js/hugo-learn.js?1750664386"></script>
 
-    <link href="/mermaid/mermaid.css?1750652058" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1750652058"></script>
+    <link href="/mermaid/mermaid.css?1750664386" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1750664386"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

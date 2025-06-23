@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="js csstransforms3d">
+<html lang="en" class="js csstransforms3d">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Tags :: Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</title>
+    <title>Data Collection with Lambda :: Build ETL Data Pipeline for E-commerce on AWS</title>
 
     
     <link href="/css/nucleus.css?1750663444" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/vi/tags/">
+  <body class="" data-url="/2-data-collection-lambda/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -61,7 +61,7 @@
 <script type="text/javascript" src="/js/auto-complete.js?1750663444"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/localhost:1313\/\/vi";
+        var baseurl = "\/\/localhost:1313\/";
     
 </script>
 <script type="text/javascript" src="/js/search.js?1750663444"></script>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/vi/1-introduction-architecture/" title="Giới thiệu &amp; Thiết kế Kiến trúc" class="dd-item 
+    <li data-nav-id="/1-introduction-architecture/" title="Introduction &amp; Architecture Design" class="dd-item 
         
         
         
         ">
-      <a href="/vi/1-introduction-architecture/">
-           <b> 1. </b> Giới thiệu &amp; Thiết kế Kiến trúc
+      <a href="/1-introduction-architecture/">
+           <b> 1. </b> Introduction &amp; Architecture Design
           
             <i class="fas fa-check read-icon"></i>
           
@@ -108,13 +108,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-lambda/" title="Thu thập Dữ liệu với Lambda" class="dd-item 
+    <li data-nav-id="/2-data-collection-lambda/" title="Data Collection with Lambda" class="dd-item 
         
-        
+        active
         
         ">
-      <a href="/vi/2-data-collection-lambda/">
-           <b> 2. </b> Thu thập Dữ liệu với Lambda
+      <a href="/2-data-collection-lambda/">
+           <b> 2. </b> Data Collection with Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -136,11 +136,7 @@
         <ul>
           
               <li> 
-                  <a class="padding" href="http://awsstudygroup.com"><i class='fab fa-aws'></i> AWS Study Group - Blog</a>
-              </li>
-          
-              <li> 
-                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj"><i class='fab fa-facebook'></i> AWS Study Group - Nhóm FB</a>
+                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj"><i class='fab fa-facebook'></i> AWS Study Group - FB Group</a>
               </li>
           
         </ul>
@@ -165,7 +161,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/tags/">English</option>
+                      <option id="en" value="//localhost:1313/2-data-collection-lambda/" selected>English</option>
                     
                   
               
@@ -179,7 +175,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/tags/" selected>Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/2-data-collection-lambda/">Tiếng Việt</option>
                     
                   
               
@@ -261,7 +257,7 @@
             
           
           
-            <a href='/vi/'>Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS</a> > Tags
+            <a href='/'>Building ETL Data Pipeline for E-commerce on AWS</a> > Data Collection with Lambda
           
         
           
@@ -272,7 +268,17 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#module-overview">Module Overview</a>
+      <ul>
+        <li><a href="#what-youll-learn">What You&rsquo;ll Learn</a></li>
+        <li><a href="#architecture-overview">Architecture Overview</a></li>
+        <li><a href="#expected-outcomes">Expected Outcomes</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
     </div>
 </div>
 
@@ -288,9 +294,7 @@
           
             <h1>
               
-                taxonomy ::
-              
-              Tags
+              Data Collection with Lambda
             </h1>
           
 
@@ -298,11 +302,39 @@
 
 
 
-
-
+	<h2 id="module-overview">Module Overview</h2>
+<p>In this module, we&rsquo;ll create an AWS Lambda function to collect data from the DummyJSON API. This serverless approach is perfect for our use case since DummyJSON provides static data that doesn&rsquo;t require real-time streaming.</p>
+<h3 id="what-youll-learn">What You&rsquo;ll Learn</h3>
 <ul>
-	
+<li>🔧 <strong>Create AWS Lambda functions</strong> for data collection</li>
+<li>📅 <strong>Schedule Lambda execution</strong> using CloudWatch Events</li>
+<li>🌐 <strong>Integrate with external APIs</strong> (DummyJSON)</li>
+<li>💾 <strong>Store data in S3</strong> for further processing</li>
+<li>🔍 <strong>Monitor and troubleshoot</strong> Lambda functions</li>
 </ul>
+<h3 id="architecture-overview">Architecture Overview</h3>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+    A[DummyJSON API] --&gt; B[Lambda Collector]
+    C[CloudWatch Events] --&gt; B
+    B --&gt; D[S3 Raw Data]
+    E[CloudWatch Logs] --&gt; B
+</code></pre><h3 id="expected-outcomes">Expected Outcomes</h3>
+<p>By the end of this module:</p>
+<ul>
+<li>✅ Lambda function collecting data from DummyJSON</li>
+<li>✅ Scheduled execution every 6 hours</li>
+<li>✅ Raw data stored in S3 buckets</li>
+<li>✅ Proper error handling and logging</li>
+</ul>
+<hr>
+<p>Let&rsquo;s start building our data collection pipeline!</p>
+
+<div class="notices info" ><p><strong>Estimated Time</strong>: 45-60 minutes to complete this module</p>
+</div>
+
+
+
+
 
 
 <footer class=" footline" >
@@ -359,6 +391,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -379,8 +412,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/1-introduction-architecture/" title="Introduction &amp; Architecture Design"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/vi/1-introduction-architecture/" title="Giới thiệu &amp; Thiết kế Kiến trúc" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/1-introduction-architecture/" title="Introduction &amp; Architecture Design" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
