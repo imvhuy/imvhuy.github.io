@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" class="js csstransforms3d">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
-    <meta name="description" content="">
-<meta name="author" content="dangvanhuy1509@gmail.com">
+    <meta name="description" content="Build a complete weather data ETL pipeline using AWS Lambda, S3, Athena, and QuickSight">
+<meta name="author" content="Dang Van Huy">
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Building ETL Data Pipeline for E-commerce on AWS :: Build ETL Data Pipeline for E-commerce on AWS</title>
+    <title>Building ETL Data Pipeline for Weather Analytics on AWS :: Weather ETL Pipeline with AWS</title>
 
     
-    <link href="/css/nucleus.css?1750664386" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1750664386" rel="stylesheet">
-    <link href="/css/hybrid.css?1750664386" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1750664386" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1750664386" rel="stylesheet">
-    <link href="/css/auto-complete.css?1750664386" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1750664386" rel="stylesheet">
-    <link href="/css/theme.css?1750664386" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1750664386" rel="stylesheet">
+    <link href="/css/nucleus.css?1751594757" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1751594757" rel="stylesheet">
+    <link href="/css/hybrid.css?1751594757" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1751594757" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1751594757" rel="stylesheet">
+    <link href="/css/auto-complete.css?1751594757" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1751594757" rel="stylesheet">
+    <link href="/css/theme.css?1751594757" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1751594757" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1750664386" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1751594757" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1750664386"></script>
+    <script src="/js/jquery-3.3.1.min.js?1751594757"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1750664386"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1750664386"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1751594757"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1751594757"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/localhost:1313\/";
+        var baseurl = "\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1750664386"></script>
+<script type="text/javascript" src="/js/search.js?1751594757"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/1-introduction-architecture/" title="Introduction &amp; Architecture Design" class="dd-item 
+    <li data-nav-id="/1-introduction/" title="Introduction &amp; Architecture Design" class="dd-item 
         
         
         
         ">
-      <a href="/1-introduction-architecture/">
-           <b> 1. </b> Introduction &amp; Architecture Design
+      <a href="/1-introduction/">
+          <b>1. </b>Introduction &amp; Architecture Design
           
             <i class="fas fa-check read-icon"></i>
           
@@ -108,18 +108,142 @@
  
   
     
-    <li data-nav-id="/2-data-collection-lambda/" title="Data Collection with Lambda" class="dd-item 
+    <li data-nav-id="/2-data-collection-openweathermap/" title="Weather Data Collection with Lambda" class="dd-item 
         
         
         
         ">
-      <a href="/2-data-collection-lambda/">
-           <b> 2. </b> Data Collection with Lambda
+      <a href="/2-data-collection-openweathermap/">
+          <b>2. </b>Weather Data Collection with Lambda
           
             <i class="fas fa-check read-icon"></i>
           
       </a>
       
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Building Lambda Weather Collector" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
+          Building Lambda Weather Collector
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="OpenWeatherMap API Setup" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-data-collection-openweathermap/2.1-openweathermap-setup/">
+          OpenWeatherMap API Setup
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Automated Scheduling with CloudWatch Events" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-data-collection-openweathermap/2.3-automated-scheduling/">
+          Automated Scheduling with CloudWatch Events
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-data-collection-openweathermap/2.4-testing-monitoring/" title="Testing and Monitoring Weather Collection" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-data-collection-openweathermap/2.4-testing-monitoring/">
+          Testing and Monitoring Weather Collection
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
               
     </li>
   
@@ -161,7 +285,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/" selected>English</option>
+                      <option id="en" value="/" selected>English</option>
                     
                   
               
@@ -175,7 +299,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/">Tiếng Việt</option>
                     
                   
               
@@ -248,100 +372,103 @@
 </span>
 
  
-<h1 id="building-etl-data-pipeline-for-e-commerce-on-aws">Building ETL Data Pipeline for E-commerce on AWS</h1>
+<h1 id="building-etl-data-pipeline-for-weather-analytics-on-aws">Building ETL Data Pipeline for Weather Analytics on AWS</h1>
 <h4 id="overview">Overview</h4>
-<p>In this comprehensive workshop, you will learn how to build a <strong>serverless ETL (Extract, Transform, Load) data pipeline</strong> for an e-commerce platform using AWS services and real data from DummyJSON API. This hands-on workshop will guide you through creating a simple, cost-effective data processing system that collects, transforms, and analyzes real e-commerce data including products, users, and shopping carts.</p>
+<p>In this comprehensive workshop, you will learn how to build a <strong>serverless ETL (Extract, Transform, Load) data pipeline</strong> for weather analytics using AWS services and real-time weather data from OpenWeatherMap API. This hands-on workshop will guide you through creating a simple, cost-effective data processing system that collects, transforms, and analyzes real weather data including current conditions, forecasts, and historical trends across multiple cities.</p>
 <h4 id="what-youll-build">What You&rsquo;ll Build</h4>
 <p>You will create a complete <strong>serverless data pipeline</strong> that:</p>
 <ul>
-<li><strong>Collects</strong> real e-commerce data from DummyJSON API</li>
-<li><strong>Processes</strong> and transforms data using AWS Lambda</li>
-<li><strong>Stores</strong> structured data in S3 Data Lake</li>
-<li><strong>Analyzes</strong> data using Amazon Athena</li>
-<li><strong>Visualizes</strong> business insights through QuickSight dashboards</li>
+<li><strong>Collects</strong> real-time weather data from OpenWeatherMap API</li>
+<li><strong>Processes</strong> and transforms weather data using AWS Lambda</li>
+<li><strong>Stores</strong> structured weather data in S3 Data Lake</li>
+<li><strong>Analyzes</strong> weather patterns using Amazon Athena</li>
+<li><strong>Visualizes</strong> weather insights through QuickSight dashboards</li>
 </ul>
 <p><img src="/images/etl/image.png?featherlight=false&amp;width=90pc" alt="ETL Pipeline Architecture"></p>
 
-<div class="notices note" ><p>This workshop is designed for developers, data engineers, and cloud architects who want to gain hands-on experience with AWS data services. Prior knowledge of AWS basics and some programming experience (Python/SQL) is recommended but not required.</p>
+<div class="notices note" ><p>This workshop is designed for developers, data engineers, and cloud architects who want to gain hands-on experience with AWS data services. Prior knowledge of AWS basics and some programming experience (Python/SQL) is recommended but not required. You&rsquo;ll need an OpenWeatherMap API key (free tier available).</p>
 </div>
 
 <h4 id="aws-services-youll-learn">AWS Services You&rsquo;ll Learn</h4>
 <p><strong>Data Collection:</strong></p>
 <ul>
-<li><strong>AWS Lambda</strong> - Serverless compute for data collection and processing</li>
-<li><strong>CloudWatch Events</strong> - Scheduled execution and automation</li>
+<li><strong>AWS Lambda</strong> - Serverless compute for weather data collection and processing</li>
+<li><strong>CloudWatch Events</strong> - Scheduled execution and automation (hourly/daily)</li>
 </ul>
 <p><strong>Data Storage:</strong></p>
 <ul>
-<li><strong>Amazon S3</strong> - Scalable object storage for data lakes</li>
+<li><strong>Amazon S3</strong> - Scalable object storage for weather data lakes</li>
 <li><strong>S3 Intelligent Tiering</strong> - Cost optimization for data storage</li>
 </ul>
 <p><strong>Analytics &amp; Visualization:</strong></p>
 <ul>
-<li><strong>Amazon Athena</strong> - Interactive query service for S3 data</li>
-<li><strong>Amazon QuickSight</strong> - Business intelligence and visualization</li>
+<li><strong>Amazon Athena</strong> - Interactive query service for S3 weather data</li>
+<li><strong>Amazon QuickSight</strong> - Business intelligence and weather visualization</li>
 </ul>
 <p><strong>Monitoring &amp; Management:</strong></p>
 <ul>
-<li><strong>Amazon CloudWatch</strong> - Monitoring, logging, and alerting</li>
+<li><strong>Amazon CloudWatch</strong> - Monitoring, logging, and weather alerting</li>
 <li><strong>AWS IAM</strong> - Identity and access management</li>
+<li><strong>SNS</strong> - Weather alert notifications</li>
 </ul>
 <p><strong>External Integration:</strong></p>
 <ul>
-<li><strong>DummyJSON API</strong> - Real e-commerce data source</li>
+<li><strong>OpenWeatherMap API</strong> - Real-time weather data source (Developer Plan)</li>
 </ul>
 <h4 id="business-use-cases">Business Use Cases</h4>
-<p>This ETL pipeline demonstrates real e-commerce analytics scenarios:</p>
+<p>This weather ETL pipeline demonstrates real-world analytics scenarios:</p>
 <ul>
-<li><strong>Product Analytics</strong> - Product performance analysis and inventory insights</li>
-<li><strong>Customer Analytics</strong> - User demographics and behavior patterns</li>
-<li><strong>Sales Analysis</strong> - Shopping cart analysis and conversion tracking</li>
-<li><strong>Market Research</strong> - Product category trends and pricing analysis</li>
-<li><strong>Business Intelligence</strong> - Executive dashboards and KPI reporting</li>
+<li><strong>Climate Analysis</strong> - Temperature, humidity, and pressure trend analysis</li>
+<li><strong>Agriculture Intelligence</strong> - Weather conditions for crop planning and irrigation</li>
+<li><strong>Tourism Planning</strong> - Seasonal weather patterns for travel recommendations</li>
+<li><strong>Energy Management</strong> - Weather-based energy demand forecasting</li>
+<li><strong>Logistics Optimization</strong> - Weather-aware supply chain and transportation</li>
+<li><strong>Risk Management</strong> - Weather alert systems for disaster preparedness</li>
 </ul>
 <h4 id="architecture-components">Architecture Components</h4>
 <ol>
-<li><strong>Data Sources</strong> - DummyJSON API (products, users, carts, posts, comments)</li>
-<li><strong>Collection Layer</strong> - Scheduled Lambda functions for data retrieval</li>
-<li><strong>Processing Layer</strong> - Lambda functions for data transformation and partitioning</li>
-<li><strong>Storage Layer</strong> - S3 Data Lake with optimized structure</li>
-<li><strong>Analytics Layer</strong> - Athena for SQL querying and QuickSight for visualization</li>
-<li><strong>Monitoring</strong> - CloudWatch for logging, metrics, and alerting</li>
+<li><strong>Data Sources</strong> - OpenWeatherMap API (current weather, forecasts, historical data)</li>
+<li><strong>Collection Layer</strong> - Scheduled Lambda functions for multi-city weather retrieval</li>
+<li><strong>Processing Layer</strong> - Lambda functions for data transformation and enrichment</li>
+<li><strong>Storage Layer</strong> - S3 Data Lake with date/city partitioning</li>
+<li><strong>Analytics Layer</strong> - Athena for SQL querying and QuickSight for weather visualization</li>
+<li><strong>Monitoring</strong> - CloudWatch for logging, metrics, and weather alerting</li>
 </ol>
 <h4 id="expected-outcomes">Expected Outcomes</h4>
 <p>By the end of this workshop, you will:</p>
 <ul>
 <li>Understand modern serverless data pipeline architectures</li>
-<li>Master AWS Lambda for data collection and processing</li>
-<li>Build batch analytics capabilities using real data</li>
-<li>Implement monitoring and cost optimization</li>
-<li>Create interactive business dashboards with QuickSight</li>
-<li>Integrate external APIs into AWS data pipelines</li>
-<li>Optimize costs with minimal AWS services (under $3/month)</li>
+<li>Master AWS Lambda for real-time weather data collection</li>
+<li>Build analytics capabilities using live weather data</li>
+<li>Implement monitoring and weather alert systems</li>
+<li>Create interactive weather dashboards with QuickSight</li>
+<li>Integrate external weather APIs into AWS data pipelines</li>
+<li>Optimize costs with minimal AWS services (under $5/month)</li>
 </ul>
 <h4 id="workshop-duration">Workshop Duration</h4>
 <ul>
 <li><strong>Total Time</strong>: 4-6 hours</li>
 <li><strong>Skill Level</strong>: Beginner to Intermediate</li>
-<li><strong>Cost</strong>: Under $3 using AWS Free Tier (simplified architecture)</li>
+<li><strong>Cost</strong>: Under $5 using AWS Free Tier + OpenWeatherMap Developer Plan</li>
 </ul>
 <h4 id="prerequisites">Prerequisites</h4>
 <ul>
 <li>Active AWS account with administrative access</li>
+<li>OpenWeatherMap API key (Developer Plan recommended - 1M calls/month)</li>
 <li>Basic understanding of cloud computing concepts</li>
 <li>Familiarity with JSON data format and REST APIs</li>
-<li>Internet connection to access DummyJSON API</li>
+<li>Internet connection to access OpenWeatherMap API</li>
 <li>Optional: Basic Python or SQL knowledge</li>
 </ul>
 <h4 id="workshop-modules">Workshop Modules</h4>
 <ol>
-<li><a href="/1-introduction-architecture/">Introduction &amp; Architecture Design</a></li>
-<li><a href="/2-data-collection-lambda/">Data Collection with Lambda</a></li>
-<li><a href="3-data-processing/">Data Processing and Transformation</a></li>
-<li><a href="4-s3-data-lake/">Setting up S3 Data Lake</a></li>
-<li><a href="5-analytics-athena/">Analytics with Amazon Athena</a></li>
-<li><a href="6-visualization-quicksight/">Visualization with QuickSight</a></li>
-<li><a href="7-monitoring-optimization/">Monitoring and Optimization</a></li>
+<li><a href="/1-introduction/">Introduction &amp; Architecture Design</a></li>
+<li><a href="/2-data-collection-openweathermap/">Weather Data Collection with Lambda</a></li>
+<li><a href="3-serverless-processing-lambda/">Data Processing and Transformation</a></li>
+<li><a href="4-data-storage-solutions/">Setting up S3 Data Lake</a></li>
+<li><a href="5-analytics-visualization/">Analytics with Amazon Athena</a></li>
+<li><a href="6-monitoring-optimization/">Weather Visualization with QuickSight</a></li>
+<li><a href="7-testing-validation/">Monitoring and Weather Alerts</a></li>
 <li><a href="8-cleanup-next-steps/">Cleanup and Next Steps</a></li>
 </ol>
 	
@@ -401,8 +528,74 @@
 
                     
                     
+                        
+                    
                     
 
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
             
         
@@ -417,7 +610,7 @@
 	 
 		
 		
-			<a class="nav nav-next" href="/1-introduction-architecture/" title="Introduction &amp; Architecture Design" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/1-introduction/" title="Introduction &amp; Architecture Design" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -427,19 +620,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1750664386"></script>
-    <script src="/js/perfect-scrollbar.min.js?1750664386"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1750664386"></script>
-    <script src="/js/jquery.sticky.js?1750664386"></script>
-    <script src="/js/featherlight.min.js?1750664386"></script>
-    <script src="/js/highlight.pack.js?1750664386"></script>
+    <script src="/js/clipboard.min.js?1751594757"></script>
+    <script src="/js/perfect-scrollbar.min.js?1751594757"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1751594757"></script>
+    <script src="/js/jquery.sticky.js?1751594757"></script>
+    <script src="/js/featherlight.min.js?1751594757"></script>
+    <script src="/js/highlight.pack.js?1751594757"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1750664386"></script>
-    <script src="/js/learn.js?1750664386"></script>
-    <script src="/js/hugo-learn.js?1750664386"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1751594757"></script>
+    <script src="/js/learn.js?1751594757"></script>
+    <script src="/js/hugo-learn.js?1751594757"></script>
 
-    <link href="/mermaid/mermaid.css?1750664386" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1750664386"></script>
+    <link href="/mermaid/mermaid.css?1751594757" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1751594757"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

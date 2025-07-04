@@ -6,19 +6,41 @@ theme = "hugo-theme-learn"
 home = [ "HTML", "RSS", "JSON"]
 
 [params]
+  # Prefix URL to edit current page. Will display an "Edit this page" button on top right hand corner of every page. 
+  # Useful to give opportunity to people to create merge request for your doc.
+  # See the config.toml file from this documentation site to have an example.
+  editPage = false
+  # Author of the site, will be used in meta information
+  author = "Dang Van Huy"
+  # Description of the site, will be used in meta information
+  description = "Build a complete weather data ETL pipeline using AWS Lambda, S3, Athena, and QuickSight"
+  # Shows a checkmark for visited pages on the menu
+  showVisitedLinks = true
+  # Disable search function. It will hide search bar
+  disableSearch = false
+  # Javascript and CSS cache are automatically busted when new version of site is generated. 
+  # Set this to true to disable this behavior (some proxies don't handle well this optimization)
+  disableAssetsBusting = false
+  # Set this to true to disable copy-to-clipboard button for inline code.
+  disableInlineCopyToClipBoard = false
+  # A title for shortcuts in menu is set by default. Set this to true to disable it. 
+  disableShortcutsTitle = false
+  # When using mulitlingual website, disable the switch language button.
+  disableLanguageSwitchingButton = false
+  # Hide breadcrumbs in the header and only show the current page title
+  disableBreadcrumb = false
+  # Hide Next and Previous page buttons normally displayed full height beside content
+  disableNextPrev = false
+  # Order sections in menu by "weight" or "title". Default to "weight"
+  ordersectionsby = "weight"
   # Change default color scheme with a variant one. Can be "red", "blue", "green".
   themeVariant = "workshop"
   # Git hub repo link
   editURL = ""
-  description = ""
-  author = "dangvanhuy1509@gmail.com"
-  showVisitedLinks = true
-  disableBreadcrumb = false
-  disableNextPrev = false
-  
+
 [Languages]
 [Languages.en]
-title = "Build ETL Data Pipeline for E-commerce on AWS"
+title = "Weather ETL Pipeline with AWS"
 weight = 1
 languageName = "English"
 
@@ -29,7 +51,7 @@ url = "https://www.facebook.com/groups/awsstudygroupfcj"
 weight = 20
 
 [Languages.vi]
-title = "Xây dựng Hệ thống ETL Data Pipeline cho E-commerce trên AWS"
+title = "Hệ thống ETL Dữ liệu Thời tiết với AWS"
 weight = 2
 languageName = "Tiếng Việt"
 
@@ -39,9 +61,16 @@ identifier = "AWS Study Group"
 url = "http://awsstudygroup.com"
 weight = 20
 
-[[Languages.vi.menu.shortcuts]]
-name = "<i class='fab fa-facebook'></i> AWS Study Group - Nhóm FB"
-identifier = "AWS Study Group FB"
-url = "https://www.facebook.com/groups/awsstudygroupfcj"
-weight = 20
+baseURL = "https://workshop.aws.com/"
+languageCode = "en-US"
+defaultContentLanguage = "en"
+
+title = "Weather ETL Pipeline with AWS"
+uglyurls = false
+sectionPagesMenu = "main"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
 

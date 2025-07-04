@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Tags :: Weather ETL Pipeline with AWS</title>
+    <title>OpenWeatherMap API Setup :: Weather ETL Pipeline with AWS</title>
 
     
     <link href="/css/nucleus.css?1751594757" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/tags/">
+  <body class="" data-url="/2-data-collection-openweathermap/2.1-openweathermap-setup/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -109,7 +109,7 @@
   
     
     <li data-nav-id="/2-data-collection-openweathermap/" title="Weather Data Collection with Lambda" class="dd-item 
-        
+        parent
         
         
         ">
@@ -169,7 +169,7 @@
     
     <li data-nav-id="/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="OpenWeatherMap API Setup" class="dd-item 
         
-        
+        active
         
         ">
       <a href="/2-data-collection-openweathermap/2.1-openweathermap-setup/">
@@ -285,7 +285,7 @@
                   
                     
                     
-                      <option id="en" value="/tags/" selected>English</option>
+                      <option id="en" value="/2-data-collection-openweathermap/2.1-openweathermap-setup/" selected>English</option>
                     
                   
               
@@ -299,7 +299,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/tags/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/">Tiếng Việt</option>
                     
                   
               
@@ -381,7 +381,13 @@
             
           
           
-            <a href='/'>Building ETL Data Pipeline for Weather Analytics on AWS</a> > Tags
+            
+            
+          
+          
+            <a href='/'>Building ETL Data Pipeline for Weather Analytics on AWS</a> > <a href='/2-data-collection-openweathermap/'>Weather Data Collection with Lambda</a> > OpenWeatherMap API Setup
+          
+        
           
         
           
@@ -392,7 +398,16 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#step-1-sign-up-for-openweathermap">Step 1: Sign Up for OpenWeatherMap</a></li>
+    <li><a href="#step-2-get-your-api-key">Step 2: Get Your API Key</a></li>
+    <li><a href="#step-3-test-your-api-key">Step 3: Test Your API Key</a></li>
+    <li><a href="#step-4-store-your-api-key-securely">Step 4: Store Your API Key Securely</a></li>
+    <li><a href="#key-api-endpoints-well-use">Key API Endpoints We&rsquo;ll Use</a></li>
+    <li><a href="#next-steps">Next Steps</a></li>
+  </ul>
+</nav>
     </div>
 </div>
 
@@ -408,9 +423,7 @@
           
             <h1>
               
-                taxonomy ::
-              
-              Tags
+              OpenWeatherMap API Setup
             </h1>
           
 
@@ -418,11 +431,76 @@
 
 
 
-
-
+	<h1 id="openweathermap-api-setup">OpenWeatherMap API Setup</h1>
+<p>In this simplified section, we&rsquo;ll quickly set up an OpenWeatherMap API account to collect weather data for our pipeline.</p>
+<h2 id="step-1-sign-up-for-openweathermap">Step 1: Sign Up for OpenWeatherMap</h2>
+<ol>
+<li><strong>Create an account</strong>
 <ul>
-	
+<li>Go to <a href="https://openweathermap.org">https://openweathermap.org</a> and click &ldquo;Sign Up&rdquo;</li>
+<li>Complete registration with your email</li>
+<li>Verify your email and log in</li>
 </ul>
+</li>
+</ol>
+<h2 id="step-2-get-your-api-key">Step 2: Get Your API Key</h2>
+<ol>
+<li><strong>Access API Keys</strong>
+<ul>
+<li>After logging in, go to &ldquo;API keys&rdquo; section</li>
+<li>Note your default API key or create a new one named &ldquo;weather-data-collection&rdquo;</li>
+</ul>
+</li>
+</ol>
+
+<div class="notices info" ><p>The free plan includes 1,000 API calls per day and 60 calls per minute - more than enough for our workshop.</p>
+</div>
+
+<h2 id="step-3-test-your-api-key">Step 3: Test Your API Key</h2>
+<p>Test your API key with one of these methods:</p>
+<p><strong>Browser method:</strong></p>
+<pre tabindex="0"><code>https://api.openweathermap.org/data/2.5/weather?q=London&amp;appid=YOUR_API_KEY
+</code></pre><p><strong>cURL method:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;https://api.openweathermap.org/data/2.5/weather?q=London&amp;appid=YOUR_API_KEY&#34;</span>
+</span></span></code></pre></div><p>You should see a JSON response with London weather data.</p>
+<h2 id="step-4-store-your-api-key-securely">Step 4: Store Your API Key Securely</h2>
+<ol>
+<li><strong>Using AWS Systems Manager</strong>
+<ul>
+<li>Open AWS Management Console</li>
+<li>Go to Systems Manager → Parameter Store</li>
+<li>Click &ldquo;Create parameter&rdquo;</li>
+<li>Set these values:
+<ul>
+<li>Name: <code>/weather-etl/openweathermap/api-key</code></li>
+<li>Type: SecureString</li>
+<li>Value: Your API key</li>
+</ul>
+</li>
+<li>Click &ldquo;Create parameter&rdquo;</li>
+</ul>
+</li>
+</ol>
+<h2 id="key-api-endpoints-well-use">Key API Endpoints We&rsquo;ll Use</h2>
+<pre tabindex="0"><code># Current Weather
+https://api.openweathermap.org/data/2.5/weather?q={city}&amp;appid={API key}
+
+# 5-Day Forecast (3-hour intervals)
+https://api.openweathermap.org/data/2.5/forecast?q={city}&amp;appid={API key}
+</code></pre><h2 id="next-steps">Next Steps</h2>
+<p>That&rsquo;s it! You now have a working OpenWeatherMap API key securely stored in Parameter Store. In the next section, we&rsquo;ll create a Lambda function to collect weather data.</p>
+
+<div class="notices success" ><p><strong>Completed:</strong></p>
+<ul>
+<li>Created OpenWeatherMap account</li>
+<li>Obtained API key</li>
+<li>Stored API key in AWS Parameter Store</li>
+</ul>
+</div>
+
+
+
+
 
 
 <footer class=" footline" >
@@ -479,6 +557,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -493,6 +572,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -510,6 +592,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -525,6 +608,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -565,8 +651,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Building Lambda Weather Collector"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction &amp; Architecture Design" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Automated Scheduling with CloudWatch Events" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

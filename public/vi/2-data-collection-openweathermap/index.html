@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="vi" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.147.8">
+    <meta name="description" content="Build a complete weather data ETL pipeline using AWS Lambda, S3, Athena, and QuickSight">
+<meta name="author" content="Dang Van Huy">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Thiết lập Thu thập Dữ liệu với OpenWeatherMap API :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+
+    
+    <link href="/css/nucleus.css?1751594757" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1751594757" rel="stylesheet">
+    <link href="/css/hybrid.css?1751594757" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1751594757" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1751594757" rel="stylesheet">
+    <link href="/css/auto-complete.css?1751594757" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1751594757" rel="stylesheet">
+    <link href="/css/theme.css?1751594757" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1751594757" rel="stylesheet">
+    
+    <link href="/css/theme-workshop.css?1751594757" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1751594757"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/vi/2-data-collection-openweathermap/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="/">
+
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="30%"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#f90;fill-rule:evenodd;}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"></path><path class="cls-2" d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"></path><path class="cls-2" d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"></path></svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1751594757"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1751594757"></script>
+<script type="text/javascript">
+    
+        var baseurl = "\/\/vi";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1751594757"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/1-introduction/">
+           <b> 1. </b> Giới thiệu
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-data-collection-openweathermap/" title="Thiết lập Thu thập Dữ liệu với OpenWeatherMap API" class="dd-item 
+        
+        active
+        
+        ">
+      <a href="/vi/2-data-collection-openweathermap/">
+          <b>2. </b>Thiết lập Thu thập Dữ liệu với OpenWeatherMap API
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/">
+          Thiết lập OpenWeatherMap API
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="http://awsstudygroup.com"><i class='fab fa-aws'></i> AWS Study Group - Blog</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+          <div class="select-style">
+            <select id="select-language" onchange="location = this.value;">
+          
+          
+          
+              
+              
+                  
+                    
+                    
+                      <option id="en" value="/2-data-collection-openweathermap/">English</option>
+                    
+                  
+              
+                  
+              
+          
+              
+              
+                  
+              
+                  
+                    
+                    
+                      <option id="vi" value="/vi/2-data-collection-openweathermap/" selected>Tiếng Việt</option>
+                    
+                  
+              
+          
+        </select>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+          <g>
+            <g id="arrow-drop-down">
+              <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+            </g>
+          </g>
+        </svg>
+        </div>
+        </a>
+        </li>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+     
+    
+</left>
+<left>
+    <br>
+    <br>
+        <b> Last Updated </b> <br>
+        <i><font color=orange>23-06-2025</font></i>
+    </left>
+    <left>
+        <br>
+        <br>
+            <b> Author </b> <br>
+           
+            <i>
+                <a href="https://www.linkedin.com/in/imvhuy/"  style="color:orange">Đặng Văn Huy</a>
+        </i>
+        </left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            <a href='/vi/'>Hệ thống ETL Dữ liệu Thời tiết với AWS</a> > Thiết lập Thu thập Dữ liệu với OpenWeatherMap API
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+          <div id="chapter">
+        
+        <div id="body-inner">
+          
+
+        
+
+
+
+	<h1 id="thiết-lập-thu-thập-dữ-liệu-với-openweathermap-api">Thiết lập Thu thập Dữ liệu với OpenWeatherMap API</h1>
+<p><img src="/images/etl/weather-collection.png" alt="Kiến trúc Thu thập Dữ liệu Thời tiết"></p>
+<h2 id="tổng-quan">Tổng quan</h2>
+<p>Trong module này, bạn sẽ học cách thiết lập thu thập dữ liệu thời tiết tự động bằng OpenWeatherMap API và AWS Lambda. Đây là nền tảng của pipeline ETL phân tích thời tiết.</p>
+<h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</h2>
+<p>Khi hoàn thành module này, bạn sẽ có:</p>
+<ul>
+<li>Tài khoản OpenWeatherMap API với API key</li>
+<li>Lambda function để thu thập dữ liệu thời tiết hiện tại</li>
+<li>Lambda function để thu thập dự báo thời tiết</li>
+<li>Lập lịch tự động bằng CloudWatch Events</li>
+<li>Xử lý lỗi và giám sát cho việc thu thập dữ liệu</li>
+</ul>
+<h2 id="mục-tiêu-học-tập">Mục tiêu học tập</h2>
+<ul>
+<li><strong>Hiểu</strong> cấu trúc và endpoints của OpenWeatherMap API</li>
+<li><strong>Tạo</strong> và cấu hình API credentials một cách bảo mật</li>
+<li><strong>Xây dựng</strong> Lambda functions để thu thập dữ liệu thời tiết</li>
+<li><strong>Lập lịch</strong> các job thu thập dữ liệu tự động</li>
+<li><strong>Triển khai</strong> xử lý lỗi và giám sát</li>
+</ul>
+<h2 id="điều-kiện-tiên-quyết">Điều kiện tiên quyết</h2>
+<ul>
+<li>Tài khoản AWS với quyền quản trị</li>
+<li>Hiểu biết cơ bản về định dạng dữ liệu JSON</li>
+<li>Quen thuộc với các khái niệm AWS Lambda</li>
+</ul>
+<h2 id="cấu-trúc-module">Cấu trúc Module</h2>
+
+
+
+
+
+
+
+<ul class="children children-li">
+	
+
+	
+		
+			
+		
+	
+
+	
+
+	
+		
+	
+		
+			
+				
+<li>
+<a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" >Thiết lập OpenWeatherMap API</a>
+</li>
+				
+
+				
+					
+<p><h1 id="thiết-lập-openweathermap-api">Thiết lập OpenWeatherMap API</h1>
+<p>Trong phần đơn giản hóa này, chúng ta sẽ nhanh chóng thiết lập tài khoản OpenWeatherMap API để thu thập dữ liệu thời tiết cho pipeline của chúng ta.</p>
+<h2 id="bước-1-đăng-ký-openweathermap">Bước 1: Đăng ký OpenWeatherMap</h2>
+<ol>
+<li><strong>Tạo tài khoản</strong>
+<ul>
+<li>Truy cập <a href="https://openweathermap.org">https://openweathermap.org</a> và nhấp vào &ldquo;Sign Up&rdquo;</li>
+<li>Hoàn thành đăng ký với email của bạn</li>
+<li>Xác minh email và đăng nhập</li>
+</ul>
+</li>
+</ol>
+<h2 id="bước-2-lấy-api-key">Bước 2: Lấy API Key</h2>
+<ol>
+<li><strong>Truy cập API Keys</strong>
+<ul>
+<li>Sau khi đăng nhập, đi đến phần &ldquo;API keys&rdquo;</li>
+<li>Ghi chú API key mặc định hoặc tạo key mới với tên &ldquo;weather-data-collection&rdquo;</li>
+</ul>
+</li>
+</ol>
+
+<div class="notices info" ><p>Gói miễn phí bao gồm 1,000 lệnh gọi API mỗi ngày và 60 lệnh gọi mỗi phút - nhiều hơn đủ cho workshop của chúng ta.</p></p>
+					
+				
+			
+			
+
+				
+<ul>
+				
+
+				
+					
+				
+
+				
+
+				
+					
+	
+
+				
+
+				
+</ul>
+				
+			
+		
+	
+
+	
+</ul>
+
+
+
+
+<h2 id="kiến-trúc">Kiến trúc</h2>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
+    A[OpenWeatherMap API] --&gt; B[Lambda Weather Collector]
+    C[CloudWatch Events] --&gt; B
+    B --&gt; D[S3 Raw Data Storage]
+    B --&gt; E[CloudWatch Logs]
+    F[Systems Manager] --&gt; B
+
+    style A fill:#e1f5fe
+    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
+    style C fill:#e8f5e8
+    style D fill:#f3e5f5
+    style E fill:#fff3e0
+    style F fill:#e0f2f1
+</code></pre><h2 id="loại-dữ-liệu-thời-tiết">Loại Dữ liệu Thời tiết</h2>
+<p>Thu thập dữ liệu thời tiết sẽ tập trung vào:</p>
+<ol>
+<li><strong>Thời tiết Hiện tại</strong>: Điều kiện thời gian thực cho nhiều thành phố</li>
+<li><strong>Dự báo 5 Ngày</strong>: Dự đoán thời tiết mỗi 3 giờ</li>
+<li><strong>Cảnh báo Thời tiết</strong>: Thông báo thời tiết khắc nghiệt</li>
+<li><strong>Chất lượng Không khí</strong>: Chỉ số ô nhiễm và chất lượng không khí</li>
+</ol>
+<h2 id="thành-phố-mục-tiêu">Thành phố Mục tiêu</h2>
+<p>Chúng ta sẽ thu thập dữ liệu thời tiết cho các thành phố lớn ở Đông Nam Á:</p>
+<ul>
+<li><strong>Thành phố Hồ Chí Minh, Việt Nam</strong> (Chính)</li>
+<li><strong>Hà Nội, Việt Nam</strong></li>
+<li><strong>Singapore</strong></li>
+<li><strong>Bangkok, Thái Lan</strong></li>
+<li><strong>Jakarta, Indonesia</strong></li>
+<li><strong>Kuala Lumpur, Malaysia</strong></li>
+</ul>
+<h2 id="lịch-trình-thu-thập-dữ-liệu">Lịch trình Thu thập Dữ liệu</h2>
+<p><strong>Thời tiết Hiện tại</strong>: Mỗi giờ (24 lần/ngày)
+<strong>Dự báo Thời tiết</strong>: Mỗi 6 giờ (4 lần/ngày)
+<strong>Chất lượng Không khí</strong>: Mỗi 2 giờ (12 lần/ngày)</p>
+<h2 id="khối-lượng-dữ-liệu-dự-kiến">Khối lượng Dữ liệu Dự kiến</h2>
+<p>Trong workshop này, chúng ta sẽ thu thập:</p>
+<ul>
+<li><strong>Thời tiết Hiện tại</strong>: ~144 records/ngày (6 thành phố × 24 giờ)</li>
+<li><strong>Dữ liệu Dự báo</strong>: ~24 bộ dự báo/ngày (6 thành phố × 4 lần)</li>
+<li><strong>Khối lượng Hàng ngày</strong>: ~2,000 điểm dữ liệu thời tiết</li>
+<li><strong>Kích thước Record</strong>: 2-8 KB mỗi record thời tiết</li>
+</ul>
+<h2 id="ước-tính-chi-phí">Ước tính Chi phí</h2>
+<p>Chi phí hàng tháng cho module này (trong Free Tier):</p>
+<table>
+  <thead>
+      <tr>
+          <th>Dịch vụ</th>
+          <th>Sử dụng</th>
+          <th>Chi phí</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>OpenWeatherMap API</td>
+          <td>1,000 calls/ngày</td>
+          <td>Free Tier</td>
+      </tr>
+      <tr>
+          <td>Lambda Executions</td>
+          <td>4,000 invocations</td>
+          <td>Free Tier</td>
+      </tr>
+      <tr>
+          <td>S3 Storage</td>
+          <td>1 GB dữ liệu thời tiết</td>
+          <td>Free Tier</td>
+      </tr>
+      <tr>
+          <td>CloudWatch Logs</td>
+          <td>5 GB logs</td>
+          <td>$2.50</td>
+      </tr>
+      <tr>
+          <td><strong>Tổng</strong></td>
+          <td></td>
+          <td><strong>~$2.50/tháng</strong></td>
+      </tr>
+  </tbody>
+</table>
+
+<div class="notices tip" ><p>OpenWeatherMap cung cấp 1,000 lời gọi API miễn phí mỗi ngày, hoàn hảo cho nhu cầu workshop của chúng ta.</p>
+</div>
+
+
+<div class="notices info" ><p><strong>Ước tính thời gian</strong>: Module này sẽ mất khoảng 90-120 phút để hoàn thành, bao gồm thiết lập API và testing.</p>
+</div>
+
+<h2 id="dữ-liệu-thời-tiết-mẫu">Dữ liệu Thời tiết Mẫu</h2>
+<p>Đây là ví dụ về dữ liệu thời tiết chúng ta sẽ thu thập:</p>
+<h3 id="response-thời-tiết-hiện-tại">Response Thời tiết Hiện tại</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;coord&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;lon&#34;</span>: <span style="color:#ae81ff">106.6297</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;lat&#34;</span>: <span style="color:#ae81ff">10.8231</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">803</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;main&#34;</span>: <span style="color:#e6db74">&#34;Clouds&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;broken clouds&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;04d&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;main&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;temp&#34;</span>: <span style="color:#ae81ff">305.15</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;feels_like&#34;</span>: <span style="color:#ae81ff">309.65</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;temp_min&#34;</span>: <span style="color:#ae81ff">305.15</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;temp_max&#34;</span>: <span style="color:#ae81ff">305.15</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;pressure&#34;</span>: <span style="color:#ae81ff">1013</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;humidity&#34;</span>: <span style="color:#ae81ff">74</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;speed&#34;</span>: <span style="color:#ae81ff">3.2</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;deg&#34;</span>: <span style="color:#ae81ff">220</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;clouds&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;all&#34;</span>: <span style="color:#ae81ff">75</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;dt&#34;</span>: <span style="color:#ae81ff">1642248000</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sys&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;country&#34;</span>: <span style="color:#e6db74">&#34;VN&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sunrise&#34;</span>: <span style="color:#ae81ff">1642203600</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sunset&#34;</span>: <span style="color:#ae81ff">1642245600</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timezone&#34;</span>: <span style="color:#ae81ff">25200</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1566083</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Ho Chi Minh City&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="response-dự-báo-5-ngày">Response Dự báo 5 Ngày</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;list&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;dt&#34;</span>: <span style="color:#ae81ff">1642248000</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;main&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;temp&#34;</span>: <span style="color:#ae81ff">298.55</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;feels_like&#34;</span>: <span style="color:#ae81ff">299.25</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;temp_min&#34;</span>: <span style="color:#ae81ff">298.55</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;temp_max&#34;</span>: <span style="color:#ae81ff">302.44</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;pressure&#34;</span>: <span style="color:#ae81ff">1015</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;humidity&#34;</span>: <span style="color:#ae81ff">64</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;weather&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;main&#34;</span>: <span style="color:#e6db74">&#34;Rain&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;light rain&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;10d&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;wind&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;speed&#34;</span>: <span style="color:#ae81ff">4.1</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;deg&#34;</span>: <span style="color:#ae81ff">250</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;pop&#34;</span>: <span style="color:#ae81ff">0.32</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;dt_txt&#34;</span>: <span style="color:#e6db74">&#34;2025-01-15 09:00:00&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="api-endpoints-chúng-ta-sẽ-sử-dụng">API Endpoints Chúng ta sẽ Sử dụng</h2>
+<p><strong>Thời tiết Hiện tại</strong>: <code>https://api.openweathermap.org/data/2.5/weather</code></p>
+<ul>
+<li>Điều kiện thời tiết thời gian thực</li>
+<li>Nhiệt độ, độ ẩm, áp suất, gió</li>
+<li>Mô tả thời tiết và biểu tượng</li>
+</ul>
+<p><strong>Dự báo 5 Ngày</strong>: <code>https://api.openweathermap.org/data/2.5/forecast</code></p>
+<ul>
+<li>Dự đoán thời tiết mỗi 3 giờ</li>
+<li>Dữ liệu dự báo 5 ngày</li>
+<li>Xác suất mưa</li>
+</ul>
+<p><strong>Chất lượng Không khí</strong>: <code>https://api.openweathermap.org/data/2.5/air_pollution</code></p>
+<ul>
+<li>Chỉ số chất lượng không khí (AQI)</li>
+<li>Nồng độ chất ô nhiễm</li>
+<li>Khuyến nghị sức khỏe</li>
+</ul>
+<p><strong>Geocoding</strong>: <code>https://api.openweathermap.org/geo/1.0/direct</code></p>
+<ul>
+<li>Chuyển đổi tên thành phố thành tọa độ</li>
+<li>Reverse geocoding cho địa điểm</li>
+<li>Hỗ trợ đa ngôn ngữ</li>
+</ul>
+<h2 id="luồng-xử-lý-dữ-liệu">Luồng Xử lý Dữ liệu</h2>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+    A[CloudWatch Event] --&gt; B[Lambda Weather Collector]
+    B --&gt; C{API Call Success?}
+    C --&gt;|Yes| D[Parse JSON Response]
+    C --&gt;|No| E[Log Error &amp; Retry]
+    D --&gt; F[Add Metadata]
+    F --&gt; G[Store in S3]
+    G --&gt; H[Update CloudWatch Metrics]
+    E --&gt; I[Send SNS Alert]
+</code></pre><h2 id="cân-nhắc-bảo-mật">Cân nhắc Bảo mật</h2>
+<p><strong>Quản lý API Key</strong>:</p>
+<ul>
+<li>Lưu trữ API keys trong AWS Systems Manager Parameter Store</li>
+<li>Sử dụng IAM roles cho Lambda execution</li>
+<li>Mã hóa các tham số nhạy cảm</li>
+</ul>
+<p><strong>Bảo mật Mạng</strong>:</p>
+<ul>
+<li>Lambda functions trong private subnets (tùy chọn)</li>
+<li>VPC endpoints cho AWS services</li>
+<li>Security groups cho network access</li>
+</ul>
+<p><strong>Bảo vệ Dữ liệu</strong>:</p>
+<ul>
+<li>Bật mã hóa S3 bucket</li>
+<li>Mã hóa CloudWatch Logs</li>
+<li>Giao tiếp API bảo mật (HTTPS)</li>
+</ul>
+<h2 id="chiến-lược-xử-lý-lỗi">Chiến lược Xử lý Lỗi</h2>
+<p><strong>API Failures</strong>:</p>
+<ul>
+<li>Exponential backoff với jitter</li>
+<li>Số lần retry tối đa (3x)</li>
+<li>Dead letter queue cho failed requests</li>
+</ul>
+<p><strong>Xác thực Dữ liệu</strong>:</p>
+<ul>
+<li>Xác thực JSON schema</li>
+<li>Kiểm tra các trường bắt buộc</li>
+<li>Cảnh báo chất lượng dữ liệu</li>
+</ul>
+<p><strong>Giám sát</strong>:</p>
+<ul>
+<li>CloudWatch custom metrics</li>
+<li>Theo dõi thời gian phản hồi API</li>
+<li>Giám sát tỷ lệ lỗi</li>
+</ul>
+<h2 id="bắt-đầu-thôi">Bắt đầu thôi!</h2>
+<p>Sẵn sàng xây dựng hệ thống thu thập dữ liệu thời tiết? Hãy bắt đầu bằng việc thiết lập tài khoản OpenWeatherMap API và hiểu cấu trúc API trong phần tiếp theo.</p>
+
+<div class="notices warning" ><p>Đảm bảo bạn có địa chỉ email hợp lệ để tạo tài khoản OpenWeatherMap, vì cần xác thực API key.</p>
+</div>
+
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+            </div> 
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/vi/1-introduction/" title="Giới thiệu"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1751594757"></script>
+    <script src="/js/perfect-scrollbar.min.js?1751594757"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1751594757"></script>
+    <script src="/js/jquery.sticky.js?1751594757"></script>
+    <script src="/js/featherlight.min.js?1751594757"></script>
+    <script src="/js/highlight.pack.js?1751594757"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1751594757"></script>
+    <script src="/js/learn.js?1751594757"></script>
+    <script src="/js/hugo-learn.js?1751594757"></script>
+
+    <link href="/mermaid/mermaid.css?1751594757" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1751594757"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-158079754-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

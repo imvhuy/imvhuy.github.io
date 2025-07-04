@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Tags :: Weather ETL Pipeline with AWS</title>
+    <title>Introduction &amp; Architecture Design :: Weather ETL Pipeline with AWS</title>
 
     
     <link href="/css/nucleus.css?1751594757" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/tags/">
+  <body class="" data-url="/1-introduction/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -84,7 +84,7 @@
     
     <li data-nav-id="/1-introduction/" title="Introduction &amp; Architecture Design" class="dd-item 
         
-        
+        active
         
         ">
       <a href="/1-introduction/">
@@ -285,7 +285,7 @@
                   
                     
                     
-                      <option id="en" value="/tags/" selected>English</option>
+                      <option id="en" value="/1-introduction/" selected>English</option>
                     
                   
               
@@ -299,7 +299,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/tags/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/1-introduction/">Tiếng Việt</option>
                     
                   
               
@@ -369,8 +369,6 @@
                         </a>
                     </span>
                   
-                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
-                  
                   <span class="links">
                  
                  
@@ -381,7 +379,7 @@
             
           
           
-            <a href='/'>Building ETL Data Pipeline for Weather Analytics on AWS</a> > Tags
+            <a href='/'>Building ETL Data Pipeline for Weather Analytics on AWS</a> > Introduction & Architecture Design
           
         
           
@@ -390,13 +388,6 @@
                   </span>
                 </div>
                 
-                    <div class="progress">
-    <div class="wrapper">
-<nav id="TableOfContents"></nav>
-    </div>
-</div>
-
-                
               </div>
             </div>
             
@@ -404,31 +395,129 @@
         
         </div>
         
+          <div id="chapter">
+        
         <div id="body-inner">
-          
-            <h1>
-              
-                taxonomy ::
-              
-              Tags
-            </h1>
           
 
         
 
 
 
-
-
+	<h1 id="introduction--architecture-design">Introduction &amp; Architecture Design</h1>
+<p>Welcome to the <strong>Simplified Weather ETL Pipeline Workshop</strong>! In this streamlined workshop, you&rsquo;ll build a basic serverless data pipeline using AWS services to collect, process, and analyze weather data.</p>
+<h2 id="workshop-overview">Workshop Overview</h2>
+<p>This workshop demonstrates a simplified ETL (Extract, Transform, Load) pipeline that:</p>
 <ul>
-	
+<li><strong>Collects</strong> weather data from OpenWeatherMap API</li>
+<li><strong>Processes</strong> data using serverless Lambda functions</li>
+<li><strong>Stores</strong> data in S3</li>
+<li><strong>Analyzes</strong> data using Athena</li>
+<li><strong>Visualizes</strong> insights with QuickSight</li>
 </ul>
+<h2 id="what-youll-build">What You&rsquo;ll Build</h2>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    A[OpenWeatherMap API] --&gt; B[Lambda Collector]
+    B --&gt; C[S3 Raw Data]
+    C --&gt; D[Lambda Processor]
+    D --&gt; E[S3 Processed Data]
+    E --&gt; F[Athena Analytics]
+    F --&gt; G[QuickSight Dashboard]
+
+    H[CloudWatch Events] --&gt; B
+
+    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
+    style C fill:#f3e5f5
+    style D fill:#ff9900,stroke:#232f3e,stroke-width:3px
+    style E fill:#f3e5f5
+    style F fill:#4fc3f7
+    style G fill:#66bb6a
+</code></pre><h2 id="simplified-architecture">Simplified Architecture</h2>
+<p>This streamlined workshop focuses on the core components:</p>
+<ol>
+<li><strong>Data Collection</strong>: Lambda function to collect weather data</li>
+<li><strong>Data Processing</strong>: Lambda function to transform raw data</li>
+<li><strong>Data Storage</strong>: S3 buckets for storing raw and processed data</li>
+<li><strong>Data Analysis</strong>: Basic Athena queries</li>
+<li><strong>Visualization</strong>: Simple QuickSight dashboard</li>
+</ol>
+<h2 id="workshop-learning-objectives">Workshop Learning Objectives</h2>
+<p>By completing this workshop, you will learn how to:</p>
+<ol>
+<li><strong>Set up</strong> OpenWeatherMap API for data collection</li>
+<li><strong>Create</strong> Lambda functions to collect and process weather data</li>
+<li><strong>Store</strong> data in S3 with basic organization</li>
+<li><strong>Transform</strong> raw weather data into a more usable format</li>
+<li><strong>Query</strong> data using Amazon Athena</li>
+<li><strong>Visualize</strong> weather patterns with Amazon QuickSight</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before starting this workshop, you should have:</p>
+<ul>
+<li>AWS account with administrative access</li>
+<li>Basic knowledge of AWS services</li>
+<li>Familiarity with Python (for Lambda functions)</li>
+</ul>
+<h2 id="cost-estimates">Cost Estimates</h2>
+<p>This simplified workshop minimizes costs:</p>
+<ul>
+<li><strong>Lambda</strong>: Free tier covers most usage</li>
+<li><strong>S3</strong>: Minimal storage (~1MB) - essentially free</li>
+<li><strong>CloudWatch</strong>: Basic monitoring included in free tier</li>
+<li><strong>Athena</strong>: ~$0.05 (minimal queries)</li>
+<li><strong>QuickSight</strong>: Free trial or ~$9.00 (author license for 30 days)</li>
+</ul>
+<p><strong>Total Estimated Cost</strong>: Less than $10.00 for the entire workshop</p>
+<h2 id="workshop-structure">Workshop Structure</h2>
+<p>This streamlined workshop consists of 5 core modules:</p>
+<h3 id="module-1-introduction--architecture">Module 1: Introduction &amp; Architecture</h3>
+<ul>
+<li>Workshop overview and simplified architecture</li>
+<li>AWS services overview</li>
+</ul>
+<h3 id="module-2-weather-data-collection">Module 2: Weather Data Collection</h3>
+<ul>
+<li>OpenWeatherMap API setup (simplified)</li>
+<li>Basic Lambda function for data collection</li>
+<li>Simple scheduling with CloudWatch Events</li>
+</ul>
+<h3 id="module-3-data-processing-and-transformation">Module 3: Data Processing and Transformation</h3>
+<ul>
+<li>Data transformation patterns</li>
+<li>Lambda processing functions</li>
+<li>Converting raw weather data to analytics-ready format</li>
+</ul>
+<h3 id="module-4-data-analysis-with-athena">Module 4: Data Analysis with Athena</h3>
+<ul>
+<li>Basic S3 data organization</li>
+<li>Simple Athena queries for weather analysis</li>
+</ul>
+<h3 id="module-5-visualization--cleanup">Module 5: Visualization &amp; Cleanup</h3>
+<ul>
+<li>Basic QuickSight dashboard</li>
+<li>Resource cleanup procedures</li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<p>Ready to build your simplified weather data pipeline? Let&rsquo;s start with Module 2 where we&rsquo;ll set up basic weather data collection.</p>
+
+<div class="notices info" ><p><strong>Estimated Time</strong>: 2-3 hours total</p>
+</div>
+
+
+<div class="notices tip" ><p>This workshop has been simplified to focus on core concepts. For a more comprehensive experience, advanced features are available as optional extensions.</p>
+</div>
+
+
+
+
 
 
 <footer class=" footline" >
 	
 </footer>
 
+        
+            </div> 
         
         </div> 
         
@@ -460,8 +549,6 @@
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -478,6 +565,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -565,8 +655,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/" title="Building ETL Data Pipeline for Weather Analytics on AWS"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction &amp; Architecture Design" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/2-data-collection-openweathermap/" title="Weather Data Collection with Lambda" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

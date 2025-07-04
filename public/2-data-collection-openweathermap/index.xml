@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Weather Data Collection with Lambda on Weather ETL Pipeline with AWS</title>
+    <link>/2-data-collection-openweathermap/</link>
+    <description>Recent content in Weather Data Collection with Lambda on Weather ETL Pipeline with AWS</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate></lastBuildDate>
+    <atom:link href="/2-data-collection-openweathermap/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

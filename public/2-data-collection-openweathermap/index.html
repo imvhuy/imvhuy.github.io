@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Tags :: Weather ETL Pipeline with AWS</title>
+    <title>Weather Data Collection with Lambda :: Weather ETL Pipeline with AWS</title>
 
     
     <link href="/css/nucleus.css?1751594757" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/tags/">
+  <body class="" data-url="/2-data-collection-openweathermap/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -110,7 +110,7 @@
     
     <li data-nav-id="/2-data-collection-openweathermap/" title="Weather Data Collection with Lambda" class="dd-item 
         
-        
+        active
         
         ">
       <a href="/2-data-collection-openweathermap/">
@@ -285,7 +285,7 @@
                   
                     
                     
-                      <option id="en" value="/tags/" selected>English</option>
+                      <option id="en" value="/2-data-collection-openweathermap/" selected>English</option>
                     
                   
               
@@ -299,7 +299,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/tags/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/2-data-collection-openweathermap/">Tiếng Việt</option>
                     
                   
               
@@ -369,8 +369,6 @@
                         </a>
                     </span>
                   
-                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
-                  
                   <span class="links">
                  
                  
@@ -381,7 +379,7 @@
             
           
           
-            <a href='/'>Building ETL Data Pipeline for Weather Analytics on AWS</a> > Tags
+            <a href='/'>Building ETL Data Pipeline for Weather Analytics on AWS</a> > Weather Data Collection with Lambda
           
         
           
@@ -390,13 +388,6 @@
                   </span>
                 </div>
                 
-                    <div class="progress">
-    <div class="wrapper">
-<nav id="TableOfContents"></nav>
-    </div>
-</div>
-
-                
               </div>
             </div>
             
@@ -404,31 +395,260 @@
         
         </div>
         
+          <div id="chapter">
+        
         <div id="body-inner">
-          
-            <h1>
-              
-                taxonomy ::
-              
-              Tags
-            </h1>
           
 
         
 
 
 
-
-
+	<h1 id="weather-data-collection-with-lambda">Weather Data Collection with Lambda</h1>
+<p>In this module, you&rsquo;ll build an automated weather data collection system using AWS Lambda functions and the OpenWeatherMap API. This serverless approach provides a scalable, cost-effective solution for gathering weather data from multiple cities on a scheduled basis.</p>
+<h2 id="module-learning-objectives">Module Learning Objectives</h2>
+<p>By the end of this module, you will:</p>
 <ul>
-	
+<li>Set up OpenWeatherMap API access and understand rate limits</li>
+<li>Create Lambda functions to collect current weather and forecast data</li>
+<li>Implement automated scheduling using CloudWatch Events</li>
+<li>Store weather data in S3 with proper partitioning</li>
+<li>Set up monitoring and error handling</li>
+<li>Test the complete data collection pipeline</li>
 </ul>
+<h2 id="architecture-overview">Architecture Overview</h2>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    A[CloudWatch Events&lt;br/&gt;Scheduler] --&gt; B[Lambda Functions]
+    B --&gt; C[OpenWeatherMap API]
+    C --&gt; D[Weather Data Response]
+    D --&gt; B
+    B --&gt; E[S3 Data Lake&lt;br/&gt;Partitioned Storage]
+    B --&gt; F[CloudWatch Metrics]
+    G[Parameter Store&lt;br/&gt;API Keys] --&gt; B
+    H[SNS Alerts] --&gt; I[Email Notifications]
+    F --&gt; H
+
+    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
+    style E fill:#f3e5f5
+    style C fill:#e1f5fe
+</code></pre><h2 id="what-youll-build">What You&rsquo;ll Build</h2>
+<h3 id="data-collection-components">Data Collection Components</h3>
+<ul>
+<li><strong>Lambda Functions</strong>: Serverless data collectors for current weather and forecasts</li>
+<li><strong>CloudWatch Events</strong>: Automated scheduling (hourly for current weather, 6-hourly for forecasts)</li>
+<li><strong>S3 Storage</strong>: Organized data lake with year/month/day/hour partitioning</li>
+<li><strong>Parameter Store</strong>: Secure API key management</li>
+</ul>
+<h3 id="monitoring-and-alerting">Monitoring and Alerting</h3>
+<ul>
+<li><strong>CloudWatch Metrics</strong>: Custom metrics for collection success/failure rates</li>
+<li><strong>CloudWatch Alarms</strong>: Automated alerts for system issues</li>
+<li><strong>SNS Notifications</strong>: Email alerts for failures and API limit warnings</li>
+</ul>
+<h3 id="data-sources">Data Sources</h3>
+<ul>
+<li><strong>Current Weather</strong>: Real-time conditions for 6 Southeast Asian cities</li>
+<li><strong>5-Day Forecasts</strong>: Weather predictions with 3-hour intervals</li>
+<li><strong>API Metadata</strong>: Collection timestamps and data quality indicators</li>
+</ul>
+<h2 id="target-cities">Target Cities</h2>
+<p>The workshop collects weather data for these cities:</p>
+<table>
+  <thead>
+      <tr>
+          <th>City</th>
+          <th>Country</th>
+          <th>Coordinates</th>
+          <th>Timezone</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Ho Chi Minh City</td>
+          <td>Vietnam</td>
+          <td>10.8231, 106.6297</td>
+          <td>UTC+7</td>
+      </tr>
+      <tr>
+          <td>Hanoi</td>
+          <td>Vietnam</td>
+          <td>21.0285, 105.8542</td>
+          <td>UTC+7</td>
+      </tr>
+      <tr>
+          <td>Singapore</td>
+          <td>Singapore</td>
+          <td>1.3521, 103.8198</td>
+          <td>UTC+8</td>
+      </tr>
+      <tr>
+          <td>Bangkok</td>
+          <td>Thailand</td>
+          <td>13.7563, 100.5018</td>
+          <td>UTC+7</td>
+      </tr>
+      <tr>
+          <td>Jakarta</td>
+          <td>Indonesia</td>
+          <td>-6.2088, 106.8456</td>
+          <td>UTC+7</td>
+      </tr>
+      <tr>
+          <td>Kuala Lumpur</td>
+          <td>Malaysia</td>
+          <td>3.1390, 101.6869</td>
+          <td>UTC+8</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="expected-data-volume">Expected Data Volume</h2>
+<h3 id="daily-collection-estimates">Daily Collection Estimates</h3>
+<ul>
+<li><strong>Current Weather</strong>: 6 cities × 24 hours = 144 files/day (~288 KB)</li>
+<li><strong>Weather Forecasts</strong>: 6 cities × 4 collections = 24 files/day (~480 KB)</li>
+<li><strong>Total Daily Storage</strong>: ~768 KB (~23 MB/month)</li>
+</ul>
+<h3 id="api-usage">API Usage</h3>
+<ul>
+<li><strong>Current Weather</strong>: 144 API calls/day</li>
+<li><strong>Forecasts</strong>: 24 API calls/day</li>
+<li><strong>Total Daily API Calls</strong>: 168 (well within 1,000 free tier limit)</li>
+</ul>
+<h2 id="cost-breakdown">Cost Breakdown</h2>
+<h3 id="estimated-monthly-costs">Estimated Monthly Costs</h3>
+<ul>
+<li><strong>Lambda Invocations</strong>: ~$0.01 (168 daily invocations)</li>
+<li><strong>Lambda Duration</strong>: ~$0.15 (average 5-second executions)</li>
+<li><strong>S3 Storage</strong>: ~$0.01 (23 MB monthly storage)</li>
+<li><strong>CloudWatch Metrics</strong>: ~$0.90 (custom metrics)</li>
+<li><strong>API Calls</strong>: $0.00 (free tier)</li>
+</ul>
+<p><strong>Total Module Cost</strong>: ~$1.07/month</p>
+<h2 id="module-structure">Module Structure</h2>
+<p>This module is divided into four sections:</p>
+<h3 id="21-openweathermap-setup">2.1 OpenWeatherMap Setup</h3>
+<ul>
+<li>Create OpenWeatherMap account</li>
+<li>Obtain API key and understand limits</li>
+<li>Test API endpoints</li>
+<li>Store credentials securely</li>
+</ul>
+<h3 id="22-building-lambda-weather-collector">2.2 Building Lambda Weather Collector</h3>
+<ul>
+<li>Create IAM roles and policies</li>
+<li>Develop Lambda functions for data collection</li>
+<li>Implement error handling and retry logic</li>
+<li>Configure environment variables</li>
+</ul>
+<h3 id="23-automated-scheduling">2.3 Automated Scheduling</h3>
+<ul>
+<li>Set up CloudWatch Events rules</li>
+<li>Configure different schedules for different data types</li>
+<li>Implement monitoring and alerting</li>
+<li>Create SNS topics for notifications</li>
+</ul>
+<h3 id="24-testing-and-monitoring">2.4 Testing and Monitoring</h3>
+<ul>
+<li>Test Lambda functions manually</li>
+<li>Validate data quality and structure</li>
+<li>Set up comprehensive monitoring</li>
+<li>Perform load and error testing</li>
+</ul>
+<h2 id="key-technologies-used">Key Technologies Used</h2>
+<h3 id="aws-services">AWS Services</h3>
+<ul>
+<li><strong>AWS Lambda</strong>: Serverless compute for data collection</li>
+<li><strong>Amazon S3</strong>: Scalable object storage for data lake</li>
+<li><strong>Amazon CloudWatch</strong>: Monitoring, logging, and scheduling</li>
+<li><strong>Amazon SNS</strong>: Notification service for alerts</li>
+<li><strong>AWS Systems Manager</strong>: Parameter Store for secure configuration</li>
+</ul>
+<h3 id="development-tools">Development Tools</h3>
+<ul>
+<li><strong>Python 3.11</strong>: Primary programming language</li>
+<li><strong>Boto3</strong>: AWS SDK for Python</li>
+<li><strong>Requests</strong>: HTTP library for API calls</li>
+<li><strong>JSON</strong>: Data format for weather information</li>
+</ul>
+<h3 id="external-services">External Services</h3>
+<ul>
+<li><strong>OpenWeatherMap API</strong>: Weather data provider</li>
+<li><strong>REST APIs</strong>: HTTP-based data exchange</li>
+</ul>
+<h2 id="best-practices-implemented">Best Practices Implemented</h2>
+<h3 id="security">Security</h3>
+<ul>
+<li>IAM roles with least privilege access</li>
+<li>Encrypted storage for API keys</li>
+<li>VPC endpoints for internal AWS communication</li>
+<li>No hardcoded credentials in code</li>
+</ul>
+<h3 id="reliability">Reliability</h3>
+<ul>
+<li>Comprehensive error handling and retry logic</li>
+<li>Dead letter queues for failed executions</li>
+<li>Health checks and monitoring</li>
+<li>Graceful degradation on partial failures</li>
+</ul>
+<h3 id="scalability">Scalability</h3>
+<ul>
+<li>Serverless architecture with auto-scaling</li>
+<li>Partitioned data storage for efficient querying</li>
+<li>Batch processing for multiple cities</li>
+<li>Rate limiting compliance with API providers</li>
+</ul>
+<h3 id="cost-optimization">Cost Optimization</h3>
+<ul>
+<li>Efficient Lambda memory allocation</li>
+<li>S3 lifecycle policies for data archival</li>
+<li>CloudWatch log retention management</li>
+<li>API usage monitoring and optimization</li>
+</ul>
+<h2 id="prerequisites-for-this-module">Prerequisites for This Module</h2>
+<p>Before starting, ensure you have:</p>
+<ul>
+<li><input disabled="" type="checkbox"> AWS account with Lambda, S3, CloudWatch access</li>
+<li><input disabled="" type="checkbox"> AWS CLI configured with appropriate permissions</li>
+<li><input disabled="" type="checkbox"> OpenWeatherMap account (free registration)</li>
+<li><input disabled="" type="checkbox"> Basic Python programming knowledge</li>
+<li><input disabled="" type="checkbox"> Understanding of JSON data structures</li>
+</ul>
+<h2 id="success-criteria">Success Criteria</h2>
+<p>By the end of this module, you should have:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Automated weather data collection running every hour</li>
+<li><input disabled="" type="checkbox"> Weather forecast collection running every 6 hours</li>
+<li><input disabled="" type="checkbox"> Properly structured data stored in S3</li>
+<li><input disabled="" type="checkbox"> Monitoring dashboard showing collection metrics</li>
+<li><input disabled="" type="checkbox"> Error alerting system via email notifications</li>
+<li><input disabled="" type="checkbox"> API usage tracking staying within free tier limits</li>
+</ul>
+<p>Ready to start collecting weather data? Let&rsquo;s begin with setting up your OpenWeatherMap API access!</p>
+
+<div class="notices tip" ><p><strong>Module Duration</strong>: Approximately 90 minutes</p>
+<ul>
+<li>Section 2.1: 20 minutes (API setup)</li>
+<li>Section 2.2: 35 minutes (Lambda development)</li>
+<li>Section 2.3: 25 minutes (Scheduling setup)</li>
+<li>Section 2.4: 10 minutes (Testing)</li>
+</ul>
+</div>
+
+
+<div class="notices warning" ><p><strong>Important</strong>: Keep track of your OpenWeatherMap API key and AWS resource names as you&rsquo;ll need them in subsequent modules.</p>
+</div>
+
+
+
+
 
 
 <footer class=" footline" >
 	
 </footer>
 
+        
+            </div> 
         
         </div> 
         
@@ -479,6 +699,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -493,6 +714,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -565,8 +789,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/1-introduction/" title="Introduction &amp; Architecture Design"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction &amp; Architecture Design" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Building Lambda Weather Collector" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
