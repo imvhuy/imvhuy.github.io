@@ -2,80 +2,93 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/vi/1-introduction/</loc>
+    <loc>//localhost:1313/vi/1-introduction/</loc>
     <lastmod>2025-06-23T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/1-introduction/"
+                href="//localhost:1313/1-introduction/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="vi"
-                href="/vi/1-introduction/"
+                href="//localhost:1313/vi/1-introduction/"
                 />
   </url><url>
-    <loc>/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/</loc>
+    <loc>//localhost:1313/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/</loc>
     <lastmod>2025-01-03T08:30:00+07:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/2-data-collection-openweathermap/2.1-openweathermap-setup/"
+                href="//localhost:1313/2-data-collection-openweathermap/2.1-openweathermap-setup/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="vi"
-                href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/"
                 />
   </url><url>
-    <loc>/vi/2-data-collection-openweathermap/</loc>
+    <loc>//localhost:1313/vi/2-data-collection-openweathermap/</loc>
     <lastmod>2025-01-03T08:00:00+07:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/2-data-collection-openweathermap/"
+                href="//localhost:1313/2-data-collection-openweathermap/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="vi"
-                href="/vi/2-data-collection-openweathermap/"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/"
                 />
   </url><url>
-    <loc>/vi/</loc>
+    <loc>//localhost:1313/vi/3-serverless-processing-lambda/</loc>
+    <lastmod>2025-01-03T09:30:00+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/3-serverless-processing-lambda/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/3-serverless-processing-lambda/"
+                />
+  </url><url>
+    <loc>//localhost:1313/vi/</loc>
     <lastmod>2025-01-03T08:00:00+07:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/"
+                href="//localhost:1313/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="vi"
-                href="/vi/"
+                href="//localhost:1313/vi/"
                 />
   </url><url>
-    <loc>/vi/categories/</loc>
+    <loc>//localhost:1313/vi/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/categories/"
+                href="//localhost:1313/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="vi"
-                href="/vi/categories/"
+                href="//localhost:1313/vi/categories/"
                 />
   </url><url>
-    <loc>/vi/tags/</loc>
+    <loc>//localhost:1313/vi/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/tags/"
+                href="//localhost:1313/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="vi"
-                href="/vi/tags/"
+                href="//localhost:1313/vi/tags/"
                 />
   </url>
 </urlset>

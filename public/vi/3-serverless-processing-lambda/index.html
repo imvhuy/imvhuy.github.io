@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Thiết lập Thu thập Dữ liệu với OpenWeatherMap API :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>Xử lý và Biến đổi Dữ liệu :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
     <link href="/css/nucleus.css?1751962891" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/vi/2-data-collection-openweathermap/">
+  <body class="" data-url="/vi/3-serverless-processing-lambda/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -110,7 +110,7 @@
     
     <li data-nav-id="/vi/2-data-collection-openweathermap/" title="Thiết lập Thu thập Dữ liệu với OpenWeatherMap API" class="dd-item 
         
-        active
+        
         
         ">
       <a href="/vi/2-data-collection-openweathermap/">
@@ -176,7 +176,7 @@
     
     <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Biến đổi Dữ liệu" class="dd-item 
         
-        
+        active
         
         ">
       <a href="/vi/3-serverless-processing-lambda/">
@@ -227,7 +227,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/">English</option>
+                      <option id="en" value="//localhost:1313/3-serverless-processing-lambda/">English</option>
                     
                   
               
@@ -241,7 +241,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/2-data-collection-openweathermap/" selected>Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/3-serverless-processing-lambda/" selected>Tiếng Việt</option>
                     
                   
               
@@ -321,7 +321,7 @@
             
           
           
-            <a href='/vi/'>Hệ thống ETL Dữ liệu Thời tiết với AWS</a> > Thiết lập Thu thập Dữ liệu với OpenWeatherMap API
+            <a href='/vi/'>Hệ thống ETL Dữ liệu Thời tiết với AWS</a> > Xử lý và Biến đổi Dữ liệu
           
         
           
@@ -346,220 +346,81 @@
 
 
 
-	<h1 id="thiết-lập-thu-thập-dữ-liệu-với-openweathermap-api">Thiết lập Thu thập Dữ liệu với OpenWeatherMap API</h1>
-<p><img src="/images/etl/weather-collection.png" alt="Kiến trúc Thu thập Dữ liệu Thời tiết"></p>
-<h2 id="tổng-quan">Tổng quan</h2>
-<p>Trong module này, bạn sẽ học cách thiết lập thu thập dữ liệu thời tiết tự động bằng OpenWeatherMap API và AWS Lambda. Đây là nền tảng của pipeline ETL phân tích thời tiết.</p>
+	<h1 id="xử-lý-và-biến-đổi-dữ-liệu">Xử lý và Biến đổi Dữ liệu</h1>
+<p>Trong module này, bạn sẽ xây dựng một hàm Lambda để xử lý và biến đổi dữ liệu thời tiết thô được thu thập từ OpenWeatherMap API thành định dạng thân thiện hơn với phân tích. Bước biến đổi này là cần thiết trong bất kỳ pipeline ETL nào để chuẩn bị dữ liệu cho việc phân tích hiệu quả.</p>
+<h2 id="tổng-quan-module">Tổng quan Module</h2>
+<p>Dữ liệu thời tiết thô từ API thường chứa cấu trúc lồng nhau phức tạp, định dạng không nhất quán và thông tin không cần thiết. Trong module này, chúng ta sẽ biến đổi dữ liệu thô này thành định dạng có cấu trúc, sạch sẽ được tối ưu hóa cho phân tích.</p>
 <h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</h2>
-<p>Khi hoàn thành module này, bạn sẽ có:</p>
-<ul>
-<li>Tài khoản OpenWeatherMap API với API key</li>
-<li>Lambda function để thu thập dữ liệu thời tiết hiện tại</li>
-<li>Lambda function để thu thập dự báo thời tiết</li>
-<li>Lập lịch tự động bằng CloudWatch Events</li>
-<li>Xử lý lỗi và giám sát cho việc thu thập dữ liệu</li>
-</ul>
-<h2 id="mục-tiêu-học-tập">Mục tiêu học tập</h2>
-<ul>
-<li><strong>Hiểu</strong> cấu trúc và endpoints của OpenWeatherMap API</li>
-<li><strong>Tạo</strong> và cấu hình API credentials một cách bảo mật</li>
-<li><strong>Xây dựng</strong> Lambda functions để thu thập dữ liệu thời tiết</li>
-<li><strong>Lập lịch</strong> các job thu thập dữ liệu tự động</li>
-<li><strong>Triển khai</strong> xử lý lỗi và giám sát</li>
-</ul>
-<h2 id="điều-kiện-tiên-quyết">Điều kiện tiên quyết</h2>
-<ul>
-<li>Tài khoản AWS với quyền quản trị</li>
-<li>Hiểu biết cơ bản về định dạng dữ liệu JSON</li>
-<li>Quen thuộc với các khái niệm AWS Lambda</li>
-</ul>
-<h2 id="cấu-trúc-module">Cấu trúc Module</h2>
-
-
-
-
-
-
-
-<ul class="children children-li">
-	
-
-	
-		
-			
-		
-	
-
-	
-
-	
-		
-	
-		
-			
-				
-<li>
-<a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" >Thiết lập OpenWeatherMap API</a>
-</li>
-				
-
-				
-					
-<p><h1 id="thiết-lập-openweathermap-api">Thiết lập OpenWeatherMap API</h1>
-<p>Trong phần đơn giản hóa này, chúng ta sẽ nhanh chóng thiết lập tài khoản OpenWeatherMap API để thu thập dữ liệu thời tiết cho pipeline của chúng ta.</p>
-<h2 id="bước-1-đăng-ký-openweathermap">Bước 1: Đăng ký OpenWeatherMap</h2>
-<ol>
-<li><strong>Tạo tài khoản</strong>
-<ul>
-<li>Truy cập <a href="https://openweathermap.org">https://openweathermap.org</a> và nhấp vào &ldquo;Sign Up&rdquo;</li>
-<li>Hoàn thành đăng ký với email của bạn</li>
-<li>Xác minh email và đăng nhập</li>
-</ul>
-</li>
-</ol>
-<h2 id="bước-2-lấy-api-key">Bước 2: Lấy API Key</h2>
-<ol>
-<li><strong>Truy cập API Keys</strong>
-<ul>
-<li>Sau khi đăng nhập, đi đến phần &ldquo;API keys&rdquo;</li>
-<li>Ghi chú API key mặc định hoặc tạo key mới với tên &ldquo;weather-data-collection&rdquo;</li>
-</ul>
-</li>
-</ol>
-
-<div class="notices info" ><p>Gói miễn phí bao gồm 1,000 lệnh gọi API mỗi ngày và 60 lệnh gọi mỗi phút - nhiều hơn đủ cho workshop của chúng ta.</p></p>
-					
-				
-			
-			
-
-				
-<ul>
-				
-
-				
-					
-				
-
-				
-
-				
-					
-	
-
-				
-
-				
-</ul>
-				
-			
-		
-	
-
-	
-</ul>
-
-
-
-
-<h2 id="kiến-trúc">Kiến trúc</h2>
 <pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
-    A[OpenWeatherMap API] --&gt; B[Lambda Weather Collector]
-    C[CloudWatch Events] --&gt; B
-    B --&gt; D[S3 Raw Data Storage]
-    B --&gt; E[CloudWatch Logs]
-    F[Systems Manager] --&gt; B
+    A[S3 Raw Data] --&gt; B[Lambda Processor]
+    B --&gt; C[S3 Processed Data]
+    D[CloudWatch Events] --&gt; B
 
-    style A fill:#e1f5fe
     style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style C fill:#e8f5e8
-    style D fill:#f3e5f5
-    style E fill:#fff3e0
-    style F fill:#e0f2f1
-</code></pre><h2 id="loại-dữ-liệu-thời-tiết">Loại Dữ liệu Thời tiết</h2>
-<p>Thu thập dữ liệu thời tiết sẽ tập trung vào:</p>
+    style A fill:#f3e5f5
+    style C fill:#f3e5f5
+</code></pre><h2 id="các-bước-biến-đổi-chính">Các bước biến đổi chính</h2>
+<p>Lambda processor của chúng ta sẽ thực hiện các biến đổi chính sau:</p>
 <ol>
-<li><strong>Thời tiết Hiện tại</strong>: Điều kiện thời gian thực cho nhiều thành phố</li>
-<li><strong>Dự báo 5 Ngày</strong>: Dự đoán thời tiết mỗi 3 giờ</li>
-<li><strong>Cảnh báo Thời tiết</strong>: Thông báo thời tiết khắc nghiệt</li>
-<li><strong>Chất lượng Không khí</strong>: Chỉ số ô nhiễm và chất lượng không khí</li>
+<li><strong>Làm phẳng dữ liệu</strong>: Chuyển đổi cấu trúc JSON lồng nhau thành bản ghi phẳng</li>
+<li><strong>Chuyển đổi đơn vị</strong>: Chuyển đổi nhiệt độ từ Kelvin sang Celsius và Fahrenheit</li>
+<li><strong>Làm giàu dữ liệu</strong>: Thêm các trường dẫn xuất như chỉ số nhiệt và mức độ thoải mái</li>
+<li><strong>Chuẩn hóa định dạng</strong>: Đảm bảo tên trường và kiểu dữ liệu nhất quán</li>
+<li><strong>Xác thực dữ liệu</strong>: Lọc ra các bản ghi không hợp lệ hoặc không đầy đủ</li>
 </ol>
-<h2 id="thành-phố-mục-tiêu">Thành phố Mục tiêu</h2>
-<p>Chúng ta sẽ thu thập dữ liệu thời tiết cho các thành phố lớn ở Đông Nam Á:</p>
-<ul>
-<li><strong>Thành phố Hồ Chí Minh, Việt Nam</strong> (Chính)</li>
-<li><strong>Hà Nội, Việt Nam</strong></li>
-<li><strong>Singapore</strong></li>
-<li><strong>Bangkok, Thái Lan</strong></li>
-<li><strong>Jakarta, Indonesia</strong></li>
-<li><strong>Kuala Lumpur, Malaysia</strong></li>
-</ul>
-<h2 id="lịch-trình-thu-thập-dữ-liệu">Lịch trình Thu thập Dữ liệu</h2>
-<p><strong>Thời tiết Hiện tại</strong>: Mỗi giờ (24 lần/ngày)
-<strong>Dự báo Thời tiết</strong>: Mỗi 6 giờ (4 lần/ngày)
-<strong>Chất lượng Không khí</strong>: Mỗi 2 giờ (12 lần/ngày)</p>
-<h2 id="khối-lượng-dữ-liệu-dự-kiến">Khối lượng Dữ liệu Dự kiến</h2>
-<p>Trong workshop này, chúng ta sẽ thu thập:</p>
-<ul>
-<li><strong>Thời tiết Hiện tại</strong>: ~144 records/ngày (6 thành phố × 24 giờ)</li>
-<li><strong>Dữ liệu Dự báo</strong>: ~24 bộ dự báo/ngày (6 thành phố × 4 lần)</li>
-<li><strong>Khối lượng Hàng ngày</strong>: ~2,000 điểm dữ liệu thời tiết</li>
-<li><strong>Kích thước Record</strong>: 2-8 KB mỗi record thời tiết</li>
-</ul>
-<h2 id="ước-tính-chi-phí">Ước tính Chi phí</h2>
-<p>Chi phí hàng tháng cho module này (trong Free Tier):</p>
-<table>
-  <thead>
-      <tr>
-          <th>Dịch vụ</th>
-          <th>Sử dụng</th>
-          <th>Chi phí</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>OpenWeatherMap API</td>
-          <td>1,000 calls/ngày</td>
-          <td>Free Tier</td>
-      </tr>
-      <tr>
-          <td>Lambda Executions</td>
-          <td>4,000 invocations</td>
-          <td>Free Tier</td>
-      </tr>
-      <tr>
-          <td>S3 Storage</td>
-          <td>1 GB dữ liệu thời tiết</td>
-          <td>Free Tier</td>
-      </tr>
-      <tr>
-          <td>CloudWatch Logs</td>
-          <td>5 GB logs</td>
-          <td>$2.50</td>
-      </tr>
-      <tr>
-          <td><strong>Tổng</strong></td>
-          <td></td>
-          <td><strong>~$2.50/tháng</strong></td>
-      </tr>
-  </tbody>
-</table>
-
-<div class="notices tip" ><p>OpenWeatherMap cung cấp 1,000 lời gọi API miễn phí mỗi ngày, hoàn hảo cho nhu cầu workshop của chúng ta.</p>
-</div>
-
-
-<div class="notices info" ><p><strong>Ước tính thời gian</strong>: Module này sẽ mất khoảng 90-120 phút để hoàn thành, bao gồm thiết lập API và testing.</p>
-</div>
-
-<h2 id="dữ-liệu-thời-tiết-mẫu">Dữ liệu Thời tiết Mẫu</h2>
-<p>Đây là ví dụ về dữ liệu thời tiết chúng ta sẽ thu thập:</p>
-<h3 id="response-thời-tiết-hiện-tại">Response Thời tiết Hiện tại</h3>
+<h2 id="hàm-lambda-processor">Hàm Lambda Processor</h2>
+<p>Bạn sẽ tạo một hàm Lambda Python thực hiện:</p>
+<ol>
+<li>Lấy dữ liệu thời tiết thô từ bucket S3</li>
+<li>Áp dụng logic biến đổi</li>
+<li>Lưu trữ kết quả đã xử lý trong một vị trí S3 riêng biệt</li>
+<li>Xử lý lỗi một cách nhẹ nhàng</li>
+</ol>
+<h3 id="cấu-trúc-mã-mẫu">Cấu trúc mã mẫu</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s3_client <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;s3&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lambda_handler</span>(event, context):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Lấy dữ liệu thô từ S3</span>
+</span></span><span style="display:flex;"><span>    raw_bucket <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;weather-data-raw&#39;</span>
+</span></span><span style="display:flex;"><span>    processed_bucket <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;weather-data-processed&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Xử lý từng file trong event</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> record <span style="color:#f92672">in</span> event[<span style="color:#e6db74">&#39;Records&#39;</span>]:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Lấy key của file</span>
+</span></span><span style="display:flex;"><span>        key <span style="color:#f92672">=</span> record[<span style="color:#e6db74">&#39;s3&#39;</span>][<span style="color:#e6db74">&#39;object&#39;</span>][<span style="color:#e6db74">&#39;key&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Lấy dữ liệu thô</span>
+</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> s3_client<span style="color:#f92672">.</span>get_object(Bucket<span style="color:#f92672">=</span>raw_bucket, Key<span style="color:#f92672">=</span>key)
+</span></span><span style="display:flex;"><span>        raw_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(response[<span style="color:#e6db74">&#39;Body&#39;</span>]<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Biến đổi dữ liệu</span>
+</span></span><span style="display:flex;"><span>        processed_data <span style="color:#f92672">=</span> transform_weather_data(raw_data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Lưu vào bucket đã xử lý</span>
+</span></span><span style="display:flex;"><span>        processed_key <span style="color:#f92672">=</span> key<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;raw&#39;</span>, <span style="color:#e6db74">&#39;processed&#39;</span>)
+</span></span><span style="display:flex;"><span>        s3_client<span style="color:#f92672">.</span>put_object(
+</span></span><span style="display:flex;"><span>            Bucket<span style="color:#f92672">=</span>processed_bucket,
+</span></span><span style="display:flex;"><span>            Key<span style="color:#f92672">=</span>processed_key,
+</span></span><span style="display:flex;"><span>            Body<span style="color:#f92672">=</span>json<span style="color:#f92672">.</span>dumps(processed_data),
+</span></span><span style="display:flex;"><span>            ContentType<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;application/json&#39;</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;body&#39;</span>: <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Đã xử lý </span><span style="color:#e6db74">{</span>len(event[<span style="color:#e6db74">&#34;Records&#34;</span>])<span style="color:#e6db74">}</span><span style="color:#e6db74"> files&#39;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">transform_weather_data</span>(raw_data):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Triển khai logic biến đổi ở đây</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ...</span>
+</span></span></code></pre></div><h2 id="ví-dụ-biến-đổi-dữ-liệu">Ví dụ biến đổi dữ liệu</h2>
+<h3 id="dữ-liệu-openweathermap-thô">Dữ liệu OpenWeatherMap thô</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;coord&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;lon&#34;</span>: <span style="color:#ae81ff">106.6297</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;lat&#34;</span>: <span style="color:#ae81ff">10.8231</span>
-</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;coord&#34;</span>: { <span style="color:#f92672">&#34;lon&#34;</span>: <span style="color:#ae81ff">106.6297</span>, <span style="color:#f92672">&#34;lat&#34;</span>: <span style="color:#ae81ff">10.8231</span> },
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather&#34;</span>: [
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">803</span>,
@@ -576,13 +437,8 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;pressure&#34;</span>: <span style="color:#ae81ff">1013</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;humidity&#34;</span>: <span style="color:#ae81ff">74</span>
 </span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;speed&#34;</span>: <span style="color:#ae81ff">3.2</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;deg&#34;</span>: <span style="color:#ae81ff">220</span>
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;clouds&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;all&#34;</span>: <span style="color:#ae81ff">75</span>
-</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind&#34;</span>: { <span style="color:#f92672">&#34;speed&#34;</span>: <span style="color:#ae81ff">3.2</span>, <span style="color:#f92672">&#34;deg&#34;</span>: <span style="color:#ae81ff">220</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;clouds&#34;</span>: { <span style="color:#f92672">&#34;all&#34;</span>: <span style="color:#ae81ff">75</span> },
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;dt&#34;</span>: <span style="color:#ae81ff">1642248000</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sys&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;country&#34;</span>: <span style="color:#e6db74">&#34;VN&#34;</span>,
@@ -593,112 +449,46 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1566083</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Ho Chi Minh City&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="response-dự-báo-5-ngày">Response Dự báo 5 Ngày</h3>
+</span></span></code></pre></div><h3 id="dữ-liệu-đã-biến-đổi">Dữ liệu đã biến đổi</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;list&#34;</span>: [
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;dt&#34;</span>: <span style="color:#ae81ff">1642248000</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;main&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;temp&#34;</span>: <span style="color:#ae81ff">298.55</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;feels_like&#34;</span>: <span style="color:#ae81ff">299.25</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;temp_min&#34;</span>: <span style="color:#ae81ff">298.55</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;temp_max&#34;</span>: <span style="color:#ae81ff">302.44</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;pressure&#34;</span>: <span style="color:#ae81ff">1015</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;humidity&#34;</span>: <span style="color:#ae81ff">64</span>
-</span></span><span style="display:flex;"><span>      },
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;weather&#34;</span>: [
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;main&#34;</span>: <span style="color:#e6db74">&#34;Rain&#34;</span>,
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;light rain&#34;</span>,
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;10d&#34;</span>
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>      ],
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;wind&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;speed&#34;</span>: <span style="color:#ae81ff">4.1</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;deg&#34;</span>: <span style="color:#ae81ff">250</span>
-</span></span><span style="display:flex;"><span>      },
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;pop&#34;</span>: <span style="color:#ae81ff">0.32</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;dt_txt&#34;</span>: <span style="color:#e6db74">&#34;2025-01-15 09:00:00&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#e6db74">&#34;2025-01-15T09:00:00Z&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;city_name&#34;</span>: <span style="color:#e6db74">&#34;Ho Chi Minh City&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;country&#34;</span>: <span style="color:#e6db74">&#34;VN&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;latitude&#34;</span>: <span style="color:#ae81ff">10.8231</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;longitude&#34;</span>: <span style="color:#ae81ff">106.6297</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature_celsius&#34;</span>: <span style="color:#ae81ff">32.0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature_fahrenheit&#34;</span>: <span style="color:#ae81ff">89.6</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;feels_like_celsius&#34;</span>: <span style="color:#ae81ff">36.5</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;humidity_percent&#34;</span>: <span style="color:#ae81ff">74</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pressure_hpa&#34;</span>: <span style="color:#ae81ff">1013</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_main&#34;</span>: <span style="color:#e6db74">&#34;Clouds&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_description&#34;</span>: <span style="color:#e6db74">&#34;broken clouds&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_speed_ms&#34;</span>: <span style="color:#ae81ff">3.2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_direction_deg&#34;</span>: <span style="color:#ae81ff">220</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;cloud_coverage_percent&#34;</span>: <span style="color:#ae81ff">75</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;heat_index&#34;</span>: <span style="color:#ae81ff">38.2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;comfort_level&#34;</span>: <span style="color:#e6db74">&#34;uncomfortable&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;data_collection_date&#34;</span>: <span style="color:#e6db74">&#34;2025-01-15&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="api-endpoints-chúng-ta-sẽ-sử-dụng">API Endpoints Chúng ta sẽ Sử dụng</h2>
-<p><strong>Thời tiết Hiện tại</strong>: <code>https://api.openweathermap.org/data/2.5/weather</code></p>
+</span></span></code></pre></div><h2 id="các-bước-triển-khai">Các bước triển khai</h2>
+<ol>
+<li><strong>Tạo hàm Lambda</strong>: Thiết lập Lambda mới cho xử lý dữ liệu</li>
+<li><strong>Cấu hình S3 Trigger</strong>: Thiết lập thông báo sự kiện từ bucket dữ liệu thô</li>
+<li><strong>Triển khai logic biến đổi</strong>: Viết mã để biến đổi dữ liệu thời tiết</li>
+<li><strong>Thiết lập xử lý lỗi</strong>: Thêm xử lý lỗi và ghi log mạnh mẽ</li>
+<li><strong>Kiểm tra hàm</strong>: Xác minh quá trình biến đổi với dữ liệu thử nghiệm</li>
+</ol>
+<h2 id="lợi-ích-của-biến-đổi-dữ-liệu">Lợi ích của biến đổi dữ liệu</h2>
 <ul>
-<li>Điều kiện thời tiết thời gian thực</li>
-<li>Nhiệt độ, độ ẩm, áp suất, gió</li>
-<li>Mô tả thời tiết và biểu tượng</li>
+<li><strong>Cải thiện hiệu suất truy vấn</strong>: Cấu trúc phẳng dễ truy vấn hơn</li>
+<li><strong>Giảm chi phí lưu trữ</strong>: Định dạng dữ liệu tối ưu sử dụng ít dung lượng hơn</li>
+<li><strong>Nâng cao phân tích</strong>: Các trường dẫn xuất cho phép hiểu sâu hơn</li>
+<li><strong>Chất lượng dữ liệu tốt hơn</strong>: Xác thực đảm bảo dữ liệu đáng tin cậy</li>
 </ul>
-<p><strong>Dự báo 5 Ngày</strong>: <code>https://api.openweathermap.org/data/2.5/forecast</code></p>
-<ul>
-<li>Dự đoán thời tiết mỗi 3 giờ</li>
-<li>Dữ liệu dự báo 5 ngày</li>
-<li>Xác suất mưa</li>
-</ul>
-<p><strong>Chất lượng Không khí</strong>: <code>https://api.openweathermap.org/data/2.5/air_pollution</code></p>
-<ul>
-<li>Chỉ số chất lượng không khí (AQI)</li>
-<li>Nồng độ chất ô nhiễm</li>
-<li>Khuyến nghị sức khỏe</li>
-</ul>
-<p><strong>Geocoding</strong>: <code>https://api.openweathermap.org/geo/1.0/direct</code></p>
-<ul>
-<li>Chuyển đổi tên thành phố thành tọa độ</li>
-<li>Reverse geocoding cho địa điểm</li>
-<li>Hỗ trợ đa ngôn ngữ</li>
-</ul>
-<h2 id="luồng-xử-lý-dữ-liệu">Luồng Xử lý Dữ liệu</h2>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
-    A[CloudWatch Event] --&gt; B[Lambda Weather Collector]
-    B --&gt; C{API Call Success?}
-    C --&gt;|Yes| D[Parse JSON Response]
-    C --&gt;|No| E[Log Error &amp; Retry]
-    D --&gt; F[Add Metadata]
-    F --&gt; G[Store in S3]
-    G --&gt; H[Update CloudWatch Metrics]
-    E --&gt; I[Send SNS Alert]
-</code></pre><h2 id="cân-nhắc-bảo-mật">Cân nhắc Bảo mật</h2>
-<p><strong>Quản lý API Key</strong>:</p>
-<ul>
-<li>Lưu trữ API keys trong AWS Systems Manager Parameter Store</li>
-<li>Sử dụng IAM roles cho Lambda execution</li>
-<li>Mã hóa các tham số nhạy cảm</li>
-</ul>
-<p><strong>Bảo mật Mạng</strong>:</p>
-<ul>
-<li>Lambda functions trong private subnets (tùy chọn)</li>
-<li>VPC endpoints cho AWS services</li>
-<li>Security groups cho network access</li>
-</ul>
-<p><strong>Bảo vệ Dữ liệu</strong>:</p>
-<ul>
-<li>Bật mã hóa S3 bucket</li>
-<li>Mã hóa CloudWatch Logs</li>
-<li>Giao tiếp API bảo mật (HTTPS)</li>
-</ul>
-<h2 id="chiến-lược-xử-lý-lỗi">Chiến lược Xử lý Lỗi</h2>
-<p><strong>API Failures</strong>:</p>
-<ul>
-<li>Exponential backoff với jitter</li>
-<li>Số lần retry tối đa (3x)</li>
-<li>Dead letter queue cho failed requests</li>
-</ul>
-<p><strong>Xác thực Dữ liệu</strong>:</p>
-<ul>
-<li>Xác thực JSON schema</li>
-<li>Kiểm tra các trường bắt buộc</li>
-<li>Cảnh báo chất lượng dữ liệu</li>
-</ul>
-<p><strong>Giám sát</strong>:</p>
-<ul>
-<li>CloudWatch custom metrics</li>
-<li>Theo dõi thời gian phản hồi API</li>
-<li>Giám sát tỷ lệ lỗi</li>
-</ul>
-<h2 id="bắt-đầu-thôi">Bắt đầu thôi!</h2>
-<p>Sẵn sàng xây dựng hệ thống thu thập dữ liệu thời tiết? Hãy bắt đầu bằng việc thiết lập tài khoản OpenWeatherMap API và hiểu cấu trúc API trong phần tiếp theo.</p>
+<h2 id="các-bước-tiếp-theo">Các bước tiếp theo</h2>
+<p>Sau khi hoàn thành module này, bạn sẽ có một pipeline biến đổi dữ liệu hoạt động đầy đủ để chuẩn bị dữ liệu thời tiết của bạn cho phân tích. Trong module tiếp theo, chúng ta sẽ sử dụng Amazon Athena để truy vấn và phân tích dữ liệu đã xử lý này.</p>
 
-<div class="notices warning" ><p>Đảm bảo bạn có địa chỉ email hợp lệ để tạo tài khoản OpenWeatherMap, vì cần xác thực API key.</p>
+<div class="notices tip" ><p>Biến đổi dữ liệu là nơi bạn có thể thêm kiến thức chuyên ngành của mình. Hãy xem xét các chỉ số thời tiết bổ sung nào có thể hữu ích cho nhu cầu phân tích cụ thể của bạn.</p>
 </div>
 
 
@@ -762,7 +552,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -777,9 +566,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -799,6 +585,7 @@
             
             
                 
+                    
                     
                 
                 
@@ -820,10 +607,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/vi/1-introduction/" title="Giới thiệu"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/1-introduction/" title="Giới thiệu" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
