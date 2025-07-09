@@ -1,10 +1,10 @@
-+++
-title = "Weather Data Collection with Lambda"
-date = 2025-01-03T08:30:00+07:00
-weight = 2
-chapter = true
-pre = "<b>2. </b>"
-+++
+---
+title: "Weather Data Collection with Lambda"
+date: 2025-01-07T09:00:00+00:00
+weight: 20
+chapter: false
+pre: "<b>2. </b>"
+---
 
 # Weather Data Collection with Lambda
 

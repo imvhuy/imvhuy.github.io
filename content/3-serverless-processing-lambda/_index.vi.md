@@ -1,10 +1,10 @@
-+++
-title = "Xử lý và Biến đổi Dữ liệu"
-date = 2025-01-03T09:30:00+07:00
-weight = 3
-chapter = true
-pre = "<b>3. </b>"
-+++
+---
+title: "Xử lý và Chuyển đổi Dữ liệu"
+date: 2025-01-07T09:00:00+00:00
+weight: 30
+chapter: false
+pre: "<b>3. </b>"
+---
 
 # Xử lý và Biến đổi Dữ liệu
 

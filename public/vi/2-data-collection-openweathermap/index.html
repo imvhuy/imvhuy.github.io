@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi" class="js csstransforms3d">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Thiết lập Thu thập Dữ liệu với OpenWeatherMap API :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>Thu thập Dữ liệu Thời tiết với Lambda :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1751962891" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1751962891" rel="stylesheet">
-    <link href="/css/hybrid.css?1751962891" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1751962891" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1751962891" rel="stylesheet">
-    <link href="/css/auto-complete.css?1751962891" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1751962891" rel="stylesheet">
-    <link href="/css/theme.css?1751962891" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1751962891" rel="stylesheet">
+    <link href="/css/nucleus.css?1752047541" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752047541" rel="stylesheet">
+    <link href="/css/hybrid.css?1752047541" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752047541" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752047541" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752047541" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752047541" rel="stylesheet">
+    <link href="/css/theme.css?1752047541" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752047541" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1751962891" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752047541" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1751962891"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752047541"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1751962891"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1751962891"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752047541"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752047541"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/localhost:1313\/\/vi";
+        var baseurl = "\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1751962891"></script>
+<script type="text/javascript" src="/js/search.js?1752047541"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu" class="dd-item 
+    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu và Kiến trúc" class="dd-item 
         
         
         
         ">
       <a href="/vi/1-introduction/">
-           <b> 1. </b> Giới thiệu
+          <b>1. </b>Giới thiệu và Kiến trúc
           
             <i class="fas fa-check read-icon"></i>
           
@@ -108,13 +108,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/" title="Thiết lập Thu thập Dữ liệu với OpenWeatherMap API" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/" title="Thu thập Dữ liệu Thời tiết với Lambda" class="dd-item 
         
         active
         
         ">
       <a href="/vi/2-data-collection-openweathermap/">
-          <b>2. </b>Thiết lập Thu thập Dữ liệu với OpenWeatherMap API
+          <b>2. </b>Thu thập Dữ liệu Thời tiết với Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -174,13 +174,13 @@
  
   
     
-    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Biến đổi Dữ liệu" class="dd-item 
+    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu" class="dd-item 
         
         
         
         ">
       <a href="/vi/3-serverless-processing-lambda/">
-          <b>3. </b>Xử lý và Biến đổi Dữ liệu
+          <b>3. </b>Xử lý và Chuyển đổi Dữ liệu
           
             <i class="fas fa-check read-icon"></i>
           
@@ -227,7 +227,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/">English</option>
+                      <option id="en" value="/2-data-collection-openweathermap/">English</option>
                     
                   
               
@@ -241,7 +241,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/2-data-collection-openweathermap/" selected>Tiếng Việt</option>
+                      <option id="vi" value="/vi/2-data-collection-openweathermap/" selected>Tiếng Việt</option>
                     
                   
               
@@ -311,6 +311,8 @@
                         </a>
                     </span>
                   
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
                   <span class="links">
                  
                  
@@ -321,7 +323,7 @@
             
           
           
-            <a href='/vi/'>Hệ thống ETL Dữ liệu Thời tiết với AWS</a> > Thiết lập Thu thập Dữ liệu với OpenWeatherMap API
+            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > Thu thập Dữ liệu Thời tiết với Lambda
           
         
           
@@ -330,6 +332,38 @@
                   </span>
                 </div>
                 
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#tổng-quan">Tổng quan</a></li>
+    <li><a href="#những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</a></li>
+    <li><a href="#mục-tiêu-học-tập">Mục tiêu học tập</a></li>
+    <li><a href="#điều-kiện-tiên-quyết">Điều kiện tiên quyết</a></li>
+    <li><a href="#cấu-trúc-module">Cấu trúc Module</a></li>
+    <li><a href="#kiến-trúc">Kiến trúc</a></li>
+    <li><a href="#loại-dữ-liệu-thời-tiết">Loại Dữ liệu Thời tiết</a></li>
+    <li><a href="#thành-phố-mục-tiêu">Thành phố Mục tiêu</a></li>
+    <li><a href="#lịch-trình-thu-thập-dữ-liệu">Lịch trình Thu thập Dữ liệu</a></li>
+    <li><a href="#khối-lượng-dữ-liệu-dự-kiến">Khối lượng Dữ liệu Dự kiến</a></li>
+    <li><a href="#ước-tính-chi-phí">Ước tính Chi phí</a></li>
+    <li><a href="#dữ-liệu-thời-tiết-mẫu">Dữ liệu Thời tiết Mẫu</a>
+      <ul>
+        <li><a href="#response-thời-tiết-hiện-tại">Response Thời tiết Hiện tại</a></li>
+        <li><a href="#response-dự-báo-5-ngày">Response Dự báo 5 Ngày</a></li>
+      </ul>
+    </li>
+    <li><a href="#api-endpoints-chúng-ta-sẽ-sử-dụng">API Endpoints Chúng ta sẽ Sử dụng</a></li>
+    <li><a href="#luồng-xử-lý-dữ-liệu">Luồng Xử lý Dữ liệu</a></li>
+    <li><a href="#cân-nhắc-bảo-mật">Cân nhắc Bảo mật</a></li>
+    <li><a href="#chiến-lược-xử-lý-lỗi">Chiến lược Xử lý Lỗi</a></li>
+    <li><a href="#bắt-đầu-thôi">Bắt đầu thôi!</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
               </div>
             </div>
             
@@ -337,9 +371,12 @@
         
         </div>
         
-          <div id="chapter">
-        
         <div id="body-inner">
+          
+            <h1>
+              
+              Thu thập Dữ liệu Thời tiết với Lambda
+            </h1>
           
 
         
@@ -711,8 +748,6 @@
 </footer>
 
         
-            </div> 
-        
         </div> 
         
 
@@ -820,7 +855,7 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/vi/1-introduction/" title="Giới thiệu"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/vi/1-introduction/" title="Giới thiệu và Kiến trúc"> <i class="fa fa-chevron-left"></i></a>
 		
 		
 			<a class="nav nav-next" href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
@@ -833,19 +868,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1751962891"></script>
-    <script src="/js/perfect-scrollbar.min.js?1751962891"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1751962891"></script>
-    <script src="/js/jquery.sticky.js?1751962891"></script>
-    <script src="/js/featherlight.min.js?1751962891"></script>
-    <script src="/js/highlight.pack.js?1751962891"></script>
+    <script src="/js/clipboard.min.js?1752047541"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752047541"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752047541"></script>
+    <script src="/js/jquery.sticky.js?1752047541"></script>
+    <script src="/js/featherlight.min.js?1752047541"></script>
+    <script src="/js/highlight.pack.js?1752047541"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1751962891"></script>
-    <script src="/js/learn.js?1751962891"></script>
-    <script src="/js/hugo-learn.js?1751962891"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752047541"></script>
+    <script src="/js/learn.js?1752047541"></script>
+    <script src="/js/hugo-learn.js?1752047541"></script>
 
-    <link href="/mermaid/mermaid.css?1751962891" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1751962891"></script>
+    <link href="/mermaid/mermaid.css?1752047541" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752047541"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

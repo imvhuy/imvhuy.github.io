@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="js csstransforms3d">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Introduction &amp; Architecture Design :: Weather ETL Pipeline with AWS</title>
+    <title>Introduction and Architecture :: Weather ETL Pipeline with AWS</title>
 
     
-    <link href="/css/nucleus.css?1751962891" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1751962891" rel="stylesheet">
-    <link href="/css/hybrid.css?1751962891" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1751962891" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1751962891" rel="stylesheet">
-    <link href="/css/auto-complete.css?1751962891" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1751962891" rel="stylesheet">
-    <link href="/css/theme.css?1751962891" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1751962891" rel="stylesheet">
+    <link href="/css/nucleus.css?1752047540" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752047540" rel="stylesheet">
+    <link href="/css/hybrid.css?1752047540" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752047540" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752047540" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752047540" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752047540" rel="stylesheet">
+    <link href="/css/theme.css?1752047540" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752047540" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1751962891" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752047540" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1751962891"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752047540"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1751962891"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1751962891"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752047540"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752047540"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/localhost:1313\/";
+        var baseurl = "\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1751962891"></script>
+<script type="text/javascript" src="/js/search.js?1752047540"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/1-introduction/" title="Introduction &amp; Architecture Design" class="dd-item 
+    <li data-nav-id="/1-introduction/" title="Introduction and Architecture" class="dd-item 
         
         active
         
         ">
       <a href="/1-introduction/">
-          <b>1. </b>Introduction &amp; Architecture Design
+          <b>1. </b>Introduction and Architecture
           
             <i class="fas fa-check read-icon"></i>
           
@@ -311,7 +311,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/1-introduction/" selected>English</option>
+                      <option id="en" value="/1-introduction/" selected>English</option>
                     
                   
               
@@ -325,7 +325,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/1-introduction/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/1-introduction/">Tiếng Việt</option>
                     
                   
               
@@ -395,6 +395,8 @@
                         </a>
                     </span>
                   
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
                   <span class="links">
                  
                  
@@ -405,7 +407,7 @@
             
           
           
-            <a href='/'>Building ETL Data Pipeline for Weather Analytics on AWS</a> > Introduction & Architecture Design
+            <a href='/'>Building ETL Data Pipeline for Weather Analytics on AWS</a> > Introduction and Architecture
           
         
           
@@ -414,6 +416,32 @@
                   </span>
                 </div>
                 
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#workshop-overview">Workshop Overview</a></li>
+    <li><a href="#learning-objectives">Learning Objectives</a></li>
+    <li><a href="#architecture-overview">Architecture Overview</a></li>
+    <li><a href="#workshop-modules">Workshop Modules</a>
+      <ul>
+        <li><a href="#module-1-introduction-and-architecture"><strong>Module 1: Introduction and Architecture</strong></a></li>
+        <li><a href="#module-2-weather-data-collection-with-openweathermap"><strong>Module 2: Weather Data Collection with OpenWeatherMap</strong></a></li>
+        <li><a href="#module-3-serverless-data-processing-with-lambda"><strong>Module 3: Serverless Data Processing with Lambda</strong></a></li>
+        <li><a href="#module-4-data-analysis-with-amazon-athena"><strong>Module 4: Data Analysis with Amazon Athena</strong></a></li>
+        <li><a href="#module-5-data-visualization-with-quicksight"><strong>Module 5: Data Visualization with QuickSight</strong></a></li>
+        <li><a href="#module-6-resource-cleanup-and-next-steps"><strong>Module 6: Resource Cleanup and Next Steps</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#estimated-costs">Estimated Costs</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
               </div>
             </div>
             
@@ -421,118 +449,108 @@
         
         </div>
         
-          <div id="chapter">
-        
         <div id="body-inner">
+          
+            <h1>
+              
+              Introduction and Architecture
+            </h1>
           
 
         
 
 
 
-	<h1 id="introduction--architecture-design">Introduction &amp; Architecture Design</h1>
-<p>Welcome to the <strong>Simplified Weather ETL Pipeline Workshop</strong>! In this streamlined workshop, you&rsquo;ll build a basic serverless data pipeline using AWS services to collect, process, and analyze weather data.</p>
+	<h1 id="building-a-serverless-weather-etl-pipeline">Building a Serverless Weather ETL Pipeline</h1>
+<p>Welcome to this hands-on workshop where you&rsquo;ll build a complete <strong>Extract, Transform, Load (ETL)</strong> pipeline using AWS serverless services to collect, process, and visualize weather data.</p>
 <h2 id="workshop-overview">Workshop Overview</h2>
-<p>This workshop demonstrates a simplified ETL (Extract, Transform, Load) pipeline that:</p>
+<p>In this workshop, you&rsquo;ll create a simplified but complete weather data pipeline that demonstrates core ETL concepts using AWS serverless technologies. The workshop is designed to be completed in <strong>2-3 hours</strong> with an estimated cost of <strong>under $10</strong> for the entire experience.</p>
+<h2 id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this workshop, you will:</p>
 <ul>
-<li><strong>Collects</strong> weather data from OpenWeatherMap API</li>
-<li><strong>Processes</strong> data using serverless Lambda functions</li>
-<li><strong>Stores</strong> data in S3</li>
-<li><strong>Analyzes</strong> data using Athena</li>
-<li><strong>Visualizes</strong> insights with QuickSight</li>
+<li>Build a serverless data collection system using AWS Lambda</li>
+<li>Implement data transformation and processing workflows</li>
+<li>Store and query data using Amazon S3 and Athena</li>
+<li>Create visualizations with Amazon QuickSight</li>
+<li>Apply AWS best practices for cost optimization and resource cleanup</li>
 </ul>
-<h2 id="what-youll-build">What You&rsquo;ll Build</h2>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
-    A[OpenWeatherMap API] --&gt; B[Lambda Collector]
-    B --&gt; C[S3 Raw Data]
-    C --&gt; D[Lambda Processor]
-    D --&gt; E[S3 Processed Data]
-    E --&gt; F[Athena Analytics]
-    F --&gt; G[QuickSight Dashboard]
-
-    H[CloudWatch Events] --&gt; B
-
-    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style C fill:#f3e5f5
-    style D fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style E fill:#f3e5f5
-    style F fill:#4fc3f7
-    style G fill:#66bb6a
-</code></pre><h2 id="simplified-architecture">Simplified Architecture</h2>
-<p>This streamlined workshop focuses on the core components:</p>
-<ol>
-<li><strong>Data Collection</strong>: Lambda function to collect weather data</li>
-<li><strong>Data Processing</strong>: Lambda function to transform raw data</li>
-<li><strong>Data Storage</strong>: S3 buckets for storing raw and processed data</li>
-<li><strong>Data Analysis</strong>: Basic Athena queries</li>
-<li><strong>Visualization</strong>: Simple QuickSight dashboard</li>
-</ol>
-<h2 id="workshop-learning-objectives">Workshop Learning Objectives</h2>
-<p>By completing this workshop, you will learn how to:</p>
-<ol>
-<li><strong>Set up</strong> OpenWeatherMap API for data collection</li>
-<li><strong>Create</strong> Lambda functions to collect and process weather data</li>
-<li><strong>Store</strong> data in S3 with basic organization</li>
-<li><strong>Transform</strong> raw weather data into a more usable format</li>
-<li><strong>Query</strong> data using Amazon Athena</li>
-<li><strong>Visualize</strong> weather patterns with Amazon QuickSight</li>
-</ol>
+<h2 id="architecture-overview">Architecture Overview</h2>
+<p>Our weather ETL pipeline follows this simplified serverless architecture:</p>
+<pre tabindex="0"><code>OpenWeatherMap API → Lambda Collector → S3 Raw Data → Lambda Processor → S3 Processed Data → Athena Analytics → QuickSight Dashboard
+</code></pre><p><strong>Key Components:</strong></p>
+<ul>
+<li><strong>Data Source</strong>: OpenWeatherMap API for real-time weather data</li>
+<li><strong>Collection</strong>: AWS Lambda function to fetch weather data</li>
+<li><strong>Storage</strong>: Amazon S3 for both raw and processed data</li>
+<li><strong>Processing</strong>: AWS Lambda for data transformation</li>
+<li><strong>Analytics</strong>: Amazon Athena for SQL queries</li>
+<li><strong>Visualization</strong>: Amazon QuickSight for dashboards</li>
+</ul>
+<h2 id="workshop-modules">Workshop Modules</h2>
+<p>This workshop is organized into 6 modules:</p>
+<h3 id="module-1-introduction-and-architecture"><strong>Module 1: Introduction and Architecture</strong></h3>
+<ul>
+<li>Workshop overview and learning objectives</li>
+<li>Architecture design and AWS services introduction</li>
+<li>Prerequisites and setup requirements</li>
+</ul>
+<h3 id="module-2-weather-data-collection-with-openweathermap"><strong>Module 2: Weather Data Collection with OpenWeatherMap</strong></h3>
+<ul>
+<li>Setting up OpenWeatherMap API account</li>
+<li>Creating Lambda function for data collection</li>
+<li>Configuring automated data retrieval</li>
+<li>Testing and monitoring the collection process</li>
+</ul>
+<h3 id="module-3-serverless-data-processing-with-lambda"><strong>Module 3: Serverless Data Processing with Lambda</strong></h3>
+<ul>
+<li>Building data transformation Lambda function</li>
+<li>Converting raw weather JSON to analytical format</li>
+<li>Implementing data validation and enrichment</li>
+<li>Setting up processing triggers</li>
+</ul>
+<h3 id="module-4-data-analysis-with-amazon-athena"><strong>Module 4: Data Analysis with Amazon Athena</strong></h3>
+<ul>
+<li>Creating S3 data lake structure</li>
+<li>Setting up Athena tables and schemas</li>
+<li>Writing SQL queries for weather analysis</li>
+<li>Exploring data patterns and insights</li>
+</ul>
+<h3 id="module-5-data-visualization-with-quicksight"><strong>Module 5: Data Visualization with QuickSight</strong></h3>
+<ul>
+<li>Setting up Amazon QuickSight</li>
+<li>Creating weather dashboards</li>
+<li>Building interactive visualizations</li>
+<li>Sharing and publishing dashboards</li>
+</ul>
+<h3 id="module-6-resource-cleanup-and-next-steps"><strong>Module 6: Resource Cleanup and Next Steps</strong></h3>
+<ul>
+<li>Comprehensive cleanup checklist</li>
+<li>Cost optimization strategies</li>
+<li>Suggested improvements and extensions</li>
+<li>Additional learning resources</li>
+</ul>
 <h2 id="prerequisites">Prerequisites</h2>
-<p>Before starting this workshop, you should have:</p>
+<p>Before starting this workshop, ensure you have:</p>
 <ul>
-<li>AWS account with administrative access</li>
-<li>Basic knowledge of AWS services</li>
-<li>Familiarity with Python (for Lambda functions)</li>
+<li><strong>AWS Account</strong> with administrative access</li>
+<li><strong>Basic familiarity</strong> with AWS console</li>
+<li><strong>Understanding</strong> of basic programming concepts</li>
+<li><strong>OpenWeatherMap account</strong> (free tier sufficient)</li>
 </ul>
-<h2 id="cost-estimates">Cost Estimates</h2>
-<p>This simplified workshop minimizes costs:</p>
+<h2 id="estimated-costs">Estimated Costs</h2>
+<p>This workshop is designed to be cost-effective:</p>
 <ul>
-<li><strong>Lambda</strong>: Free tier covers most usage</li>
-<li><strong>S3</strong>: Minimal storage (~1MB) - essentially free</li>
-<li><strong>CloudWatch</strong>: Basic monitoring included in free tier</li>
-<li><strong>Athena</strong>: ~$0.05 (minimal queries)</li>
-<li><strong>QuickSight</strong>: Free trial or ~$9.00 (author license for 30 days)</li>
+<li><strong>OpenWeatherMap API</strong>: Free (up to 1,000 calls/day)</li>
+<li><strong>AWS Lambda</strong>: ~$1-2 (well within free tier)</li>
+<li><strong>Amazon S3</strong>: ~$1-2 for storage</li>
+<li><strong>Amazon Athena</strong>: ~$2-3 for queries</li>
+<li><strong>Amazon QuickSight</strong>: ~$3-4 (30-day free trial available)</li>
 </ul>
-<p><strong>Total Estimated Cost</strong>: Less than $10.00 for the entire workshop</p>
-<h2 id="workshop-structure">Workshop Structure</h2>
-<p>This streamlined workshop consists of 5 core modules:</p>
-<h3 id="module-1-introduction--architecture">Module 1: Introduction &amp; Architecture</h3>
-<ul>
-<li>Workshop overview and simplified architecture</li>
-<li>AWS services overview</li>
-</ul>
-<h3 id="module-2-weather-data-collection">Module 2: Weather Data Collection</h3>
-<ul>
-<li>OpenWeatherMap API setup (simplified)</li>
-<li>Basic Lambda function for data collection</li>
-<li>Simple scheduling with CloudWatch Events</li>
-</ul>
-<h3 id="module-3-data-processing-and-transformation">Module 3: Data Processing and Transformation</h3>
-<ul>
-<li>Data transformation patterns</li>
-<li>Lambda processing functions</li>
-<li>Converting raw weather data to analytics-ready format</li>
-</ul>
-<h3 id="module-4-data-analysis-with-athena">Module 4: Data Analysis with Athena</h3>
-<ul>
-<li>Basic S3 data organization</li>
-<li>Simple Athena queries for weather analysis</li>
-</ul>
-<h3 id="module-5-visualization--cleanup">Module 5: Visualization &amp; Cleanup</h3>
-<ul>
-<li>Basic QuickSight dashboard</li>
-<li>Resource cleanup procedures</li>
-</ul>
+<p><strong>Total estimated cost</strong>: Under $10 for the complete workshop</p>
 <h2 id="getting-started">Getting Started</h2>
-<p>Ready to build your simplified weather data pipeline? Let&rsquo;s start with Module 2 where we&rsquo;ll set up basic weather data collection.</p>
-
-<div class="notices info" ><p><strong>Estimated Time</strong>: 2-3 hours total</p>
-</div>
-
-
-<div class="notices tip" ><p>This workshop has been simplified to focus on core concepts. For a more comprehensive experience, advanced features are available as optional extensions.</p>
-</div>
-
+<p>Ready to begin? Let&rsquo;s start with <strong>Module 2: Weather Data Collection with OpenWeatherMap</strong> where you&rsquo;ll set up your data source and create your first Lambda function.</p>
+<hr>
+<p><strong>Note</strong>: Remember to follow the cleanup procedures in Module 6 to avoid ongoing charges after completing the workshop.</p>
 
 
 
@@ -542,8 +560,6 @@
 	
 </footer>
 
-        
-            </div> 
         
         </div> 
         
@@ -710,19 +726,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1751962891"></script>
-    <script src="/js/perfect-scrollbar.min.js?1751962891"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1751962891"></script>
-    <script src="/js/jquery.sticky.js?1751962891"></script>
-    <script src="/js/featherlight.min.js?1751962891"></script>
-    <script src="/js/highlight.pack.js?1751962891"></script>
+    <script src="/js/clipboard.min.js?1752047540"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752047540"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752047540"></script>
+    <script src="/js/jquery.sticky.js?1752047540"></script>
+    <script src="/js/featherlight.min.js?1752047540"></script>
+    <script src="/js/highlight.pack.js?1752047540"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1751962891"></script>
-    <script src="/js/learn.js?1751962891"></script>
-    <script src="/js/hugo-learn.js?1751962891"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752047540"></script>
+    <script src="/js/learn.js?1752047540"></script>
+    <script src="/js/hugo-learn.js?1752047540"></script>
 
-    <link href="/mermaid/mermaid.css?1751962891" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1751962891"></script>
+    <link href="/mermaid/mermaid.css?1752047540" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752047540"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

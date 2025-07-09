@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi" class="js csstransforms3d">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Hệ thống ETL Dữ liệu Thời tiết với AWS :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>Xây dựng Pipeline ETL Thời tiết Serverless :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1751962891" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1751962891" rel="stylesheet">
-    <link href="/css/hybrid.css?1751962891" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1751962891" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1751962891" rel="stylesheet">
-    <link href="/css/auto-complete.css?1751962891" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1751962891" rel="stylesheet">
-    <link href="/css/theme.css?1751962891" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1751962891" rel="stylesheet">
+    <link href="/css/nucleus.css?1752047541" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752047541" rel="stylesheet">
+    <link href="/css/hybrid.css?1752047541" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752047541" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752047541" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752047541" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752047541" rel="stylesheet">
+    <link href="/css/theme.css?1752047541" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752047541" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1751962891" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752047541" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1751962891"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752047541"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1751962891"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1751962891"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752047541"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752047541"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/localhost:1313\/\/vi";
+        var baseurl = "\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1751962891"></script>
+<script type="text/javascript" src="/js/search.js?1752047541"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu" class="dd-item 
+    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu và Kiến trúc" class="dd-item 
         
         
         
         ">
       <a href="/vi/1-introduction/">
-           <b> 1. </b> Giới thiệu
+          <b>1. </b>Giới thiệu và Kiến trúc
           
             <i class="fas fa-check read-icon"></i>
           
@@ -108,13 +108,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/" title="Thiết lập Thu thập Dữ liệu với OpenWeatherMap API" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/" title="Thu thập Dữ liệu Thời tiết với Lambda" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/">
-          <b>2. </b>Thiết lập Thu thập Dữ liệu với OpenWeatherMap API
+          <b>2. </b>Thu thập Dữ liệu Thời tiết với Lambda
           
             <i class="fas fa-check read-icon"></i>
           
@@ -174,13 +174,13 @@
  
   
     
-    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Biến đổi Dữ liệu" class="dd-item 
+    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu" class="dd-item 
         
         
         
         ">
       <a href="/vi/3-serverless-processing-lambda/">
-          <b>3. </b>Xử lý và Biến đổi Dữ liệu
+          <b>3. </b>Xử lý và Chuyển đổi Dữ liệu
           
             <i class="fas fa-check read-icon"></i>
           
@@ -227,7 +227,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/">English</option>
+                      <option id="en" value="/">English</option>
                     
                   
               
@@ -241,7 +241,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/" selected>Tiếng Việt</option>
+                      <option id="vi" value="/vi/" selected>Tiếng Việt</option>
                     
                   
               
@@ -314,126 +314,96 @@
 </span>
 
  
-<h1 id="workshop-hệ-thống-etl-dữ-liệu-thời-tiết">Workshop Hệ thống ETL Dữ liệu Thời tiết</h1>
-<p><img src="/images/etl/image.png" alt="Kiến trúc Hệ thống ETL Dữ liệu Thời tiết"></p>
-<p>Chào mừng bạn đến với <strong>Workshop Hệ thống ETL Dữ liệu Thời tiết</strong>! Trong workshop thực hành này, bạn sẽ xây dựng một hệ thống pipeline dữ liệu serverless hoàn chỉnh sử dụng các dịch vụ AWS để thu thập, xử lý và phân tích dữ liệu thời tiết.</p>
+<h1 id="workshop-xây-dựng-pipeline-etl-thời-tiết-serverless">Workshop Xây dựng Pipeline ETL Thời tiết Serverless</h1>
+<p>Chào mừng đến với workshop thực hành này, nơi bạn sẽ xây dựng một pipeline <strong>Extract, Transform, Load (ETL)</strong> hoàn chỉnh sử dụng các dịch vụ serverless của AWS để thu thập, xử lý và trực quan hóa dữ liệu thời tiết.</p>
 <h2 id="tổng-quan-workshop">Tổng quan Workshop</h2>
-<p>Workshop này trình bày cách xây dựng một pipeline ETL (Extract, Transform, Load) production-ready sử dụng công nghệ serverless của AWS. Bạn sẽ học cách:</p>
+<p>Trong workshop này, bạn sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS. Workshop được thiết kế để hoàn thành trong <strong>2-3 giờ</strong> với chi phí ước tính <strong>dưới $10</strong> cho toàn bộ trải nghiệm.</p>
+<h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ Xây dựng</h2>
+<p>Workshop này trình bày cách xây dựng một pipeline ETL đơn giản sử dụng công nghệ serverless của AWS:</p>
 <ul>
 <li><strong>Thu thập</strong> dữ liệu thời tiết từ OpenWeatherMap API sử dụng AWS Lambda</li>
-<li><strong>Lưu trữ</strong> dữ liệu trong S3 data lake có khả năng mở rộng với phân vùng hợp lý</li>
-<li><strong>Xử lý</strong> và chuyển đổi dữ liệu sử dụng serverless functions</li>
-<li><strong>Phân tích</strong> dữ liệu sử dụng Amazon Athena với SQL queries</li>
-<li><strong>Trực quan hóa</strong> insights thông qua Amazon QuickSight dashboards</li>
-<li><strong>Giám sát</strong> và cảnh báo về hiệu suất hệ thống và điều kiện thời tiết</li>
+<li><strong>Xử lý</strong> và chuyển đổi dữ liệu thô thành định dạng phân tích</li>
+<li><strong>Lưu trữ</strong> dữ liệu trong Amazon S3 cho cả dữ liệu thô và đã xử lý</li>
+<li><strong>Phân tích</strong> dữ liệu sử dụng Amazon Athena với truy vấn SQL</li>
+<li><strong>Trực quan hóa</strong> insights thông qua Amazon QuickSight dashboard</li>
+<li><strong>Dọn dẹp</strong> tài nguyên để tối ưu chi phí</li>
 </ul>
-<h2 id="các-module-workshop">Các Module Workshop</h2>
-<h3 id="1-giới-thiệu--thiết-kế-kiến-trúc">1. <a href="/vi/1-introduction/">Giới thiệu &amp; Thiết kế Kiến trúc</a></h3>
-<p>Tìm hiểu về kiến trúc workshop, các dịch vụ AWS được sử dụng, và patterns thiết kế để xây dựng pipeline ETL serverless.</p>
-<h3 id="2-thu-thập-dữ-liệu-thời-tiết-với-lambda">2. <a href="/vi/2-data-collection-openweathermap/">Thu thập Dữ liệu Thời tiết với Lambda</a></h3>
-<p>Thiết lập tích hợp OpenWeatherMap API và xây dựng Lambda functions để tự động thu thập dữ liệu thời tiết từ nhiều thành phố.</p>
-<h3 id="3-xử-lý-và-chuyển-đổi-dữ-liệu">3. <a href="/vi/3-serverless-processing-lambda/">Xử lý và Chuyển đổi Dữ liệu</a></h3>
-<p>Xây dựng serverless data processing functions để làm sạch, chuyển đổi và cấu trúc dữ liệu thời tiết cho analytics.</p>
-<h3 id="4-thiết-lập-s3-data-lake">4. <a href="4-data-storage-solutions/">Thiết lập S3 Data Lake</a></h3>
-<p>Thiết kế và triển khai S3-based data lake có khả năng mở rộng với phân vùng, lifecycle management và bảo mật hợp lý.</p>
-<h3 id="5-phân-tích-với-amazon-athena">5. <a href="5-analytics-visualization/">Phân tích với Amazon Athena</a></h3>
-<p>Query và phân tích dữ liệu thời tiết sử dụng Amazon Athena với SQL queries tối ưu và performance tuning.</p>
-<h3 id="6-trực-quan-hóa-thời-tiết-với-quicksight">6. <a href="6-monitoring-optimization/">Trực quan hóa Thời tiết với QuickSight</a></h3>
-<p>Tạo interactive dashboards và visualizations sử dụng Amazon QuickSight để chuyển đổi dữ liệu thành actionable insights.</p>
-<h3 id="7-giám-sát-và-cảnh-báo-thời-tiết">7. <a href="7-testing-validation/">Giám sát và Cảnh báo Thời tiết</a></h3>
-<p>Triển khai giám sát toàn diện, cảnh báo và automated incident response cho weather pipeline của bạn.</p>
-<h3 id="8-dọn-dẹp-và-bước-tiếp-theo">8. <a href="8-cleanup-next-steps/">Dọn dẹp và Bước tiếp theo</a></h3>
-<p>Dọn dẹp resources, khám phá các tính năng nâng cao và tìm hiểu về cân nhắc triển khai production.</p>
-<h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</h2>
-<p>Khi kết thúc workshop này, bạn sẽ triển khai một weather data pipeline hoàn chỉnh có khả năng:</p>
+<h2 id="kiến-trúc-tổng-quan">Kiến trúc Tổng quan</h2>
+<p>Pipeline ETL thời tiết của chúng ta tuân theo kiến trúc serverless đơn giản này:</p>
+<pre tabindex="0"><code>OpenWeatherMap API → Lambda Collector → S3 Raw Data → Lambda Processor → S3 Processed Data → Athena Analytics → QuickSight Dashboard
+</code></pre><h2 id="các-module-workshop">Các Module Workshop</h2>
+<p>Workshop này được tổ chức thành 6 module:</p>
+<h3 id="1-giới-thiệu-và-kiến-trúc">1. <a href="/vi/1-introduction/">Giới thiệu và Kiến trúc</a></h3>
+<p>Tổng quan workshop và mục tiêu học tập, thiết kế kiến trúc và giới thiệu các dịch vụ AWS, yêu cầu tiên quyết và thiết lập.</p>
+<h3 id="2-thu-thập-dữ-liệu-thời-tiết-với-openweathermap">2. <a href="/vi/2-data-collection-openweathermap/">Thu thập Dữ liệu Thời tiết với OpenWeatherMap</a></h3>
+<p>Thiết lập tài khoản OpenWeatherMap API, tạo Lambda function cho thu thập dữ liệu, cấu hình tự động lấy dữ liệu, và kiểm tra giám sát quá trình thu thập.</p>
+<h3 id="3-xử-lý-dữ-liệu-serverless-với-lambda">3. <a href="/vi/3-serverless-processing-lambda/">Xử lý Dữ liệu Serverless với Lambda</a></h3>
+<p>Xây dựng Lambda function chuyển đổi dữ liệu, chuyển đổi JSON thời tiết thô sang định dạng phân tích, triển khai xác thực và làm giàu dữ liệu.</p>
+<h3 id="4-phân-tích-dữ-liệu-với-amazon-athena">4. <a href="4-data-storage-solutions/">Phân tích Dữ liệu với Amazon Athena</a></h3>
+<p>Tạo cấu trúc data lake S3, thiết lập bảng và schema Athena, viết truy vấn SQL cho phân tích thời tiết, và khám phá các mẫu dữ liệu.</p>
+<h3 id="5-trực-quan-hóa-dữ-liệu-với-quicksight">5. <a href="5-analytics-visualization/">Trực quan hóa Dữ liệu với QuickSight</a></h3>
+<p>Thiết lập Amazon QuickSight, tạo dashboard thời tiết, xây dựng trực quan hóa tương tác, và chia sẻ xuất bản dashboard.</p>
+<h3 id="6-dọn-dẹp-tài-nguyên-và-bước-tiếp-theo">6. <a href="6-cleanup-next-steps/">Dọn dẹp Tài nguyên và Bước tiếp theo</a></h3>
+<p>Danh sách kiểm tra dọn dẹp toàn diện, chiến lược tối ưu chi phí, đề xuất cải tiến và mở rộng, và tài nguyên học tập bổ sung.</p>
+<h2 id="mục-tiêu-học-tập">Mục tiêu Học tập</h2>
+<p>Sau khi hoàn thành workshop này, bạn sẽ:</p>
 <ul>
-<li><strong>Tự động thu thập</strong> dữ liệu thời tiết mỗi giờ từ 6 thành phố Đông Nam Á</li>
-<li><strong>Xử lý và lưu trữ</strong> dữ liệu trong cấu trúc S3 data lake được tối ưu</li>
-<li><strong>Cung cấp khả năng SQL analytics</strong> thông qua Amazon Athena</li>
-<li><strong>Cung cấp interactive dashboards</strong> để giám sát và phân tích thời tiết</li>
-<li><strong>Giám sát system health</strong> với automated alerts và recovery</li>
+<li>Xây dựng hệ thống thu thập dữ liệu serverless sử dụng AWS Lambda</li>
+<li>Triển khai quy trình chuyển đổi và xử lý dữ liệu</li>
+<li>Lưu trữ và truy vấn dữ liệu sử dụng Amazon S3 và Athena</li>
+<li>Tạo trực quan hóa với Amazon QuickSight</li>
+<li>Áp dụng các best practices của AWS cho tối ưu chi phí và dọn dẹp tài nguyên</li>
 </ul>
-<h2 id="yêu-cầu-tiên-quyết">Yêu cầu tiên quyết</h2>
-<p>Để hoàn thành workshop này, bạn cần:</p>
+<h2 id="yêu-cầu-tiên-quyết">Yêu cầu Tiên quyết</h2>
+<p>Trước khi bắt đầu workshop này, hãy đảm bảo bạn có:</p>
 <ul>
-<li><strong>AWS Account</strong> với quyền truy cập administrative</li>
-<li><strong>OpenWeatherMap Account</strong> (có free tier)</li>
-<li><strong>Kiến thức cơ bản</strong> về các dịch vụ AWS (Lambda, S3, CloudWatch)</li>
-<li><strong>Kinh nghiệm lập trình</strong> với Python</li>
-<li><strong>Hiểu biết</strong> về định dạng dữ liệu JSON và SQL queries</li>
+<li><strong>Tài khoản AWS</strong> với quyền truy cập quản trị</li>
+<li><strong>Tài khoản OpenWeatherMap</strong> (tier miễn phí là đủ)</li>
+<li><strong>Hiểu biết cơ bản</strong> về AWS console</li>
+<li><strong>Hiểu biết</strong> về các khái niệm lập trình cơ bản</li>
+<li><strong>Hiểu biết</strong> về định dạng dữ liệu JSON</li>
 </ul>
-<h2 id="tổng-quan-kiến-trúc">Tổng quan Kiến trúc</h2>
-<p>Workshop xây dựng một kiến trúc serverless, event-driven:</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
-    A[OpenWeatherMap API] --&gt; B[Lambda Collectors]
-    B --&gt; C[S3 Data Lake]
-    C --&gt; D[Lambda Processors]
-    D --&gt; E[Athena Analytics]
-    E --&gt; F[QuickSight Dashboards]
-
-    G[CloudWatch Events] --&gt; B
-    H[CloudWatch Monitoring] --&gt; I[SNS Alerts]
-    J[Parameter Store] --&gt; B
-
-    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style C fill:#f3e5f5
-    style D fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style E fill:#4fc3f7
-    style F fill:#66bb6a
-</code></pre><h2 id="lợi-ích-chính">Lợi ích chính</h2>
+<h2 id="lợi-ích-của-phương-pháp-serverless">Lợi ích của Phương pháp Serverless</h2>
 <p>Phương pháp serverless này cung cấp:</p>
 <ul>
 <li><strong>Hiệu quả Chi phí</strong>: Chỉ trả cho những gì bạn sử dụng với serverless computing</li>
-<li><strong>Khả năng Mở rộng</strong>: Tự động scale với data volume và processing needs</li>
-<li><strong>Độ Tin cậy</strong>: Fault tolerance tích hợp và automated recovery</li>
+<li><strong>Khả năng Mở rộng</strong>: Tự động scale với nhu cầu xử lý dữ liệu</li>
+<li><strong>Độ Tin cậy</strong>: Fault tolerance tích hợp và khôi phục tự động</li>
 <li><strong>Tính Bảo trì</strong>: Yêu cầu quản lý infrastructure tối thiểu</li>
-<li><strong>Bảo mật</strong>: AWS managed security với fine-grained access controls</li>
+<li><strong>Bảo mật</strong>: Bảo mật được quản lý bởi AWS với kiểm soát truy cập chi tiết</li>
 </ul>
 <h2 id="ước-tính-chi-phí">Ước tính Chi phí</h2>
-<p>Workshop được thiết kế cost-effective sử dụng AWS free tier:</p>
+<p>Workshop được thiết kế để tiết kiệm chi phí:</p>
 <ul>
-<li><strong>Chi phí Hàng tháng Ước tính</strong>: ~$12 USD</li>
-<li><strong>Thành phần Chi phí Chính</strong>: QuickSight ($9), CloudWatch metrics ($2-3)</li>
-<li><strong>Data Processing</strong>: Chi phí tối thiểu với Lambda và S3 free tier</li>
-<li><strong>Cleanup Có sẵn</strong>: Hướng dẫn cleanup resources hoàn chỉnh được cung cấp</li>
+<li><strong>OpenWeatherMap API</strong>: Miễn phí (lên đến 1,000 cuộc gọi/ngày)</li>
+<li><strong>AWS Lambda</strong>: ~$1-2 (trong phạm vi free tier)</li>
+<li><strong>Amazon S3</strong>: ~$1-2 cho lưu trữ</li>
+<li><strong>Amazon Athena</strong>: ~$2-3 cho truy vấn</li>
+<li><strong>Amazon QuickSight</strong>: ~$3-4 (dùng thử miễn phí 30 ngày)</li>
 </ul>
+<p><strong>Tổng chi phí ước tính</strong>: Dưới $10 cho toàn bộ workshop</p>
 <h2 id="đối-tượng-mục-tiêu">Đối tượng Mục tiêu</h2>
 <p>Workshop này lý tưởng cho:</p>
 <ul>
-<li><strong>Data Engineers</strong> quan tâm đến serverless ETL patterns</li>
-<li><strong>Solutions Architects</strong> thiết kế data analytics solutions</li>
-<li><strong>Developers</strong> xây dựng data-driven applications</li>
-<li><strong>Business Analysts</strong> làm việc với weather và IoT data</li>
-<li><strong>Students</strong> học cloud-based data engineering</li>
+<li><strong>Data Engineer</strong> quan tâm đến serverless ETL patterns</li>
+<li><strong>Solutions Architect</strong> thiết kế data analytics solutions</li>
+<li><strong>Developer</strong> xây dựng ứng dụng dựa trên dữ liệu</li>
+<li><strong>Business Analyst</strong> làm việc với dữ liệu thời tiết</li>
+<li><strong>Sinh viên</strong> học cloud-based data engineering</li>
 </ul>
-<h2 id="kết-quả-học-tập">Kết quả Học tập</h2>
-<p>Sau khi hoàn thành, bạn sẽ hiểu:</p>
+<h2 id="kết-quả-mong-đợi">Kết quả Mong đợi</h2>
+<p>Sau khi hoàn thành workshop, bạn sẽ có:</p>
 <ul>
-<li><strong>Serverless ETL Patterns</strong>: Nguyên tắc thiết kế cho event-driven data pipelines</li>
-<li><strong>AWS Service Integration</strong>: Cách Lambda, S3, Athena và QuickSight hoạt động cùng nhau</li>
-<li><strong>Data Lake Architecture</strong>: Best practices để tổ chức và lưu trữ dữ liệu</li>
-<li><strong>Real-time Processing</strong>: Xây dựng data collection và transformation responsive</li>
-<li><strong>Analytics and Visualization</strong>: Tạo insights từ raw data</li>
-<li><strong>Production Operations</strong>: Giám sát, cảnh báo và duy trì data pipelines</li>
-</ul>
-<h2 id="cam-kết-thời-gian">Cam kết Thời gian</h2>
-<ul>
-<li><strong>Tổng Thời gian Workshop</strong>: 4-6 giờ</li>
-<li><strong>Thời lượng Module</strong>: 30-90 phút mỗi module</li>
-<li><strong>Tập trung Hands-on</strong>: Triển khai thực tế với hướng dẫn từng bước</li>
-<li><strong>Self-paced Learning</strong>: Hoàn thành theo tốc độ của bạn với hướng dẫn chi tiết</li>
+<li>Pipeline ETL thời tiết serverless hoàn chỉnh và hoạt động</li>
+<li>Hiểu biết sâu về các dịch vụ AWS và cách chúng tích hợp</li>
+<li>Kinh nghiệm thực hành với thu thập, xử lý và trực quan hóa dữ liệu</li>
+<li>Dashboard QuickSight tương tác hiển thị insights thời tiết</li>
+<li>Kiến thức về best practices cho cost optimization và resource management</li>
 </ul>
 <h2 id="bắt-đầu">Bắt đầu</h2>
-<p>Sẵn sàng xây dựng weather data pipeline của bạn? Bắt đầu với Module 1 để hiểu kiến trúc và nguyên tắc thiết kế, sau đó tiến hành qua từng module để xây dựng một giải pháp hoàn chỉnh, production-ready.</p>
-
-<div class="notices tip" ><p><strong>Mẹo Workshop</strong>: Chuẩn bị một notebook để ghi lại tên resources, ARNs và các giá trị cấu hình khi bạn tiến hành qua các modules.</p>
-</div>
-
-
-<div class="notices info" ><p><strong>Sử dụng Free Tier</strong>: Workshop này được thiết kế để tối đa hóa việc sử dụng AWS free tier. Giám sát usage của bạn thông qua AWS Billing Dashboard.</p>
-</div>
-
-<p>Hãy bắt đầu xây dựng! ☁️ 🌤️</p>
+<p>Sẵn sàng xây dựng pipeline dữ liệu thời tiết serverless? Bắt đầu với <strong>Module 1: Giới thiệu và Kiến trúc</strong> để tìm hiểu tổng quan chi tiết về những gì bạn sẽ xây dựng.</p>
+<hr>
+<p><strong>Lưu ý</strong>: Nhớ tuân theo các thủ tục dọn dẹp trong Module 6 để tránh các khoản phí liên tục sau khi hoàn thành workshop.</p>
 	
   
         
@@ -541,7 +511,7 @@
 	 
 		
 		
-			<a class="nav nav-next" href="/vi/1-introduction/" title="Giới thiệu" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/1-introduction/" title="Giới thiệu và Kiến trúc" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -551,19 +521,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1751962891"></script>
-    <script src="/js/perfect-scrollbar.min.js?1751962891"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1751962891"></script>
-    <script src="/js/jquery.sticky.js?1751962891"></script>
-    <script src="/js/featherlight.min.js?1751962891"></script>
-    <script src="/js/highlight.pack.js?1751962891"></script>
+    <script src="/js/clipboard.min.js?1752047541"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752047541"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752047541"></script>
+    <script src="/js/jquery.sticky.js?1752047541"></script>
+    <script src="/js/featherlight.min.js?1752047541"></script>
+    <script src="/js/highlight.pack.js?1752047541"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1751962891"></script>
-    <script src="/js/learn.js?1751962891"></script>
-    <script src="/js/hugo-learn.js?1751962891"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752047541"></script>
+    <script src="/js/learn.js?1752047541"></script>
+    <script src="/js/hugo-learn.js?1752047541"></script>
 
-    <link href="/mermaid/mermaid.css?1751962891" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1751962891"></script>
+    <link href="/mermaid/mermaid.css?1752047541" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752047541"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

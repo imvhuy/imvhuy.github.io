@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="js csstransforms3d">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
@@ -12,21 +12,21 @@
     <title>Weather Data Collection with Lambda :: Weather ETL Pipeline with AWS</title>
 
     
-    <link href="/css/nucleus.css?1751962891" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1751962891" rel="stylesheet">
-    <link href="/css/hybrid.css?1751962891" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1751962891" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1751962891" rel="stylesheet">
-    <link href="/css/auto-complete.css?1751962891" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1751962891" rel="stylesheet">
-    <link href="/css/theme.css?1751962891" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1751962891" rel="stylesheet">
+    <link href="/css/nucleus.css?1752047540" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752047540" rel="stylesheet">
+    <link href="/css/hybrid.css?1752047540" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752047540" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752047540" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752047540" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752047540" rel="stylesheet">
+    <link href="/css/theme.css?1752047540" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752047540" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1751962891" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752047540" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1751962891"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752047540"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1751962891"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1751962891"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752047540"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752047540"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/localhost:1313\/";
+        var baseurl = "\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1751962891"></script>
+<script type="text/javascript" src="/js/search.js?1752047540"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/1-introduction/" title="Introduction &amp; Architecture Design" class="dd-item 
+    <li data-nav-id="/1-introduction/" title="Introduction and Architecture" class="dd-item 
         
         
         
         ">
       <a href="/1-introduction/">
-          <b>1. </b>Introduction &amp; Architecture Design
+          <b>1. </b>Introduction and Architecture
           
             <i class="fas fa-check read-icon"></i>
           
@@ -311,7 +311,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/" selected>English</option>
+                      <option id="en" value="/2-data-collection-openweathermap/" selected>English</option>
                     
                   
               
@@ -325,7 +325,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/2-data-collection-openweathermap/">Tiếng Việt</option>
+                      <option id="vi" value="/vi/2-data-collection-openweathermap/">Tiếng Việt</option>
                     
                   
               
@@ -395,6 +395,8 @@
                         </a>
                     </span>
                   
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
                   <span class="links">
                  
                  
@@ -414,6 +416,62 @@
                   </span>
                 </div>
                 
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#module-learning-objectives">Module Learning Objectives</a></li>
+    <li><a href="#architecture-overview">Architecture Overview</a></li>
+    <li><a href="#what-youll-build">What You&rsquo;ll Build</a>
+      <ul>
+        <li><a href="#data-collection-components">Data Collection Components</a></li>
+        <li><a href="#monitoring-and-alerting">Monitoring and Alerting</a></li>
+        <li><a href="#data-sources">Data Sources</a></li>
+      </ul>
+    </li>
+    <li><a href="#target-cities">Target Cities</a></li>
+    <li><a href="#expected-data-volume">Expected Data Volume</a>
+      <ul>
+        <li><a href="#daily-collection-estimates">Daily Collection Estimates</a></li>
+        <li><a href="#api-usage">API Usage</a></li>
+      </ul>
+    </li>
+    <li><a href="#cost-breakdown">Cost Breakdown</a>
+      <ul>
+        <li><a href="#estimated-monthly-costs">Estimated Monthly Costs</a></li>
+      </ul>
+    </li>
+    <li><a href="#module-structure">Module Structure</a>
+      <ul>
+        <li><a href="#21-openweathermap-setup">2.1 OpenWeatherMap Setup</a></li>
+        <li><a href="#22-building-lambda-weather-collector">2.2 Building Lambda Weather Collector</a></li>
+        <li><a href="#23-automated-scheduling">2.3 Automated Scheduling</a></li>
+        <li><a href="#24-testing-and-monitoring">2.4 Testing and Monitoring</a></li>
+      </ul>
+    </li>
+    <li><a href="#key-technologies-used">Key Technologies Used</a>
+      <ul>
+        <li><a href="#aws-services">AWS Services</a></li>
+        <li><a href="#development-tools">Development Tools</a></li>
+        <li><a href="#external-services">External Services</a></li>
+      </ul>
+    </li>
+    <li><a href="#best-practices-implemented">Best Practices Implemented</a>
+      <ul>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#reliability">Reliability</a></li>
+        <li><a href="#scalability">Scalability</a></li>
+        <li><a href="#cost-optimization">Cost Optimization</a></li>
+      </ul>
+    </li>
+    <li><a href="#prerequisites-for-this-module">Prerequisites for This Module</a></li>
+    <li><a href="#success-criteria">Success Criteria</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
               </div>
             </div>
             
@@ -421,9 +479,12 @@
         
         </div>
         
-          <div id="chapter">
-        
         <div id="body-inner">
+          
+            <h1>
+              
+              Weather Data Collection with Lambda
+            </h1>
           
 
         
@@ -674,8 +735,6 @@
 </footer>
 
         
-            </div> 
-        
         </div> 
         
 
@@ -831,7 +890,7 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/1-introduction/" title="Introduction &amp; Architecture Design"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/1-introduction/" title="Introduction and Architecture"> <i class="fa fa-chevron-left"></i></a>
 		
 		
 			<a class="nav nav-next" href="/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Building Lambda Weather Collector" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
@@ -844,19 +903,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1751962891"></script>
-    <script src="/js/perfect-scrollbar.min.js?1751962891"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1751962891"></script>
-    <script src="/js/jquery.sticky.js?1751962891"></script>
-    <script src="/js/featherlight.min.js?1751962891"></script>
-    <script src="/js/highlight.pack.js?1751962891"></script>
+    <script src="/js/clipboard.min.js?1752047540"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752047540"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752047540"></script>
+    <script src="/js/jquery.sticky.js?1752047540"></script>
+    <script src="/js/featherlight.min.js?1752047540"></script>
+    <script src="/js/highlight.pack.js?1752047540"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1751962891"></script>
-    <script src="/js/learn.js?1751962891"></script>
-    <script src="/js/hugo-learn.js?1751962891"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752047540"></script>
+    <script src="/js/learn.js?1752047540"></script>
+    <script src="/js/hugo-learn.js?1752047540"></script>
 
-    <link href="/mermaid/mermaid.css?1751962891" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1751962891"></script>
+    <link href="/mermaid/mermaid.css?1752047540" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752047540"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

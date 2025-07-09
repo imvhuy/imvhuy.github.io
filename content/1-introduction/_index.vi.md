@@ -1,124 +1,116 @@
-+++
-title = "Giới thiệu"
-date = 2025-06-23
-weight = 1
-chapter = false
-pre = " <b> 1. </b> "
-+++
+---
+title: "Giới thiệu và Kiến trúc"
+date: 2025-01-07T09:00:00+00:00
+weight: 10
+chapter: false
+pre: "<b>1. </b>"
+---
+
+# Xây dựng Pipeline ETL Thời tiết Serverless
+
+Chào mừng đến với workshop thực hành này, nơi bạn sẽ xây dựng một pipeline **Extract, Transform, Load (ETL)** hoàn chỉnh sử dụng các dịch vụ serverless của AWS để thu thập, xử lý và trực quan hóa dữ liệu thời tiết.
 
 ## Tổng quan Workshop
 
-Workshop này thực hiện xây dựng **Pipeline ETL đơn giản cho Phân tích Thời tiết** sử dụng các dịch vụ AWS để tạo ra một hệ thống xử lý dữ liệu serverless cơ bản.
+Trong workshop này, bạn sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS. Workshop được thiết kế để hoàn thành trong **2-3 giờ** với chi phí ước tính **dưới $10** cho toàn bộ trải nghiệm.
 
-### ETL là gì?
+## Mục tiêu Học tập
 
-**ETL** viết tắt của **Extract, Transform, Load** - một quy trình tích hợp dữ liệu cơ bản:
+Sau khi hoàn thành workshop này, bạn sẽ:
 
-- **Extract (Trích xuất)**: Thu thập dữ liệu từ nhiều nguồn khác nhau
-- **Transform (Biến đổi)**: Làm sạch, xác thực và tái cấu trúc dữ liệu để phân tích
-- **Load (Tải)**: Lưu trữ dữ liệu đã xử lý trong các hệ thống đích để phân tích
+- Xây dựng hệ thống thu thập dữ liệu serverless sử dụng AWS Lambda
+- Triển khai quy trình chuyển đổi và xử lý dữ liệu
+- Lưu trữ và truy vấn dữ liệu sử dụng Amazon S3 và Athena
+- Tạo trực quan hóa với Amazon QuickSight
+- Áp dụng các best practices của AWS cho tối ưu chi phí và dọn dẹp tài nguyên
 
-## Những gì bạn sẽ xây dựng
+## Tổng quan Kiến trúc
 
-```mermaid
-graph TB
-    A[OpenWeatherMap API] --> B[Lambda Collector]
-    B --> C[S3 Raw Data]
-    C --> D[Lambda Processor]
-    D --> E[S3 Processed Data]
-    E --> F[Athena Analytics]
-    F --> G[QuickSight Dashboard]
+Pipeline ETL thời tiết của chúng ta tuân theo kiến trúc serverless đơn giản này:
 
-    H[CloudWatch Events] --> B
-
-    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style C fill:#f3e5f5
-    style D fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style E fill:#f3e5f5
-    style F fill:#4fc3f7
-    style G fill:#66bb6a
+```
+OpenWeatherMap API → Lambda Collector → S3 Raw Data → Lambda Processor → S3 Processed Data → Athena Analytics → QuickSight Dashboard
 ```
 
-## Kiến trúc đơn giản hóa
+**Các thành phần chính:**
 
-Workshop đơn giản hóa này tập trung vào các thành phần cốt lõi:
+- **Nguồn dữ liệu**: OpenWeatherMap API cho dữ liệu thời tiết thời gian thực
+- **Thu thập**: AWS Lambda function để lấy dữ liệu thời tiết
+- **Lưu trữ**: Amazon S3 cho cả dữ liệu thô và đã xử lý
+- **Xử lý**: AWS Lambda cho chuyển đổi dữ liệu
+- **Phân tích**: Amazon Athena cho truy vấn SQL
+- **Trực quan hóa**: Amazon QuickSight cho dashboard
 
-1. **Thu thập dữ liệu**: Hàm Lambda để thu thập dữ liệu thời tiết
-2. **Xử lý dữ liệu**: Hàm Lambda để biến đổi dữ liệu thô
-3. **Lưu trữ dữ liệu**: Bucket S3 để lưu trữ dữ liệu thô và đã xử lý
-4. **Phân tích dữ liệu**: Truy vấn Athena cơ bản
-5. **Trực quan hóa**: Dashboard QuickSight đơn giản
+## Các Module Workshop
 
-## Mục tiêu học tập
+Workshop này được tổ chức thành 6 module:
 
-Sau khi hoàn thành workshop này, bạn sẽ biết cách:
+### **Module 1: Giới thiệu và Kiến trúc**
 
-1. **Thiết lập** OpenWeatherMap API để thu thập dữ liệu
-2. **Tạo** các hàm Lambda để thu thập và xử lý dữ liệu thời tiết
-3. **Lưu trữ** dữ liệu trong S3 với tổ chức cơ bản
-4. **Biến đổi** dữ liệu thời tiết thô thành định dạng dễ sử dụng hơn
-5. **Truy vấn** dữ liệu bằng Amazon Athena
-6. **Trực quan hóa** các mẫu thời tiết với Amazon QuickSight
+- Tổng quan workshop và mục tiêu học tập
+- Thiết kế kiến trúc và giới thiệu các dịch vụ AWS
+- Yêu cầu tiên quyết và thiết lập
 
-## Điều kiện tiên quyết
+### **Module 2: Thu thập Dữ liệu Thời tiết với OpenWeatherMap**
 
-Trước khi bắt đầu workshop này, bạn nên có:
+- Thiết lập tài khoản OpenWeatherMap API
+- Tạo Lambda function cho thu thập dữ liệu
+- Cấu hình tự động lấy dữ liệu
+- Kiểm tra và giám sát quá trình thu thập
 
-- Tài khoản AWS với quyền truy cập quản trị
-- Kiến thức cơ bản về các dịch vụ AWS
-- Quen thuộc với Python (cho các hàm Lambda)
+### **Module 3: Xử lý Dữ liệu Serverless với Lambda**
 
-## Ước tính chi phí
+- Xây dựng Lambda function chuyển đổi dữ liệu
+- Chuyển đổi JSON thời tiết thô sang định dạng phân tích
+- Triển khai xác thực và làm giàu dữ liệu
+- Thiết lập triggers xử lý
 
-Workshop đơn giản hóa này giảm thiểu chi phí:
+### **Module 4: Phân tích Dữ liệu với Amazon Athena**
 
-- **Lambda**: Free tier đủ cho hầu hết các trường hợp sử dụng
-- **S3**: Lưu trữ tối thiểu (~1MB) - về cơ bản là miễn phí
-- **CloudWatch**: Giám sát cơ bản nằm trong free tier
-- **Athena**: ~$0.05 (truy vấn tối thiểu)
-- **QuickSight**: Dùng thử miễn phí hoặc ~$9.00 (giấy phép author cho 30 ngày)
+- Tạo cấu trúc data lake S3
+- Thiết lập bảng và schema Athena
+- Viết truy vấn SQL cho phân tích thời tiết
+- Khám phá các mẫu và thông tin chi tiết từ dữ liệu
 
-**Tổng chi phí ước tính**: Dưới $10.00 cho toàn bộ workshop
+### **Module 5: Trực quan hóa Dữ liệu với QuickSight**
 
-## Cấu trúc Workshop
+- Thiết lập Amazon QuickSight
+- Tạo dashboard thời tiết
+- Xây dựng trực quan hóa tương tác
+- Chia sẻ và xuất bản dashboard
 
-Workshop đơn giản hóa này bao gồm 5 module cốt lõi:
+### **Module 6: Dọn dẹp Tài nguyên và Bước tiếp theo**
 
-### Module 1: Giới thiệu & Kiến trúc
+- Danh sách kiểm tra dọn dẹp toàn diện
+- Chiến lược tối ưu chi phí
+- Đề xuất cải tiến và mở rộng
+- Tài nguyên học tập bổ sung
 
-- Tổng quan workshop và kiến trúc đơn giản hóa
-- Tổng quan về các dịch vụ AWS
+## Yêu cầu Tiên quyết
 
-### Module 2: Thu thập dữ liệu thời tiết
+Trước khi bắt đầu workshop này, hãy đảm bảo bạn có:
 
-- Thiết lập OpenWeatherMap API (đơn giản hóa)
-- Hàm Lambda cơ bản để thu thập dữ liệu
-- Lập lịch đơn giản với CloudWatch Events
+- **Tài khoản AWS** với quyền truy cập quản trị
+- **Hiểu biết cơ bản** về AWS console
+- **Hiểu biết** về các khái niệm lập trình cơ bản
+- **Tài khoản OpenWeatherMap** (tier miễn phí là đủ)
 
-### Module 3: Xử lý và biến đổi dữ liệu
+## Ước tính Chi phí
 
-- Các mẫu biến đổi dữ liệu
-- Các hàm xử lý Lambda
-- Chuyển đổi dữ liệu thời tiết thô thành định dạng sẵn sàng cho phân tích
+Workshop này được thiết kế để tiết kiệm chi phí:
 
-### Module 4: Phân tích dữ liệu với Athena
+- **OpenWeatherMap API**: Miễn phí (lên đến 1,000 cuộc gọi/ngày)
+- **AWS Lambda**: ~$1-2 (trong phạm vi free tier)
+- **Amazon S3**: ~$1-2 cho lưu trữ
+- **Amazon Athena**: ~$2-3 cho truy vấn
+- **Amazon QuickSight**: ~$3-4 (dùng thử miễn phí 30 ngày)
 
-- Tổ chức dữ liệu S3 cơ bản
-- Truy vấn Athena đơn giản cho phân tích thời tiết
-
-### Module 5: Trực quan hóa & Dọn dẹp
-
-- Dashboard QuickSight cơ bản
-- Quy trình dọn dẹp tài nguyên
+**Tổng chi phí ước tính**: Dưới $10 cho toàn bộ workshop
 
 ## Bắt đầu
 
-Sẵn sàng xây dựng pipeline dữ liệu thời tiết đơn giản hóa của bạn? Hãy bắt đầu với Module 2, nơi chúng ta sẽ thiết lập thu thập dữ liệu thời tiết cơ bản.
+Sẵn sàng bắt đầu? Hãy bắt đầu với **Module 2: Thu thập Dữ liệu Thời tiết với OpenWeatherMap** nơi bạn sẽ thiết lập nguồn dữ liệu và tạo Lambda function đầu tiên.
 
-{{% notice info %}}
-**Thời gian ước tính**: 2-3 giờ tổng cộng
-{{% /notice %}}
+---
 
-{{% notice tip %}}
-Workshop này đã được đơn giản hóa để tập trung vào các khái niệm cốt lõi. Để có trải nghiệm toàn diện hơn, các tính năng nâng cao có sẵn dưới dạng phần mở rộng tùy chọn.
-{{% /notice %}}
+**Lưu ý**: Nhớ tuân theo các thủ tục dọn dẹp trong Module 6 để tránh các khoản phí liên tục sau khi hoàn thành workshop.
