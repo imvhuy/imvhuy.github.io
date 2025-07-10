@@ -1,17 +1,13 @@
 ﻿---
 title: "Xây dựng Pipeline ETL Thời tiết Serverless"
-date: 2025-01-07T09:00:00+00:00
+date: 2025-07-09T09:00:00+00:00
 weight: 1
 chapter: false
 ---
 
-# Workshop Xây dựng Pipeline ETL Thời tiết Serverless
-
-Chào mừng đến với workshop thực hành này, nơi bạn sẽ xây dựng một pipeline **Extract, Transform, Load (ETL)** hoàn chỉnh sử dụng các dịch vụ serverless của AWS để thu thập, xử lý và trực quan hóa dữ liệu thời tiết.
-
 ## Tổng quan Workshop
 
-Trong workshop này, bạn sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS. Workshop được thiết kế để hoàn thành trong **2-3 giờ** với chi phí ước tính **dưới $10** cho toàn bộ trải nghiệm.
+Trong workshop này, em sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS. 
 
 ## Những gì bạn sẽ Xây dựng
 
@@ -79,53 +75,3 @@ Trước khi bắt đầu workshop này, hãy đảm bảo bạn có:
 - **Hiểu biết cơ bản** về AWS console
 - **Hiểu biết** về các khái niệm lập trình cơ bản
 - **Hiểu biết** về định dạng dữ liệu JSON
-
-## Lợi ích của Phương pháp Serverless
-
-Phương pháp serverless này cung cấp:
-
-- **Hiệu quả Chi phí**: Chỉ trả cho những gì bạn sử dụng với serverless computing
-- **Khả năng Mở rộng**: Tự động scale với nhu cầu xử lý dữ liệu
-- **Độ Tin cậy**: Fault tolerance tích hợp và khôi phục tự động
-- **Tính Bảo trì**: Yêu cầu quản lý infrastructure tối thiểu
-- **Bảo mật**: Bảo mật được quản lý bởi AWS với kiểm soát truy cập chi tiết
-
-## Ước tính Chi phí
-
-Workshop được thiết kế để tiết kiệm chi phí:
-
-- **OpenWeatherMap API**: Miễn phí (lên đến 1,000 cuộc gọi/ngày)
-- **AWS Lambda**: ~$1-2 (trong phạm vi free tier)
-- **Amazon S3**: ~$1-2 cho lưu trữ
-- **Amazon Athena**: ~$2-3 cho truy vấn
-- **Amazon QuickSight**: ~$3-4 (dùng thử miễn phí 30 ngày)
-
-**Tổng chi phí ước tính**: Dưới $10 cho toàn bộ workshop
-
-## Đối tượng Mục tiêu
-
-Workshop này lý tưởng cho:
-
-- **Data Engineer** quan tâm đến serverless ETL patterns
-- **Solutions Architect** thiết kế data analytics solutions
-- **Developer** xây dựng ứng dụng dựa trên dữ liệu
-- **Business Analyst** làm việc với dữ liệu thời tiết
-- **Sinh viên** học cloud-based data engineering
-
-## Kết quả Mong đợi
-
-Sau khi hoàn thành workshop, bạn sẽ có:
-
-- Pipeline ETL thời tiết serverless hoàn chỉnh và hoạt động
-- Hiểu biết sâu về các dịch vụ AWS và cách chúng tích hợp
-- Kinh nghiệm thực hành với thu thập, xử lý và trực quan hóa dữ liệu
-- Dashboard QuickSight tương tác hiển thị insights thời tiết
-- Kiến thức về best practices cho cost optimization và resource management
-
-## Bắt đầu
-
-Sẵn sàng xây dựng pipeline dữ liệu thời tiết serverless? Bắt đầu với **Module 1: Giới thiệu và Kiến trúc** để tìm hiểu tổng quan chi tiết về những gì bạn sẽ xây dựng.
-
----
-
-**Lưu ý**: Nhớ tuân theo các thủ tục dọn dẹp trong Module 6 để tránh các khoản phí liên tục sau khi hoàn thành workshop.

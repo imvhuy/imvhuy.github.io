@@ -109,5 +109,4 @@ By the end of this workshop, you will:
 4. [Setting up S3 Data Lake](4-data-storage-solutions/)
 5. [Analytics with Amazon Athena](5-analytics-visualization/)
 6. [Weather Visualization with QuickSight](6-monitoring-optimization/)
-7. [Monitoring and Weather Alerts](7-testing-validation/)
-8. [Cleanup and Next Steps](8-cleanup-next-steps/)
+7. [Cleanup and Next Steps](8-cleanup-next-steps/)

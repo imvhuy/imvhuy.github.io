@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi" class="js csstransforms3d">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Giới thiệu và Kiến trúc :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>Giới thiệu :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752047541" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752047541" rel="stylesheet">
-    <link href="/css/hybrid.css?1752047541" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752047541" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752047541" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752047541" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752047541" rel="stylesheet">
-    <link href="/css/theme.css?1752047541" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752047541" rel="stylesheet">
+    <link href="/css/nucleus.css?1752072514" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752072514" rel="stylesheet">
+    <link href="/css/hybrid.css?1752072514" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752072514" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752072514" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752072514" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752072514" rel="stylesheet">
+    <link href="/css/theme.css?1752072514" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752072514" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752047541" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752072514" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752047541"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752072514"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752047541"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752047541"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752072514"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752072514"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/vi";
+        var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752047541"></script>
+<script type="text/javascript" src="/js/search.js?1752072514"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu và Kiến trúc" class="dd-item 
+    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu" class="dd-item 
         
         active
         
         ">
       <a href="/vi/1-introduction/">
-          <b>1. </b>Giới thiệu và Kiến trúc
+          <b>1. </b>Giới thiệu
           
             <i class="fas fa-check read-icon"></i>
           
@@ -227,7 +227,7 @@
                   
                     
                     
-                      <option id="en" value="/1-introduction/">English</option>
+                      <option id="en" value="//localhost:1313/1-introduction/">English</option>
                     
                   
               
@@ -241,7 +241,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/1-introduction/" selected>Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/1-introduction/" selected>Tiếng Việt</option>
                     
                   
               
@@ -323,7 +323,7 @@
             
           
           
-            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > Giới thiệu và Kiến trúc
+            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > Giới thiệu
           
         
           
@@ -337,7 +337,7 @@
 <nav id="TableOfContents">
   <ul>
     <li><a href="#tổng-quan-workshop">Tổng quan Workshop</a></li>
-    <li><a href="#mục-tiêu-học-tập">Mục tiêu Học tập</a></li>
+    <li><a href="#mục-tiêu">Mục tiêu</a></li>
     <li><a href="#tổng-quan-kiến-trúc">Tổng quan Kiến trúc</a></li>
     <li><a href="#các-module-workshop">Các Module Workshop</a>
       <ul>
@@ -369,7 +369,7 @@
           
             <h1>
               
-              Giới thiệu và Kiến trúc
+              Giới thiệu
             </h1>
           
 
@@ -377,12 +377,9 @@
 
 
 
-	<h1 id="xây-dựng-pipeline-etl-thời-tiết-serverless">Xây dựng Pipeline ETL Thời tiết Serverless</h1>
-<p>Chào mừng đến với workshop thực hành này, nơi bạn sẽ xây dựng một pipeline <strong>Extract, Transform, Load (ETL)</strong> hoàn chỉnh sử dụng các dịch vụ serverless của AWS để thu thập, xử lý và trực quan hóa dữ liệu thời tiết.</p>
-<h2 id="tổng-quan-workshop">Tổng quan Workshop</h2>
-<p>Trong workshop này, bạn sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS. Workshop được thiết kế để hoàn thành trong <strong>2-3 giờ</strong> với chi phí ước tính <strong>dưới $10</strong> cho toàn bộ trải nghiệm.</p>
-<h2 id="mục-tiêu-học-tập">Mục tiêu Học tập</h2>
-<p>Sau khi hoàn thành workshop này, bạn sẽ:</p>
+	<h2 id="tổng-quan-workshop">Tổng quan Workshop</h2>
+<p>Trong workshop này, em sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS.</p>
+<h2 id="mục-tiêu">Mục tiêu</h2>
 <ul>
 <li>Xây dựng hệ thống thu thập dữ liệu serverless sử dụng AWS Lambda</li>
 <li>Triển khai quy trình chuyển đổi và xử lý dữ liệu</li>
@@ -594,19 +591,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752047541"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752047541"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752047541"></script>
-    <script src="/js/jquery.sticky.js?1752047541"></script>
-    <script src="/js/featherlight.min.js?1752047541"></script>
-    <script src="/js/highlight.pack.js?1752047541"></script>
+    <script src="/js/clipboard.min.js?1752072514"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752072514"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752072514"></script>
+    <script src="/js/jquery.sticky.js?1752072514"></script>
+    <script src="/js/featherlight.min.js?1752072514"></script>
+    <script src="/js/highlight.pack.js?1752072514"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752047541"></script>
-    <script src="/js/learn.js?1752047541"></script>
-    <script src="/js/hugo-learn.js?1752047541"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752072514"></script>
+    <script src="/js/learn.js?1752072514"></script>
+    <script src="/js/hugo-learn.js?1752072514"></script>
 
-    <link href="/mermaid/mermaid.css?1752047541" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752047541"></script>
+    <link href="/mermaid/mermaid.css?1752072514" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752072514"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

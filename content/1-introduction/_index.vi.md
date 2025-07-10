@@ -1,23 +1,16 @@
 ---
-title: "Giới thiệu và Kiến trúc"
-date: 2025-01-07T09:00:00+00:00
+title: "Giới thiệu"
+date: 2025-07-09T09:00:00+00:00
 weight: 10
 chapter: false
 pre: "<b>1. </b>"
 ---
 
-# Xây dựng Pipeline ETL Thời tiết Serverless
-
-Chào mừng đến với workshop thực hành này, nơi bạn sẽ xây dựng một pipeline **Extract, Transform, Load (ETL)** hoàn chỉnh sử dụng các dịch vụ serverless của AWS để thu thập, xử lý và trực quan hóa dữ liệu thời tiết.
-
 ## Tổng quan Workshop
 
-Trong workshop này, bạn sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS. Workshop được thiết kế để hoàn thành trong **2-3 giờ** với chi phí ước tính **dưới $10** cho toàn bộ trải nghiệm.
+Trong workshop này, em sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS. 
 
-## Mục tiêu Học tập
-
-Sau khi hoàn thành workshop này, bạn sẽ:
-
+## Mục tiêu 
 - Xây dựng hệ thống thu thập dữ liệu serverless sử dụng AWS Lambda
 - Triển khai quy trình chuyển đổi và xử lý dữ liệu
 - Lưu trữ và truy vấn dữ liệu sử dụng Amazon S3 và Athena

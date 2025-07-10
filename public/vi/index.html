@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi" class="js csstransforms3d">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Hugo 0.147.8">
@@ -12,21 +12,21 @@
     <title>Xây dựng Pipeline ETL Thời tiết Serverless :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752047541" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752047541" rel="stylesheet">
-    <link href="/css/hybrid.css?1752047541" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752047541" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752047541" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752047541" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752047541" rel="stylesheet">
-    <link href="/css/theme.css?1752047541" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752047541" rel="stylesheet">
+    <link href="/css/nucleus.css?1752072514" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752072514" rel="stylesheet">
+    <link href="/css/hybrid.css?1752072514" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752072514" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752072514" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752072514" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752072514" rel="stylesheet">
+    <link href="/css/theme.css?1752072514" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752072514" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752047541" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752072514" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752047541"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752072514"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752047541"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752047541"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752072514"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752072514"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/vi";
+        var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752047541"></script>
+<script type="text/javascript" src="/js/search.js?1752072514"></script>
 
     
   </div>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu và Kiến trúc" class="dd-item 
+    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu" class="dd-item 
         
         
         
         ">
       <a href="/vi/1-introduction/">
-          <b>1. </b>Giới thiệu và Kiến trúc
+          <b>1. </b>Giới thiệu
           
             <i class="fas fa-check read-icon"></i>
           
@@ -227,7 +227,7 @@
                   
                     
                     
-                      <option id="en" value="/">English</option>
+                      <option id="en" value="//localhost:1313/">English</option>
                     
                   
               
@@ -241,7 +241,7 @@
                   
                     
                     
-                      <option id="vi" value="/vi/" selected>Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/" selected>Tiếng Việt</option>
                     
                   
               
@@ -314,10 +314,8 @@
 </span>
 
  
-<h1 id="workshop-xây-dựng-pipeline-etl-thời-tiết-serverless">Workshop Xây dựng Pipeline ETL Thời tiết Serverless</h1>
-<p>Chào mừng đến với workshop thực hành này, nơi bạn sẽ xây dựng một pipeline <strong>Extract, Transform, Load (ETL)</strong> hoàn chỉnh sử dụng các dịch vụ serverless của AWS để thu thập, xử lý và trực quan hóa dữ liệu thời tiết.</p>
 <h2 id="tổng-quan-workshop">Tổng quan Workshop</h2>
-<p>Trong workshop này, bạn sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS. Workshop được thiết kế để hoàn thành trong <strong>2-3 giờ</strong> với chi phí ước tính <strong>dưới $10</strong> cho toàn bộ trải nghiệm.</p>
+<p>Trong workshop này, em sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS.</p>
 <h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ Xây dựng</h2>
 <p>Workshop này trình bày cách xây dựng một pipeline ETL đơn giản sử dụng công nghệ serverless của AWS:</p>
 <ul>
@@ -363,47 +361,6 @@
 <li><strong>Hiểu biết</strong> về các khái niệm lập trình cơ bản</li>
 <li><strong>Hiểu biết</strong> về định dạng dữ liệu JSON</li>
 </ul>
-<h2 id="lợi-ích-của-phương-pháp-serverless">Lợi ích của Phương pháp Serverless</h2>
-<p>Phương pháp serverless này cung cấp:</p>
-<ul>
-<li><strong>Hiệu quả Chi phí</strong>: Chỉ trả cho những gì bạn sử dụng với serverless computing</li>
-<li><strong>Khả năng Mở rộng</strong>: Tự động scale với nhu cầu xử lý dữ liệu</li>
-<li><strong>Độ Tin cậy</strong>: Fault tolerance tích hợp và khôi phục tự động</li>
-<li><strong>Tính Bảo trì</strong>: Yêu cầu quản lý infrastructure tối thiểu</li>
-<li><strong>Bảo mật</strong>: Bảo mật được quản lý bởi AWS với kiểm soát truy cập chi tiết</li>
-</ul>
-<h2 id="ước-tính-chi-phí">Ước tính Chi phí</h2>
-<p>Workshop được thiết kế để tiết kiệm chi phí:</p>
-<ul>
-<li><strong>OpenWeatherMap API</strong>: Miễn phí (lên đến 1,000 cuộc gọi/ngày)</li>
-<li><strong>AWS Lambda</strong>: ~$1-2 (trong phạm vi free tier)</li>
-<li><strong>Amazon S3</strong>: ~$1-2 cho lưu trữ</li>
-<li><strong>Amazon Athena</strong>: ~$2-3 cho truy vấn</li>
-<li><strong>Amazon QuickSight</strong>: ~$3-4 (dùng thử miễn phí 30 ngày)</li>
-</ul>
-<p><strong>Tổng chi phí ước tính</strong>: Dưới $10 cho toàn bộ workshop</p>
-<h2 id="đối-tượng-mục-tiêu">Đối tượng Mục tiêu</h2>
-<p>Workshop này lý tưởng cho:</p>
-<ul>
-<li><strong>Data Engineer</strong> quan tâm đến serverless ETL patterns</li>
-<li><strong>Solutions Architect</strong> thiết kế data analytics solutions</li>
-<li><strong>Developer</strong> xây dựng ứng dụng dựa trên dữ liệu</li>
-<li><strong>Business Analyst</strong> làm việc với dữ liệu thời tiết</li>
-<li><strong>Sinh viên</strong> học cloud-based data engineering</li>
-</ul>
-<h2 id="kết-quả-mong-đợi">Kết quả Mong đợi</h2>
-<p>Sau khi hoàn thành workshop, bạn sẽ có:</p>
-<ul>
-<li>Pipeline ETL thời tiết serverless hoàn chỉnh và hoạt động</li>
-<li>Hiểu biết sâu về các dịch vụ AWS và cách chúng tích hợp</li>
-<li>Kinh nghiệm thực hành với thu thập, xử lý và trực quan hóa dữ liệu</li>
-<li>Dashboard QuickSight tương tác hiển thị insights thời tiết</li>
-<li>Kiến thức về best practices cho cost optimization và resource management</li>
-</ul>
-<h2 id="bắt-đầu">Bắt đầu</h2>
-<p>Sẵn sàng xây dựng pipeline dữ liệu thời tiết serverless? Bắt đầu với <strong>Module 1: Giới thiệu và Kiến trúc</strong> để tìm hiểu tổng quan chi tiết về những gì bạn sẽ xây dựng.</p>
-<hr>
-<p><strong>Lưu ý</strong>: Nhớ tuân theo các thủ tục dọn dẹp trong Module 6 để tránh các khoản phí liên tục sau khi hoàn thành workshop.</p>
 	
   
         
@@ -511,7 +468,7 @@
 	 
 		
 		
-			<a class="nav nav-next" href="/vi/1-introduction/" title="Giới thiệu và Kiến trúc" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/1-introduction/" title="Giới thiệu" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -521,19 +478,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752047541"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752047541"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752047541"></script>
-    <script src="/js/jquery.sticky.js?1752047541"></script>
-    <script src="/js/featherlight.min.js?1752047541"></script>
-    <script src="/js/highlight.pack.js?1752047541"></script>
+    <script src="/js/clipboard.min.js?1752072514"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752072514"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752072514"></script>
+    <script src="/js/jquery.sticky.js?1752072514"></script>
+    <script src="/js/featherlight.min.js?1752072514"></script>
+    <script src="/js/highlight.pack.js?1752072514"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752047541"></script>
-    <script src="/js/learn.js?1752047541"></script>
-    <script src="/js/hugo-learn.js?1752047541"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752072514"></script>
+    <script src="/js/learn.js?1752072514"></script>
+    <script src="/js/hugo-learn.js?1752072514"></script>
 
-    <link href="/mermaid/mermaid.css?1752047541" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752047541"></script>
+    <link href="/mermaid/mermaid.css?1752072514" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752072514"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
