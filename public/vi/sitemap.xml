@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>//localhost:1313/vi/</loc>
-    <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <lastmod>2025-07-09T09:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -28,8 +28,47 @@
                 href="//localhost:1313/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/"
                 />
   </url><url>
+    <loc>//localhost:1313/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/</loc>
+    <lastmod>2025-01-03T08:30:00+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/2-data-collection-openweathermap/2.2-lambda-weather-collector/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/"
+                />
+  </url><url>
+    <loc>//localhost:1313/vi/2-data-collection-openweathermap/2.3-automated-scheduling/</loc>
+    <lastmod>2025-01-03T08:45:00+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/2-data-collection-openweathermap/2.3-automated-scheduling/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/2.3-automated-scheduling/"
+                />
+  </url><url>
+    <loc>//localhost:1313/vi/2-data-collection-openweathermap/2.4-testing-monitoring/</loc>
+    <lastmod>2025-01-03T09:00:00+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/2-data-collection-openweathermap/2.4-testing-monitoring/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/2.4-testing-monitoring/"
+                />
+  </url><url>
     <loc>//localhost:1313/vi/1-introduction/</loc>
-    <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <lastmod>2025-07-09T09:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -65,6 +104,45 @@
                 rel="alternate"
                 hreflang="vi"
                 href="//localhost:1313/vi/3-serverless-processing-lambda/"
+                />
+  </url><url>
+    <loc>//localhost:1313/vi/4-data-storage-solutions/</loc>
+    <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/4-data-storage-solutions/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/4-data-storage-solutions/"
+                />
+  </url><url>
+    <loc>//localhost:1313/vi/5-analytics-visualization/</loc>
+    <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/5-analytics-visualization/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/5-analytics-visualization/"
+                />
+  </url><url>
+    <loc>//localhost:1313/vi/6-cleanup-next-steps/</loc>
+    <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/6-cleanup-next-steps/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/6-cleanup-next-steps/"
                 />
   </url><url>
     <loc>//localhost:1313/vi/categories/</loc>

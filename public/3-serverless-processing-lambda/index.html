@@ -12,21 +12,21 @@
     <title>Data Processing and Transformation :: Weather ETL Pipeline with AWS</title>
 
     
-    <link href="/css/nucleus.css?1752070880" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752070880" rel="stylesheet">
-    <link href="/css/hybrid.css?1752070880" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752070880" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752070880" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752070880" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752070880" rel="stylesheet">
-    <link href="/css/theme.css?1752070880" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752070880" rel="stylesheet">
+    <link href="/css/nucleus.css?1752216386" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752216386" rel="stylesheet">
+    <link href="/css/hybrid.css?1752216386" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752216386" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752216386" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752216386" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752216386" rel="stylesheet">
+    <link href="/css/theme.css?1752216386" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752216386" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752070880" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752216386" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752070880"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752216386"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752070880"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752070880"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752216386"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752216386"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752070880"></script>
+<script type="text/javascript" src="/js/search.js?1752216386"></script>
 
     
   </div>
@@ -276,6 +276,84 @@
  
 
           
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-data-storage-solutions/" title="Data Analysis with Athena" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-data-storage-solutions/">
+          <b>4. </b>Data Analysis with Athena
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-analytics-visualization/" title="Data Visualization with QuickSight" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-analytics-visualization/">
+          <b>5. </b>Data Visualization with QuickSight
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/6-cleanup-next-steps/" title="Resource Cleanup and Next Steps" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/6-cleanup-next-steps/">
+          <b>6. </b>Resource Cleanup and Next Steps
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -422,10 +500,33 @@
   <ul>
     <li><a href="#module-overview">Module Overview</a></li>
     <li><a href="#what-youll-build">What You&rsquo;ll Build</a></li>
-    <li><a href="#key-transformation-steps">Key Transformation Steps</a></li>
-    <li><a href="#lambda-processor-function">Lambda Processor Function</a>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#step-1-create-the-data-processing-lambda-function">Step 1: Create the Data Processing Lambda Function</a>
       <ul>
-        <li><a href="#sample-code-structure">Sample Code Structure</a></li>
+        <li><a href="#11-create-lambda-function-directory">1.1 Create Lambda Function Directory</a></li>
+        <li><a href="#12-create-the-complete-lambda-function">1.2 Create the Complete Lambda Function</a></li>
+        <li><a href="#13-create-requirements-file">1.3 Create Requirements File</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-2-create-s3-bucket-for-processed-data">Step 2: Create S3 Bucket for Processed Data</a></li>
+    <li><a href="#step-3-package-and-deploy-lambda-function">Step 3: Package and Deploy Lambda Function</a>
+      <ul>
+        <li><a href="#31-create-deployment-package">3.1 Create Deployment Package</a></li>
+        <li><a href="#32-create-iam-role-for-lambda">3.2 Create IAM Role for Lambda</a></li>
+        <li><a href="#33-deploy-lambda-function">3.3 Deploy Lambda Function</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-4-set-up-s3-event-trigger">Step 4: Set Up S3 Event Trigger</a>
+      <ul>
+        <li><a href="#41-add-lambda-permission-for-s3">4.1 Add Lambda Permission for S3</a></li>
+        <li><a href="#42-create-s3-event-notification">4.2 Create S3 Event Notification</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-5-test-the-data-processing">Step 5: Test the Data Processing</a>
+      <ul>
+        <li><a href="#51-manual-test">5.1 Manual Test</a></li>
+        <li><a href="#52-check-cloudwatch-logs">5.2 Check CloudWatch Logs</a></li>
+        <li><a href="#53-verify-processed-data">5.3 Verify Processed Data</a></li>
       </ul>
     </li>
     <li><a href="#data-transformation-examples">Data Transformation Examples</a>
@@ -434,7 +535,12 @@
         <li><a href="#transformed-data">Transformed Data</a></li>
       </ul>
     </li>
-    <li><a href="#implementation-steps">Implementation Steps</a></li>
+    <li><a href="#monitoring-and-troubleshooting">Monitoring and Troubleshooting</a>
+      <ul>
+        <li><a href="#cloudwatch-metrics">CloudWatch Metrics</a></li>
+        <li><a href="#common-issues">Common Issues</a></li>
+      </ul>
+    </li>
     <li><a href="#benefits-of-data-transformation">Benefits of Data Transformation</a></li>
     <li><a href="#next-steps">Next Steps</a></li>
   </ul>
@@ -466,6 +572,8 @@
 <p>In this module, you&rsquo;ll build a Lambda function to process and transform the raw weather data collected from OpenWeatherMap API into a more analytics-friendly format. This transformation step is essential in any ETL pipeline to prepare data for efficient analysis.</p>
 <h2 id="module-overview">Module Overview</h2>
 <p>Raw weather data from APIs often contains complex nested structures, inconsistent formats, and extraneous information. In this module, we&rsquo;ll transform this raw data into a clean, structured format optimized for analytics.</p>
+<p><strong>Duration:</strong> 45-60 minutes<br>
+<strong>Cost:</strong> ~$0.50</p>
 <h2 id="what-youll-build">What You&rsquo;ll Build</h2>
 <pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
     A[S3 Raw Data] --&gt; B[Lambda Processor]
@@ -475,64 +583,395 @@
     style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
     style A fill:#f3e5f5
     style C fill:#f3e5f5
-</code></pre><h2 id="key-transformation-steps">Key Transformation Steps</h2>
-<p>Our Lambda processor will perform these key transformations:</p>
-<ol>
-<li><strong>Data Flattening</strong>: Convert nested JSON structures to flat records</li>
-<li><strong>Unit Conversion</strong>: Convert temperature from Kelvin to Celsius and Fahrenheit</li>
-<li><strong>Data Enrichment</strong>: Add derived fields like heat index and comfort level</li>
-<li><strong>Format Standardization</strong>: Ensure consistent field names and data types</li>
-<li><strong>Data Validation</strong>: Filter out invalid or incomplete records</li>
-</ol>
-<h2 id="lambda-processor-function">Lambda Processor Function</h2>
-<p>You&rsquo;ll create a Python Lambda function that:</p>
-<ol>
-<li>Retrieves raw weather data from the S3 bucket</li>
-<li>Applies transformation logic</li>
-<li>Stores processed results in a separate S3 location</li>
-<li>Handles errors gracefully</li>
-</ol>
-<h3 id="sample-code-structure">Sample Code Structure</h3>
+</code></pre><h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Completed Module 2: Weather Data Collection</li>
+<li>Raw weather data already being collected in S3</li>
+<li>AWS CLI configured</li>
+</ul>
+<h2 id="step-1-create-the-data-processing-lambda-function">Step 1: Create the Data Processing Lambda Function</h2>
+<h3 id="11-create-lambda-function-directory">1.1 Create Lambda Function Directory</h3>
+<p>Create a new directory for your Lambda function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir weather-processor
+</span></span><span style="display:flex;"><span>cd weather-processor
+</span></span></code></pre></div><h3 id="12-create-the-complete-lambda-function">1.2 Create the Complete Lambda Function</h3>
+<p>Create <code>lambda_function.py</code> with the following code:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> logging
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> decimal <span style="color:#f92672">import</span> Decimal
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Configure logging</span>
+</span></span><span style="display:flex;"><span>logger <span style="color:#f92672">=</span> logging<span style="color:#f92672">.</span>getLogger()
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>setLevel(logging<span style="color:#f92672">.</span>INFO)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Initialize AWS clients</span>
 </span></span><span style="display:flex;"><span>s3_client <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;s3&#39;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lambda_handler</span>(event, context):
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Get raw data from S3</span>
-</span></span><span style="display:flex;"><span>    raw_bucket <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;weather-data-raw&#39;</span>
-</span></span><span style="display:flex;"><span>    processed_bucket <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;weather-data-processed&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Main Lambda handler for processing weather data
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        processed_bucket <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;PROCESSED_BUCKET&#39;</span>]
+</span></span><span style="display:flex;"><span>        processed_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Process each file in the event</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> record <span style="color:#f92672">in</span> event[<span style="color:#e6db74">&#39;Records&#39;</span>]:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Get the file key</span>
-</span></span><span style="display:flex;"><span>        key <span style="color:#f92672">=</span> record[<span style="color:#e6db74">&#39;s3&#39;</span>][<span style="color:#e6db74">&#39;object&#39;</span>][<span style="color:#e6db74">&#39;key&#39;</span>]
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Process each S3 event record</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> record <span style="color:#f92672">in</span> event[<span style="color:#e6db74">&#39;Records&#39;</span>]:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Extract bucket and key from event</span>
+</span></span><span style="display:flex;"><span>                source_bucket <span style="color:#f92672">=</span> record[<span style="color:#e6db74">&#39;s3&#39;</span>][<span style="color:#e6db74">&#39;bucket&#39;</span>][<span style="color:#e6db74">&#39;name&#39;</span>]
+</span></span><span style="display:flex;"><span>                source_key <span style="color:#f92672">=</span> record[<span style="color:#e6db74">&#39;s3&#39;</span>][<span style="color:#e6db74">&#39;object&#39;</span>][<span style="color:#e6db74">&#39;key&#39;</span>]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Get the raw data</span>
-</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> s3_client<span style="color:#f92672">.</span>get_object(Bucket<span style="color:#f92672">=</span>raw_bucket, Key<span style="color:#f92672">=</span>key)
-</span></span><span style="display:flex;"><span>        raw_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(response[<span style="color:#e6db74">&#39;Body&#39;</span>]<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>                logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Processing file: </span><span style="color:#e6db74">{</span>source_key<span style="color:#e6db74">}</span><span style="color:#e6db74"> from bucket: </span><span style="color:#e6db74">{</span>source_bucket<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Transform the data</span>
-</span></span><span style="display:flex;"><span>        processed_data <span style="color:#f92672">=</span> transform_weather_data(raw_data)
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Get the raw weather data from S3</span>
+</span></span><span style="display:flex;"><span>                response <span style="color:#f92672">=</span> s3_client<span style="color:#f92672">.</span>get_object(Bucket<span style="color:#f92672">=</span>source_bucket, Key<span style="color:#f92672">=</span>source_key)
+</span></span><span style="display:flex;"><span>                raw_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(response[<span style="color:#e6db74">&#39;Body&#39;</span>]<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Save to processed bucket</span>
-</span></span><span style="display:flex;"><span>        processed_key <span style="color:#f92672">=</span> key<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;raw&#39;</span>, <span style="color:#e6db74">&#39;processed&#39;</span>)
-</span></span><span style="display:flex;"><span>        s3_client<span style="color:#f92672">.</span>put_object(
-</span></span><span style="display:flex;"><span>            Bucket<span style="color:#f92672">=</span>processed_bucket,
-</span></span><span style="display:flex;"><span>            Key<span style="color:#f92672">=</span>processed_key,
-</span></span><span style="display:flex;"><span>            Body<span style="color:#f92672">=</span>json<span style="color:#f92672">.</span>dumps(processed_data),
-</span></span><span style="display:flex;"><span>            ContentType<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;application/json&#39;</span>
-</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Transform the weather data</span>
+</span></span><span style="display:flex;"><span>                processed_data <span style="color:#f92672">=</span> transform_weather_data(raw_data)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">200</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;body&#39;</span>: <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Processed </span><span style="color:#e6db74">{</span>len(event[<span style="color:#e6db74">&#34;Records&#34;</span>])<span style="color:#e6db74">}</span><span style="color:#e6db74"> files&#39;</span>
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Create processed file key</span>
+</span></span><span style="display:flex;"><span>                processed_key <span style="color:#f92672">=</span> source_key<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;raw/&#39;</span>, <span style="color:#e6db74">&#39;processed/&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;.json&#39;</span>, <span style="color:#e6db74">&#39;_processed.json&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Save processed data to S3</span>
+</span></span><span style="display:flex;"><span>                s3_client<span style="color:#f92672">.</span>put_object(
+</span></span><span style="display:flex;"><span>                    Bucket<span style="color:#f92672">=</span>processed_bucket,
+</span></span><span style="display:flex;"><span>                    Key<span style="color:#f92672">=</span>processed_key,
+</span></span><span style="display:flex;"><span>                    Body<span style="color:#f92672">=</span>json<span style="color:#f92672">.</span>dumps(processed_data, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, default<span style="color:#f92672">=</span>decimal_default),
+</span></span><span style="display:flex;"><span>                    ContentType<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;application/json&#39;</span>
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                processed_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>                logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Successfully processed and saved: </span><span style="color:#e6db74">{</span>processed_key<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>                logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Error processing record </span><span style="color:#e6db74">{</span>source_key<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>str(e)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Successfully processed </span><span style="color:#e6db74">{</span>processed_count<span style="color:#e6db74">}</span><span style="color:#e6db74"> files&#39;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;processedCount&#39;</span>: processed_count
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Lambda execution error: </span><span style="color:#e6db74">{</span>str(e)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;error&#39;</span>: str(e)
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">transform_weather_data</span>(raw_data):
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Implement transformation logic here</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Transform raw OpenWeatherMap data into analytics-friendly format
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Extract timestamp</span>
+</span></span><span style="display:flex;"><span>        timestamp <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>fromtimestamp(raw_data[<span style="color:#e6db74">&#39;dt&#39;</span>])<span style="color:#f92672">.</span>isoformat() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;Z&#39;</span>
+</span></span><span style="display:flex;"><span>        collection_date <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>fromtimestamp(raw_data[<span style="color:#e6db74">&#39;dt&#39;</span>])<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Extract basic location and weather info</span>
+</span></span><span style="display:flex;"><span>        processed_data <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;timestamp&#39;</span>: timestamp,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;city_name&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;Unknown&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;country&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;sys&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;country&#39;</span>, <span style="color:#e6db74">&#39;Unknown&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;latitude&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;coord&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;lat&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;longitude&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;coord&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;lon&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;data_collection_date&#39;</span>: collection_date
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Temperature conversions</span>
+</span></span><span style="display:flex;"><span>        temp_kelvin <span style="color:#f92672">=</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;temp&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> temp_kelvin:
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;temperature_kelvin&#39;</span>] <span style="color:#f92672">=</span> temp_kelvin
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;temperature_celsius&#39;</span>] <span style="color:#f92672">=</span> round(temp_kelvin <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;temperature_fahrenheit&#39;</span>] <span style="color:#f92672">=</span> round((temp_kelvin <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span><span style="color:#f92672">/</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Feels like temperature</span>
+</span></span><span style="display:flex;"><span>        feels_like_kelvin <span style="color:#f92672">=</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;feels_like&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> feels_like_kelvin:
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;feels_like_celsius&#39;</span>] <span style="color:#f92672">=</span> round(feels_like_kelvin <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;feels_like_fahrenheit&#39;</span>] <span style="color:#f92672">=</span> round((feels_like_kelvin <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span><span style="color:#f92672">/</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Other weather parameters</span>
+</span></span><span style="display:flex;"><span>        processed_data<span style="color:#f92672">.</span>update({
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;humidity_percent&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;humidity&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;pressure_hpa&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;pressure&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;visibility_meters&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;visibility&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;uv_index&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;uvi&#39;</span>)  <span style="color:#75715e"># If available</span>
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Weather description</span>
+</span></span><span style="display:flex;"><span>        weather_list <span style="color:#f92672">=</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;weather&#39;</span>, [])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> weather_list:
+</span></span><span style="display:flex;"><span>            weather <span style="color:#f92672">=</span> weather_list[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>            processed_data<span style="color:#f92672">.</span>update({
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_id&#39;</span>: weather<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;id&#39;</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_main&#39;</span>: weather<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_description&#39;</span>: weather<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;description&#39;</span>),
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_icon&#39;</span>: weather<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;icon&#39;</span>)
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Wind information</span>
+</span></span><span style="display:flex;"><span>        wind_data <span style="color:#f92672">=</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;wind&#39;</span>, {})
+</span></span><span style="display:flex;"><span>        processed_data<span style="color:#f92672">.</span>update({
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;wind_speed_ms&#39;</span>: wind_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;speed&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;wind_direction_deg&#39;</span>: wind_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;deg&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;wind_gust_ms&#39;</span>: wind_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;gust&#39;</span>)
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Convert wind speed to km/h and mph</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> wind_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;speed&#39;</span>):
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;wind_speed_kmh&#39;</span>] <span style="color:#f92672">=</span> round(wind_data[<span style="color:#e6db74">&#39;speed&#39;</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">3.6</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;wind_speed_mph&#39;</span>] <span style="color:#f92672">=</span> round(wind_data[<span style="color:#e6db74">&#39;speed&#39;</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">2.237</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Cloud coverage</span>
+</span></span><span style="display:flex;"><span>        processed_data[<span style="color:#e6db74">&#39;cloud_coverage_percent&#39;</span>] <span style="color:#f92672">=</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;clouds&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;all&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Precipitation (if available)</span>
+</span></span><span style="display:flex;"><span>        rain_data <span style="color:#f92672">=</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;rain&#39;</span>, {})
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> rain_data:
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;rain_1h_mm&#39;</span>] <span style="color:#f92672">=</span> rain_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;1h&#39;</span>)
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;rain_3h_mm&#39;</span>] <span style="color:#f92672">=</span> rain_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;3h&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        snow_data <span style="color:#f92672">=</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;snow&#39;</span>, {})
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> snow_data:
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;snow_1h_mm&#39;</span>] <span style="color:#f92672">=</span> snow_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;1h&#39;</span>)
+</span></span><span style="display:flex;"><span>            processed_data[<span style="color:#e6db74">&#39;snow_3h_mm&#39;</span>] <span style="color:#f92672">=</span> snow_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;3h&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Add derived fields</span>
+</span></span><span style="display:flex;"><span>        processed_data<span style="color:#f92672">.</span>update(calculate_derived_fields(processed_data))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> processed_data
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Error transforming weather data: </span><span style="color:#e6db74">{</span>str(e)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calculate_derived_fields</span>(data):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Calculate derived weather metrics
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    derived <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Heat Index calculation (simplified)</span>
+</span></span><span style="display:flex;"><span>        temp_f <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;temperature_fahrenheit&#39;</span>)
+</span></span><span style="display:flex;"><span>        humidity <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;humidity_percent&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> temp_f <span style="color:#f92672">and</span> humidity:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> temp_f <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">80</span>:  <span style="color:#75715e"># Heat index only meaningful above 80°F</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Simplified heat index formula</span>
+</span></span><span style="display:flex;"><span>                heat_index_f <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">-</span><span style="color:#ae81ff">42.379</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">2.04901523</span> <span style="color:#f92672">*</span> temp_f <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">10.14333127</span> <span style="color:#f92672">*</span> humidity <span style="color:#f92672">-</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">0.22475541</span> <span style="color:#f92672">*</span> temp_f <span style="color:#f92672">*</span> humidity <span style="color:#f92672">-</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">6.83783e-3</span> <span style="color:#f92672">*</span> temp_f<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">5.481717e-2</span> <span style="color:#f92672">*</span> humidity<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">1.22874e-3</span> <span style="color:#f92672">*</span> temp_f<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> humidity <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">8.5282e-4</span> <span style="color:#f92672">*</span> temp_f <span style="color:#f92672">*</span> humidity<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">1.99e-6</span> <span style="color:#f92672">*</span> temp_f<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> humidity<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>                derived[<span style="color:#e6db74">&#39;heat_index_fahrenheit&#39;</span>] <span style="color:#f92672">=</span> round(heat_index_f, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>                derived[<span style="color:#e6db74">&#39;heat_index_celsius&#39;</span>] <span style="color:#f92672">=</span> round((heat_index_f <span style="color:#f92672">-</span> <span style="color:#ae81ff">32</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">/</span><span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Comfort level based on temperature and humidity</span>
+</span></span><span style="display:flex;"><span>        temp_c <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;temperature_celsius&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> temp_c <span style="color:#f92672">and</span> humidity:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> temp_c <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>:
+</span></span><span style="display:flex;"><span>                comfort <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cold&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> temp_c <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">18</span>:
+</span></span><span style="display:flex;"><span>                comfort <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cool&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> temp_c <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">24</span> <span style="color:#f92672">and</span> humidity <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">60</span>:
+</span></span><span style="display:flex;"><span>                comfort <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;comfortable&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> temp_c <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">30</span> <span style="color:#f92672">and</span> humidity <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">70</span>:
+</span></span><span style="display:flex;"><span>                comfort <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;warm&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                comfort <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;hot&#39;</span>
+</span></span><span style="display:flex;"><span>            derived[<span style="color:#e6db74">&#39;comfort_level&#39;</span>] <span style="color:#f92672">=</span> comfort
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Wind condition</span>
+</span></span><span style="display:flex;"><span>        wind_speed_kmh <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;wind_speed_kmh&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> wind_speed_kmh:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> wind_speed_kmh <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>:
+</span></span><span style="display:flex;"><span>                wind_condition <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;calm&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> wind_speed_kmh <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">20</span>:
+</span></span><span style="display:flex;"><span>                wind_condition <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;light&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> wind_speed_kmh <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">40</span>:
+</span></span><span style="display:flex;"><span>                wind_condition <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;moderate&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> wind_speed_kmh <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">60</span>:
+</span></span><span style="display:flex;"><span>                wind_condition <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;strong&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                wind_condition <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;very_strong&#39;</span>
+</span></span><span style="display:flex;"><span>            derived[<span style="color:#e6db74">&#39;wind_condition&#39;</span>] <span style="color:#f92672">=</span> wind_condition
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Weather severity</span>
+</span></span><span style="display:flex;"><span>        weather_main <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;weather_main&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>lower()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> weather_main:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> weather_main <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;thunderstorm&#39;</span>, <span style="color:#e6db74">&#39;tornado&#39;</span>]:
+</span></span><span style="display:flex;"><span>                severity <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;severe&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> weather_main <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;rain&#39;</span>, <span style="color:#e6db74">&#39;snow&#39;</span>, <span style="color:#e6db74">&#39;drizzle&#39;</span>]:
+</span></span><span style="display:flex;"><span>                severity <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;moderate&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> weather_main <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;mist&#39;</span>, <span style="color:#e6db74">&#39;fog&#39;</span>, <span style="color:#e6db74">&#39;haze&#39;</span>]:
+</span></span><span style="display:flex;"><span>                severity <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;mild&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                severity <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;normal&#39;</span>
+</span></span><span style="display:flex;"><span>            derived[<span style="color:#e6db74">&#39;weather_severity&#39;</span>] <span style="color:#f92672">=</span> severity
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> derived
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Error calculating derived fields: </span><span style="color:#e6db74">{</span>str(e)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decimal_default</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    JSON serializer for objects not serializable by default
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> isinstance(obj, Decimal):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> float(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">TypeError</span>
+</span></span></code></pre></div><h3 id="13-create-requirements-file">1.3 Create Requirements File</h3>
+<p>Create <code>requirements.txt</code>:</p>
+<pre tabindex="0"><code>boto3==1.34.0
+</code></pre><h2 id="step-2-create-s3-bucket-for-processed-data">Step 2: Create S3 Bucket for Processed Data</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Create bucket for processed data</span>
+</span></span><span style="display:flex;"><span>aws s3 mb s3://your-weather-processed-bucket-name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Enable versioning</span>
+</span></span><span style="display:flex;"><span>aws s3api put-bucket-versioning <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --bucket your-weather-processed-bucket-name <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --versioning-configuration Status<span style="color:#f92672">=</span>Enabled
+</span></span></code></pre></div><h2 id="step-3-package-and-deploy-lambda-function">Step 3: Package and Deploy Lambda Function</h2>
+<h3 id="31-create-deployment-package">3.1 Create Deployment Package</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Install dependencies</span>
+</span></span><span style="display:flex;"><span>pip install -r requirements.txt -t .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create deployment package</span>
+</span></span><span style="display:flex;"><span>zip -r weather-processor.zip .
+</span></span></code></pre></div><h3 id="32-create-iam-role-for-lambda">3.2 Create IAM Role for Lambda</h3>
+<p>Create <code>trust-policy.json</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Principal&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Service&#34;</span>: <span style="color:#e6db74">&#34;lambda.amazonaws.com&#34;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: <span style="color:#e6db74">&#34;sts:AssumeRole&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Create <code>lambda-policy.json</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;logs:CreateLogGroup&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;logs:CreateLogStream&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;logs:PutLogEvents&#34;</span>
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:logs:*:*:*&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: [<span style="color:#e6db74">&#34;s3:GetObject&#34;</span>, <span style="color:#e6db74">&#34;s3:PutObject&#34;</span>],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;arn:aws:s3:::your-weather-raw-bucket/*&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;arn:aws:s3:::your-weather-processed-bucket/*&#34;</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Create the IAM role:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Create the role</span>
+</span></span><span style="display:flex;"><span>aws iam create-role <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --role-name WeatherProcessorRole <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --assume-role-policy-document file://trust-policy.json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Attach the policy</span>
+</span></span><span style="display:flex;"><span>aws iam put-role-policy <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --role-name WeatherProcessorRole <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --policy-name WeatherProcessorPolicy <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --policy-document file://lambda-policy.json
+</span></span></code></pre></div><h3 id="33-deploy-lambda-function">3.3 Deploy Lambda Function</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Create the Lambda function</span>
+</span></span><span style="display:flex;"><span>aws lambda create-function <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --function-name weather-data-processor <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --runtime python3.9 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --role arn:aws:iam::YOUR-ACCOUNT-ID:role/WeatherProcessorRole <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --handler lambda_function.lambda_handler <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --zip-file fileb://weather-processor.zip <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --timeout <span style="color:#ae81ff">60</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --memory-size <span style="color:#ae81ff">256</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --environment Variables<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;PROCESSED_BUCKET&#34;:&#34;your-weather-processed-bucket-name&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }&#39;</span>
+</span></span></code></pre></div><h2 id="step-4-set-up-s3-event-trigger">Step 4: Set Up S3 Event Trigger</h2>
+<p>Configure S3 to trigger the Lambda function when new files are uploaded:</p>
+<h3 id="41-add-lambda-permission-for-s3">4.1 Add Lambda Permission for S3</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws lambda add-permission <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --function-name weather-data-processor <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --principal s3.amazonaws.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --statement-id s3-trigger <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --action lambda:InvokeFunction <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --source-arn arn:aws:s3:::your-weather-raw-bucket
+</span></span></code></pre></div><h3 id="42-create-s3-event-notification">4.2 Create S3 Event Notification</h3>
+<p>Create <code>notification-config.json</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;LambdaConfigurations&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;weather-processor-trigger&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;LambdaFunctionArn&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:lambda:REGION:ACCOUNT-ID:function:weather-data-processor&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Events&#34;</span>: [<span style="color:#e6db74">&#34;s3:ObjectCreated:*&#34;</span>],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Filter&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Key&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;FilterRules&#34;</span>: [
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;prefix&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;Value&#34;</span>: <span style="color:#e6db74">&#34;raw/&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;suffix&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;Value&#34;</span>: <span style="color:#e6db74">&#34;.json&#34;</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          ]
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Apply the configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3api put-bucket-notification-configuration <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --bucket your-weather-raw-bucket <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --notification-configuration file://notification-config.json
+</span></span></code></pre></div><h2 id="step-5-test-the-data-processing">Step 5: Test the Data Processing</h2>
+<h3 id="51-manual-test">5.1 Manual Test</h3>
+<p>Test with a sample weather data file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Upload a test file to trigger processing</span>
+</span></span><span style="display:flex;"><span>aws s3 cp test-weather-data.json s3://your-weather-raw-bucket/raw/test-weather-data.json
+</span></span></code></pre></div><h3 id="52-check-cloudwatch-logs">5.2 Check CloudWatch Logs</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># View Lambda logs</span>
+</span></span><span style="display:flex;"><span>aws logs describe-log-groups --log-group-name-prefix /aws/lambda/weather-data-processor
+</span></span></code></pre></div><h3 id="53-verify-processed-data">5.3 Verify Processed Data</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># List processed files</span>
+</span></span><span style="display:flex;"><span>aws s3 ls s3://your-weather-processed-bucket/processed/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Download and inspect processed data</span>
+</span></span><span style="display:flex;"><span>aws s3 cp s3://your-weather-processed-bucket/processed/test-weather-data_processed.json .
+</span></span><span style="display:flex;"><span>cat test-weather-data_processed.json | jq .
 </span></span></code></pre></div><h2 id="data-transformation-examples">Data Transformation Examples</h2>
 <h3 id="raw-openweathermap-data">Raw OpenWeatherMap Data</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
@@ -575,24 +1014,36 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature_celsius&#34;</span>: <span style="color:#ae81ff">32.0</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature_fahrenheit&#34;</span>: <span style="color:#ae81ff">89.6</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;feels_like_celsius&#34;</span>: <span style="color:#ae81ff">36.5</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;feels_like_fahrenheit&#34;</span>: <span style="color:#ae81ff">97.7</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;humidity_percent&#34;</span>: <span style="color:#ae81ff">74</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pressure_hpa&#34;</span>: <span style="color:#ae81ff">1013</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_main&#34;</span>: <span style="color:#e6db74">&#34;Clouds&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_description&#34;</span>: <span style="color:#e6db74">&#34;broken clouds&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_speed_ms&#34;</span>: <span style="color:#ae81ff">3.2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_speed_kmh&#34;</span>: <span style="color:#ae81ff">11.52</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_speed_mph&#34;</span>: <span style="color:#ae81ff">7.16</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_direction_deg&#34;</span>: <span style="color:#ae81ff">220</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;cloud_coverage_percent&#34;</span>: <span style="color:#ae81ff">75</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;heat_index&#34;</span>: <span style="color:#ae81ff">38.2</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;comfort_level&#34;</span>: <span style="color:#e6db74">&#34;uncomfortable&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;heat_index_celsius&#34;</span>: <span style="color:#ae81ff">38.2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;heat_index_fahrenheit&#34;</span>: <span style="color:#ae81ff">100.8</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;comfort_level&#34;</span>: <span style="color:#e6db74">&#34;hot&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_condition&#34;</span>: <span style="color:#e6db74">&#34;light&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_severity&#34;</span>: <span style="color:#e6db74">&#34;normal&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;data_collection_date&#34;</span>: <span style="color:#e6db74">&#34;2025-01-15&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="implementation-steps">Implementation Steps</h2>
+</span></span></code></pre></div><h2 id="monitoring-and-troubleshooting">Monitoring and Troubleshooting</h2>
+<h3 id="cloudwatch-metrics">CloudWatch Metrics</h3>
+<p>Monitor these key metrics:</p>
+<ul>
+<li>Lambda invocations</li>
+<li>Errors and duration</li>
+<li>S3 bucket metrics</li>
+</ul>
+<h3 id="common-issues">Common Issues</h3>
 <ol>
-<li><strong>Create Lambda Function</strong>: Set up a new Lambda for data processing</li>
-<li><strong>Configure S3 Trigger</strong>: Set up event notifications from raw data bucket</li>
-<li><strong>Implement Transformation Logic</strong>: Write code to transform weather data</li>
-<li><strong>Set Up Error Handling</strong>: Add robust error handling and logging</li>
-<li><strong>Test the Function</strong>: Verify transformation with test data</li>
+<li><strong>Permission Errors</strong>: Ensure Lambda has proper S3 permissions</li>
+<li><strong>Memory Issues</strong>: Increase Lambda memory if processing large files</li>
+<li><strong>Timeout</strong>: Adjust Lambda timeout for complex transformations</li>
 </ol>
 <h2 id="benefits-of-data-transformation">Benefits of Data Transformation</h2>
 <ul>
@@ -605,6 +1056,10 @@
 <p>After completing this module, you&rsquo;ll have a fully functional data transformation pipeline that prepares your weather data for analysis. In the next module, we&rsquo;ll use Amazon Athena to query and analyze this processed data.</p>
 
 <div class="notices tip" ><p>Data transformation is where you can add your domain-specific knowledge. Consider what additional weather metrics might be useful for your specific analysis needs.</p>
+</div>
+
+
+<div class="notices warning" ><p>Remember to replace placeholder values (YOUR-ACCOUNT-ID, REGION, bucket names) with your actual AWS account details.</p>
 </div>
 
 
@@ -760,6 +1215,57 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
         
@@ -772,7 +1278,7 @@
 			<a class="nav nav-prev" href="/2-data-collection-openweathermap/2.4-testing-monitoring/" title="Testing and Monitoring Weather Collection"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction and Architecture" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/4-data-storage-solutions/" title="Data Analysis with Athena" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -782,19 +1288,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752070880"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752070880"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752070880"></script>
-    <script src="/js/jquery.sticky.js?1752070880"></script>
-    <script src="/js/featherlight.min.js?1752070880"></script>
-    <script src="/js/highlight.pack.js?1752070880"></script>
+    <script src="/js/clipboard.min.js?1752216386"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752216386"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752216386"></script>
+    <script src="/js/jquery.sticky.js?1752216386"></script>
+    <script src="/js/featherlight.min.js?1752216386"></script>
+    <script src="/js/highlight.pack.js?1752216386"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752070880"></script>
-    <script src="/js/learn.js?1752070880"></script>
-    <script src="/js/hugo-learn.js?1752070880"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752216386"></script>
+    <script src="/js/learn.js?1752216386"></script>
+    <script src="/js/hugo-learn.js?1752216386"></script>
 
-    <link href="/mermaid/mermaid.css?1752070880" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752070880"></script>
+    <link href="/mermaid/mermaid.css?1752216386" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752216386"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

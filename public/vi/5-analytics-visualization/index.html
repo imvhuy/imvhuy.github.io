@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="vi" class="js csstransforms3d">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.147.8">
+    <meta name="description" content="Build a complete weather data ETL pipeline using AWS Lambda, S3, Athena, and QuickSight">
+<meta name="author" content="Dang Van Huy">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Trực quan hóa Dữ liệu với QuickSight :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+
+    
+    <link href="/css/nucleus.css?1752216959" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752216959" rel="stylesheet">
+    <link href="/css/hybrid.css?1752216959" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752216959" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752216959" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752216959" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752216959" rel="stylesheet">
+    <link href="/css/theme.css?1752216959" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752216959" rel="stylesheet">
+    
+    <link href="/css/theme-workshop.css?1752216959" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1752216959"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/vi/5-analytics-visualization/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="/">
+
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="30%"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#f90;fill-rule:evenodd;}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"></path><path class="cls-2" d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"></path><path class="cls-2" d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"></path></svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1752216959"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752216959"></script>
+<script type="text/javascript">
+    
+        var baseurl = "\/\/localhost:1313\/\/vi";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1752216959"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/1-introduction/">
+          <b>1. </b>Giới thiệu
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-data-collection-openweathermap/" title="Thu thập Dữ liệu Thời tiết với OpenWeatherMap" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-data-collection-openweathermap/">
+          <b>2. </b>Thu thập Dữ liệu Thời tiết với OpenWeatherMap
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/">
+          Thiết lập OpenWeatherMap API
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Xây dựng Lambda Weather Collector" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
+          Xây dựng Lambda Weather Collector
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với CloudWatch Events" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">
+          Lập lịch Tự động với CloudWatch Events
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/" title="Testing và Monitoring Thu thập Thời tiết" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/">
+          Testing và Monitoring Thu thập Thời tiết
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-serverless-processing-lambda/">
+          <b>3. </b>Xử lý và Chuyển đổi Dữ liệu
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/4-data-storage-solutions/" title="Phân tích Dữ liệu với Athena" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-data-storage-solutions/">
+          <b>4. </b>Phân tích Dữ liệu với Athena
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/5-analytics-visualization/" title="Trực quan hóa Dữ liệu với QuickSight" class="dd-item 
+        
+        active
+        
+        ">
+      <a href="/vi/5-analytics-visualization/">
+          <b>5. </b>Trực quan hóa Dữ liệu với QuickSight
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/6-cleanup-next-steps/" title="Dọn dẹp Tài nguyên và Bước tiếp theo" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/6-cleanup-next-steps/">
+          <b>6. </b>Dọn dẹp Tài nguyên và Bước tiếp theo
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="http://awsstudygroup.com"><i class='fab fa-aws'></i> AWS Study Group - Blog</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+          <div class="select-style">
+            <select id="select-language" onchange="location = this.value;">
+          
+          
+          
+              
+              
+                  
+                    
+                    
+                      <option id="en" value="//localhost:1313/5-analytics-visualization/">English</option>
+                    
+                  
+              
+                  
+              
+          
+              
+              
+                  
+              
+                  
+                    
+                    
+                      <option id="vi" value="//localhost:1313/vi/5-analytics-visualization/" selected>Tiếng Việt</option>
+                    
+                  
+              
+          
+        </select>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+          <g>
+            <g id="arrow-drop-down">
+              <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+            </g>
+          </g>
+        </svg>
+        </div>
+        </a>
+        </li>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+     
+    
+</left>
+<left>
+    <br>
+    <br>
+        <b> Last Updated </b> <br>
+        <i><font color=orange>23-06-2025</font></i>
+    </left>
+    <left>
+        <br>
+        <br>
+            <b> Author </b> <br>
+           
+            <i>
+                <a href="https://www.linkedin.com/in/imvhuy/"  style="color:orange">Đặng Văn Huy</a>
+        </i>
+        </left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > Trực quan hóa Dữ liệu với QuickSight
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#tổng-quan-module">Tổng quan Module</a></li>
+    <li><a href="#những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ Xây dựng</a></li>
+    <li><a href="#điều-kiện-tiên-quyết">Điều kiện tiên quyết</a></li>
+    <li><a href="#bước-1-thiết-lập-amazon-quicksight">Bước 1: Thiết lập Amazon QuickSight</a>
+      <ul>
+        <li><a href="#11-đăng-ký-quicksight">1.1 Đăng ký QuickSight</a></li>
+        <li><a href="#12-cấu-hình-quyền-quicksight">1.2 Cấu hình Quyền QuickSight</a></li>
+      </ul>
+    </li>
+    <li><a href="#bước-2-tạo-data-source-và-dataset">Bước 2: Tạo Data Source và Dataset</a>
+      <ul>
+        <li><a href="#21-kết-nối-với-athena">2.1 Kết nối với Athena</a></li>
+        <li><a href="#22-tạo-dataset-từ-weather-table">2.2 Tạo Dataset từ Weather Table</a></li>
+      </ul>
+    </li>
+    <li><a href="#bước-3-tạo-trực-quan-hóa-thời-tiết">Bước 3: Tạo Trực quan hóa Thời tiết</a>
+      <ul>
+        <li><a href="#31-biểu-đồ-đường-xu-hướng-nhiệt-độ">3.1 Biểu đồ Đường Xu hướng Nhiệt độ</a></li>
+        <li><a href="#32-biểu-đồ-tròn-điều-kiện-thời-tiết">3.2 Biểu đồ Tròn Điều kiện Thời tiết</a></li>
+        <li><a href="#33-biểu-đồ-cột-so-sánh-nhiệt-độ-thành-phố">3.3 Biểu đồ Cột So sánh Nhiệt độ Thành phố</a></li>
+        <li><a href="#34-biểu-đồ-phân-tán-độ-ẩm-vs-nhiệt-độ">3.4 Biểu đồ Phân tán Độ ẩm vs Nhiệt độ</a></li>
+        <li><a href="#35-chỉ-số-hiệu-suất-chính-kpis">3.5 Chỉ số Hiệu suất Chính (KPIs)</a></li>
+      </ul>
+    </li>
+    <li><a href="#bước-4-xây-dựng-dashboard-toàn-diện">Bước 4: Xây dựng Dashboard Toàn diện</a>
+      <ul>
+        <li><a href="#41-tổ-chức-bố-cục-dashboard">4.1 Tổ chức Bố cục Dashboard</a></li>
+        <li><a href="#42-thêm-bộ-lọc-tương-tác">4.2 Thêm Bộ lọc Tương tác</a></li>
+        <li><a href="#43-áp-dụng-styling-dashboard">4.3 Áp dụng Styling Dashboard</a></li>
+      </ul>
+    </li>
+    <li><a href="#bước-5-trực-quan-hóa-nâng-cao">Bước 5: Trực quan hóa Nâng cao</a>
+      <ul>
+        <li><a href="#51-tạo-heat-map-cho-nhiệt-độ-theo-thời-gian">5.1 Tạo Heat Map cho Nhiệt độ theo Thời gian</a></li>
+        <li><a href="#52-biểu-đồ-hướng-gió-sử-dụng-calculated-fields">5.2 Biểu đồ Hướng Gió (Sử dụng Calculated Fields)</a></li>
+        <li><a href="#53-gauge-mức-độ-nghiêm-trọng-thời-tiết">5.3 Gauge Mức độ Nghiêm trọng Thời tiết</a></li>
+      </ul>
+    </li>
+    <li><a href="#bước-6-xuất-bản-và-chia-sẻ-dashboard">Bước 6: Xuất bản và Chia sẻ Dashboard</a>
+      <ul>
+        <li><a href="#61-xuất-bản-dashboard">6.1 Xuất bản Dashboard</a></li>
+        <li><a href="#62-thiết-lập-quyền-chia-sẻ">6.2 Thiết lập Quyền Chia sẻ</a></li>
+        <li><a href="#63-tạo-dashboard-công-khai-tùy-chọn">6.3 Tạo Dashboard Công khai (Tùy chọn)</a></li>
+      </ul>
+    </li>
+    <li><a href="#bước-7-thiết-lập-làm-mới-dữ-liệu-tự-động">Bước 7: Thiết lập Làm mới Dữ liệu Tự động</a>
+      <ul>
+        <li><a href="#71-cấu-hình-làm-mới-dataset">7.1 Cấu hình Làm mới Dataset</a></li>
+        <li><a href="#72-giám-sát-trạng-thái-làm-mới">7.2 Giám sát Trạng thái Làm mới</a></li>
+      </ul>
+    </li>
+    <li><a href="#bước-8-tối-ưu-hóa-dashboard-và-best-practices">Bước 8: Tối ưu hóa Dashboard và Best Practices</a>
+      <ul>
+        <li><a href="#81-tối-ưu-hóa-hiệu-suất">8.1 Tối ưu hóa Hiệu suất</a></li>
+        <li><a href="#82-best-practices-trải-nghiệm-người-dùng">8.2 Best Practices Trải nghiệm Người dùng</a></li>
+      </ul>
+    </li>
+    <li><a href="#khắc-phục-các-vấn-đề-thường-gặp">Khắc phục Các Vấn đề Thường gặp</a>
+      <ul>
+        <li><a href="#vấn-đề-1-lỗi-insufficient-permissions">Vấn đề 1: Lỗi &ldquo;Insufficient permissions&rdquo;</a></li>
+        <li><a href="#vấn-đề-2-dữ-liệu-không-làm-mới">Vấn đề 2: Dữ liệu Không Làm mới</a></li>
+        <li><a href="#vấn-đề-3-hiệu-suất-dashboard-chậm">Vấn đề 3: Hiệu suất Dashboard Chậm</a></li>
+      </ul>
+    </li>
+    <li><a href="#phân-tích-chi-phí">Phân tích Chi phí</a></li>
+    <li><a href="#best-practices-bảo-mật">Best Practices Bảo mật</a></li>
+    <li><a href="#các-bước-tiếp-theo">Các bước tiếp theo</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Trực quan hóa Dữ liệu với QuickSight
+            </h1>
+          
+
+        
+
+
+
+	<h1 id="trực-quan-hóa-dữ-liệu-với-amazon-quicksight">Trực quan hóa Dữ liệu với Amazon QuickSight</h1>
+<p>Bây giờ khi bạn đã có dữ liệu thời tiết được lưu trữ và có thể truy vấn thông qua Athena, đã đến lúc tạo các trực quan hóa hấp dẫn! Trong module này, bạn sẽ sử dụng Amazon QuickSight để xây dựng dashboard tương tác giúp dữ liệu thời tiết của bạn trở nên sinh động.</p>
+<h2 id="tổng-quan-module">Tổng quan Module</h2>
+<p>Amazon QuickSight là dịch vụ business intelligence (BI) của AWS giúp dễ dàng tạo và xuất bản các dashboard tương tác. Bạn sẽ kết nối QuickSight với nguồn dữ liệu Athena và tạo các trực quan hóa tiết lộ các mẫu và thông tin chi tiết từ dữ liệu thời tiết.</p>
+<p><strong>Thời gian:</strong> 45-60 phút<br>
+<strong>Chi phí:</strong> ~$3-4 (sử dụng dùng thử miễn phí)</p>
+<h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ Xây dựng</h2>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
+    A[Athena Data] --&gt; B[QuickSight Dataset]
+    B --&gt; C[Visualizations]
+    C --&gt; D[Interactive Dashboard]
+    D --&gt; E[Published Reports]
+
+    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
+    style D fill:#66bb6a
+</code></pre><h2 id="điều-kiện-tiên-quyết">Điều kiện tiên quyết</h2>
+<ul>
+<li>Đã hoàn thành Module 4: Phân tích Dữ liệu với Athena</li>
+<li>Dữ liệu thời tiết có sẵn trong bảng Athena</li>
+<li>Tài khoản AWS với quyền QuickSight</li>
+</ul>
+<h2 id="bước-1-thiết-lập-amazon-quicksight">Bước 1: Thiết lập Amazon QuickSight</h2>
+<h3 id="11-đăng-ký-quicksight">1.1 Đăng ký QuickSight</h3>
+<ol>
+<li>Điều hướng đến <strong>Amazon QuickSight console</strong></li>
+<li>Nhấp <strong>Sign up for QuickSight</strong></li>
+<li>Chọn <strong>Standard Edition</strong> (bao gồm dùng thử miễn phí 30 ngày)</li>
+<li>Nhập thông tin tài khoản:
+<ul>
+<li><strong>Account name</strong>: <code>weather-analytics-[ten-ban]</code></li>
+<li><strong>Notification email</strong>: Địa chỉ email của bạn</li>
+</ul>
+</li>
+<li>Nhấp <strong>Finish</strong></li>
+</ol>
+<h3 id="12-cấu-hình-quyền-quicksight">1.2 Cấu hình Quyền QuickSight</h3>
+<ol>
+<li>Trong QuickSight, nhấp <strong>biểu tượng profile</strong> (góc phải trên)</li>
+<li>Chọn <strong>Manage QuickSight</strong></li>
+<li>Chọn <strong>Security &amp; permissions</strong></li>
+<li>Nhấp <strong>Add or remove</strong></li>
+<li>Kích hoạt các dịch vụ sau:
+<ul>
+<li>✅ <strong>Amazon Athena</strong></li>
+<li>✅ <strong>Amazon S3</strong></li>
+</ul>
+</li>
+<li>Cho S3, nhấp <strong>Select S3 buckets</strong></li>
+<li>Chọn bucket dữ liệu thời tiết:
+<ul>
+<li><code>your-weather-processed-bucket</code></li>
+<li><code>your-athena-query-results-bucket</code></li>
+</ul>
+</li>
+<li>Nhấp <strong>Update</strong></li>
+</ol>
+<h2 id="bước-2-tạo-data-source-và-dataset">Bước 2: Tạo Data Source và Dataset</h2>
+<h3 id="21-kết-nối-với-athena">2.1 Kết nối với Athena</h3>
+<ol>
+<li>Trong trang chủ QuickSight, nhấp <strong>Datasets</strong></li>
+<li>Nhấp <strong>New dataset</strong></li>
+<li>Chọn <strong>Athena</strong> làm data source</li>
+<li>Cấu hình kết nối:
+<ul>
+<li><strong>Data source name</strong>: <code>Weather-Data-Athena</code></li>
+<li><strong>Athena workgroup</strong>: <code>primary</code> (mặc định)</li>
+</ul>
+</li>
+<li>Nhấp <strong>Create data source</strong></li>
+</ol>
+<h3 id="22-tạo-dataset-từ-weather-table">2.2 Tạo Dataset từ Weather Table</h3>
+<ol>
+<li>Chọn database: <code>weather_analytics</code></li>
+<li>Chọn table: <code>current_weather</code></li>
+<li>Chọn <strong>Directly query your data</strong></li>
+<li>Nhấp <strong>Visualize</strong></li>
+</ol>
+
+<div class="notices tip" ><p>Nếu dataset của bạn nhỏ (&lt; 1GB), bạn có thể chọn &ldquo;Import to SPICE&rdquo; để có hiệu suất tốt hơn. SPICE là engine tính toán trong bộ nhớ của QuickSight.</p>
+</div>
+
+<h2 id="bước-3-tạo-trực-quan-hóa-thời-tiết">Bước 3: Tạo Trực quan hóa Thời tiết</h2>
+<h3 id="31-biểu-đồ-đường-xu-hướng-nhiệt-độ">3.1 Biểu đồ Đường Xu hướng Nhiệt độ</h3>
+<ol>
+<li>
+<p><strong>Tạo phân tích mới</strong>:</p>
+<ul>
+<li>Nhấp <strong>+ Add</strong> → <strong>Add visual</strong></li>
+<li>Chọn <strong>Line chart</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Cấu hình biểu đồ</strong>:</p>
+<ul>
+<li><strong>X-axis</strong>: Kéo <code>data_collection_date</code> vào X-axis</li>
+<li><strong>Value</strong>: Kéo <code>temperature_celsius</code> vào Value</li>
+<li><strong>Color</strong>: Kéo <code>city_name</code> vào Color</li>
+</ul>
+</li>
+<li>
+<p><strong>Tùy chỉnh biểu đồ</strong>:</p>
+<ul>
+<li>Nhấp <strong>visual</strong> → <strong>Format visual</strong></li>
+<li><strong>Title</strong>: &ldquo;Xu hướng Nhiệt độ theo Thành phố&rdquo;</li>
+<li><strong>Y-axis label</strong>: &ldquo;Nhiệt độ (°C)&rdquo;</li>
+<li><strong>Legend</strong>: Đặt ở dưới cùng</li>
+</ul>
+</li>
+</ol>
+<h3 id="32-biểu-đồ-tròn-điều-kiện-thời-tiết">3.2 Biểu đồ Tròn Điều kiện Thời tiết</h3>
+<ol>
+<li>
+<p><strong>Thêm visual mới</strong>:</p>
+<ul>
+<li>Nhấp <strong>+ Add</strong> → <strong>Add visual</strong></li>
+<li>Chọn <strong>Pie chart</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Cấu hình biểu đồ</strong>:</p>
+<ul>
+<li><strong>Group/Color</strong>: Kéo <code>weather_main</code> vào Group/Color</li>
+<li><strong>Value</strong>: Kéo <code>city_name</code> vào Value</li>
+<li><strong>Aggregate</strong>: Đổi thành <strong>Count</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Tùy chỉnh</strong>:</p>
+<ul>
+<li><strong>Title</strong>: &ldquo;Phân bố Điều kiện Thời tiết&rdquo;</li>
+<li><strong>Legend</strong>: Hiển thị phần trăm</li>
+</ul>
+</li>
+</ol>
+<h3 id="33-biểu-đồ-cột-so-sánh-nhiệt-độ-thành-phố">3.3 Biểu đồ Cột So sánh Nhiệt độ Thành phố</h3>
+<ol>
+<li>
+<p><strong>Thêm visual mới</strong>:</p>
+<ul>
+<li>Chọn <strong>Vertical bar chart</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Cấu hình</strong>:</p>
+<ul>
+<li><strong>X-axis</strong>: Kéo <code>city_name</code> vào X-axis</li>
+<li><strong>Value</strong>: Kéo <code>temperature_celsius</code> vào Value</li>
+<li><strong>Aggregate</strong>: Đổi thành <strong>Average</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Tùy chỉnh</strong>:</p>
+<ul>
+<li><strong>Title</strong>: &ldquo;Nhiệt độ Trung bình theo Thành phố&rdquo;</li>
+<li><strong>Y-axis label</strong>: &ldquo;Nhiệt độ Trung bình (°C)&rdquo;</li>
+<li>Sắp xếp theo giá trị (giảm dần)</li>
+</ul>
+</li>
+</ol>
+<h3 id="34-biểu-đồ-phân-tán-độ-ẩm-vs-nhiệt-độ">3.4 Biểu đồ Phân tán Độ ẩm vs Nhiệt độ</h3>
+<ol>
+<li>
+<p><strong>Thêm visual mới</strong>:</p>
+<ul>
+<li>Chọn <strong>Scatter plot</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Cấu hình</strong>:</p>
+<ul>
+<li><strong>X-axis</strong>: Kéo <code>temperature_celsius</code> vào X-axis</li>
+<li><strong>Y-axis</strong>: Kéo <code>humidity_percent</code> vào Y-axis</li>
+<li><strong>Color</strong>: Kéo <code>comfort_level</code> vào Color</li>
+<li><strong>Size</strong>: Kéo <code>pressure_hpa</code> vào Size</li>
+</ul>
+</li>
+<li>
+<p><strong>Tùy chỉnh</strong>:</p>
+<ul>
+<li><strong>Title</strong>: &ldquo;Tương quan Độ ẩm và Nhiệt độ&rdquo;</li>
+<li><strong>X-axis label</strong>: &ldquo;Nhiệt độ (°C)&rdquo;</li>
+<li><strong>Y-axis label</strong>: &ldquo;Độ ẩm (%)&rdquo;</li>
+</ul>
+</li>
+</ol>
+<h3 id="35-chỉ-số-hiệu-suất-chính-kpis">3.5 Chỉ số Hiệu suất Chính (KPIs)</h3>
+<p>Tạo các ô KPI cho dữ liệu thời tiết mới nhất:</p>
+<h4 id="kpi-nhiệt-độ-hiện-tại">KPI Nhiệt độ Hiện tại</h4>
+<ol>
+<li><strong>Thêm visual mới</strong> → <strong>KPI</strong></li>
+<li><strong>Cấu hình</strong>:
+<ul>
+<li><strong>Value</strong>: <code>temperature_celsius</code></li>
+<li><strong>Aggregate</strong>: <strong>Average</strong></li>
+</ul>
+</li>
+<li><strong>Filter</strong>: Thêm filter cho ngày mới nhất</li>
+<li><strong>Title</strong>: &ldquo;Nhiệt độ Trung bình Hiện tại&rdquo;</li>
+</ol>
+<h4 id="kpi-tốc-độ-gió">KPI Tốc độ Gió</h4>
+<ol>
+<li><strong>Thêm KPI visual</strong></li>
+<li><strong>Cấu hình</strong>:
+<ul>
+<li><strong>Value</strong>: <code>wind_speed_kmh</code></li>
+<li><strong>Aggregate</strong>: <strong>Average</strong></li>
+</ul>
+</li>
+<li><strong>Title</strong>: &ldquo;Tốc độ Gió Trung bình Hiện tại&rdquo;</li>
+</ol>
+<h4 id="kpi-độ-ẩm">KPI Độ ẩm</h4>
+<ol>
+<li><strong>Thêm KPI visual</strong></li>
+<li><strong>Cấu hình</strong>:
+<ul>
+<li><strong>Value</strong>: <code>humidity_percent</code></li>
+<li><strong>Aggregate</strong>: <strong>Average</strong></li>
+</ul>
+</li>
+<li><strong>Title</strong>: &ldquo;Độ ẩm Trung bình Hiện tại&rdquo;</li>
+</ol>
+<h2 id="bước-4-xây-dựng-dashboard-toàn-diện">Bước 4: Xây dựng Dashboard Toàn diện</h2>
+<h3 id="41-tổ-chức-bố-cục-dashboard">4.1 Tổ chức Bố cục Dashboard</h3>
+<ol>
+<li>
+<p><strong>Thay đổi kích thước và sắp xếp visuals</strong>:</p>
+<ul>
+<li>Đặt KPIs ở trên cùng theo hàng ngang</li>
+<li>Biểu đồ xu hướng nhiệt độ ở khu vực chính</li>
+<li>Biểu đồ tròn và biểu đồ cột cạnh nhau bên dưới</li>
+<li>Biểu đồ phân tán ở dưới cùng</li>
+</ul>
+</li>
+<li>
+<p><strong>Thêm tiêu đề dashboard</strong>:</p>
+<ul>
+<li>Nhấp <strong>+ Add</strong> → <strong>Add title</strong></li>
+<li>Text: &ldquo;Dashboard Phân tích Thời tiết&rdquo;</li>
+<li>Style: Lớn, căn giữa</li>
+</ul>
+</li>
+</ol>
+<h3 id="42-thêm-bộ-lọc-tương-tác">4.2 Thêm Bộ lọc Tương tác</h3>
+<ol>
+<li>
+<p><strong>Thêm bộ lọc ngày</strong>:</p>
+<ul>
+<li>Nhấp <strong>Filter</strong> pane (bên trái)</li>
+<li>Nhấp <strong>Create one</strong> → Chọn <code>data_collection_date</code></li>
+<li>Filter type: <strong>Date range</strong></li>
+<li>Default: 7 ngày gần nhất</li>
+</ul>
+</li>
+<li>
+<p><strong>Thêm bộ lọc thành phố</strong>:</p>
+<ul>
+<li>Tạo filter cho <code>city_name</code></li>
+<li>Filter type: <strong>Multi-select dropdown</strong></li>
+<li>Hiển thị tất cả thành phố theo mặc định</li>
+</ul>
+</li>
+<li>
+<p><strong>Thêm bộ lọc điều kiện thời tiết</strong>:</p>
+<ul>
+<li>Tạo filter cho <code>weather_main</code></li>
+<li>Filter type: <strong>Multi-select dropdown</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="43-áp-dụng-styling-dashboard">4.3 Áp dụng Styling Dashboard</h3>
+<ol>
+<li>
+<p><strong>Chọn color theme</strong>:</p>
+<ul>
+<li>Nhấp <strong>Themes</strong> (menu trên)</li>
+<li>Chọn <strong>Midnight</strong> hoặc <strong>Classic</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Tùy chỉnh màu sắc</strong>:</p>
+<ul>
+<li>Cho biểu đồ nhiệt độ: Sử dụng gradient xanh-đỏ</li>
+<li>Cho điều kiện thời tiết: Sử dụng màu riêng biệt cho mỗi điều kiện</li>
+</ul>
+</li>
+<li>
+<p><strong>Thêm text mô tả</strong>:</p>
+<ul>
+<li>Nhấp <strong>+ Add</strong> → <strong>Add text box</strong></li>
+<li>Thêm insights hoặc hướng dẫn cho người dùng dashboard</li>
+</ul>
+</li>
+</ol>
+<h2 id="bước-5-trực-quan-hóa-nâng-cao">Bước 5: Trực quan hóa Nâng cao</h2>
+<h3 id="51-tạo-heat-map-cho-nhiệt-độ-theo-thời-gian">5.1 Tạo Heat Map cho Nhiệt độ theo Thời gian</h3>
+<ol>
+<li><strong>Thêm visual mới</strong> → <strong>Heat map</strong></li>
+<li><strong>Cấu hình</strong>:
+<ul>
+<li><strong>Rows</strong>: <code>city_name</code></li>
+<li><strong>Columns</strong>: <code>data_collection_date</code></li>
+<li><strong>Values</strong>: <code>temperature_celsius</code> (Average)</li>
+</ul>
+</li>
+<li><strong>Tùy chỉnh</strong>:
+<ul>
+<li><strong>Title</strong>: &ldquo;Heat Map Nhiệt độ theo Thành phố và Ngày&rdquo;</li>
+<li><strong>Color scale</strong>: Xanh (lạnh) đến Đỏ (nóng)</li>
+</ul>
+</li>
+</ol>
+<h3 id="52-biểu-đồ-hướng-gió-sử-dụng-calculated-fields">5.2 Biểu đồ Hướng Gió (Sử dụng Calculated Fields)</h3>
+<ol>
+<li>
+<p><strong>Tạo calculated field</strong>:</p>
+<ul>
+<li>Nhấp <strong>+ Add</strong> → <strong>Add calculated field</strong></li>
+<li><strong>Name</strong>: <code>wind_direction_category</code></li>
+<li><strong>Formula</strong>:</li>
+</ul>
+<pre tabindex="0"><code>ifelse(
+  wind_direction_deg &gt;= 337.5 OR wind_direction_deg &lt; 22.5, &#34;N&#34;,
+  wind_direction_deg &gt;= 22.5 AND wind_direction_deg &lt; 67.5, &#34;NE&#34;,
+  wind_direction_deg &gt;= 67.5 AND wind_direction_deg &lt; 112.5, &#34;E&#34;,
+  wind_direction_deg &gt;= 112.5 AND wind_direction_deg &lt; 157.5, &#34;SE&#34;,
+  wind_direction_deg &gt;= 157.5 AND wind_direction_deg &lt; 202.5, &#34;S&#34;,
+  wind_direction_deg &gt;= 202.5 AND wind_direction_deg &lt; 247.5, &#34;SW&#34;,
+  wind_direction_deg &gt;= 247.5 AND wind_direction_deg &lt; 292.5, &#34;W&#34;,
+  &#34;NW&#34;
+)
+</code></pre></li>
+<li>
+<p><strong>Tạo biểu đồ hướng gió</strong>:</p>
+<ul>
+<li><strong>Visual type</strong>: Donut chart</li>
+<li><strong>Group</strong>: <code>wind_direction_category</code></li>
+<li><strong>Value</strong>: Count of records</li>
+<li><strong>Title</strong>: &ldquo;Phân bố Hướng Gió&rdquo;</li>
+</ul>
+</li>
+</ol>
+<h3 id="53-gauge-mức-độ-nghiêm-trọng-thời-tiết">5.3 Gauge Mức độ Nghiêm trọng Thời tiết</h3>
+<ol>
+<li>
+<p><strong>Tạo calculated field</strong>:</p>
+<ul>
+<li><strong>Name</strong>: <code>severity_score</code></li>
+<li><strong>Formula</strong>:</li>
+</ul>
+<pre tabindex="0"><code>ifelse(
+  weather_severity = &#34;nghiêm_trọng&#34;, 4,
+  weather_severity = &#34;vừa&#34;, 3,
+  weather_severity = &#34;nhẹ&#34;, 2,
+  1
+)
+</code></pre></li>
+<li>
+<p><strong>Thêm gauge visual</strong>:</p>
+<ul>
+<li><strong>Value</strong>: <code>severity_score</code> (Average)</li>
+<li><strong>Title</strong>: &ldquo;Chỉ số Mức độ Nghiêm trọng Thời tiết&rdquo;</li>
+<li><strong>Range</strong>: 1-4</li>
+</ul>
+</li>
+</ol>
+<h2 id="bước-6-xuất-bản-và-chia-sẻ-dashboard">Bước 6: Xuất bản và Chia sẻ Dashboard</h2>
+<h3 id="61-xuất-bản-dashboard">6.1 Xuất bản Dashboard</h3>
+<ol>
+<li>Nhấp <strong>Share</strong> (góc phải trên)</li>
+<li>Nhấp <strong>Publish dashboard</strong></li>
+<li><strong>Dashboard name</strong>: &ldquo;Dashboard Phân tích Thời tiết&rdquo;</li>
+<li><strong>Description</strong>: &ldquo;Trực quan hóa dữ liệu thời tiết tương tác hiển thị xu hướng nhiệt độ, mẫu thời tiết và so sánh thành phố&rdquo;</li>
+<li>Nhấp <strong>Publish dashboard</strong></li>
+</ol>
+<h3 id="62-thiết-lập-quyền-chia-sẻ">6.2 Thiết lập Quyền Chia sẻ</h3>
+<ol>
+<li>Trong dashboard đã xuất bản, nhấp <strong>Share</strong></li>
+<li><strong>Add users or groups</strong>:
+<ul>
+<li>Nhập địa chỉ email của người dùng để chia sẻ</li>
+<li>Đặt quyền: <strong>Viewer</strong> hoặc <strong>Co-owner</strong></li>
+</ul>
+</li>
+<li>Nhấp <strong>Share</strong></li>
+</ol>
+<h3 id="63-tạo-dashboard-công-khai-tùy-chọn">6.3 Tạo Dashboard Công khai (Tùy chọn)</h3>
+<ol>
+<li>Nhấp <strong>Share</strong> → <strong>Manage dashboard access</strong></li>
+<li>Kích hoạt <strong>Make dashboard public</strong></li>
+<li>Sao chép URL công khai để chia sẻ bên ngoài</li>
+</ol>
+
+<div class="notices warning" ><p>Chỉ công khai dashboard nếu dữ liệu thời tiết của bạn không chứa thông tin nhạy cảm.</p>
+</div>
+
+<h2 id="bước-7-thiết-lập-làm-mới-dữ-liệu-tự-động">Bước 7: Thiết lập Làm mới Dữ liệu Tự động</h2>
+<h3 id="71-cấu-hình-làm-mới-dataset">7.1 Cấu hình Làm mới Dataset</h3>
+<ol>
+<li>Đi đến <strong>Datasets</strong></li>
+<li>Chọn weather dataset của bạn</li>
+<li>Nhấp <strong>Refresh</strong> → <strong>Schedule refresh</strong></li>
+<li><strong>Cấu hình lịch</strong>:
+<ul>
+<li><strong>Frequency</strong>: Daily</li>
+<li><strong>Time</strong>: Sáng sớm (ví dụ: 6 AM)</li>
+<li><strong>Time zone</strong>: Múi giờ địa phương của bạn</li>
+</ul>
+</li>
+<li><strong>Lưu lịch</strong></li>
+</ol>
+<h3 id="72-giám-sát-trạng-thái-làm-mới">7.2 Giám sát Trạng thái Làm mới</h3>
+<ol>
+<li>Kiểm tra lịch sử làm mới trong <strong>Dataset settings</strong></li>
+<li>Thiết lập <strong>thông báo</strong> cho làm mới thất bại</li>
+<li>Giám sát chỉ báo độ tươi của dữ liệu trong dashboard</li>
+</ol>
+<h2 id="bước-8-tối-ưu-hóa-dashboard-và-best-practices">Bước 8: Tối ưu hóa Dashboard và Best Practices</h2>
+<h3 id="81-tối-ưu-hóa-hiệu-suất">8.1 Tối ưu hóa Hiệu suất</h3>
+<ol>
+<li>
+<p><strong>Sử dụng SPICE cho hiệu suất tốt hơn</strong>:</p>
+<ul>
+<li>Import dữ liệu vào SPICE nếu dataset &lt; 10GB</li>
+<li>Lập lịch làm mới SPICE thường xuyên</li>
+</ul>
+</li>
+<li>
+<p><strong>Tối ưu hóa truy vấn</strong>:</p>
+<ul>
+<li>Sử dụng filter để giảm việc quét dữ liệu</li>
+<li>Tạo bảng tóm tắt trong Athena cho dataset lớn</li>
+</ul>
+</li>
+<li>
+<p><strong>Giới hạn độ phức tạp visual</strong>:</p>
+<ul>
+<li>Tối đa 15-20 điểm dữ liệu mỗi biểu đồ</li>
+<li>Sử dụng drill-down cho view chi tiết</li>
+</ul>
+</li>
+</ol>
+<h3 id="82-best-practices-trải-nghiệm-người-dùng">8.2 Best Practices Trải nghiệm Người dùng</h3>
+<ol>
+<li>
+<p><strong>Thứ bậc visual rõ ràng</strong>:</p>
+<ul>
+<li>Các metric quan trọng nhất ở trên</li>
+<li>Các visual liên quan được nhóm lại</li>
+<li>Màu sắc nhất quán</li>
+</ul>
+</li>
+<li>
+<p><strong>Các yếu tố tương tác</strong>:</p>
+<ul>
+<li>Cung cấp hướng dẫn filter rõ ràng</li>
+<li>Sử dụng phạm vi ngày nhất quán</li>
+<li>Kích hoạt cross-filtering giữa các visual</li>
+</ul>
+</li>
+<li>
+<p><strong>Tính responsive di động</strong>:</p>
+<ul>
+<li>Kiểm tra dashboard trên thiết bị di động</li>
+<li>Điều chỉnh layout cho màn hình nhỏ hơn</li>
+<li>Ưu tiên metric chính cho view di động</li>
+</ul>
+</li>
+</ol>
+<h2 id="khắc-phục-các-vấn-đề-thường-gặp">Khắc phục Các Vấn đề Thường gặp</h2>
+<h3 id="vấn-đề-1-lỗi-insufficient-permissions">Vấn đề 1: Lỗi &ldquo;Insufficient permissions&rdquo;</h3>
+<ul>
+<li><strong>Giải pháp</strong>: Kiểm tra quyền IAM của QuickSight cho truy cập Athena và S3</li>
+<li>Xác minh quyền bucket trong cài đặt bảo mật QuickSight</li>
+</ul>
+<h3 id="vấn-đề-2-dữ-liệu-không-làm-mới">Vấn đề 2: Dữ liệu Không Làm mới</h3>
+<ul>
+<li><strong>Giải pháp</strong>: Kiểm tra quyền truy vấn Athena</li>
+<li>Xác minh trạng thái kết nối data source</li>
+<li>Xem lại error logs của làm mới</li>
+</ul>
+<h3 id="vấn-đề-3-hiệu-suất-dashboard-chậm">Vấn đề 3: Hiệu suất Dashboard Chậm</h3>
+<ul>
+<li><strong>Giải pháp</strong>: Import dữ liệu vào SPICE</li>
+<li>Tối ưu hóa truy vấn Athena với filtering phù hợp</li>
+<li>Giảm số lượng visual mỗi dashboard</li>
+</ul>
+<h2 id="phân-tích-chi-phí">Phân tích Chi phí</h2>
+<p><strong>Chi phí QuickSight cho module này:</strong></p>
+<ul>
+<li><strong>Standard Edition</strong>: $9/tháng mỗi author (dùng thử miễn phí 30 ngày)</li>
+<li><strong>SPICE storage</strong>: $0.25/GB/tháng</li>
+<li><strong>Enterprise Edition</strong>: $18/tháng mỗi author (tính năng nâng cao)</li>
+</ul>
+<p><strong>Tổng chi phí ước tính</strong>: $0-4 trong thời gian dùng thử miễn phí</p>
+<h2 id="best-practices-bảo-mật">Best Practices Bảo mật</h2>
+<ol>
+<li>
+<p><strong>Kiểm soát Truy cập</strong>:</p>
+<ul>
+<li>Sử dụng IAM roles cho quyền dịch vụ</li>
+<li>Triển khai row-level security nếu cần</li>
+<li>Audit thường xuyên quyền truy cập người dùng</li>
+</ul>
+</li>
+<li>
+<p><strong>Bảo vệ Dữ liệu</strong>:</p>
+<ul>
+<li>Kích hoạt mã hóa trong transit và at rest</li>
+<li>Sử dụng VPC endpoints cho kết nối riêng tư</li>
+<li>Giám sát patterns truy cập dữ liệu</li>
+</ul>
+</li>
+</ol>
+<h2 id="các-bước-tiếp-theo">Các bước tiếp theo</h2>
+<p>Sau khi hoàn thành module này, bạn sẽ có:</p>
+<ul>
+<li>✅ Dashboard thời tiết tương tác với nhiều trực quan hóa</li>
+<li>✅ Làm mới dữ liệu tự động từ ETL pipeline</li>
+<li>✅ Insights có thể chia sẻ cho phân tích thời tiết</li>
+<li>✅ Hiểu biết về best practices của QuickSight</li>
+</ul>
+<p><strong>Sắp tới trong Module 6</strong>: Học cách dọn dẹp đúng cách các tài nguyên AWS và khám phá các cải tiến nâng cao cho nền tảng phân tích thời tiết của bạn.</p>
+
+<div class="notices tip" ><p>Lưu dashboard của bạn dưới dạng template để nhanh chóng tạo dashboard tương tự cho các dataset hoặc thời gian khác nhau.</p>
+</div>
+
+
+<div class="notices info" ><p>QuickSight cung cấp insights được hỗ trợ ML. Hãy thử tính năng <strong>ML Insights</strong> để tự động khám phá anomalies và trends trong dữ liệu thời tiết của bạn.</p>
+</div>
+
+
+<div class="notices warning" ><p>Nhớ hủy đăng ký QuickSight sau workshop nếu bạn không có kế hoạch tiếp tục sử dụng để tránh các khoản phí liên tục.</p>
+</div>
+
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/vi/4-data-storage-solutions/" title="Phân tích Dữ liệu với Athena"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/vi/6-cleanup-next-steps/" title="Dọn dẹp Tài nguyên và Bước tiếp theo" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1752216959"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752216959"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752216959"></script>
+    <script src="/js/jquery.sticky.js?1752216959"></script>
+    <script src="/js/featherlight.min.js?1752216959"></script>
+    <script src="/js/highlight.pack.js?1752216959"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752216959"></script>
+    <script src="/js/learn.js?1752216959"></script>
+    <script src="/js/hugo-learn.js?1752216959"></script>
+
+    <link href="/mermaid/mermaid.css?1752216959" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752216959"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-158079754-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

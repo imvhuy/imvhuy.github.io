@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Thu thập Dữ liệu Thời tiết với Lambda on Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>Thu thập Dữ liệu Thời tiết với OpenWeatherMap on Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
     <link>//localhost:1313/vi/2-data-collection-openweathermap/</link>
-    <description>Recent content in Thu thập Dữ liệu Thời tiết với Lambda on Hệ thống ETL Dữ liệu Thời tiết với AWS</description>
+    <description>Recent content in Thu thập Dữ liệu Thời tiết với OpenWeatherMap on Hệ thống ETL Dữ liệu Thời tiết với AWS</description>
     <generator>Hugo</generator>
     <language>vi</language>
     <lastBuildDate></lastBuildDate>
