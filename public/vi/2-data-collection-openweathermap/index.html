@@ -12,21 +12,21 @@
     <title>Thu thập Dữ liệu Thời tiết với OpenWeatherMap :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752217735" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752217735" rel="stylesheet">
-    <link href="/css/hybrid.css?1752217735" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752217735" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752217735" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752217735" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752217735" rel="stylesheet">
-    <link href="/css/theme.css?1752217735" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752217735" rel="stylesheet">
+    <link href="/css/nucleus.css?1752242330" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752242330" rel="stylesheet">
+    <link href="/css/hybrid.css?1752242330" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752242330" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752242330" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752242330" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752242330" rel="stylesheet">
+    <link href="/css/theme.css?1752242330" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752242330" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752217735" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752242330" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752217735"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752242330"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752217735"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752217735"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752242330"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752242330"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752217735"></script>
+<script type="text/javascript" src="/js/search.js?1752242330"></script>
 
     
   </div>
@@ -328,6 +328,32 @@
  
 
           
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/6-cleanup-next-steps/" title="Dọn dẹp Tài nguyên và Bước tiếp theo" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/6-cleanup-next-steps/">
+          <b>6. </b>Dọn dẹp Tài nguyên và Bước tiếp theo
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -357,18 +383,6 @@
             <select id="select-language" onchange="location = this.value;">
           
           
-          
-              
-              
-                  
-                    
-                    
-                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/">English</option>
-                    
-                  
-              
-                  
-              
           
               
               
@@ -472,8 +486,7 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</a></li>
-    <li><a href="#các-phần-trong-module-này">Các Phần trong Module này</a>
+    <li>
       <ul>
         <li><a href="#21-openweathermap-setup"><a href="2.1-openweathermap-setup/">2.1 OpenWeatherMap Setup</a></a></li>
         <li><a href="#22-lambda-weather-collector"><a href="2.2-lambda-weather-collector/">2.2 Lambda Weather Collector</a></a></li>
@@ -483,7 +496,6 @@
     </li>
     <li><a href="#kiến-trúc-tổng-quan">Kiến trúc Tổng quan</a></li>
     <li><a href="#loại-dữ-liệu-thu-thập">Loại Dữ liệu Thu thập</a></li>
-    <li><a href="#thành-phố-mục-tiêu">Thành phố Mục tiêu</a></li>
     <li><a href="#lịch-trình-thu-thập">Lịch trình Thu thập</a></li>
     <li><a href="#ước-tính-chi-phí">Ước tính Chi phí</a></li>
     <li><a href="#kết-quả-mong-đợi">Kết quả Mong đợi</a></li>
@@ -513,38 +525,19 @@
 
 
 
-	<p>Trong module này, bạn sẽ học cách thiết lập thu thập dữ liệu thời tiết tự động bằng OpenWeatherMap API và AWS Lambda. Đây là nền tảng của pipeline ETL phân tích thời tiết, nơi chúng ta sẽ xây dựng hệ thống thu thập dữ liệu serverless đáng tin cậy.</p>
-<h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</h2>
-<p>Khi hoàn thành module này, bạn sẽ có:</p>
-<ul>
-<li>✅ Tài khoản OpenWeatherMap API với API key được bảo mật</li>
-<li>✅ Lambda functions thu thập dữ liệu thời tiết hiện tại và dự báo</li>
-<li>✅ Lập lịch tự động bằng CloudWatch Events</li>
-<li>✅ Monitoring và testing toàn diện</li>
-<li>✅ Error handling và alerting system</li>
-</ul>
-<h2 id="các-phần-trong-module-này">Các Phần trong Module này</h2>
-<p>Module này được chia thành 4 phần chính:</p>
+	<p>Trong phần này, ta sẽ học cách thiết lập thu thập dữ liệu thời tiết tự động bằng OpenWeatherMap API và AWS Lambda. Đây là nền tảng của pipeline ETL phân tích thời tiết, nơi chúng ta sẽ xây dựng hệ thống thu thập dữ liệu serverless đáng tin cậy.</p>
 <h3 id="21-openweathermap-setup"><a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/">2.1 OpenWeatherMap Setup</a></h3>
 <p><strong>Thiết lập API và Credentials</strong></p>
 <p>Thiết lập tài khoản OpenWeatherMap, lấy API key, và cấu hình Systems Manager Parameter Store để lưu trữ credentials một cách bảo mật. Bạn sẽ học cách quản lý API keys và test connectivity.</p>
-<p>📖 <strong>Bạn sẽ học</strong>: Đăng ký API, bảo mật credentials, test API endpoints<br>
-⏱️ <strong>Thời gian</strong>: 15-20 phút</p>
 <h3 id="22-lambda-weather-collector"><a href="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/">2.2 Lambda Weather Collector</a></h3>
 <p><strong>Xây dựng Functions Thu thập Dữ liệu</strong></p>
 <p>Tạo các Lambda functions để thu thập dữ liệu thời tiết hiện tại và dự báo từ OpenWeatherMap API. Bao gồm IAM roles, S3 bucket setup, và function code với error handling.</p>
-<p>📖 <strong>Bạn sẽ học</strong>: Lambda development, S3 integration, error handling<br>
-⏱️ <strong>Thời gian</strong>: 45-60 phút</p>
 <h3 id="23-automated-scheduling"><a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">2.3 Automated Scheduling</a></h3>
 <p><strong>Lập lịch Tự động với CloudWatch Events</strong></p>
 <p>Thiết lập CloudWatch Events để chạy các Lambda functions theo lịch trình tự động. Cấu hình monitoring, alarms, và notifications để đảm bảo hệ thống chạy ổn định.</p>
-<p>📖 <strong>Bạn sẽ học</strong>: CloudWatch Events, scheduling patterns, monitoring setup<br>
-⏱️ <strong>Thời gian</strong>: 30-40 phút</p>
 <h3 id="24-testing-và-monitoring"><a href="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/">2.4 Testing và Monitoring</a></h3>
 <p><strong>Testing và Monitoring Toàn diện</strong></p>
 <p>Thiết lập testing strategy bao gồm manual testing, data quality validation, performance testing, và automated health checks. Tạo dashboard để monitor hệ thống.</p>
-<p>📖 <strong>Bạn sẽ học</strong>: Testing strategies, data validation, performance monitoring<br>
-⏱️ <strong>Thời gian</strong>: 30-40 phút</p>
 <h2 id="kiến-trúc-tổng-quan">Kiến trúc Tổng quan</h2>
 <pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
     A[OpenWeatherMap API] --&gt; B[Lambda Weather Collector]
@@ -564,25 +557,14 @@
 </code></pre><h2 id="loại-dữ-liệu-thu-thập">Loại Dữ liệu Thu thập</h2>
 <p>Thu thập dữ liệu thời tiết sẽ tập trung vào:</p>
 <ol>
-<li><strong>Thời tiết Hiện tại</strong>: Điều kiện thời gian thực cho 6 thành phố SEA</li>
+<li><strong>Thời tiết Hiện tại</strong>: Điều kiện thời gian thực cho 6 tỉnh thành ở Việt Nam là: Hà Nội, Hồ Chí Minh, Đà Nẵng, Gia Lai, Cần Thơ, Huế</li>
 <li><strong>Dự báo 5 Ngày</strong>: Dự đoán thời tiết mỗi 3 giờ</li>
 <li><strong>Metadata</strong>: Timestamp, location, collection info</li>
 </ol>
-<h2 id="thành-phố-mục-tiêu">Thành phố Mục tiêu</h2>
-<p>Chúng ta sẽ thu thập dữ liệu thời tiết cho các thành phố lớn ở Đông Nam Á:</p>
-<ul>
-<li><strong>Thành phố Hồ Chí Minh, Việt Nam</strong> (Chính)</li>
-<li><strong>Hà Nội, Việt Nam</strong></li>
-<li><strong>Singapore</strong></li>
-<li><strong>Bangkok, Thái Lan</strong></li>
-<li><strong>Jakarta, Indonesia</strong></li>
-<li><strong>Kuala Lumpur, Malaysia</strong></li>
-</ul>
 <h2 id="lịch-trình-thu-thập">Lịch trình Thu thập</h2>
 <p><strong>Thời tiết Hiện tại</strong>: Mỗi giờ (24 lần/ngày)<br>
 <strong>Dự báo Thời tiết</strong>: Mỗi 6 giờ (4 lần/ngày)</p>
 <h2 id="ước-tính-chi-phí">Ước tính Chi phí</h2>
-<p>Chi phí hàng tháng cho module này:</p>
 <table>
   <thead>
       <tr>
@@ -621,10 +603,6 @@
 </table>
 
 <div class="notices tip" ><p>OpenWeatherMap cung cấp 1,000 lời gọi API miễn phí mỗi ngày, đủ cho workshop này.</p>
-</div>
-
-
-<div class="notices info" ><p><strong>Ước tính thời gian hoàn thành</strong>: 2-2.5 giờ cho toàn bộ module</p>
 </div>
 
 <h2 id="kết-quả-mong-đợi">Kết quả Mong đợi</h2>
@@ -825,6 +803,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
         
@@ -847,19 +841,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752217735"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752217735"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752217735"></script>
-    <script src="/js/jquery.sticky.js?1752217735"></script>
-    <script src="/js/featherlight.min.js?1752217735"></script>
-    <script src="/js/highlight.pack.js?1752217735"></script>
+    <script src="/js/clipboard.min.js?1752242330"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752242330"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752242330"></script>
+    <script src="/js/jquery.sticky.js?1752242330"></script>
+    <script src="/js/featherlight.min.js?1752242330"></script>
+    <script src="/js/highlight.pack.js?1752242330"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752217735"></script>
-    <script src="/js/learn.js?1752217735"></script>
-    <script src="/js/hugo-learn.js?1752217735"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752242330"></script>
+    <script src="/js/learn.js?1752242330"></script>
+    <script src="/js/hugo-learn.js?1752242330"></script>
 
-    <link href="/mermaid/mermaid.css?1752217735" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752217735"></script>
+    <link href="/mermaid/mermaid.css?1752242330" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752242330"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

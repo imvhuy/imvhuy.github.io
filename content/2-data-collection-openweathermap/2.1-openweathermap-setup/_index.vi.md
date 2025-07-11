@@ -15,14 +15,18 @@ Trong phần đơn giản hóa này, chúng ta sẽ nhanh chóng thiết lập t
    - Hoàn thành đăng ký với email của bạn
    - Xác minh email và đăng nhập
 
+![Create account](/images/data-collection/21b1.png)
+
 ## Bước 2: Lấy API Key
 
 1. **Truy cập API Keys**
    - Sau khi đăng nhập, đi đến phần "API keys"
    - Ghi chú API key mặc định hoặc tạo key mới với tên "weather-data-collection"
 
+![Get API key](/images/data-collection/21b2.png)
+
 {{% notice info %}}
-Gói miễn phí bao gồm 1,000 lệnh gọi API mỗi ngày và 60 lệnh gọi mỗi phút - nhiều hơn đủ cho workshop của chúng ta.
+Gói miễn phí bao gồm 1,000 lệnh gọi API mỗi ngày và 60 lệnh gọi mỗi phút, từng này là đủ cho workshop của tôi.
 {{% /notice %}}
 
 ## Bước 3: Kiểm tra API Key
@@ -32,28 +36,20 @@ Kiểm tra API key của bạn bằng một trong các phương pháp sau:
 **Phương pháp trình duyệt:**
 
 ```
-https://api.openweathermap.org/data/2.5/weather?q=London&appid=YOUR_API_KEY
+https://api.openweathermap.org/data/2.5/weather?lat=10.7769&lon=106.7009&appid=YOUR_API_KEY
 ```
+
+![check API key](/images/data-collection/21b31.png)
 
 **Phương pháp cURL:**
 
 ```bash
-curl "https://api.openweathermap.org/data/2.5/weather?q=London&appid=YOUR_API_KEY"
+curl "https://api.openweathermap.org/data/2.5/weather?lat=10.7769&lon=106.7009&appid=YOUR_API_KEY"
 ```
 
-Bạn sẽ thấy phản hồi JSON với dữ liệu thời tiết của London.
+![check API key](/images/data-collection/21b32.png)
 
-## Bước 4: Lưu trữ API Key an toàn
-
-1. **Sử dụng AWS Systems Manager**
-   - Mở AWS Management Console
-   - Đi đến Systems Manager → Parameter Store
-   - Nhấp vào "Create parameter"
-   - Thiết lập các giá trị sau:
-     - Tên: `/weather-etl/openweathermap/api-key`
-     - Loại: SecureString
-     - Giá trị: API key của bạn
-   - Nhấp vào "Create parameter"
+Bạn sẽ thấy phản hồi JSON với dữ liệu thời tiết hiện tại của Thành phố Hồ Chí Minh.
 
 ## Các API Endpoints chính sẽ sử dụng
 
@@ -70,9 +66,11 @@ https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API key}
 Vậy là xong! Bạn đã có API key OpenWeatherMap hoạt động được lưu trữ an toàn trong Parameter Store. Trong phần tiếp theo, chúng ta sẽ tạo một Lambda function để thu thập dữ liệu thời tiết.
 
 {{% notice success %}}
+
 **Đã hoàn thành:**
 
 - Tạo tài khoản OpenWeatherMap
 - Lấy API key
 - Lưu trữ API key trong AWS Parameter Store
-  {{% /notice %}}
+  
+{{% /notice %}}

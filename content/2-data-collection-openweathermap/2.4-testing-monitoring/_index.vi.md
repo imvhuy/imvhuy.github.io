@@ -98,13 +98,13 @@ graph LR
 **Kiểm tra S3 Bucket Structure:**
 
 ```bash
-aws s3 ls s3://weather-data-lake-123456789012/ --recursive
+aws s3 ls s3://weather-data-123456789012/ --recursive
 ```
 
 **Cấu trúc Mong đợi:**
 
 ```
-weather-data-lake-123456789012/
+weather-data-123456789012/
 ├── raw/
 │   ├── current-weather/
 │   │   └── year=2025/month=01/day=03/hour=14/
@@ -266,7 +266,7 @@ class WeatherDataValidator:
 
 # Sử dụng validator
 if __name__ == "__main__":
-    validator = WeatherDataValidator('weather-data-lake-123456789012')
+    validator = WeatherDataValidator('weather-data-123456789012')
     report = validator.run_validation_report()
     print(json.dumps(report, indent=2, ensure_ascii=False))
 ```
@@ -546,7 +546,7 @@ def lambda_handler(event, context):
     sns = boto3.client('sns')
     cloudwatch = boto3.client('cloudwatch')
 
-    bucket_name = 'weather-data-lake-123456789012'
+    bucket_name = 'weather-data-123456789012'
     sns_topic = 'arn:aws:sns:us-east-1:123456789012:weather-collection-alerts'
 
     health_status = {

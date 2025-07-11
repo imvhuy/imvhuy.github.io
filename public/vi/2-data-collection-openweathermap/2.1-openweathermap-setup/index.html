@@ -12,21 +12,21 @@
     <title>Thiết lập OpenWeatherMap API :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752216386" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752216386" rel="stylesheet">
-    <link href="/css/hybrid.css?1752216386" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752216386" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752216386" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752216386" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752216386" rel="stylesheet">
-    <link href="/css/theme.css?1752216386" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752216386" rel="stylesheet">
+    <link href="/css/nucleus.css?1752242330" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752242330" rel="stylesheet">
+    <link href="/css/hybrid.css?1752242330" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752242330" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752242330" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752242330" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752242330" rel="stylesheet">
+    <link href="/css/theme.css?1752242330" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752242330" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752216386" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752242330" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752216386"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752242330"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752216386"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752216386"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752242330"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752242330"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752216386"></script>
+<script type="text/javascript" src="/js/search.js?1752242330"></script>
 
     
   </div>
@@ -387,18 +387,6 @@
               
               
                   
-                    
-                    
-                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/2.1-openweathermap-setup/">English</option>
-                    
-                  
-              
-                  
-              
-          
-              
-              
-                  
               
                   
                     
@@ -507,7 +495,6 @@
     <li><a href="#bước-1-đăng-ký-openweathermap">Bước 1: Đăng ký OpenWeatherMap</a></li>
     <li><a href="#bước-2-lấy-api-key">Bước 2: Lấy API Key</a></li>
     <li><a href="#bước-3-kiểm-tra-api-key">Bước 3: Kiểm tra API Key</a></li>
-    <li><a href="#bước-4-lưu-trữ-api-key-an-toàn">Bước 4: Lưu trữ API Key an toàn</a></li>
     <li><a href="#các-api-endpoints-chính-sẽ-sử-dụng">Các API Endpoints chính sẽ sử dụng</a></li>
     <li><a href="#các-bước-tiếp-theo">Các bước tiếp theo</a></li>
   </ul>
@@ -547,6 +534,7 @@
 </ul>
 </li>
 </ol>
+<p><img src="/images/data-collection/21b1.png" alt="Create account"></p>
 <h2 id="bước-2-lấy-api-key">Bước 2: Lấy API Key</h2>
 <ol>
 <li><strong>Truy cập API Keys</strong>
@@ -556,35 +544,20 @@
 </ul>
 </li>
 </ol>
+<p><img src="/images/data-collection/21b2.png" alt="Get API key"></p>
 
-<div class="notices info" ><p>Gói miễn phí bao gồm 1,000 lệnh gọi API mỗi ngày và 60 lệnh gọi mỗi phút - nhiều hơn đủ cho workshop của chúng ta.</p>
+<div class="notices info" ><p>Gói miễn phí bao gồm 1,000 lệnh gọi API mỗi ngày và 60 lệnh gọi mỗi phút, từng này là đủ cho workshop của tôi.</p>
 </div>
 
 <h2 id="bước-3-kiểm-tra-api-key">Bước 3: Kiểm tra API Key</h2>
 <p>Kiểm tra API key của bạn bằng một trong các phương pháp sau:</p>
 <p><strong>Phương pháp trình duyệt:</strong></p>
-<pre tabindex="0"><code>https://api.openweathermap.org/data/2.5/weather?q=London&amp;appid=YOUR_API_KEY
-</code></pre><p><strong>Phương pháp cURL:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;https://api.openweathermap.org/data/2.5/weather?q=London&amp;appid=YOUR_API_KEY&#34;</span>
-</span></span></code></pre></div><p>Bạn sẽ thấy phản hồi JSON với dữ liệu thời tiết của London.</p>
-<h2 id="bước-4-lưu-trữ-api-key-an-toàn">Bước 4: Lưu trữ API Key an toàn</h2>
-<ol>
-<li><strong>Sử dụng AWS Systems Manager</strong>
-<ul>
-<li>Mở AWS Management Console</li>
-<li>Đi đến Systems Manager → Parameter Store</li>
-<li>Nhấp vào &ldquo;Create parameter&rdquo;</li>
-<li>Thiết lập các giá trị sau:
-<ul>
-<li>Tên: <code>/weather-etl/openweathermap/api-key</code></li>
-<li>Loại: SecureString</li>
-<li>Giá trị: API key của bạn</li>
-</ul>
-</li>
-<li>Nhấp vào &ldquo;Create parameter&rdquo;</li>
-</ul>
-</li>
-</ol>
+<pre tabindex="0"><code>https://api.openweathermap.org/data/2.5/weather?lat=10.7769&amp;lon=106.7009&amp;appid=YOUR_API_KEY
+</code></pre><p><img src="/images/data-collection/21b31.png" alt="check API key"></p>
+<p><strong>Phương pháp cURL:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;https://api.openweathermap.org/data/2.5/weather?lat=10.7769&amp;lon=106.7009&amp;appid=YOUR_API_KEY&#34;</span>
+</span></span></code></pre></div><p><img src="/images/data-collection/21b32.png" alt="check API key"></p>
+<p>Bạn sẽ thấy phản hồi JSON với dữ liệu thời tiết hiện tại của Thành phố Hồ Chí Minh.</p>
 <h2 id="các-api-endpoints-chính-sẽ-sử-dụng">Các API Endpoints chính sẽ sử dụng</h2>
 <pre tabindex="0"><code># Thời tiết hiện tại
 https://api.openweathermap.org/data/2.5/weather?q={city}&amp;appid={API key}
@@ -829,19 +802,19 @@ https://api.openweathermap.org/data/2.5/forecast?q={city}&amp;appid={API key}
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752216386"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752216386"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752216386"></script>
-    <script src="/js/jquery.sticky.js?1752216386"></script>
-    <script src="/js/featherlight.min.js?1752216386"></script>
-    <script src="/js/highlight.pack.js?1752216386"></script>
+    <script src="/js/clipboard.min.js?1752242330"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752242330"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752242330"></script>
+    <script src="/js/jquery.sticky.js?1752242330"></script>
+    <script src="/js/featherlight.min.js?1752242330"></script>
+    <script src="/js/highlight.pack.js?1752242330"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752216386"></script>
-    <script src="/js/learn.js?1752216386"></script>
-    <script src="/js/hugo-learn.js?1752216386"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752242330"></script>
+    <script src="/js/learn.js?1752242330"></script>
+    <script src="/js/hugo-learn.js?1752242330"></script>
 
-    <link href="/mermaid/mermaid.css?1752216386" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752216386"></script>
+    <link href="/mermaid/mermaid.css?1752242330" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752242330"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

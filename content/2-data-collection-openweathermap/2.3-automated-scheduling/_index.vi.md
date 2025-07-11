@@ -396,7 +396,7 @@ aws events put-events --entries Source=manual-test,DetailType="Manual Test",Deta
 **Check S3 for New Data**:
 
 ```bash
-aws s3 ls s3://weather-data-lake-123456789012/raw/current-weather/ --recursive --human-readable
+aws s3 ls s3://weather-data-123456789012/raw/current-weather/ --recursive --human-readable
 ```
 
 ## Troubleshooting

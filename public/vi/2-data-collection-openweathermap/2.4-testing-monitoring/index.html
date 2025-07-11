@@ -12,21 +12,21 @@
     <title>Testing và Monitoring Thu thập Thời tiết :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752216386" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752216386" rel="stylesheet">
-    <link href="/css/hybrid.css?1752216386" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752216386" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752216386" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752216386" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752216386" rel="stylesheet">
-    <link href="/css/theme.css?1752216386" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752216386" rel="stylesheet">
+    <link href="/css/nucleus.css?1752242330" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752242330" rel="stylesheet">
+    <link href="/css/hybrid.css?1752242330" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752242330" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752242330" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752242330" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752242330" rel="stylesheet">
+    <link href="/css/theme.css?1752242330" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752242330" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752216386" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752242330" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752216386"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752242330"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752216386"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752216386"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752242330"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752242330"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752216386"></script>
+<script type="text/javascript" src="/js/search.js?1752242330"></script>
 
     
   </div>
@@ -387,18 +387,6 @@
               
               
                   
-                    
-                    
-                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/2.4-testing-monitoring/">English</option>
-                    
-                  
-              
-                  
-              
-          
-              
-              
-                  
               
                   
                     
@@ -652,9 +640,9 @@
 <h2 id="bước-2-data-quality-validation">Bước 2: Data Quality Validation</h2>
 <h3 id="21-s3-data-structure-verification">2.1 S3 Data Structure Verification</h3>
 <p><strong>Kiểm tra S3 Bucket Structure:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 ls s3://weather-data-lake-123456789012/ --recursive
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 ls s3://weather-data-123456789012/ --recursive
 </span></span></code></pre></div><p><strong>Cấu trúc Mong đợi:</strong></p>
-<pre tabindex="0"><code>weather-data-lake-123456789012/
+<pre tabindex="0"><code>weather-data-123456789012/
 ├── raw/
 │   ├── current-weather/
 │   │   └── year=2025/month=01/day=03/hour=14/
@@ -811,7 +799,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Sử dụng validator</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
-</span></span><span style="display:flex;"><span>    validator <span style="color:#f92672">=</span> WeatherDataValidator(<span style="color:#e6db74">&#39;weather-data-lake-123456789012&#39;</span>)
+</span></span><span style="display:flex;"><span>    validator <span style="color:#f92672">=</span> WeatherDataValidator(<span style="color:#e6db74">&#39;weather-data-123456789012&#39;</span>)
 </span></span><span style="display:flex;"><span>    report <span style="color:#f92672">=</span> validator<span style="color:#f92672">.</span>run_validation_report()
 </span></span><span style="display:flex;"><span>    print(json<span style="color:#f92672">.</span>dumps(report, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
 </span></span></code></pre></div><h2 id="bước-3-performance-testing">Bước 3: Performance Testing</h2>
@@ -1062,7 +1050,7 @@
 </span></span><span style="display:flex;"><span>    sns <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;sns&#39;</span>)
 </span></span><span style="display:flex;"><span>    cloudwatch <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;cloudwatch&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    bucket_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;weather-data-lake-123456789012&#39;</span>
+</span></span><span style="display:flex;"><span>    bucket_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;weather-data-123456789012&#39;</span>
 </span></span><span style="display:flex;"><span>    sns_topic <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;arn:aws:sns:us-east-1:123456789012:weather-collection-alerts&#39;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    health_status <span style="color:#f92672">=</span> {
@@ -1407,19 +1395,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752216386"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752216386"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752216386"></script>
-    <script src="/js/jquery.sticky.js?1752216386"></script>
-    <script src="/js/featherlight.min.js?1752216386"></script>
-    <script src="/js/highlight.pack.js?1752216386"></script>
+    <script src="/js/clipboard.min.js?1752242330"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752242330"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752242330"></script>
+    <script src="/js/jquery.sticky.js?1752242330"></script>
+    <script src="/js/featherlight.min.js?1752242330"></script>
+    <script src="/js/highlight.pack.js?1752242330"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752216386"></script>
-    <script src="/js/learn.js?1752216386"></script>
-    <script src="/js/hugo-learn.js?1752216386"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752242330"></script>
+    <script src="/js/learn.js?1752242330"></script>
+    <script src="/js/hugo-learn.js?1752242330"></script>
 
-    <link href="/mermaid/mermaid.css?1752216386" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752216386"></script>
+    <link href="/mermaid/mermaid.css?1752242330" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752242330"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

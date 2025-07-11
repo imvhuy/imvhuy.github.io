@@ -4,26 +4,23 @@ date: 2025-01-03T08:30:00+07:00
 weight: 2
 ---
 
-# Xây dựng Lambda Weather Collector
-
 Trong phần này, chúng ta sẽ tạo các hàm AWS Lambda để tự động thu thập dữ liệu thời tiết từ OpenWeatherMap API và lưu trữ vào S3. Những hàm này sẽ là lõi của hệ thống thu thập dữ liệu thời tiết.
 
-## Tổng quan Kiến trúc
+## Tại sao cần IAM Role?
 
-```mermaid
-graph LR
-    A[CloudWatch Events] --> B[Lambda Weather Collector]
-    B --> C[OpenWeatherMap API]
-    C --> D[API Response]
-    D --> B
-    B --> E[S3 Weather Data]
-    B --> F[CloudWatch Logs]
-    G[Parameter Store] --> B
+**IAM Role** giống như một "thẻ căn cước" cho Lambda function, cho phép nó truy cập các dịch vụ AWS khác. Không có IAM Role, Lambda function sẽ:
 
-    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style C fill:#e1f5fe
-    style E fill:#f3e5f5
-```
+ **KHÔNG THỂ** lưu file vào S3  
+**KHÔNG THỂ** đọc API key từ Parameter Store  
+**KHÔNG THỂ** ghi logs vào CloudWatch  
+**KHÔNG THỂ** gửi metrics cho monitoring
+
+Với IAM Role phù hợp:
+
+Lambda có thể lưu dữ liệu thời tiết vào S3  
+Lambda có thể đọc API key an toàn  
+Lambda có thể ghi logs để debug  
+Lambda có thể gửi metrics để monitoring
 
 ## Bước 1: Tạo IAM Role cho Lambda
 
@@ -38,69 +35,41 @@ graph LR
 
    - **Service**: Lambda
    - Click "Next"
+     ![Trusted Entity](/images/data-collection/22b1.png)
 
 3. **Cấu hình Role**
    - **Role Name**: `WeatherCollectorLambdaRole`
    - **Description**: `Execution role for weather data collection Lambda functions`
 
-### 1.2 Tạo Custom Policy
+### 1.2 Gắn AWS Managed Policies
 
-**Policy Name**: `WeatherCollectorPolicy`
+**AWS Managed Policy là gì?**
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "S3WeatherDataAccess",
-      "Effect": "Allow",
-      "Action": [
-        "s3:PutObject",
-        "s3:PutObjectAcl",
-        "s3:GetObject",
-        "s3:ListBucket"
-      ],
-      "Resource": [
-        "arn:aws:s3:::weather-data-lake-*",
-        "arn:aws:s3:::weather-data-lake-*/*"
-      ]
-    },
-    {
-      "Sid": "ParameterStoreAccess",
-      "Effect": "Allow",
-      "Action": ["ssm:GetParameter", "ssm:GetParameters"],
-      "Resource": ["arn:aws:ssm:*:*:parameter/weather-etl/*"]
-    },
-    {
-      "Sid": "CloudWatchLogsAccess",
-      "Effect": "Allow",
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/weather-*"
-    },
-    {
-      "Sid": "CloudWatchMetricsAccess",
-      "Effect": "Allow",
-      "Action": ["cloudwatch:PutMetricData"],
-      "Resource": "*",
-      "Condition": {
-        "StringEquals": {
-          "cloudwatch:namespace": "Weather/ETL"
-        }
-      }
-    }
-  ]
-}
-```
+AWS đã tạo sẵn nhiều policies phổ biến mà chúng ta có thể "gắn" (attach) vào Role thay vì tự viết từ đầu. Điều này tiết kiệm thời gian và đảm bảo bảo mật.
 
-### 1.3 Gắn AWS Managed Policies
+**Cách gắn các policies trong AWS Console:**
 
-Cũng gắn AWS managed policy này:
+1. **Khi tạo Role** `WeatherCollectorLambdaRole`, ở bước "Add permissions"
+2. **Tab "Permissions"** → Click "Attach policies directly"
+3. **Tìm kiếm và chọn từng policy sau:**
+   - ✅ Gõ `AWSLambdaBasicExecutionRole` → tick chọn
+   - ✅ Gõ `AmazonS3FullAccess` → tick chọn
+   - ✅ Gõ `AmazonSSMReadOnlyAccess` → tick chọn
+   - ✅ Gõ `CloudWatchAgentServerPolicy` → tick chọn
+4. **Click "Add Permissions"** và hoàn thành tạo role
 
-- **AWSLambdaBasicExecutionRole**: `arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole`
+![Managed Policies](/images/data-collection/22b11.png)
+
+
+
+**Kết quả:**
+Role `WeatherCollectorLambdaRole` sẽ có **4 managed policies** 
+
+**Policy này cho phép Lambda:**
+
+- **Tạo CloudWatch Log Group** để ghi logs
+- **Ghi logs vào CloudWatch** khi function chạy
+- **Basic networking** để Lambda hoạt động
 
 ## Bước 2: Tạo S3 Bucket cho Dữ liệu Thời tiết
 
@@ -110,15 +79,17 @@ Cũng gắn AWS managed policy này:
 
    - AWS Console → S3 → Create bucket
 
+![S3](/images/data-collection/22b21.png)
+
 2. **Cấu hình Bucket**
 
-   - **Bucket Name**: `weather-data-lake-{your-account-id}` (thay thế bằng AWS account ID của bạn)
+   - **Bucket Name**: `weather-data-{your-account-id}` (thay thế bằng AWS account ID của bạn)
    - **Region**: us-east-1 (hoặc region ưa thích của bạn)
    - **Block Public Access**: Giữ tất cả cài đặt được bật (khuyến nghị)
 
 3. **Cấu trúc Bucket**
    ```
-   weather-data-lake-123456789012/
+   weather-data-123456789012/
    ├── raw/
    │   ├── current-weather/
    │   │   └── year=2025/month=01/day=03/hour=10/
@@ -347,7 +318,7 @@ def lambda_handler(event, context):
 
 Trong Lambda Console, thêm biến môi trường:
 
-- **WEATHER_BUCKET_NAME**: `weather-data-lake-{your-account-id}`
+- **WEATHER_BUCKET_NAME**: `weather-data-{your-account-id}`
 
 ### 3.4 Cấu hình Function
 
@@ -577,7 +548,7 @@ def lambda_handler(event, context):
 Kiểm tra dữ liệu trong S3 bucket:
 
 ```bash
-aws s3 ls s3://weather-data-lake-{your-account-id}/raw/ --recursive
+aws s3 ls s3://weather-data-{your-account-id}/raw/ --recursive
 ```
 
 Bạn sẽ thấy các file JSON được tạo trong cấu trúc partition theo thời gian.
