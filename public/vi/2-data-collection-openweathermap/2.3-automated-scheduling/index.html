@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Lập lịch Tự động với CloudWatch Events :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>Lập lịch Tự động với EventBridge :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752242330" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752242330" rel="stylesheet">
-    <link href="/css/hybrid.css?1752242330" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752242330" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752242330" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752242330" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752242330" rel="stylesheet">
-    <link href="/css/theme.css?1752242330" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752242330" rel="stylesheet">
+    <link href="/css/nucleus.css?1752473023" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752473023" rel="stylesheet">
+    <link href="/css/hybrid.css?1752473023" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752473023" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752473023" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752473023" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752473023" rel="stylesheet">
+    <link href="/css/theme.css?1752473023" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752473023" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752242330" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752473023" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752242330"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752473023"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752242330"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752242330"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752473023"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752473023"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752242330"></script>
+<script type="text/javascript" src="/js/search.js?1752473023"></script>
 
     
   </div>
@@ -195,41 +195,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với CloudWatch Events" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với EventBridge" class="dd-item 
         
         active
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">
-          Lập lịch Tự động với CloudWatch Events
-          
-            <i class="fas fa-check read-icon"></i>
-          
-      </a>
-      
-              
-    </li>
-  
- 
-
-            
-          
-            
-            
-
-
-
-
- 
-  
-    
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/" title="Testing và Monitoring Thu thập Thời tiết" class="dd-item 
-        
-        
-        
-        ">
-      <a href="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/">
-          Testing và Monitoring Thu thập Thời tiết
+          Lập lịch Tự động với EventBridge
           
             <i class="fas fa-check read-icon"></i>
           
@@ -258,13 +230,13 @@
  
   
     
-    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu" class="dd-item 
+    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu Serverless" class="dd-item 
         
         
         
         ">
       <a href="/vi/3-serverless-processing-lambda/">
-          <b>3. </b>Xử lý và Chuyển đổi Dữ liệu
+          <b>3. </b>Xử lý và Chuyển đổi Dữ liệu Serverless
           
             <i class="fas fa-check read-icon"></i>
           
@@ -477,7 +449,7 @@
             
           
           
-            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > <a href='/vi/2-data-collection-openweathermap/'>Thu thập Dữ liệu Thời tiết với OpenWeatherMap</a> > Lập lịch Tự động với CloudWatch Events
+            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > <a href='/vi/2-data-collection-openweathermap/'>Thu thập Dữ liệu Thời tiết với OpenWeatherMap</a> > Lập lịch Tự động với EventBridge
           
         
           
@@ -492,52 +464,33 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#tổng-quan-kiến-trúc">Tổng quan Kiến trúc</a></li>
-    <li><a href="#bước-1-tạo-cloudwatch-events-rules">Bước 1: Tạo CloudWatch Events Rules</a>
+    <li><a href="#bước-1-thiết-lập-eventbridge-rule-cho-current-weather">Bước 1: Thiết lập EventBridge Rule cho Current Weather</a>
       <ul>
-        <li><a href="#11-lịch-trình-cho-current-weather-collection">1.1 Lịch trình cho Current Weather Collection</a></li>
-        <li><a href="#12-lịch-trình-cho-weather-forecast-collection">1.2 Lịch trình cho Weather Forecast Collection</a></li>
+        <li><a href="#11-truy-cập-eventbridge-console">1.1 Truy cập EventBridge Console</a></li>
+        <li><a href="#12-tạo-rule-cho-current-weather">1.2 Tạo Rule cho Current Weather</a></li>
+        <li><a href="#13-cấu-hình-schedule-pattern">1.3 Cấu hình Schedule Pattern</a></li>
+        <li><a href="#14-select-target-lambda-function">1.4 Select Target (Lambda Function)</a></li>
+        <li><a href="#15-configure-tags-và-review">1.5 Configure tags và Review</a></li>
       </ul>
     </li>
-    <li><a href="#bước-2-tùy-chọn-lập-lịch-nâng-cao">Bước 2: Tùy chọn Lập lịch Nâng cao</a>
+    <li><a href="#bước-2-thiết-lập-eventbridge-rule-cho-weather-forecast">Bước 2: Thiết lập EventBridge Rule cho Weather Forecast</a>
       <ul>
-        <li><a href="#21-sử-dụng-cron-expressions">2.1 Sử dụng Cron Expressions</a></li>
-        <li><a href="#22-lịch-trình-khác-nhau-cho-các-thành-phố-khác-nhau">2.2 Lịch trình Khác nhau cho Các Thành phố Khác nhau</a></li>
+        <li><a href="#21-tạo-rule-thứ-hai">2.1 Tạo Rule thứ hai</a></li>
+        <li><a href="#22-cấu-hình-schedule-cho-forecast">2.2 Cấu hình Schedule cho Forecast</a></li>
+        <li><a href="#23-select-target-cho-forecast">2.3 Select Target cho Forecast</a></li>
       </ul>
     </li>
-    <li><a href="#bước-3-tạo-sns-topic-cho-thông-báo">Bước 3: Tạo SNS Topic cho Thông báo</a>
+    <li><a href="#bước-3-thiết-lập-monitoring-với-cloudwatch-alarms">Bước 3: Thiết lập Monitoring với CloudWatch Alarms</a>
       <ul>
-        <li><a href="#31-thiết-lập-sns-topic">3.1 Thiết lập SNS Topic</a></li>
-        <li><a href="#32-sns-topic-policy">3.2 SNS Topic Policy</a></li>
+        <li><a href="#31-tạo-sns-topic-cho-email-alerts">3.1 Tạo SNS Topic cho Email Alerts</a></li>
+        <li><a href="#32-tạo-cloudwatch-alarm-cho-lambda-errors">3.2 Tạo CloudWatch Alarm cho Lambda Errors</a></li>
       </ul>
     </li>
-    <li><a href="#bước-4-thiết-lập-monitoring-và-alarms">Bước 4: Thiết lập Monitoring và Alarms</a>
+    <li><a href="#tối-ưu-hóa-chi-phí-và-hiệu-suất">Tối ưu hóa Chi phí và Hiệu suất</a>
       <ul>
-        <li><a href="#41-lambda-function-alarms">4.1 Lambda Function Alarms</a></li>
-        <li><a href="#42-custom-metrics-alarms">4.2 Custom Metrics Alarms</a></li>
-      </ul>
-    </li>
-    <li><a href="#bước-5-cloudwatch-dashboard">Bước 5: CloudWatch Dashboard</a>
-      <ul>
-        <li><a href="#51-tạo-weather-etl-dashboard">5.1 Tạo Weather ETL Dashboard</a></li>
-        <li><a href="#52-dashboard-widgets">5.2 Dashboard Widgets</a></li>
-      </ul>
-    </li>
-    <li><a href="#bước-6-cost-optimization">Bước 6: Cost Optimization</a>
-      <ul>
-        <li><a href="#61-optimized-scheduling-strategy">6.1 Optimized Scheduling Strategy</a></li>
-        <li><a href="#62-regional-data-collection">6.2 Regional Data Collection</a></li>
-      </ul>
-    </li>
-    <li><a href="#bước-7-testing-scheduled-execution">Bước 7: Testing Scheduled Execution</a>
-      <ul>
-        <li><a href="#71-verify-rule-execution">7.1 Verify Rule Execution</a></li>
-        <li><a href="#72-manual-rule-testing">7.2 Manual Rule Testing</a></li>
-      </ul>
-    </li>
-    <li><a href="#troubleshooting">Troubleshooting</a>
-      <ul>
-        <li><a href="#73-common-issues">7.3 Common Issues</a></li>
+        <li><a href="#1-smart-scheduling-strategy">1. Smart Scheduling Strategy</a></li>
+        <li><a href="#2-regional-optimization">2. Regional Optimization</a></li>
+        <li><a href="#3-error-recovery-strategy">3. Error Recovery Strategy</a></li>
       </ul>
     </li>
     <li><a href="#tóm-tắt">Tóm tắt</a></li>
@@ -558,7 +511,7 @@
           
             <h1>
               
-              Lập lịch Tự động với CloudWatch Events
+              Lập lịch Tự động với EventBridge
             </h1>
           
 
@@ -566,366 +519,349 @@
 
 
 
-	<h1 id="lập-lịch-tự-động-với-cloudwatch-events">Lập lịch Tự động với CloudWatch Events</h1>
-<p>Trong phần này, chúng ta sẽ thiết lập lập lịch tự động cho việc thu thập dữ liệu thời tiết bằng Amazon CloudWatch Events (giờ được gọi là Amazon EventBridge). Điều này sẽ đảm bảo các Lambda functions chạy theo lịch trình đều đặn để thu thập dữ liệu thời tiết một cách nhất quán.</p>
-<h2 id="tổng-quan-kiến-trúc">Tổng quan Kiến trúc</h2>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
-    A[CloudWatch Events Rules] --&gt; B[Current Weather Schedule&lt;br/&gt;Mỗi Giờ]
-    A --&gt; C[Forecast Schedule&lt;br/&gt;Mỗi 6 Giờ]
-    B --&gt; D[Lambda: weather-current-collector]
-    C --&gt; E[Lambda: weather-forecast-collector]
-    D --&gt; F[S3: Current Weather Data]
-    E --&gt; G[S3: Forecast Data]
-    H[CloudWatch Alarms] --&gt; I[SNS Notifications]
+	<p>Trong phần này, chúng ta sẽ thiết lập lập lịch tự động cho việc thu thập dữ liệu thời tiết bằng Amazon EventBridge (trước đây gọi là CloudWatch Events). Điều này giúp các Lambda functions chạy theo lịch trình đều đặn mà không cần can thiệp thủ công.</p>
+<p>EventBridge giống như &ldquo;đồng hồ báo thức thông minh&rdquo; của AWS:</p>
+<ul>
+<li><strong>Chạy đúng giờ</strong>: Trigger Lambda functions theo lịch trình cụ thể</li>
+<li><strong>Chính xác</strong>: Chạy đúng thời gian đã định (ví dụ: mỗi giờ, mỗi ngày)</li>
+<li><strong>Tự động</strong>: Không cần can thiệp thủ công</li>
+<li><strong>Tiết kiệm</strong>: Chỉ chạy khi cần, không tốn tài nguyên khi không hoạt động</li>
+</ul>
+<p><strong>Tại sao cần Scheduling?</strong></p>
+<ul>
+<li>Thu thập dữ liệu đều đặn 24/7</li>
+<li>Dữ liệu luôn fresh và cập nhật</li>
+<li>Tự động hóa hoàn toàn</li>
+<li>Không phụ thuộc vào người vận hành</li>
+</ul>
+<p><strong>Lịch trình đề xuất:</strong></p>
+<ul>
+<li><strong>Current Weather</strong>: Mỗi giờ (24 lần/ngày) - Để theo dõi thời tiết real-time</li>
+<li><strong>Forecast</strong>: Mỗi 6 giờ (4 lần/ngày) - Dự báo không thay đổi nhiều</li>
+</ul>
+<h2 id="bước-1-thiết-lập-eventbridge-rule-cho-current-weather">Bước 1: Thiết lập EventBridge Rule cho Current Weather</h2>
 
-    style A fill:#e8f5e8
-    style D fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style E fill:#ff9900,stroke:#232f3e,stroke-width:3px
-</code></pre><h2 id="bước-1-tạo-cloudwatch-events-rules">Bước 1: Tạo CloudWatch Events Rules</h2>
-<h3 id="11-lịch-trình-cho-current-weather-collection">1.1 Lịch trình cho Current Weather Collection</h3>
+<div class="notices tip" ><p><strong>Bước này sẽ tạo lịch trình chạy Lambda mỗi giờ để thu thập thời tiết hiện tại.</strong></p>
+<p>Ví dụ: Function sẽ chạy lúc 00:00, 01:00, 02:00&hellip; 23:00 hàng ngày</p>
+</div>
+
+<h3 id="11-truy-cập-eventbridge-console">1.1 Truy cập EventBridge Console</h3>
 <ol>
-<li>
-<p><strong>Điều hướng đến CloudWatch Console</strong></p>
+<li><strong>Vào AWS Console</strong> → Tìm <strong>&ldquo;EventBridge&rdquo;</strong> (hoặc <strong>&ldquo;CloudWatch&rdquo;</strong> → <strong>&ldquo;Events&rdquo;</strong>)</li>
+<li><strong>Click &ldquo;EventBridge&rdquo;</strong> → <strong>&ldquo;Rules&rdquo;</strong> ở menu bên trái</li>
+<li><strong>Chọn Region</strong> phù hợp (ví dụ: <code>us-east-1</code>)</li>
+</ol>
+<p><img src="/images/data-collection/23b11.png" alt="EventBridge Console">
+<img src="/images/data-collection/23b12.png" alt="EventBridge Console"></p>
+<h3 id="12-tạo-rule-cho-current-weather">1.2 Tạo Rule cho Current Weather</h3>
+<ol>
+<li><strong>Click &ldquo;Create rule&rdquo;</strong></li>
+</ol>
+<p><img src="/images/data-collection/23b13.png" alt="Create Rule"></p>
+<ol start="2">
+<li><strong>Bước 1 - Define rule detail:</strong>
 <ul>
-<li>AWS Console → CloudWatch → Events → Rules</li>
-<li>Click &ldquo;Create rule&rdquo;</li>
-</ul>
-</li>
-<li>
-<p><strong>Cấu hình Event Source</strong></p>
-<ul>
-<li><strong>Event Source</strong>: Schedule</li>
-<li><strong>Schedule Expression</strong>: <code>rate(1 hour)</code></li>
-<li><strong>Description</strong>: &ldquo;Trigger current weather collection every hour&rdquo;</li>
-</ul>
-</li>
-<li>
-<p><strong>Cấu hình Target</strong></p>
-<ul>
-<li><strong>Target</strong>: Lambda function</li>
-<li><strong>Function</strong>: <code>weather-current-collector</code></li>
-<li><strong>Configure input</strong>: Constant (JSON text)</li>
+<li><strong>Name</strong>: <code>weather-current-hourly</code></li>
+<li><strong>Description</strong>: <code>Thu thập dữ liệu thời tiết hiện tại mỗi giờ cho 6 thành phố Việt Nam</code></li>
+<li><strong>Event bus</strong>: <code>default</code></li>
+<li><strong>Rule type</strong>: <code>Schedule</code></li>
 </ul>
 </li>
 </ol>
-<p><strong>Input JSON</strong>:</p>
+<p><img src="/images/data-collection/23b14.png" alt="Rule Details"></p>
+<ol start="3">
+<li><strong>Click &ldquo;Continue to create rule&rdquo;</strong></li>
+</ol>
+<h3 id="13-cấu-hình-schedule-pattern">1.3 Cấu hình Schedule Pattern</h3>
+<ol>
+<li>
+<p><strong>Schedule pattern</strong>: Chọn <strong>&ldquo;A schedule that runs at a regular rate, such as every 10 minutes&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Rate expression</strong>: Chọn <strong>&ldquo;rate&rdquo;</strong> và nhập:</p>
+<pre tabindex="0"><code>1 hour
+</code></pre></li>
+</ol>
+<p><img src="/images/data-collection/23b15.png" alt="Schedule Pattern"></p>
+<p><strong>Các lựa chọn Schedule Pattern:</strong></p>
+<ul>
+<li>
+<p><strong>Rate expression</strong>:</p>
+<ul>
+<li><code>rate(1 hour)</code> = mỗi giờ</li>
+<li><code>rate(30 minutes)</code> = mỗi 30 phút</li>
+<li><code>rate(1 day)</code> = mỗi ngày</li>
+</ul>
+</li>
+<li>
+<p><strong>Cron expression</strong> (nâng cao):</p>
+<ul>
+<li><code>cron(0 * * * ? *)</code> = mỗi giờ đúng phút 0</li>
+<li><code>cron(0 8,12,16,20 * * ? *)</code> = 4 lần/ngày (8h, 12h, 16h, 20h)</li>
+<li><code>cron(0 0 * * ? *)</code> = mỗi ngày lúc 00:00
+<img src="/images/data-collection/23b16.png" alt="Schedule Pattern"></li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><strong>Click &ldquo;Next&rdquo;</strong></li>
+</ol>
+<h3 id="14-select-target-lambda-function">1.4 Select Target (Lambda Function)</h3>
+<ol>
+<li>
+<p><strong>Target types</strong>: Chọn <strong>&ldquo;AWS service&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Select a service</strong>: Chọn <strong>&ldquo;Lambda function&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Function</strong>: Chọn <strong><code>weather-current-collector</code></strong> (function đã tạo ở bước trước)</p>
+</li>
+</ol>
+<p><img src="/images/data-collection/23b17.png" alt="Select Target"></p>
+<ol start="4">
+<li><strong>Additional settings</strong>:
+<ul>
+<li><strong>Configure target input</strong>: Chọn <strong>&ldquo;Constant (JSON text)&rdquo;</strong></li>
+<li><strong>JSON text</strong>:</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;cloudwatch-events&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge-schedule&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail-type&#34;</span>: <span style="color:#e6db74">&#34;Scheduled Event&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;collection_type&#34;</span>: <span style="color:#e6db74">&#34;current_weather&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scheduled_time&#34;</span>: <span style="color:#e6db74">&#34;hourly&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scheduled_time&#34;</span>: <span style="color:#e6db74">&#34;hourly&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;trigger_source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge&#34;</span>
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ol start="4">
-<li><strong>Chi tiết Rule</strong>
-<ul>
-<li><strong>Name</strong>: <code>weather-current-hourly</code></li>
-<li><strong>Description</strong>: &ldquo;Thu thập dữ liệu thời tiết hiện tại hàng giờ cho 6 thành phố&rdquo;</li>
-<li><strong>State</strong>: Enabled</li>
-</ul>
-</li>
+</span></span></code></pre></div></li>
 </ol>
-<h3 id="12-lịch-trình-cho-weather-forecast-collection">1.2 Lịch trình cho Weather Forecast Collection</h3>
+<p><img src="/images/data-collection/23b18.png" alt="Target Input"></p>
+<p><strong>JSON input này sẽ:</strong></p>
+<ul>
+<li>Cho Lambda biết đây là scheduled event (không phải manual test)</li>
+<li>Giúp phân biệt current weather vs forecast collection</li>
+<li>Cung cấp metadata để logging và monitoring</li>
+</ul>
+<ol start="5">
+<li><strong>Click &ldquo;Next&rdquo;</strong></li>
+</ol>
+<h3 id="15-configure-tags-và-review">1.5 Configure tags và Review</h3>
 <ol>
 <li>
-<p><strong>Tạo Rule thứ hai</strong></p>
+<p><strong>Tags (Optional)</strong>:</p>
 <ul>
-<li><strong>Event Source</strong>: Schedule</li>
-<li><strong>Schedule Expression</strong>: <code>rate(6 hours)</code></li>
-<li><strong>Description</strong>: &ldquo;Trigger weather forecast collection every 6 hours&rdquo;</li>
+<li><strong>Key</strong>: <code>Project</code> → <strong>Value</strong>: <code>WeatherETL</code></li>
+<li><strong>Key</strong>: <code>Environment</code> → <strong>Value</strong>: <code>Production</code></li>
 </ul>
 </li>
 <li>
-<p><strong>Cấu hình Target</strong></p>
+<p><strong>Review tất cả cài đặt</strong>:</p>
 <ul>
-<li><strong>Target</strong>: Lambda function</li>
-<li><strong>Function</strong>: <code>weather-forecast-collector</code></li>
+<li>✅ Name: <code>weather-current-hourly</code></li>
+<li>✅ Schedule: <code>rate(1 hour)</code></li>
+<li>✅ Target: <code>weather-current-collector</code></li>
+<li>✅ State: <strong>Enabled</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Click &ldquo;Create rule&rdquo;</strong></p>
+</li>
+</ol>
+<p><img src="/images/data-collection/23b19.png" alt="Review Rule"></p>
+<p>Rule cho current weather đã được tạo thành công.</p>
+<p>Rule sẽ trigger Lambda function <code>weather-current-collector</code> mỗi giờ để thu thập dữ liệu thời tiết hiện tại.</p>
+<p><img src="/images/data-collection/23b20.png" alt="Review Rule"></p>
+<h2 id="bước-2-thiết-lập-eventbridge-rule-cho-weather-forecast">Bước 2: Thiết lập EventBridge Rule cho Weather Forecast</h2>
+<p><strong>Bước này sẽ tạo lịch trình chạy Lambda mỗi 6 giờ để thu thập dự báo thời tiết.</strong></p>
+<p>Ví dụ: Function sẽ chạy lúc 00:00, 06:00, 12:00, 18:00 hàng ngày</p>
+<h3 id="21-tạo-rule-thứ-hai">2.1 Tạo Rule thứ hai</h3>
+<ol>
+<li>
+<p><strong>Trong EventBridge Console</strong> → <strong>&ldquo;Create rule&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Bước 1 - Define rule detail:</strong></p>
+<ul>
+<li><strong>Name</strong>: <code>weather-forecast-6hourly</code></li>
+<li><strong>Description</strong>: <code>Thu thập dữ liệu dự báo thời tiết mỗi 6 giờ cho 6 thành phố Việt Nam</code></li>
+<li><strong>Event bus</strong>: <code>default</code></li>
+<li><strong>Rule type</strong>: <code>Schedule</code></li>
 </ul>
 </li>
 </ol>
-<p><strong>Input JSON</strong>:</p>
+<h3 id="22-cấu-hình-schedule-cho-forecast">2.2 Cấu hình Schedule cho Forecast</h3>
+<ol>
+<li>
+<p><strong>Schedule pattern</strong>: Chọn <strong>&ldquo;A fine-grained schedule that runs at a specific time&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Cron expression</strong>:</p>
+<pre tabindex="0"><code>cron(0 0,6,12,18 * * ? *)
+</code></pre></li>
+</ol>
+<p><img src="/images/data-collection/23b21.png" alt="Forecast Schedule"></p>
+<h3 id="23-select-target-cho-forecast">2.3 Select Target cho Forecast</h3>
+<ol>
+<li>
+<p><strong>Target types</strong>: <strong>&ldquo;AWS service&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Select a service</strong>: <strong>&ldquo;Lambda function&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Function</strong>: <strong><code>weather-forecast-collector</code></strong></p>
+</li>
+<li>
+<p><strong>Configure target input</strong>: <strong>&ldquo;Constant (JSON text)&rdquo;</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;cloudwatch-events&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge-schedule&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail-type&#34;</span>: <span style="color:#e6db74">&#34;Scheduled Event&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;collection_type&#34;</span>: <span style="color:#e6db74">&#34;forecast&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scheduled_time&#34;</span>: <span style="color:#e6db74">&#34;every_6_hours&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scheduled_time&#34;</span>: <span style="color:#e6db74">&#34;every_6_hours&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;trigger_source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge&#34;</span>
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ol start="3">
-<li><strong>Chi tiết Rule</strong>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Create rule</strong>
+<img src="/images/data-collection/23b22.png" alt="Forecast Schedule"></p>
+</li>
+</ol>
+<h2 id="bước-3-thiết-lập-monitoring-với-cloudwatch-alarms">Bước 3: Thiết lập Monitoring với CloudWatch Alarms</h2>
+<p><strong>Tại sao cần Monitoring?</strong></p>
+<p>Khi Lambda functions chạy tự động 24/7, bạn cần biết ngay khi có vấn đề:</p>
 <ul>
-<li><strong>Name</strong>: <code>weather-forecast-6hourly</code></li>
-<li><strong>Description</strong>: &ldquo;Thu thập dữ liệu dự báo thời tiết 6 giờ một lần&rdquo;</li>
-<li><strong>State</strong>: Enabled</li>
+<li>Lambda function bị lỗi</li>
+<li>Function chạy quá lâu</li>
+<li>Tỷ lệ thành công thấp</li>
+<li>Chi phí tăng bất thường</li>
+</ul>
+<h3 id="31-tạo-sns-topic-cho-email-alerts">3.1 Tạo SNS Topic cho Email Alerts</h3>
+<p><strong>Trước tiên, tạo SNS Topic để nhận email thông báo khi có lỗi:</strong></p>
+<ol>
+<li><strong>AWS Console</strong> → <strong>&ldquo;SNS&rdquo;</strong> → <strong>&ldquo;Topics&rdquo;</strong> → <strong>&ldquo;Create topic&rdquo;</strong></li>
+</ol>
+<p><img src="/images/data-collection/23b31.png" alt="SNS Topic"></p>
+<ol start="2">
+<li>
+<p><strong>Topic configuration:</strong></p>
+<ul>
+<li><strong>Type</strong>: <code>Standard</code></li>
+<li><strong>Name</strong>: <code>weather-etl-alerts</code></li>
+<li><strong>Display name</strong>: <code>Weather ETL Alerts</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Create topic</strong></p>
+</li>
+<li>
+<p><strong>Tạo Subscription</strong>:</p>
+<ul>
+<li><strong>Protocol</strong>: <code>Email</code></li>
+<li><strong>Endpoint</strong>: <code>your-email@example.com</code> (thay bằng email của bạn)</li>
+<li><strong>Confirm subscription</strong> qua email</li>
 </ul>
 </li>
 </ol>
-<h2 id="bước-2-tùy-chọn-lập-lịch-nâng-cao">Bước 2: Tùy chọn Lập lịch Nâng cao</h2>
-<h3 id="21-sử-dụng-cron-expressions">2.1 Sử dụng Cron Expressions</h3>
-<p>Để lập lịch chính xác hơn, bạn có thể sử dụng cron expressions:</p>
-<p><strong>Current Weather tại các thời điểm cụ thể</strong>:</p>
-<pre tabindex="0"><code>cron(0 0,6,12,18 * * ? *)
-</code></pre><p>Chạy lúc 00:00, 06:00, 12:00, và 18:00 UTC hàng ngày.</p>
-<p><strong>Forecast lúc 06:00 và 18:00 UTC</strong>:</p>
-<pre tabindex="0"><code>cron(0 6,18 * * ? *)
-</code></pre><p><strong>Hàng giờ trong giờ làm việc (UTC+7)</strong>:</p>
-<pre tabindex="0"><code>cron(0 1-14 * * ? *)
-</code></pre><p>Chạy hàng giờ từ 01:00 đến 14:00 UTC (08:00 đến 21:00 giờ Việt Nam).</p>
-<h3 id="22-lịch-trình-khác-nhau-cho-các-thành-phố-khác-nhau">2.2 Lịch trình Khác nhau cho Các Thành phố Khác nhau</h3>
-<p><strong>Tạo các rules theo thành phố</strong>:</p>
-<p><strong>Rule cho Các Thành phố Châu Á (UTC+7/+8)</strong>:</p>
+<p><img src="/images/data-collection/23b32.png" alt="SNS Subscription"></p>
+<h3 id="32-tạo-cloudwatch-alarm-cho-lambda-errors">3.2 Tạo CloudWatch Alarm cho Lambda Errors</h3>
+<ol>
+<li>
+<p><strong>AWS Console</strong> → <strong>&ldquo;CloudWatch&rdquo;</strong> → <strong>&ldquo;Alarms&rdquo;</strong> → <strong>&ldquo;Create alarm&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Select metric</strong>:</p>
+<ul>
+<li><strong>Namespace</strong>: <code>AWS/Lambda</code></li>
+<li><strong>Metric name</strong>: <code>Errors</code></li>
+<li><strong>Dimensions</strong>:
+<ul>
+<li><strong>FunctionName</strong>: <code>weather-current-collector</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Specify metric and conditions</strong>:</p>
+<ul>
+<li><strong>Statistic</strong>: <code>Sum</code></li>
+<li><strong>Period</strong>: <code>5 minutes</code></li>
+<li><strong>Threshold type</strong>: <code>Static</code></li>
+<li><strong>Condition</strong>: <code>Greater/Equal</code></li>
+<li><strong>Threshold value</strong>: <code>1</code> (alert khi có ≥1 error trong 5 phút)</li>
+</ul>
+</li>
+</ol>
+<p><img src="/images/data-collection/23b33.png" alt="Alarm Conditions"></p>
+<ol start="4">
+<li>
+<p><strong>Configure actions</strong>:</p>
+<ul>
+<li><strong>Alarm state trigger</strong>: <code>In alarm</code></li>
+<li><strong>SNS topic</strong>: <code>weather-etl-alerts</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Add name and description</strong>:</p>
+<ul>
+<li><strong>Alarm name</strong>: <code>WeatherCurrentCollector-Errors</code></li>
+<li><strong>Description</strong>: <code>Alert khi Lambda weather-current-collector có lỗi</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Create alarm</strong>
+<img src="/images/data-collection/23b34.png" alt="Alarm Conditions"></p>
+</li>
+</ol>
+<p><strong>Quan trọng</strong>: Hãy đảm bảo tất cả hoạt động đúng trước khi để nó tự động chạy</p>
+<h2 id="tối-ưu-hóa-chi-phí-và-hiệu-suất">Tối ưu hóa Chi phí và Hiệu suất</h2>
+<h3 id="1-smart-scheduling-strategy">1. Smart Scheduling Strategy</h3>
+<p><strong>Thay vì chạy cùng frequency 24/7, có thể tối ưu:</strong></p>
+<ul>
+<li><strong>Giờ cao điểm</strong> (6:00-23:00): Mỗi giờ</li>
+<li><strong>Giờ thấp điểm</strong> (23:00-6:00): Mỗi 2 giờ</li>
+<li><strong>Cuối tuần</strong>: Mỗi 2 giờ (ít người quan tâm thời tiết công việc)</li>
+</ul>
+<p><strong>Tạo multiple rules với different schedules:</strong></p>
+<p><strong>Rule 1 - Peak Hours:</strong></p>
+<pre tabindex="0"><code>cron(0 6-23 * * ? *)
+</code></pre><p><strong>Rule 2 - Off-peak Hours:</strong></p>
+<pre tabindex="0"><code>cron(0 0,2,4 * * ? *)
+</code></pre><h3 id="2-regional-optimization">2. Regional Optimization</h3>
+<p><strong>Nếu cần collect data cho multiple regions:</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;cloudwatch-events&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge-schedule&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;cities&#34;</span>: [<span style="color:#e6db74">&#34;Ho Chi Minh City&#34;</span>, <span style="color:#e6db74">&#34;Hanoi&#34;</span>, <span style="color:#e6db74">&#34;Singapore&#34;</span>, <span style="color:#e6db74">&#34;Bangkok&#34;</span>],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;timezone&#34;</span>: <span style="color:#e6db74">&#34;Asia/Ho_Chi_Minh&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;region&#34;</span>: <span style="color:#e6db74">&#34;southeast-asia&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;cities&#34;</span>: [<span style="color:#e6db74">&#34;HoChiMinh&#34;</span>, <span style="color:#e6db74">&#34;Hanoi&#34;</span>, <span style="color:#e6db74">&#34;Bangkok&#34;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;priority&#34;</span>: <span style="color:#e6db74">&#34;high&#34;</span>
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Schedule</strong>: <code>cron(0 1,7,13,19 * * ? *)</code> (Giờ cao điểm ở châu Á)</p>
-<h2 id="bước-3-tạo-sns-topic-cho-thông-báo">Bước 3: Tạo SNS Topic cho Thông báo</h2>
-<h3 id="31-thiết-lập-sns-topic">3.1 Thiết lập SNS Topic</h3>
+</span></span></code></pre></div><h3 id="3-error-recovery-strategy">3. Error Recovery Strategy</h3>
+<p><strong>Thêm Dead Letter Queue cho Lambda:</strong></p>
 <ol>
-<li>
-<p><strong>Điều hướng đến SNS Console</strong></p>
-<ul>
-<li>AWS Console → SNS → Topics</li>
-<li>Click &ldquo;Create topic&rdquo;</li>
-</ul>
-</li>
-<li>
-<p><strong>Cấu hình Topic</strong></p>
-<ul>
-<li><strong>Type</strong>: Standard</li>
-<li><strong>Name</strong>: <code>weather-collection-alerts</code></li>
-<li><strong>Display Name</strong>: &ldquo;Weather Collection Alerts&rdquo;</li>
-</ul>
-</li>
-<li>
-<p><strong>Tạo Subscription</strong></p>
-<ul>
-<li><strong>Protocol</strong>: Email</li>
-<li><strong>Endpoint</strong>: Địa chỉ email của bạn</li>
-<li>Xác nhận subscription qua email</li>
-</ul>
-</li>
+<li><strong>Lambda function configuration</strong> → <strong>&ldquo;Asynchronous invocation&rdquo;</strong></li>
+<li><strong>Dead letter queue</strong>: Enable với SQS queue</li>
+<li><strong>Maximum age of event</strong>: 6 hours</li>
+<li><strong>Retry attempts</strong>: 2</li>
 </ol>
-<h3 id="32-sns-topic-policy">3.2 SNS Topic Policy</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statement&#34;</span>: [
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Sid&#34;</span>: <span style="color:#e6db74">&#34;AllowCloudWatchAlarmsToPublish&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Principal&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Service&#34;</span>: <span style="color:#e6db74">&#34;cloudwatch.amazonaws.com&#34;</span>
-</span></span><span style="display:flex;"><span>      },
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: <span style="color:#e6db74">&#34;SNS:Publish&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:sns:us-east-1:123456789012:weather-collection-alerts&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  ]
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="bước-4-thiết-lập-monitoring-và-alarms">Bước 4: Thiết lập Monitoring và Alarms</h2>
-<h3 id="41-lambda-function-alarms">4.1 Lambda Function Alarms</h3>
-<p><strong>Error Rate Alarm</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmName&#34;</span>: <span style="color:#e6db74">&#34;WeatherCollection-HighErrorRate&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmDescription&#34;</span>: <span style="color:#e6db74">&#34;Tỷ lệ lỗi cao trong các functions thu thập thời tiết&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;MetricName&#34;</span>: <span style="color:#e6db74">&#34;Errors&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Namespace&#34;</span>: <span style="color:#e6db74">&#34;AWS/Lambda&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statistic&#34;</span>: <span style="color:#e6db74">&#34;Sum&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Period&#34;</span>: <span style="color:#ae81ff">3600</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;EvaluationPeriods&#34;</span>: <span style="color:#ae81ff">1</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Threshold&#34;</span>: <span style="color:#ae81ff">2</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ComparisonOperator&#34;</span>: <span style="color:#e6db74">&#34;GreaterThanOrEqualToThreshold&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Dimensions&#34;</span>: [
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;FunctionName&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Value&#34;</span>: <span style="color:#e6db74">&#34;weather-current-collector&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  ],
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmActions&#34;</span>: [
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;arn:aws:sns:us-east-1:123456789012:weather-collection-alerts&#34;</span>
-</span></span><span style="display:flex;"><span>  ]
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Duration Alarm</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmName&#34;</span>: <span style="color:#e6db74">&#34;WeatherCollection-LongDuration&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmDescription&#34;</span>: <span style="color:#e6db74">&#34;Thời gian thực thi Lambda quá lâu&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;MetricName&#34;</span>: <span style="color:#e6db74">&#34;Duration&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Namespace&#34;</span>: <span style="color:#e6db74">&#34;AWS/Lambda&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statistic&#34;</span>: <span style="color:#e6db74">&#34;Average&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Period&#34;</span>: <span style="color:#ae81ff">300</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;EvaluationPeriods&#34;</span>: <span style="color:#ae81ff">2</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Threshold&#34;</span>: <span style="color:#ae81ff">240000</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ComparisonOperator&#34;</span>: <span style="color:#e6db74">&#34;GreaterThanThreshold&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Unit&#34;</span>: <span style="color:#e6db74">&#34;Milliseconds&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="42-custom-metrics-alarms">4.2 Custom Metrics Alarms</h3>
-<p><strong>Collection Success Rate</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmName&#34;</span>: <span style="color:#e6db74">&#34;WeatherCollection-LowSuccessRate&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmDescription&#34;</span>: <span style="color:#e6db74">&#34;Tỷ lệ thành công thu thập thấp&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;MetricName&#34;</span>: <span style="color:#e6db74">&#34;SuccessfulCollections&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Namespace&#34;</span>: <span style="color:#e6db74">&#34;Weather/ETL&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statistic&#34;</span>: <span style="color:#e6db74">&#34;Sum&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Period&#34;</span>: <span style="color:#ae81ff">3600</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;EvaluationPeriods&#34;</span>: <span style="color:#ae81ff">1</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Threshold&#34;</span>: <span style="color:#ae81ff">4</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ComparisonOperator&#34;</span>: <span style="color:#e6db74">&#34;LessThanThreshold&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>API Call Failures</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmName&#34;</span>: <span style="color:#e6db74">&#34;WeatherAPI-HighFailureRate&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AlarmDescription&#34;</span>: <span style="color:#e6db74">&#34;Tỷ lệ thất bại API cao&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;MetricName&#34;</span>: <span style="color:#e6db74">&#34;FailedCollections&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Namespace&#34;</span>: <span style="color:#e6db74">&#34;Weather/ETL&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statistic&#34;</span>: <span style="color:#e6db74">&#34;Sum&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Period&#34;</span>: <span style="color:#ae81ff">1800</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;EvaluationPeriods&#34;</span>: <span style="color:#ae81ff">2</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Threshold&#34;</span>: <span style="color:#ae81ff">3</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ComparisonOperator&#34;</span>: <span style="color:#e6db74">&#34;GreaterThanThreshold&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="bước-5-cloudwatch-dashboard">Bước 5: CloudWatch Dashboard</h2>
-<h3 id="51-tạo-weather-etl-dashboard">5.1 Tạo Weather ETL Dashboard</h3>
-<ol>
-<li>
-<p><strong>Điều hướng đến CloudWatch Console</strong></p>
-<ul>
-<li>AWS Console → CloudWatch → Dashboards</li>
-<li>Click &ldquo;Create dashboard&rdquo;</li>
-</ul>
-</li>
-<li>
-<p><strong>Dashboard Configuration</strong></p>
-<ul>
-<li><strong>Dashboard Name</strong>: <code>Weather-ETL-Monitoring</code></li>
-<li><strong>Description</strong>: &ldquo;Weather data collection monitoring dashboard&rdquo;</li>
-</ul>
-</li>
-</ol>
-<h3 id="52-dashboard-widgets">5.2 Dashboard Widgets</h3>
-<p><strong>Widget 1: Collection Success Rate</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;metric&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;properties&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;metrics&#34;</span>: [
-</span></span><span style="display:flex;"><span>      [<span style="color:#e6db74">&#34;Weather/ETL&#34;</span>, <span style="color:#e6db74">&#34;SuccessfulCollections&#34;</span>],
-</span></span><span style="display:flex;"><span>      [<span style="color:#e6db74">&#34;Weather/ETL&#34;</span>, <span style="color:#e6db74">&#34;FailedCollections&#34;</span>]
-</span></span><span style="display:flex;"><span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;period&#34;</span>: <span style="color:#ae81ff">3600</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;stat&#34;</span>: <span style="color:#e6db74">&#34;Sum&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;region&#34;</span>: <span style="color:#e6db74">&#34;us-east-1&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Tỷ lệ Thu thập Thành công&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;yAxis&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;left&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>      }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Widget 2: Lambda Performance</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;metric&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;properties&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;metrics&#34;</span>: [
-</span></span><span style="display:flex;"><span>      [<span style="color:#e6db74">&#34;AWS/Lambda&#34;</span>, <span style="color:#e6db74">&#34;Duration&#34;</span>, <span style="color:#e6db74">&#34;FunctionName&#34;</span>, <span style="color:#e6db74">&#34;weather-current-collector&#34;</span>],
-</span></span><span style="display:flex;"><span>      [<span style="color:#e6db74">&#34;AWS/Lambda&#34;</span>, <span style="color:#e6db74">&#34;Duration&#34;</span>, <span style="color:#e6db74">&#34;FunctionName&#34;</span>, <span style="color:#e6db74">&#34;weather-forecast-collector&#34;</span>]
-</span></span><span style="display:flex;"><span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;period&#34;</span>: <span style="color:#ae81ff">300</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;stat&#34;</span>: <span style="color:#e6db74">&#34;Average&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;region&#34;</span>: <span style="color:#e6db74">&#34;us-east-1&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Thời gian Thực thi Lambda&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;yAxis&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;left&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>      }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Widget 3: Error Rate</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;metric&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;properties&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;metrics&#34;</span>: [
-</span></span><span style="display:flex;"><span>      [<span style="color:#e6db74">&#34;AWS/Lambda&#34;</span>, <span style="color:#e6db74">&#34;Errors&#34;</span>, <span style="color:#e6db74">&#34;FunctionName&#34;</span>, <span style="color:#e6db74">&#34;weather-current-collector&#34;</span>],
-</span></span><span style="display:flex;"><span>      [<span style="color:#e6db74">&#34;AWS/Lambda&#34;</span>, <span style="color:#e6db74">&#34;Errors&#34;</span>, <span style="color:#e6db74">&#34;FunctionName&#34;</span>, <span style="color:#e6db74">&#34;weather-forecast-collector&#34;</span>]
-</span></span><span style="display:flex;"><span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;period&#34;</span>: <span style="color:#ae81ff">3600</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;stat&#34;</span>: <span style="color:#e6db74">&#34;Sum&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;region&#34;</span>: <span style="color:#e6db74">&#34;us-east-1&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Tỷ lệ Lỗi Lambda&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="bước-6-cost-optimization">Bước 6: Cost Optimization</h2>
-<h3 id="61-optimized-scheduling-strategy">6.1 Optimized Scheduling Strategy</h3>
-<p><strong>Giờ cao điểm vs. Giờ thấp điểm</strong>:</p>
-<ul>
-<li><strong>Giờ cao điểm</strong> (7:00-22:00 VN): Thu thập mỗi giờ</li>
-<li><strong>Giờ thấp điểm</strong> (22:00-7:00 VN): Thu thập mỗi 3 giờ</li>
-</ul>
-<p><strong>Cron Expression cho Giờ cao điểm</strong>:</p>
-<pre tabindex="0"><code>cron(0 0-15 * * ? *)
-</code></pre><p><strong>Cron Expression cho Giờ thấp điểm</strong>:</p>
-<pre tabindex="0"><code>cron(0 16,19,22 * * ? *)
-</code></pre><h3 id="62-regional-data-collection">6.2 Regional Data Collection</h3>
-<p><strong>Khu vực Đông Nam Á</strong>:</p>
-<pre tabindex="0"><code>cron(0 1,7,13,19 * * ? *)
-</code></pre><p><strong>Global Collection (bao gồm multiple regions)</strong>:</p>
-<pre tabindex="0"><code>cron(0 0,6,12,18 * * ? *)
-</code></pre><h2 id="bước-7-testing-scheduled-execution">Bước 7: Testing Scheduled Execution</h2>
-<h3 id="71-verify-rule-execution">7.1 Verify Rule Execution</h3>
-<ol>
-<li>
-<p><strong>Check CloudWatch Events Console</strong></p>
-<ul>
-<li>AWS Console → CloudWatch → Events → Rules</li>
-<li>Verify rules are enabled and showing recent invocations</li>
-</ul>
-</li>
-<li>
-<p><strong>Check Lambda Function Metrics</strong></p>
-<ul>
-<li>AWS Console → Lambda → Functions</li>
-<li>Check Invocations và Duration metrics</li>
-</ul>
-</li>
-</ol>
-<h3 id="72-manual-rule-testing">7.2 Manual Rule Testing</h3>
-<p><strong>Test Current Weather Rule</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws events put-events --entries Source<span style="color:#f92672">=</span>manual-test,DetailType<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Manual Test&#34;</span>,Detail<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{&#34;test&#34;: true}&#39;</span>
-</span></span></code></pre></div><p><strong>Check S3 for New Data</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 ls s3://weather-data-123456789012/raw/current-weather/ --recursive --human-readable
-</span></span></code></pre></div><h2 id="troubleshooting">Troubleshooting</h2>
-<h3 id="73-common-issues">7.3 Common Issues</h3>
-<p><strong>Rule không trigger</strong>:</p>
-<ul>
-<li>Kiểm tra IAM permissions cho CloudWatch Events</li>
-<li>Verify Lambda function permissions</li>
-<li>Check rule state (Enabled/Disabled)</li>
-</ul>
-<p><strong>Lambda timeout</strong>:</p>
-<ul>
-<li>Tăng timeout setting (hiện tại: 5 minutes)</li>
-<li>Optimize code hoặc giảm số lượng cities</li>
-</ul>
-<p><strong>API rate limits</strong>:</p>
-<ul>
-<li>Monitor OpenWeatherMap API usage</li>
-<li>Implement exponential backoff</li>
-<li>Consider upgrading API plan nếu cần</li>
-</ul>
 <h2 id="tóm-tắt">Tóm tắt</h2>
-<p>Trong phần này, chúng ta đã:</p>
-<p>✅ Thiết lập CloudWatch Events rules cho automated scheduling<br>
-✅ Cấu hình lịch trình hàng giờ cho current weather<br>
-✅ Cấu hình lịch trình 6 giờ/lần cho forecast data<br>
-✅ Tạo SNS topic để nhận alerts<br>
-✅ Thiết lập CloudWatch alarms và dashboard<br>
-✅ Optimize cost với smart scheduling<br>
-✅ Test scheduled execution thành công</p>
-<p><strong>Tiếp theo</strong>: Trong module 2.4, chúng ta sẽ thiết lập testing và monitoring toàn diện để đảm bảo hệ thống chạy ổn định và đáng tin cậy.</p>
+<p>Trong phần này, chúng ta đã hoàn thành:</p>
+<p><strong>Thiết lập EventBridge Rules</strong>:</p>
+<ul>
+<li>Current weather: Mỗi giờ (24 lần/ngày)</li>
+<li>Forecast: Mỗi 6 giờ (4 lần/ngày)</li>
+</ul>
+<p><strong>Testing và Verification</strong>:</p>
+<ul>
+<li>Manual testing các rules</li>
+<li>Verify S3 data collection</li>
+<li>Check CloudWatch logs và metrics</li>
+</ul>
+<p><strong>Kết quả</strong>: Hệ thống thu thập dữ liệu thời tiết tự động 24/7 với monitoring đầy đủ!</p>
+<p><strong>Tiếp theo</strong>: Trong module 2.4, chúng ta sẽ thiết lập testing và validation toàn diện để đảm bảo data quality và system reliability.</p>
 
 
 
@@ -1048,25 +984,6 @@
             
         
                     
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
             
         
                     
@@ -1074,6 +991,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -1146,7 +1066,7 @@
 			<a class="nav nav-prev" href="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Xây dựng Lambda Weather Collector"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/" title="Testing và Monitoring Thu thập Thời tiết" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu Serverless" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1156,19 +1076,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752242330"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752242330"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752242330"></script>
-    <script src="/js/jquery.sticky.js?1752242330"></script>
-    <script src="/js/featherlight.min.js?1752242330"></script>
-    <script src="/js/highlight.pack.js?1752242330"></script>
+    <script src="/js/clipboard.min.js?1752473023"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752473023"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752473023"></script>
+    <script src="/js/jquery.sticky.js?1752473023"></script>
+    <script src="/js/featherlight.min.js?1752473023"></script>
+    <script src="/js/highlight.pack.js?1752473023"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752242330"></script>
-    <script src="/js/learn.js?1752242330"></script>
-    <script src="/js/hugo-learn.js?1752242330"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752473023"></script>
+    <script src="/js/learn.js?1752473023"></script>
+    <script src="/js/hugo-learn.js?1752473023"></script>
 
-    <link href="/mermaid/mermaid.css?1752242330" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752242330"></script>
+    <link href="/mermaid/mermaid.css?1752473023" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752473023"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

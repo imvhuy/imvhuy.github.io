@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Lập lịch Tự động với CloudWatch Events on Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>Lập lịch Tự động với EventBridge on Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
     <link>//localhost:1313/vi/2-data-collection-openweathermap/2.3-automated-scheduling/</link>
-    <description>Recent content in Lập lịch Tự động với CloudWatch Events on Hệ thống ETL Dữ liệu Thời tiết với AWS</description>
+    <description>Recent content in Lập lịch Tự động với EventBridge on Hệ thống ETL Dữ liệu Thời tiết với AWS</description>
     <generator>Hugo</generator>
     <language>vi</language>
     <lastBuildDate></lastBuildDate>

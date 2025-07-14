@@ -12,21 +12,21 @@
     <title>Thu thập Dữ liệu Thời tiết với OpenWeatherMap :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752242330" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752242330" rel="stylesheet">
-    <link href="/css/hybrid.css?1752242330" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752242330" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752242330" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752242330" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752242330" rel="stylesheet">
-    <link href="/css/theme.css?1752242330" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752242330" rel="stylesheet">
+    <link href="/css/nucleus.css?1752473023" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752473023" rel="stylesheet">
+    <link href="/css/hybrid.css?1752473023" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752473023" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752473023" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752473023" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752473023" rel="stylesheet">
+    <link href="/css/theme.css?1752473023" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752473023" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752242330" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752473023" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752242330"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752473023"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752242330"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752242330"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752473023"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752473023"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752242330"></script>
+<script type="text/javascript" src="/js/search.js?1752473023"></script>
 
     
   </div>
@@ -195,41 +195,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với CloudWatch Events" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với EventBridge" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">
-          Lập lịch Tự động với CloudWatch Events
-          
-            <i class="fas fa-check read-icon"></i>
-          
-      </a>
-      
-              
-    </li>
-  
- 
-
-            
-          
-            
-            
-
-
-
-
- 
-  
-    
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/" title="Testing và Monitoring Thu thập Thời tiết" class="dd-item 
-        
-        
-        
-        ">
-      <a href="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/">
-          Testing và Monitoring Thu thập Thời tiết
+          Lập lịch Tự động với EventBridge
           
             <i class="fas fa-check read-icon"></i>
           
@@ -258,13 +230,13 @@
  
   
     
-    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu" class="dd-item 
+    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu Serverless" class="dd-item 
         
         
         
         ">
       <a href="/vi/3-serverless-processing-lambda/">
-          <b>3. </b>Xử lý và Chuyển đổi Dữ liệu
+          <b>3. </b>Xử lý và Chuyển đổi Dữ liệu Serverless
           
             <i class="fas fa-check read-icon"></i>
           
@@ -535,7 +507,7 @@
 <h3 id="23-automated-scheduling"><a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">2.3 Automated Scheduling</a></h3>
 <p><strong>Lập lịch Tự động với CloudWatch Events</strong></p>
 <p>Thiết lập CloudWatch Events để chạy các Lambda functions theo lịch trình tự động. Cấu hình monitoring, alarms, và notifications để đảm bảo hệ thống chạy ổn định.</p>
-<h3 id="24-testing-và-monitoring"><a href="/vi/2-data-collection-openweathermap/2.4-testing-monitoring/">2.4 Testing và Monitoring</a></h3>
+<h3 id="24-testing-và-monitoring"><a href="2.4-testing-monitoring/">2.4 Testing và Monitoring</a></h3>
 <p><strong>Testing và Monitoring Toàn diện</strong></p>
 <p>Thiết lập testing strategy bao gồm manual testing, data quality validation, performance testing, và automated health checks. Tạo dashboard để monitor hệ thống.</p>
 <h2 id="kiến-trúc-tổng-quan">Kiến trúc Tổng quan</h2>
@@ -544,16 +516,12 @@
     C[CloudWatch Events] --&gt; B
     B --&gt; D[S3 Raw Data Storage]
     B --&gt; E[CloudWatch Logs]
-    F[Systems Manager] --&gt; B
-    G[SNS Alerts] --&gt; H[Email Notifications]
-    I[CloudWatch Alarms] --&gt; G
 
     style A fill:#e1f5fe
     style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
     style C fill:#e8f5e8
     style D fill:#f3e5f5
-    style E fill:#fff3e0
-    style F fill:#e0f2f1
+    style E fill:#fff3e0    
 </code></pre><h2 id="loại-dữ-liệu-thu-thập">Loại Dữ liệu Thu thập</h2>
 <p>Thu thập dữ liệu thời tiết sẽ tập trung vào:</p>
 <ol>
@@ -736,22 +704,6 @@
             
         
                     
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
             
         
                     
@@ -841,19 +793,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752242330"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752242330"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752242330"></script>
-    <script src="/js/jquery.sticky.js?1752242330"></script>
-    <script src="/js/featherlight.min.js?1752242330"></script>
-    <script src="/js/highlight.pack.js?1752242330"></script>
+    <script src="/js/clipboard.min.js?1752473023"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752473023"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752473023"></script>
+    <script src="/js/jquery.sticky.js?1752473023"></script>
+    <script src="/js/featherlight.min.js?1752473023"></script>
+    <script src="/js/highlight.pack.js?1752473023"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752242330"></script>
-    <script src="/js/learn.js?1752242330"></script>
-    <script src="/js/hugo-learn.js?1752242330"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752473023"></script>
+    <script src="/js/learn.js?1752473023"></script>
+    <script src="/js/hugo-learn.js?1752473023"></script>
 
-    <link href="/mermaid/mermaid.css?1752242330" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752242330"></script>
+    <link href="/mermaid/mermaid.css?1752473023" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752473023"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

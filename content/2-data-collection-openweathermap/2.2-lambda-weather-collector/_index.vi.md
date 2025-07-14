@@ -10,7 +10,7 @@ Trong phần này, chúng ta sẽ tạo các hàm AWS Lambda để tự động 
 
 **IAM Role** giống như một "thẻ căn cước" cho Lambda function, cho phép nó truy cập các dịch vụ AWS khác. Không có IAM Role, Lambda function sẽ:
 
- **KHÔNG THỂ** lưu file vào S3  
+**KHÔNG THỂ** lưu file vào S3  
 **KHÔNG THỂ** đọc API key từ Parameter Store  
 **KHÔNG THỂ** ghi logs vào CloudWatch  
 **KHÔNG THỂ** gửi metrics cho monitoring
@@ -60,10 +60,8 @@ AWS đã tạo sẵn nhiều policies phổ biến mà chúng ta có thể "gắ
 
 ![Managed Policies](/images/data-collection/22b11.png)
 
-
-
 **Kết quả:**
-Role `WeatherCollectorLambdaRole` sẽ có **4 managed policies** 
+Role `WeatherCollectorLambdaRole` sẽ có **4 managed policies**
 
 **Policy này cho phép Lambda:**
 
@@ -87,6 +85,8 @@ Role `WeatherCollectorLambdaRole` sẽ có **4 managed policies**
    - **Region**: us-east-1 (hoặc region ưa thích của bạn)
    - **Block Public Access**: Giữ tất cả cài đặt được bật (khuyến nghị)
 
+![res-S3](/images/data-collection/22b22.png)
+
 3. **Cấu trúc Bucket**
    ```
    weather-data-123456789012/
@@ -107,6 +107,7 @@ Role `WeatherCollectorLambdaRole` sẽ có **4 managed policies**
 1. **Điều hướng đến Lambda Console**
 
    - AWS Console → Lambda → Create function
+     ![Lambda Console](/images/data-collection/22b31.png)
 
 2. **Cấu hình Function**
    - **Function Name**: `weather-current-collector`
@@ -114,116 +115,145 @@ Role `WeatherCollectorLambdaRole` sẽ có **4 managed policies**
    - **Architecture**: x86_64
    - **Execution Role**: Use existing role → `WeatherCollectorLambdaRole`
 
-### 3.2 Function Code
+![Create Lambda](/images/data-collection/22b32.png)
+
+### 3.2 Thêm Function Code
+
+**Quan trọng**: Trước khi copy code, bạn cần **thay đổi API key**.
+Ở dòng `OPENWEATHER_API_KEY = 'API Key`  
+→ Thay bằng API key của bạn từ OpenWeatherMap
+
+1. **Trong Lambda Console** → Scroll xuống **Code source**
+2. **Xóa toàn bộ code mặc định** trong file `lambda_function.py`
+3. **Copy và paste code sau:**
 
 **File**: `lambda_function.py`
 
 ```python
 import json
 import boto3
-import requests
+import urllib.request
+import urllib.parse
+import urllib.error
 import os
 from datetime import datetime, timezone
 from typing import Dict, List, Optional
 import logging
 
-# Cấu hình logging
+# Logging configuration
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-# AWS clients
-s3_client = boto3.client('s3')
-ssm_client = boto3.client('ssm')
-cloudwatch = boto3.client('cloudwatch')
+# AWS clients with retry configuration
+s3_client = boto3.client('s3', config=boto3.session.Config(
+    retries={'max_attempts': 3, 'mode': 'adaptive'}
+))
+cloudwatch = boto3.client('cloudwatch', config=boto3.session.Config(
+    retries={'max_attempts': 3, 'mode': 'adaptive'}
+))
 
-# Cấu hình
+# Configuration
 BUCKET_NAME = os.environ.get('WEATHER_BUCKET_NAME')
-API_KEY_PARAMETER = '/weather-etl/openweathermap/api-key'
+OPENWEATHER_API_KEY = 'your_api_key'  # Replace with your actual API key
 
-# Các thành phố mục tiêu để thu thập thời tiết
+# Target cities for weather data collection
 CITIES = [
-    {'name': 'Ho Chi Minh City', 'country': 'VN', 'lat': 10.8231, 'lon': 106.6297},
-    {'name': 'Hanoi', 'country': 'VN', 'lat': 21.0285, 'lon': 105.8542},
-    {'name': 'Singapore', 'country': 'SG', 'lat': 1.3521, 'lon': 103.8198},
-    {'name': 'Bangkok', 'country': 'TH', 'lat': 13.7563, 'lon': 100.5018},
-    {'name': 'Jakarta', 'country': 'ID', 'lat': -6.2088, 'lon': 106.8456},
-    {'name': 'Kuala Lumpur', 'country': 'MY', 'lat': 3.1390, 'lon': 101.6869}
+    {"name": "HoChiMinh", "lat": 10.7769, "lon": 106.7009},
+    {"name": "Hanoi", "lat": 21.0285, "lon": 105.8542},
+    {"name": "Danang", "lat": 16.0471, "lon": 108.2068},
+    {"name": "GiaLai", "lat": 13.9833, "lon": 108.0000},
+    {"name": "CanTho", "lat": 10.0452, "lon": 105.7469},
+    {"name": "Hue", "lat": 16.4637, "lon": 107.5909}
 ]
 
-def get_api_key() -> str:
-    """Lấy OpenWeatherMap API key từ Parameter Store."""
-    try:
-        response = ssm_client.get_parameter(
-            Name=API_KEY_PARAMETER,
-            WithDecryption=True
-        )
-        return response['Parameter']['Value']
-    except Exception as e:
-        logger.error(f"Không thể lấy API key: {e}")
-        raise
-
 def fetch_current_weather(city: Dict, api_key: str) -> Optional[Dict]:
-    """Lấy dữ liệu thời tiết hiện tại cho một thành phố."""
+    """Fetch current weather data for a city."""
     base_url = "https://api.openweathermap.org/data/2.5/weather"
 
     params = {
-        'lat': city['lat'],
-        'lon': city['lon'],
+        'lat': str(city['lat']),
+        'lon': str(city['lon']),
         'appid': api_key,
         'units': 'metric',
-        'lang': 'vi'
+        'lang': 'en'
     }
 
     try:
-        response = requests.get(base_url, params=params, timeout=30)
-        response.raise_for_status()
+        # Build URL with parameters
+        query_string = urllib.parse.urlencode(params)
+        full_url = f"{base_url}?{query_string}"
+        
+        # Make HTTP request
+        with urllib.request.urlopen(full_url, timeout=30) as response:
+            if response.status != 200:
+                logger.error(f"HTTP error {response.status} for {city['name']}")
+                return None
+                
+            response_data = response.read().decode('utf-8')
+            data = json.loads(response_data)
 
-        data = response.json()
-
-        # Thêm metadata
+        # Add metadata
         data['collection_timestamp'] = datetime.now(timezone.utc).isoformat()
         data['city_metadata'] = city
 
         return data
 
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Lỗi API cho {city['name']}: {e}")
+    except urllib.error.URLError as e:
+        logger.error(f"URL error for {city['name']}: {e}")
+        return None
+    except urllib.error.HTTPError as e:
+        logger.error(f"HTTP error for {city['name']}: {e}")
         return None
     except json.JSONDecodeError as e:
-        logger.error(f"Lỗi JSON decode cho {city['name']}: {e}")
+        logger.error(f"JSON decode error for {city['name']}: {e}")
+        return None
+    except Exception as e:
+        logger.error(f"Unexpected error for {city['name']}: {e}")
         return None
 
 def save_to_s3(data: Dict, city_name: str) -> bool:
-    """Lưu dữ liệu thời tiết vào S3."""
+    """Save weather data to S3."""
     try:
+        if not BUCKET_NAME:
+            logger.error("WEATHER_BUCKET_NAME environment variable not set")
+            return False
+            
         now = datetime.now(timezone.utc)
 
-        # Tạo S3 key với partition theo thời gian
-        city_safe = city_name.lower().replace(' ', '_').replace('.', '')
+        # Create S3 key with time partitioning (Hive format for analytics)
+        city_safe = city_name.lower().replace(' ', '_').replace('.', '').replace('-', '_')
         key = f"raw/current-weather/year={now.year}/month={now.month:02d}/day={now.day:02d}/hour={now.hour:02d}/{city_safe}_{now.strftime('%Y%m%d_%H%M%S')}.json"
 
-        # Upload file
+        # Prepare body data with UTF-8 encoding
+        json_data = json.dumps(data, ensure_ascii=False, indent=2)
+        body_bytes = json_data.encode('utf-8')
+
+        # Upload file with optimized S3 parameters
         s3_client.put_object(
             Bucket=BUCKET_NAME,
             Key=key,
-            Body=json.dumps(data, ensure_ascii=False, indent=2),
-            ContentType='application/json',
+            Body=body_bytes,
+            ContentType='application/json; charset=utf-8',
+            ContentEncoding='utf-8',
             Metadata={
                 'city': city_name,
-                'collection_time': now.isoformat(),
-                'data_type': 'current_weather'
-            }
+                'collection-time': now.isoformat(),
+                'data-type': 'current-weather',
+                'source': 'openweathermap'
+            },
+            ServerSideEncryption='AES256',  # Server-side encryption
+            StorageClass='STANDARD_IA'  # Save 40% storage cost compared to STANDARD
         )
 
-        logger.info(f"Đã lưu dữ liệu cho {city_name} tại {key}")
+        logger.info(f"Saved data for {city_name} at s3://{BUCKET_NAME}/{key}")
         return True
 
     except Exception as e:
-        logger.error(f"Lỗi lưu S3 cho {city_name}: {e}")
+        logger.error(f"S3 save error for {city_name}: {e}")
         return False
 
 def send_metrics(metric_name: str, value: float, unit: str = 'Count'):
-    """Gửi metrics tùy chỉnh tới CloudWatch."""
+    """Send custom metrics to CloudWatch."""
     try:
         cloudwatch.put_metric_data(
             Namespace='Weather/ETL',
@@ -237,29 +267,48 @@ def send_metrics(metric_name: str, value: float, unit: str = 'Count'):
             ]
         )
     except Exception as e:
-        logger.error(f"Lỗi gửi metric {metric_name}: {e}")
+        logger.error(f"Metric send error {metric_name}: {e}")
 
 def lambda_handler(event, context):
-    """Handler chính cho Lambda function."""
-    logger.info(f"Bắt đầu thu thập thời tiết: {json.dumps(event)}")
+    """Main handler for Lambda function."""
+    logger.info(f"Starting weather data collection: {json.dumps(event)}")
+    
+    # Basic validation
+    if not BUCKET_NAME:
+        logger.error("WEATHER_BUCKET_NAME environment variable is required")
+        return {
+            'statusCode': 500,
+            'body': json.dumps({
+                'error': 'Configuration error',
+                'message': 'WEATHER_BUCKET_NAME environment variable not set'
+            })
+        }
 
     successful_collections = 0
     failed_collections = 0
     results = []
 
     try:
-        # Lấy API key
-        api_key = get_api_key()
+        # API key validation
+        if not OPENWEATHER_API_KEY or OPENWEATHER_API_KEY == 'your_api_key_here':
+            logger.error("OpenWeatherMap API key is not configured")
+            return {
+                'statusCode': 500,
+                'body': json.dumps({
+                    'error': 'Configuration error',
+                    'message': 'OpenWeatherMap API key not set'
+                })
+            }
 
-        # Thu thập dữ liệu cho từng thành phố
+        # Collect data for each city
         for city in CITIES:
-            logger.info(f"Thu thập dữ liệu cho {city['name']}")
+            logger.info(f"Collecting data for {city['name']}")
 
             # Fetch weather data
-            weather_data = fetch_current_weather(city, api_key)
+            weather_data = fetch_current_weather(city, OPENWEATHER_API_KEY)
 
             if weather_data:
-                # Lưu vào S3
+                # Save to S3
                 if save_to_s3(weather_data, city['name']):
                     successful_collections += 1
                     results.append({
@@ -283,50 +332,150 @@ def lambda_handler(event, context):
                     'error': 'API fetch failed'
                 })
 
-        # Gửi metrics
-        send_metrics('SuccessfulCollections', successful_collections)
-        send_metrics('FailedCollections', failed_collections)
-        send_metrics('TotalCollections', successful_collections + failed_collections)
+        # Send metrics (batched to save cost)
+        if successful_collections > 0 or failed_collections > 0:
+            try:
+                cloudwatch.put_metric_data(
+                    Namespace='Weather/ETL',
+                    MetricData=[
+                        {
+                            'MetricName': 'SuccessfulCollections',
+                            'Value': successful_collections,
+                            'Unit': 'Count',
+                            'Timestamp': datetime.now(timezone.utc)
+                        },
+                        {
+                            'MetricName': 'FailedCollections',
+                            'Value': failed_collections,
+                            'Unit': 'Count',
+                            'Timestamp': datetime.now(timezone.utc)
+                        },
+                        {
+                            'MetricName': 'TotalCollections',
+                            'Value': successful_collections + failed_collections,
+                            'Unit': 'Count',
+                            'Timestamp': datetime.now(timezone.utc)
+                        }
+                    ]
+                )
+            except Exception as e:
+                logger.error(f"Metrics send error: {e}")
 
-        # Log kết quả
-        logger.info(f"Thu thập hoàn tất - Thành công: {successful_collections}, Thất bại: {failed_collections}")
+        # Log results
+        logger.info(f"Collection completed - Success: {successful_collections}, Failed: {failed_collections}")
 
         return {
             'statusCode': 200,
             'body': json.dumps({
-                'message': 'Thu thập thời tiết hoàn tất',
+                'message': 'Weather data collection completed',
                 'successful_collections': successful_collections,
                 'failed_collections': failed_collections,
                 'results': results
-            }, ensure_ascii=False)
+            })
         }
 
     except Exception as e:
-        logger.error(f"Lỗi trong lambda handler: {e}")
+        logger.error(f"Lambda handler error: {e}")
         send_metrics('LambdaErrors', 1)
 
         return {
             'statusCode': 500,
             'body': json.dumps({
-                'error': 'Lỗi nội bộ',
+                'error': 'Internal error',
                 'message': str(e)
-            }, ensure_ascii=False)
+            })
         }
 ```
 
-### 3.3 Biến Môi trường
+Giải thích code
+1. **Import libraries**: Các thư viện cần thiết cho HTTP requests, AWS services, logging
+2. **Cấu hình API key**: Lưu OpenWeatherMap API key (nhớ thay bằng key của bạn!)
+3. **Danh sách thành phố**: 6 thành phố Việt Nam với tọa độ GPS chính xác
+4. **`fetch_current_weather()`**: Gọi API để lấy thời tiết hiện tại
+5. **`save_to_s3()`**: Lưu dữ liệu JSON vào S3 với cấu trúc partition thông minh
+6. **`send_metrics()`**: Gửi metrics tới CloudWatch để monitoring
+7. **`lambda_handler()`**: Hàm chính - xử lý từng thành phố và trả về kết quả
 
-Trong Lambda Console, thêm biến môi trường:
+**Luồng hoạt động:**
+`Lambda được trigger` → `Kiểm tra cấu hình` → `Lặp qua 6 thành phố` → `Gọi API` → `Lưu vào S3` → `Gửi metrics` → `Trả về kết quả`
 
-- **WEATHER_BUCKET_NAME**: `weather-data-{your-account-id}`
+### 3.3 Cấu hình Environment Variables
 
-### 3.4 Cấu hình Function
+**Bước quan trọng**: Lambda cần biết tên S3 bucket để lưu dữ liệu.
 
-- **Memory**: 256 MB
-- **Timeout**: 5 minutes
-- **Reserved Concurrency**: 2
+1. **Trong Lambda Console** → **Configuration** tab → **Environment variables**
+![Environment Variables](/images/data-collection/22b33.png)
+2. **Click "Edit"** → **Add environment variable**:
+   - **Key**: `WEATHER_BUCKET_NAME`
+   - **Value**: `weather-data-{your-account-id}` (thay {your-account-id} bằng account ID thật)
+
+![Environment Variables](/images/data-collection/22b34.png)
+
+{{% notice tip %}}
+Account ID có thể tìm ở góc phải trên AWS Console (dãy số 12 chữ số)
+{{% /notice %}}
+
+### 3.4 Test Lambda Function
+
+**Bây giờ hãy test xem function hoạt động không!**
+
+1. **Click "Deploy"** để lưu code và cấu hình
+2. **Tạo test event**:
+   - **Test** tab → **Create new event**
+   - **Event name**: `manual-test`
+   - **Event JSON**: `{}` (để trống vì không cần input)
+
+![Test Event](/images/data-collection/22b35.png)
+
+3. **Click "Test"** và đợi kết quả
+
+**Kết quả mong đợi:**
+
+```json
+{
+  "statusCode": 200,
+  "body": {
+    "message": "Weather data collection completed",
+    "successful_collections": 6,
+    "failed_collections": 0,
+    "results": [
+      {
+        "city": "HoChiMinh",
+        "status": "success",
+        "temperature": 28.5,
+        "description": "broken clouds"
+      }
+      // ... 5 thành phố khác
+    ]
+  }
+}
+```
+![S3 Results](/images/data-collection/22b36.png)
+4. **Kiểm tra S3**: Vào S3 bucket và xem có file JSON mới không
+
+![S3 Results](/images/data-collection/22b37.png)
+
+Nếu test thành công, bạn đã có:
+
+- Lambda function hoạt động  
+- Dữ liệu thời tiết được lưu vào S3  
+- CloudWatch metrics được gửi  
+- Error handling hoạt động
+
+**Lambda đã sẵn sàng để tự động chạy theo schedule**
+
+
+**Nếu test thất bại**, kiểm tra:
+
+1. **CloudWatch Logs**: Lambda → Monitoring → View logs → Xem lỗi cụ thể
+2. **API Key**: Đảm bảo key OpenWeatherMap đúng
+3. **Environment variable**: WEATHER_BUCKET_NAME đúng format
+4. **IAM Role**: Đảm bảo role có đủ permissions
+5. **S3 Bucket**: Bucket đã được tạo chưa
 
 ## Bước 4: Lambda Function cho Weather Forecast
+
+Tương tự như tạo Function cho Weather Current
 
 ### 4.1 Tạo Forecast Function
 
@@ -340,120 +489,167 @@ Trong Lambda Console, thêm biến môi trường:
 ```python
 import json
 import boto3
-import requests
+import urllib.request
+import urllib.parse
+import urllib.error
 import os
 from datetime import datetime, timezone
 from typing import Dict, List, Optional
 import logging
 
+# Logging configuration
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-s3_client = boto3.client('s3')
-ssm_client = boto3.client('ssm')
-cloudwatch = boto3.client('cloudwatch')
+# AWS clients with retry configuration
+s3_client = boto3.client('s3', config=boto3.session.Config(
+    retries={'max_attempts': 3, 'mode': 'adaptive'}
+))
+cloudwatch = boto3.client('cloudwatch', config=boto3.session.Config(
+    retries={'max_attempts': 3, 'mode': 'adaptive'}
+))
 
+# Configuration
 BUCKET_NAME = os.environ.get('WEATHER_BUCKET_NAME')
-API_KEY_PARAMETER = '/weather-etl/openweathermap/api-key'
+OPENWEATHER_API_KEY = 'your_api_key_here'  # Replace with your actual API key
 
+# Target cities for weather forecast collection
 CITIES = [
-    {'name': 'Ho Chi Minh City', 'country': 'VN', 'lat': 10.8231, 'lon': 106.6297},
-    {'name': 'Hanoi', 'country': 'VN', 'lat': 21.0285, 'lon': 105.8542},
-    {'name': 'Singapore', 'country': 'SG', 'lat': 1.3521, 'lon': 103.8198},
-    {'name': 'Bangkok', 'country': 'TH', 'lat': 13.7563, 'lon': 100.5018},
-    {'name': 'Jakarta', 'country': 'ID', 'lat': -6.2088, 'lon': 106.8456},
-    {'name': 'Kuala Lumpur', 'country': 'MY', 'lat': 3.1390, 'lon': 101.6869}
+    {"name": "HoChiMinh", "lat": 10.7769, "lon": 106.7009},
+    {"name": "Hanoi", "lat": 21.0285, "lon": 105.8542},
+    {"name": "Danang", "lat": 16.0471, "lon": 108.2068},
+    {"name": "GiaLai", "lat": 13.9833, "lon": 108.0000},
+    {"name": "CanTho", "lat": 10.0452, "lon": 105.7469},
+    {"name": "Hue", "lat": 16.4637, "lon": 107.5909}
 ]
 
-def get_api_key() -> str:
-    """Lấy OpenWeatherMap API key từ Parameter Store."""
-    try:
-        response = ssm_client.get_parameter(
-            Name=API_KEY_PARAMETER,
-            WithDecryption=True
-        )
-        return response['Parameter']['Value']
-    except Exception as e:
-        logger.error(f"Không thể lấy API key: {e}")
-        raise
-
 def fetch_weather_forecast(city: Dict, api_key: str) -> Optional[Dict]:
-    """Lấy dữ liệu dự báo thời tiết 5 ngày cho một thành phố."""
+    """Fetch 5-day weather forecast data for a city."""
     base_url = "https://api.openweathermap.org/data/2.5/forecast"
 
     params = {
-        'lat': city['lat'],
-        'lon': city['lon'],
+        'lat': str(city['lat']),
+        'lon': str(city['lon']),
         'appid': api_key,
         'units': 'metric',
-        'lang': 'vi',
-        'cnt': 40  # 5 ngày x 8 dự báo (mỗi 3 giờ)
+        'lang': 'en',
+        'cnt': 40  # 5 days x 8 forecasts (every 3 hours)
     }
 
     try:
-        response = requests.get(base_url, params=params, timeout=30)
-        response.raise_for_status()
+        # Build URL with parameters
+        query_string = urllib.parse.urlencode(params)
+        full_url = f"{base_url}?{query_string}"
+        
+        # Make HTTP request
+        with urllib.request.urlopen(full_url, timeout=30) as response:
+            if response.status != 200:
+                logger.error(f"HTTP error {response.status} for forecast {city['name']}")
+                return None
+                
+            response_data = response.read().decode('utf-8')
+            data = json.loads(response_data)
 
-        data = response.json()
-
-        # Thêm metadata
+        # Add metadata
         data['collection_timestamp'] = datetime.now(timezone.utc).isoformat()
         data['city_metadata'] = city
 
         return data
 
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Lỗi API forecast cho {city['name']}: {e}")
+    except urllib.error.URLError as e:
+        logger.error(f"URL error for forecast {city['name']}: {e}")
+        return None
+    except urllib.error.HTTPError as e:
+        logger.error(f"HTTP error for forecast {city['name']}: {e}")
         return None
     except json.JSONDecodeError as e:
-        logger.error(f"Lỗi JSON decode forecast cho {city['name']}: {e}")
+        logger.error(f"JSON decode error for forecast {city['name']}: {e}")
+        return None
+    except Exception as e:
+        logger.error(f"Unexpected error for forecast {city['name']}: {e}")
         return None
 
 def save_forecast_to_s3(data: Dict, city_name: str) -> bool:
-    """Lưu dữ liệu dự báo thời tiết vào S3."""
+    """Save weather forecast data to S3."""
     try:
+        if not BUCKET_NAME:
+            logger.error("WEATHER_BUCKET_NAME environment variable not set")
+            return False
+            
         now = datetime.now(timezone.utc)
 
-        city_safe = city_name.lower().replace(' ', '_').replace('.', '')
-        key = f"raw/forecast/year={now.year}/month={now.month:02d}/day={now.day:02d}/{city_safe}_{now.strftime('%Y%m%d_%H%M%S')}.json"
+        # Create S3 key with time partitioning (Hive format for analytics)
+        city_safe = city_name.lower().replace(' ', '_').replace('.', '').replace('-', '_')
+        key = f"raw/forecast/year={now.year}/month={now.month:02d}/day={now.day:02d}/hour={now.hour:02d}/{city_safe}_{now.strftime('%Y%m%d_%H%M%S')}.json"
 
+        # Prepare body data with UTF-8 encoding
+        json_data = json.dumps(data, ensure_ascii=False, indent=2)
+        body_bytes = json_data.encode('utf-8')
+
+        # Upload file with optimized S3 parameters
         s3_client.put_object(
             Bucket=BUCKET_NAME,
             Key=key,
-            Body=json.dumps(data, ensure_ascii=False, indent=2),
-            ContentType='application/json',
+            Body=body_bytes,
+            ContentType='application/json; charset=utf-8',
+            ContentEncoding='utf-8',
             Metadata={
                 'city': city_name,
-                'collection_time': now.isoformat(),
-                'data_type': 'forecast',
-                'forecast_count': str(len(data.get('list', [])))
-            }
+                'collection-time': now.isoformat(),
+                'data-type': 'forecast',
+                'forecast-count': str(len(data.get('list', []))),
+                'source': 'openweathermap'
+            },
+            ServerSideEncryption='AES256',  # Server-side encryption
+            StorageClass='STANDARD_IA'  # Save 40% storage cost compared to STANDARD
         )
 
-        logger.info(f"Đã lưu dự báo cho {city_name} tại {key}")
+        logger.info(f"Saved forecast data for {city_name} at s3://{BUCKET_NAME}/{key}")
         return True
 
     except Exception as e:
-        logger.error(f"Lỗi lưu forecast S3 cho {city_name}: {e}")
+        logger.error(f"S3 save error for forecast {city_name}: {e}")
         return False
 
 def lambda_handler(event, context):
-    """Handler chính cho forecast Lambda function."""
-    logger.info(f"Bắt đầu thu thập dự báo thời tiết: {json.dumps(event)}")
+    """Main handler for forecast Lambda function."""
+    logger.info(f"Starting weather forecast collection: {json.dumps(event)}")
+    
+    # Basic validation
+    if not BUCKET_NAME:
+        logger.error("WEATHER_BUCKET_NAME environment variable is required")
+        return {
+            'statusCode': 500,
+            'body': json.dumps({
+                'error': 'Configuration error',
+                'message': 'WEATHER_BUCKET_NAME environment variable not set'
+            })
+        }
 
     successful_collections = 0
     failed_collections = 0
     results = []
 
     try:
-        api_key = get_api_key()
+        # API key validation
+        if not OPENWEATHER_API_KEY or OPENWEATHER_API_KEY == 'your_api_key_here':
+            logger.error("OpenWeatherMap API key is not configured")
+            return {
+                'statusCode': 500,
+                'body': json.dumps({
+                    'error': 'Configuration error',
+                    'message': 'OpenWeatherMap API key not set'
+                })
+            }
 
+        # Collect forecast data for each city
         for city in CITIES:
-            logger.info(f"Thu thập dự báo cho {city['name']}")
+            logger.info(f"Collecting forecast data for {city['name']}")
 
-            forecast_data = fetch_weather_forecast(city, api_key)
+            forecast_data = fetch_weather_forecast(city, OPENWEATHER_API_KEY)
 
             if forecast_data:
+                # Save to S3
                 if save_forecast_to_s3(forecast_data, city['name']):
                     successful_collections += 1
                     results.append({
@@ -476,92 +672,125 @@ def lambda_handler(event, context):
                     'error': 'API fetch failed'
                 })
 
-        # Gửi metrics
-        cloudwatch.put_metric_data(
-            Namespace='Weather/ETL',
-            MetricData=[
-                {
-                    'MetricName': 'SuccessfulForecastCollections',
-                    'Value': successful_collections,
-                    'Unit': 'Count'
-                },
-                {
-                    'MetricName': 'FailedForecastCollections',
-                    'Value': failed_collections,
-                    'Unit': 'Count'
-                }
-            ]
-        )
+        # Send metrics (batched to save cost)
+        if successful_collections > 0 or failed_collections > 0:
+            try:
+                cloudwatch.put_metric_data(
+                    Namespace='Weather/ETL',
+                    MetricData=[
+                        {
+                            'MetricName': 'SuccessfulForecastCollections',
+                            'Value': successful_collections,
+                            'Unit': 'Count',
+                            'Timestamp': datetime.now(timezone.utc)
+                        },
+                        {
+                            'MetricName': 'FailedForecastCollections',
+                            'Value': failed_collections,
+                            'Unit': 'Count',
+                            'Timestamp': datetime.now(timezone.utc)
+                        },
+                        {
+                            'MetricName': 'TotalForecastCollections',
+                            'Value': successful_collections + failed_collections,
+                            'Unit': 'Count',
+                            'Timestamp': datetime.now(timezone.utc)
+                        }
+                    ]
+                )
+            except Exception as e:
+                logger.error(f"Metrics send error: {e}")
 
-        logger.info(f"Thu thập dự báo hoàn tất - Thành công: {successful_collections}, Thất bại: {failed_collections}")
+        # Log results
+        logger.info(f"Forecast collection completed - Success: {successful_collections}, Failed: {failed_collections}")
 
         return {
             'statusCode': 200,
             'body': json.dumps({
-                'message': 'Thu thập dự báo thời tiết hoàn tất',
+                'message': 'Weather forecast collection completed',
                 'successful_collections': successful_collections,
                 'failed_collections': failed_collections,
                 'results': results
-            }, ensure_ascii=False)
+            })
         }
 
     except Exception as e:
-        logger.error(f"Lỗi trong forecast lambda handler: {e}")
+        logger.error(f"Lambda handler error: {e}")
 
-        cloudwatch.put_metric_data(
-            Namespace='Weather/ETL',
-            MetricData=[
-                {
-                    'MetricName': 'ForecastLambdaErrors',
-                    'Value': 1,
-                    'Unit': 'Count'
-                }
-            ]
-        )
+        # Send error metric
+        try:
+            cloudwatch.put_metric_data(
+                Namespace='Weather/ETL',
+                MetricData=[
+                    {
+                        'MetricName': 'ForecastLambdaErrors',
+                        'Value': 1,
+                        'Unit': 'Count',
+                        'Timestamp': datetime.now(timezone.utc)
+                    }
+                ]
+            )
+        except Exception as metric_error:
+            logger.error(f"Failed to send error metric: {metric_error}")
 
         return {
             'statusCode': 500,
             'body': json.dumps({
-                'error': 'Lỗi nội bộ forecast',
+                'error': 'Internal error',
                 'message': str(e)
-            }, ensure_ascii=False)
+            })
         }
 ```
 
-## Bước 5: Testing Lambda Functions
+### 4.3 Test Lambda Function
 
-### 5.1 Test Manual
+**Bây giờ hãy test xem function hoạt động không!**
 
-1. **Test current weather function**
+1. **Click "Deploy"** để lưu code và cấu hình
+2. **Tạo test event**:
+   - **Test** tab → **Create new event**
+   - **Event name**: `manual-test`
+   - **Event JSON**: `{}` (để trống vì không cần input)
 
-   - Vào Lambda Console → `weather-current-collector`
-   - Tạo test event với payload rỗng `{}`
-   - Click "Test" và kiểm tra logs
+![Test Event](/images/data-collection/22b41.png)
 
-2. **Test forecast function**
-   - Vào Lambda Console → `weather-forecast-collector`
-   - Tạo test event với payload rỗng `{}`
-   - Click "Test" và kiểm tra logs
+3. **Click "Test"** và đợi kết quả
 
-### 5.2 Verify S3 Data
+**Kết quả mong đợi:**
 
-Kiểm tra dữ liệu trong S3 bucket:
-
-```bash
-aws s3 ls s3://weather-data-{your-account-id}/raw/ --recursive
+```json
+{
+  "statusCode": 200,
+  "body": {
+    "message": "Weather data collection completed",
+    "successful_collections": 6,
+    "failed_collections": 0,
+    "results": [
+      {
+        "city": "HoChiMinh",
+        "status": "success",
+        "temperature": 28.5,
+        "description": "broken clouds"
+      }
+      // ... 5 thành phố khác
+    ]
+  }
+}
 ```
+![S3 Results](/images/data-collection/22b42.png)
+4. **Kiểm tra S3**: Vào S3 bucket và xem có file JSON mới không
 
-Bạn sẽ thấy các file JSON được tạo trong cấu trúc partition theo thời gian.
+![S3 Results](/images/data-collection/22b43.png)
 
 ## Tóm tắt
 
 Trong phần này, chúng ta đã:
 
-✅ Tạo IAM roles và policies cho Lambda functions  
-✅ Thiết lập S3 bucket với cấu trúc partition  
-✅ Xây dựng Lambda function thu thập thời tiết hiện tại  
-✅ Xây dựng Lambda function thu thập dự báo thời tiết  
-✅ Cấu hình error handling và CloudWatch metrics  
-✅ Test các functions thành công
+- Tạo IAM roles và policies cho Lambda functions  
+- Thiết lập S3 bucket với cấu trúc partition  
+- Xây dựng Lambda function thu thập thời tiết hiện tại  
+- Xây dựng Lambda function thu thập dự báo thời tiết  
+- Cấu hình error handling và CloudWatch metrics  
+- Test các functions thành công
 
 **Tiếp theo**: Trong module 2.3, chúng ta sẽ thiết lập automated scheduling với CloudWatch Events để chạy các functions này theo lịch trình.

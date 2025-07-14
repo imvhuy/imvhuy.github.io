@@ -43,16 +43,12 @@ graph LR
     C[CloudWatch Events] --> B
     B --> D[S3 Raw Data Storage]
     B --> E[CloudWatch Logs]
-    F[Systems Manager] --> B
-    G[SNS Alerts] --> H[Email Notifications]
-    I[CloudWatch Alarms] --> G
 
     style A fill:#e1f5fe
     style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
     style C fill:#e8f5e8
     style D fill:#f3e5f5
-    style E fill:#fff3e0
-    style F fill:#e0f2f1
+    style E fill:#fff3e0    
 ```
 
 ## Loại Dữ liệu Thu thập
