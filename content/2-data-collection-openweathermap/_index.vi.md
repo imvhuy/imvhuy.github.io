@@ -6,9 +6,7 @@ chapter: false
 pre: "<b>2. </b>"
 ---
 
-
 Trong phần này, ta sẽ học cách thiết lập thu thập dữ liệu thời tiết tự động bằng OpenWeatherMap API và AWS Lambda. Đây là nền tảng của pipeline ETL phân tích thời tiết, nơi chúng ta sẽ xây dựng hệ thống thu thập dữ liệu serverless đáng tin cậy.
-
 
 ### [2.1 OpenWeatherMap Setup](2.1-openweathermap-setup/)
 
@@ -34,51 +32,62 @@ Thiết lập CloudWatch Events để chạy các Lambda functions theo lịch t
 
 Thiết lập testing strategy bao gồm manual testing, data quality validation, performance testing, và automated health checks. Tạo dashboard để monitor hệ thống.
 
-
 ## Kiến trúc Tổng quan
 
 ```mermaid
-graph LR
-    A[OpenWeatherMap API] --> B[Lambda Weather Collector]
-    C[CloudWatch Events] --> B
-    B --> D[S3 Raw Data Storage]
-    B --> E[CloudWatch Logs]
+graph TD
+    A[OpenWeatherMap API<br/>Current Weather Data] --> B[Lambda Function<br/>weather-current-collector]
+    C[EventBridge Rule<br/>Every Hour] --> B
+    B --> D[S3 Raw Storage<br/>current-weather/]
+    B --> E[CloudWatch Logs<br/>Monitoring]
+    B --> F[CloudWatch Metrics<br/>Success/Error Counts]
 
-    style A fill:#e1f5fe
+    G[6 Vietnamese Cities<br/>HCM, Hanoi, Danang<br/>GiaLai, CanTho, Hue] --> A
+
+    style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style C fill:#e8f5e8
-    style D fill:#f3e5f5
-    style E fill:#fff3e0    
+    style C fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    style D fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style E fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+    style F fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style G fill:#f1f8e9,stroke:#558b2f,stroke-width:2px
 ```
 
 ## Loại Dữ liệu Thu thập
 
-Thu thập dữ liệu thời tiết sẽ tập trung vào:
+Thu thập dữ liệu thời tiết hiện tại cho **6 tỉnh thành Việt Nam**:
 
-1. **Thời tiết Hiện tại**: Điều kiện thời gian thực cho 6 tỉnh thành ở Việt Nam là: Hà Nội, Hồ Chí Minh, Đà Nẵng, Gia Lai, Cần Thơ, Huế
-2. **Dự báo 5 Ngày**: Dự đoán thời tiết mỗi 3 giờ
-3. **Metadata**: Timestamp, location, collection info
+1. **🏙️ Thành phố chính**: Hà Nội, Hồ Chí Minh, Đà Nẵng
+2. **🌾 Khu vực nông nghiệp**: Gia Lai, Cần Thơ
+3. **🏛️ Di sản văn hóa**: Huế
+
+**📊 Dữ liệu thu thập**:
+
+- Nhiệt độ (°C, °F), độ ẩm, áp suất
+- Tốc độ gió, hướng gió, mây che phủ
+- Mô tả thời tiết, weather condition
+- Metadata: timestamp, location, collection info
 
 ## Lịch trình Thu thập
 
-**Thời tiết Hiện tại**: Mỗi giờ (24 lần/ngày)  
-**Dự báo Thời tiết**: Mỗi 6 giờ (4 lần/ngày)
+⏰ **Thời tiết Hiện tại**: Mỗi giờ (24 lần/ngày × 6 thành phố = 144 data points/ngày)
 
 ## Ước tính Chi phí
 
-| Dịch vụ            | Sử dụng                | Chi phí          |
-| ------------------ | ---------------------- | ---------------- |
-| OpenWeatherMap API | 1,000 calls/ngày       | **Free**         |
-| Lambda Executions  | 4,000 invocations      | **Free Tier**    |
-| S3 Storage         | 1 GB dữ liệu thời tiết | **Free Tier**    |
-| CloudWatch Logs    | 5 GB logs              | $2.50            |
-| **Tổng**           |                        | **~$2.50/tháng** |
+| Dịch vụ            | Sử dụng               | Chi phí          |
+| ------------------ | --------------------- | ---------------- |
+| OpenWeatherMap API | 144 calls/ngày        | **Free**         |
+| Lambda Executions  | 720 invocations/tháng | **Free Tier**    |
+| S3 Storage         | 500 MB dữ liệu        | **Free Tier**    |
+| CloudWatch Logs    | 2 GB logs             | $1.00            |
+| **Tổng**           |                       | **~$1.00/tháng** |
 
 {{% notice tip %}}
 OpenWeatherMap cung cấp 1,000 lời gọi API miễn phí mỗi ngày, đủ cho workshop này.
 {{% /notice %}}
 
 ## Kết quả Mong đợi
+
 Sau khi hoàn thành module này, bạn sẽ có:
 
 - Hệ thống thu thập dữ liệu thời tiết serverless hoạt động 24/7

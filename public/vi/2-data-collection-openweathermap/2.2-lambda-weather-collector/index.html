@@ -12,21 +12,21 @@
     <title>Xây dựng Lambda Weather Collector :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752473023" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752473023" rel="stylesheet">
-    <link href="/css/hybrid.css?1752473023" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752473023" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752473023" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752473023" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752473023" rel="stylesheet">
-    <link href="/css/theme.css?1752473023" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752473023" rel="stylesheet">
+    <link href="/css/nucleus.css?1752487100" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752487100" rel="stylesheet">
+    <link href="/css/hybrid.css?1752487100" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752487100" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752487100" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752487100" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752487100" rel="stylesheet">
+    <link href="/css/theme.css?1752487100" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752487100" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752473023" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752487100" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752473023"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752487100"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752473023"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752473023"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752487100"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752487100"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752473023"></script>
+<script type="text/javascript" src="/js/search.js?1752487100"></script>
 
     
   </div>
@@ -464,7 +464,6 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#tại-sao-cần-iam-role">Tại sao cần IAM Role?</a></li>
     <li><a href="#bước-1-tạo-iam-role-cho-lambda">Bước 1: Tạo IAM Role cho Lambda</a>
       <ul>
         <li><a href="#11-tạo-lambda-execution-role">1.1 Tạo Lambda Execution Role</a></li>
@@ -482,13 +481,7 @@
         <li><a href="#32-thêm-function-code">3.2 Thêm Function Code</a></li>
         <li><a href="#33-cấu-hình-environment-variables">3.3 Cấu hình Environment Variables</a></li>
         <li><a href="#34-test-lambda-function">3.4 Test Lambda Function</a></li>
-      </ul>
-    </li>
-    <li><a href="#bước-4-lambda-function-cho-weather-forecast">Bước 4: Lambda Function cho Weather Forecast</a>
-      <ul>
-        <li><a href="#41-tạo-forecast-function">4.1 Tạo Forecast Function</a></li>
-        <li><a href="#42-forecast-function-code">4.2 Forecast Function Code</a></li>
-        <li><a href="#43-test-lambda-function">4.3 Test Lambda Function</a></li>
+        <li><a href="#41-test-lambda-function">4.1 Test Lambda Function</a></li>
       </ul>
     </li>
     <li><a href="#tóm-tắt">Tóm tắt</a></li>
@@ -518,17 +511,6 @@
 
 
 	<p>Trong phần này, chúng ta sẽ tạo các hàm AWS Lambda để tự động thu thập dữ liệu thời tiết từ OpenWeatherMap API và lưu trữ vào S3. Những hàm này sẽ là lõi của hệ thống thu thập dữ liệu thời tiết.</p>
-<h2 id="tại-sao-cần-iam-role">Tại sao cần IAM Role?</h2>
-<p><strong>IAM Role</strong> giống như một &ldquo;thẻ căn cước&rdquo; cho Lambda function, cho phép nó truy cập các dịch vụ AWS khác. Không có IAM Role, Lambda function sẽ:</p>
-<p><strong>KHÔNG THỂ</strong> lưu file vào S3<br>
-<strong>KHÔNG THỂ</strong> đọc API key từ Parameter Store<br>
-<strong>KHÔNG THỂ</strong> ghi logs vào CloudWatch<br>
-<strong>KHÔNG THỂ</strong> gửi metrics cho monitoring</p>
-<p>Với IAM Role phù hợp:</p>
-<p>Lambda có thể lưu dữ liệu thời tiết vào S3<br>
-Lambda có thể đọc API key an toàn<br>
-Lambda có thể ghi logs để debug<br>
-Lambda có thể gửi metrics để monitoring</p>
 <h2 id="bước-1-tạo-iam-role-cho-lambda">Bước 1: Tạo IAM Role cho Lambda</h2>
 <h3 id="11-tạo-lambda-execution-role">1.1 Tạo Lambda Execution Role</h3>
 <ol>
@@ -607,13 +589,9 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 <li><strong>Cấu trúc Bucket</strong>
 <pre tabindex="0"><code>weather-data-123456789012/
 ├── raw/
-│   ├── current-weather/
-│   │   └── year=2025/month=01/day=03/hour=10/
-│   └── forecast/
-│       └── year=2025/month=01/day=03/
-└── processed/
     ├── current-weather/
-    └── forecast/
+    │   └── year=2025/month=01/day=03/hour=10/
+              └── year=2025/month=01/day=03/
 </code></pre></li>
 </ol>
 <h2 id="bước-3-lambda-function-cho-current-weather">Bước 3: Lambda Function cho Current Weather</h2>
@@ -699,13 +677,13 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Build URL with parameters</span>
 </span></span><span style="display:flex;"><span>        query_string <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>urlencode(params)
 </span></span><span style="display:flex;"><span>        full_url <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>base_url<span style="color:#e6db74">}</span><span style="color:#e6db74">?</span><span style="color:#e6db74">{</span>query_string<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Make HTTP request</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(full_url, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">as</span> response:
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> response<span style="color:#f92672">.</span>status <span style="color:#f92672">!=</span> <span style="color:#ae81ff">200</span>:
 </span></span><span style="display:flex;"><span>                logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;HTTP error </span><span style="color:#e6db74">{</span>response<span style="color:#f92672">.</span>status<span style="color:#e6db74">}</span><span style="color:#e6db74"> for </span><span style="color:#e6db74">{</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>            response_data <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
 </span></span><span style="display:flex;"><span>            data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(response_data)
 </span></span><span style="display:flex;"><span>
@@ -734,7 +712,7 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> BUCKET_NAME:
 </span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#34;WEATHER_BUCKET_NAME environment variable not set&#34;</span>)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        now <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Create S3 key with time partitioning (Hive format for analytics)</span>
@@ -789,7 +767,7 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lambda_handler</span>(event, context):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Main handler for Lambda function.&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>    logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Starting weather data collection: </span><span style="color:#e6db74">{</span>json<span style="color:#f92672">.</span>dumps(event)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Basic validation</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> BUCKET_NAME:
 </span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#34;WEATHER_BUCKET_NAME environment variable is required&#34;</span>)
@@ -965,8 +943,7 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ]
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results">
-4. <strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</p>
+</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results"> 4. <strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</p>
 <p><img src="/images/data-collection/22b37.png" alt="S3 Results"></p>
 <p>Nếu test thành công, bạn đã có:</p>
 <ul>
@@ -984,273 +961,7 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 <li><strong>IAM Role</strong>: Đảm bảo role có đủ permissions</li>
 <li><strong>S3 Bucket</strong>: Bucket đã được tạo chưa</li>
 </ol>
-<h2 id="bước-4-lambda-function-cho-weather-forecast">Bước 4: Lambda Function cho Weather Forecast</h2>
-<p>Tương tự như tạo Function cho Weather Current</p>
-<h3 id="41-tạo-forecast-function">4.1 Tạo Forecast Function</h3>
-<ol>
-<li><strong>Tạo function mới</strong>
-<ul>
-<li><strong>Function Name</strong>: <code>weather-forecast-collector</code></li>
-<li><strong>Runtime</strong>: Python 3.11</li>
-<li><strong>Execution Role</strong>: <code>WeatherCollectorLambdaRole</code></li>
-</ul>
-</li>
-</ol>
-<h3 id="42-forecast-function-code">4.2 Forecast Function Code</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.parse
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.error
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timezone
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Dict, List, Optional
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> logging
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Logging configuration</span>
-</span></span><span style="display:flex;"><span>logger <span style="color:#f92672">=</span> logging<span style="color:#f92672">.</span>getLogger()
-</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>setLevel(logging<span style="color:#f92672">.</span>INFO)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># AWS clients with retry configuration</span>
-</span></span><span style="display:flex;"><span>s3_client <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;s3&#39;</span>, config<span style="color:#f92672">=</span>boto3<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>Config(
-</span></span><span style="display:flex;"><span>    retries<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;max_attempts&#39;</span>: <span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;mode&#39;</span>: <span style="color:#e6db74">&#39;adaptive&#39;</span>}
-</span></span><span style="display:flex;"><span>))
-</span></span><span style="display:flex;"><span>cloudwatch <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;cloudwatch&#39;</span>, config<span style="color:#f92672">=</span>boto3<span style="color:#f92672">.</span>session<span style="color:#f92672">.</span>Config(
-</span></span><span style="display:flex;"><span>    retries<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;max_attempts&#39;</span>: <span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;mode&#39;</span>: <span style="color:#e6db74">&#39;adaptive&#39;</span>}
-</span></span><span style="display:flex;"><span>))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Configuration</span>
-</span></span><span style="display:flex;"><span>BUCKET_NAME <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;WEATHER_BUCKET_NAME&#39;</span>)
-</span></span><span style="display:flex;"><span>OPENWEATHER_API_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;your_api_key_here&#39;</span>  <span style="color:#75715e"># Replace with your actual API key</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Target cities for weather forecast collection</span>
-</span></span><span style="display:flex;"><span>CITIES <span style="color:#f92672">=</span> [
-</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;HoChiMinh&#34;</span>, <span style="color:#e6db74">&#34;lat&#34;</span>: <span style="color:#ae81ff">10.7769</span>, <span style="color:#e6db74">&#34;lon&#34;</span>: <span style="color:#ae81ff">106.7009</span>},
-</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Hanoi&#34;</span>, <span style="color:#e6db74">&#34;lat&#34;</span>: <span style="color:#ae81ff">21.0285</span>, <span style="color:#e6db74">&#34;lon&#34;</span>: <span style="color:#ae81ff">105.8542</span>},
-</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Danang&#34;</span>, <span style="color:#e6db74">&#34;lat&#34;</span>: <span style="color:#ae81ff">16.0471</span>, <span style="color:#e6db74">&#34;lon&#34;</span>: <span style="color:#ae81ff">108.2068</span>},
-</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;GiaLai&#34;</span>, <span style="color:#e6db74">&#34;lat&#34;</span>: <span style="color:#ae81ff">13.9833</span>, <span style="color:#e6db74">&#34;lon&#34;</span>: <span style="color:#ae81ff">108.0000</span>},
-</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;CanTho&#34;</span>, <span style="color:#e6db74">&#34;lat&#34;</span>: <span style="color:#ae81ff">10.0452</span>, <span style="color:#e6db74">&#34;lon&#34;</span>: <span style="color:#ae81ff">105.7469</span>},
-</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Hue&#34;</span>, <span style="color:#e6db74">&#34;lat&#34;</span>: <span style="color:#ae81ff">16.4637</span>, <span style="color:#e6db74">&#34;lon&#34;</span>: <span style="color:#ae81ff">107.5909</span>}
-</span></span><span style="display:flex;"><span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fetch_weather_forecast</span>(city: Dict, api_key: str) <span style="color:#f92672">-&gt;</span> Optional[Dict]:
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Fetch 5-day weather forecast data for a city.&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    base_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://api.openweathermap.org/data/2.5/forecast&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    params <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;lat&#39;</span>: str(city[<span style="color:#e6db74">&#39;lat&#39;</span>]),
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;lon&#39;</span>: str(city[<span style="color:#e6db74">&#39;lon&#39;</span>]),
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;appid&#39;</span>: api_key,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;units&#39;</span>: <span style="color:#e6db74">&#39;metric&#39;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;lang&#39;</span>: <span style="color:#e6db74">&#39;en&#39;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;cnt&#39;</span>: <span style="color:#ae81ff">40</span>  <span style="color:#75715e"># 5 days x 8 forecasts (every 3 hours)</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Build URL with parameters</span>
-</span></span><span style="display:flex;"><span>        query_string <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>parse<span style="color:#f92672">.</span>urlencode(params)
-</span></span><span style="display:flex;"><span>        full_url <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>base_url<span style="color:#e6db74">}</span><span style="color:#e6db74">?</span><span style="color:#e6db74">{</span>query_string<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Make HTTP request</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(full_url, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">as</span> response:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> response<span style="color:#f92672">.</span>status <span style="color:#f92672">!=</span> <span style="color:#ae81ff">200</span>:
-</span></span><span style="display:flex;"><span>                logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;HTTP error </span><span style="color:#e6db74">{</span>response<span style="color:#f92672">.</span>status<span style="color:#e6db74">}</span><span style="color:#e6db74"> for forecast </span><span style="color:#e6db74">{</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-</span></span><span style="display:flex;"><span>                
-</span></span><span style="display:flex;"><span>            response_data <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
-</span></span><span style="display:flex;"><span>            data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(response_data)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Add metadata</span>
-</span></span><span style="display:flex;"><span>        data[<span style="color:#e6db74">&#39;collection_timestamp&#39;</span>] <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)<span style="color:#f92672">.</span>isoformat()
-</span></span><span style="display:flex;"><span>        data[<span style="color:#e6db74">&#39;city_metadata&#39;</span>] <span style="color:#f92672">=</span> city
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> data
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> urllib<span style="color:#f92672">.</span>error<span style="color:#f92672">.</span>URLError <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;URL error for forecast </span><span style="color:#e6db74">{</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> urllib<span style="color:#f92672">.</span>error<span style="color:#f92672">.</span>HTTPError <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;HTTP error for forecast </span><span style="color:#e6db74">{</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> json<span style="color:#f92672">.</span>JSONDecodeError <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;JSON decode error for forecast </span><span style="color:#e6db74">{</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Unexpected error for forecast </span><span style="color:#e6db74">{</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">save_forecast_to_s3</span>(data: Dict, city_name: str) <span style="color:#f92672">-&gt;</span> bool:
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Save weather forecast data to S3.&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> BUCKET_NAME:
-</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#34;WEATHER_BUCKET_NAME environment variable not set&#34;</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>            
-</span></span><span style="display:flex;"><span>        now <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Create S3 key with time partitioning (Hive format for analytics)</span>
-</span></span><span style="display:flex;"><span>        city_safe <span style="color:#f92672">=</span> city_name<span style="color:#f92672">.</span>lower()<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#e6db74">&#39;_&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;.&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;-&#39;</span>, <span style="color:#e6db74">&#39;_&#39;</span>)
-</span></span><span style="display:flex;"><span>        key <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;raw/forecast/year=</span><span style="color:#e6db74">{</span>now<span style="color:#f92672">.</span>year<span style="color:#e6db74">}</span><span style="color:#e6db74">/month=</span><span style="color:#e6db74">{</span>now<span style="color:#f92672">.</span>month<span style="color:#e6db74">:</span><span style="color:#e6db74">02d</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/day=</span><span style="color:#e6db74">{</span>now<span style="color:#f92672">.</span>day<span style="color:#e6db74">:</span><span style="color:#e6db74">02d</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/hour=</span><span style="color:#e6db74">{</span>now<span style="color:#f92672">.</span>hour<span style="color:#e6db74">:</span><span style="color:#e6db74">02d</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>city_safe<span style="color:#e6db74">}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">{</span>now<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%Y%m</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">_%H%M%S&#39;</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">.json&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Prepare body data with UTF-8 encoding</span>
-</span></span><span style="display:flex;"><span>        json_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(data, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span>        body_bytes <span style="color:#f92672">=</span> json_data<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Upload file with optimized S3 parameters</span>
-</span></span><span style="display:flex;"><span>        s3_client<span style="color:#f92672">.</span>put_object(
-</span></span><span style="display:flex;"><span>            Bucket<span style="color:#f92672">=</span>BUCKET_NAME,
-</span></span><span style="display:flex;"><span>            Key<span style="color:#f92672">=</span>key,
-</span></span><span style="display:flex;"><span>            Body<span style="color:#f92672">=</span>body_bytes,
-</span></span><span style="display:flex;"><span>            ContentType<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;application/json; charset=utf-8&#39;</span>,
-</span></span><span style="display:flex;"><span>            ContentEncoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>,
-</span></span><span style="display:flex;"><span>            Metadata<span style="color:#f92672">=</span>{
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;city&#39;</span>: city_name,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;collection-time&#39;</span>: now<span style="color:#f92672">.</span>isoformat(),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;data-type&#39;</span>: <span style="color:#e6db74">&#39;forecast&#39;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;forecast-count&#39;</span>: str(len(data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;list&#39;</span>, []))),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;source&#39;</span>: <span style="color:#e6db74">&#39;openweathermap&#39;</span>
-</span></span><span style="display:flex;"><span>            },
-</span></span><span style="display:flex;"><span>            ServerSideEncryption<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;AES256&#39;</span>,  <span style="color:#75715e"># Server-side encryption</span>
-</span></span><span style="display:flex;"><span>            StorageClass<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;STANDARD_IA&#39;</span>  <span style="color:#75715e"># Save 40% storage cost compared to STANDARD</span>
-</span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Saved forecast data for </span><span style="color:#e6db74">{</span>city_name<span style="color:#e6db74">}</span><span style="color:#e6db74"> at s3://</span><span style="color:#e6db74">{</span>BUCKET_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>key<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;S3 save error for forecast </span><span style="color:#e6db74">{</span>city_name<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lambda_handler</span>(event, context):
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Main handler for forecast Lambda function.&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Starting weather forecast collection: </span><span style="color:#e6db74">{</span>json<span style="color:#f92672">.</span>dumps(event)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Basic validation</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> BUCKET_NAME:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#34;WEATHER_BUCKET_NAME environment variable is required&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">500</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;Configuration error&#39;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">&#39;WEATHER_BUCKET_NAME environment variable not set&#39;</span>
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    successful_collections <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    failed_collections <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    results <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># API key validation</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> OPENWEATHER_API_KEY <span style="color:#f92672">or</span> OPENWEATHER_API_KEY <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;your_api_key_here&#39;</span>:
-</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#34;OpenWeatherMap API key is not configured&#34;</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">500</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;Configuration error&#39;</span>,
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">&#39;OpenWeatherMap API key not set&#39;</span>
-</span></span><span style="display:flex;"><span>                })
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Collect forecast data for each city</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> city <span style="color:#f92672">in</span> CITIES:
-</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Collecting forecast data for </span><span style="color:#e6db74">{</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            forecast_data <span style="color:#f92672">=</span> fetch_weather_forecast(city, OPENWEATHER_API_KEY)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> forecast_data:
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Save to S3</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> save_forecast_to_s3(forecast_data, city[<span style="color:#e6db74">&#39;name&#39;</span>]):
-</span></span><span style="display:flex;"><span>                    successful_collections <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>                    results<span style="color:#f92672">.</span>append({
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;city&#39;</span>: city[<span style="color:#e6db74">&#39;name&#39;</span>],
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;status&#39;</span>: <span style="color:#e6db74">&#39;success&#39;</span>,
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;forecast_points&#39;</span>: len(forecast_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;list&#39;</span>, []))
-</span></span><span style="display:flex;"><span>                    })
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>                    failed_collections <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>                    results<span style="color:#f92672">.</span>append({
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;city&#39;</span>: city[<span style="color:#e6db74">&#39;name&#39;</span>],
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;status&#39;</span>: <span style="color:#e6db74">&#39;failed&#39;</span>,
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;S3 save failed&#39;</span>
-</span></span><span style="display:flex;"><span>                    })
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>                failed_collections <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>                results<span style="color:#f92672">.</span>append({
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;city&#39;</span>: city[<span style="color:#e6db74">&#39;name&#39;</span>],
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;status&#39;</span>: <span style="color:#e6db74">&#39;failed&#39;</span>,
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;API fetch failed&#39;</span>
-</span></span><span style="display:flex;"><span>                })
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Send metrics (batched to save cost)</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> successful_collections <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> failed_collections <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>                cloudwatch<span style="color:#f92672">.</span>put_metric_data(
-</span></span><span style="display:flex;"><span>                    Namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Weather/ETL&#39;</span>,
-</span></span><span style="display:flex;"><span>                    MetricData<span style="color:#f92672">=</span>[
-</span></span><span style="display:flex;"><span>                        {
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;MetricName&#39;</span>: <span style="color:#e6db74">&#39;SuccessfulForecastCollections&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Value&#39;</span>: successful_collections,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Unit&#39;</span>: <span style="color:#e6db74">&#39;Count&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Timestamp&#39;</span>: datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>                        },
-</span></span><span style="display:flex;"><span>                        {
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;MetricName&#39;</span>: <span style="color:#e6db74">&#39;FailedForecastCollections&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Value&#39;</span>: failed_collections,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Unit&#39;</span>: <span style="color:#e6db74">&#39;Count&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Timestamp&#39;</span>: datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>                        },
-</span></span><span style="display:flex;"><span>                        {
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;MetricName&#39;</span>: <span style="color:#e6db74">&#39;TotalForecastCollections&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Value&#39;</span>: successful_collections <span style="color:#f92672">+</span> failed_collections,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Unit&#39;</span>: <span style="color:#e6db74">&#39;Count&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Timestamp&#39;</span>: datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>                        }
-</span></span><span style="display:flex;"><span>                    ]
-</span></span><span style="display:flex;"><span>                )
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>                logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Metrics send error: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Log results</span>
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Forecast collection completed - Success: </span><span style="color:#e6db74">{</span>successful_collections<span style="color:#e6db74">}</span><span style="color:#e6db74">, Failed: </span><span style="color:#e6db74">{</span>failed_collections<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">200</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">&#39;Weather forecast collection completed&#39;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;successful_collections&#39;</span>: successful_collections,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;failed_collections&#39;</span>: failed_collections,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;results&#39;</span>: results
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Lambda handler error: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Send error metric</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>            cloudwatch<span style="color:#f92672">.</span>put_metric_data(
-</span></span><span style="display:flex;"><span>                Namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Weather/ETL&#39;</span>,
-</span></span><span style="display:flex;"><span>                MetricData<span style="color:#f92672">=</span>[
-</span></span><span style="display:flex;"><span>                    {
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;MetricName&#39;</span>: <span style="color:#e6db74">&#39;ForecastLambdaErrors&#39;</span>,
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;Value&#39;</span>: <span style="color:#ae81ff">1</span>,
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;Unit&#39;</span>: <span style="color:#e6db74">&#39;Count&#39;</span>,
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;Timestamp&#39;</span>: datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>                    }
-</span></span><span style="display:flex;"><span>                ]
-</span></span><span style="display:flex;"><span>            )
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> metric_error:
-</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Failed to send error metric: </span><span style="color:#e6db74">{</span>metric_error<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">500</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;Internal error&#39;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;message&#39;</span>: str(e)
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>        }
-</span></span></code></pre></div><h3 id="43-test-lambda-function">4.3 Test Lambda Function</h3>
+<h3 id="41-test-lambda-function">4.1 Test Lambda Function</h3>
 <p><strong>Bây giờ hãy test xem function hoạt động không!</strong></p>
 <ol>
 <li><strong>Click &ldquo;Deploy&rdquo;</strong> để lưu code và cấu hình</li>
@@ -1262,7 +973,7 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </ul>
 </li>
 </ol>
-<p><img src="/images/data-collection/22b41.png" alt="Test Event"></p>
+<p><img src="/images/data-collection/22b35.png" alt="Test Event"></p>
 <ol start="3">
 <li><strong>Click &ldquo;Test&rdquo;</strong> và đợi kết quả</li>
 </ol>
@@ -1284,20 +995,41 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ]
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/data-collection/22b42.png" alt="S3 Results">
-4. <strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</p>
-<p><img src="/images/data-collection/22b43.png" alt="S3 Results"></p>
+</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results"> 4. <strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</p>
+<p><img src="/images/data-collection/22b37.png" alt="S3 Results"></p>
+<p>Nếu test thành công, bạn đã có:</p>
+<ul>
+<li>Lambda function hoạt động</li>
+<li>Dữ liệu thời tiết được lưu vào S3</li>
+<li>CloudWatch metrics được gửi</li>
+<li>Error handling hoạt động</li>
+</ul>
+<p><strong>Lambda đã sẵn sàng để tự động chạy theo schedule</strong></p>
+<p><strong>Nếu test thất bại</strong>, kiểm tra:</p>
+<ol>
+<li><strong>CloudWatch Logs</strong>: Lambda → Monitoring → View logs → Xem lỗi cụ thể</li>
+<li><strong>API Key</strong>: Đảm bảo key OpenWeatherMap đúng</li>
+<li><strong>Environment variable</strong>: WEATHER_BUCKET_NAME đúng format</li>
+<li><strong>IAM Role</strong>: Đảm bảo role có đủ permissions</li>
+<li><strong>S3 Bucket</strong>: Bucket đã được tạo chưa</li>
+</ol>
 <h2 id="tóm-tắt">Tóm tắt</h2>
 <p>Trong phần này, chúng ta đã:</p>
 <ul>
-<li>Tạo IAM roles và policies cho Lambda functions</li>
-<li>Thiết lập S3 bucket với cấu trúc partition</li>
-<li>Xây dựng Lambda function thu thập thời tiết hiện tại</li>
-<li>Xây dựng Lambda function thu thập dự báo thời tiết</li>
-<li>Cấu hình error handling và CloudWatch metrics</li>
-<li>Test các functions thành công</li>
+<li>✅ Tạo IAM roles và policies cho Lambda function</li>
+<li>✅ Thiết lập S3 bucket với cấu trúc partition thông minh</li>
+<li>✅ Xây dựng Lambda function thu thập thời tiết hiện tại</li>
+<li>✅ Cấu hình error handling và CloudWatch metrics</li>
+<li>✅ Test function thành công với 6 thành phố Việt Nam</li>
 </ul>
-<p><strong>Tiếp theo</strong>: Trong module 2.3, chúng ta sẽ thiết lập automated scheduling với CloudWatch Events để chạy các functions này theo lịch trình.</p>
+<p><strong>Kết quả đạt được:</strong></p>
+<ul>
+<li>Lambda function <code>weather-current-collector</code> hoạt động ổn định</li>
+<li>Dữ liệu thời tiết được lưu vào S3 với format analytics-ready</li>
+<li>Monitoring và metrics đầy đủ qua CloudWatch</li>
+<li>Error handling robust với retry mechanism</li>
+</ul>
+<p><strong>Tiếp theo</strong>: Trong module 2.3, chúng ta sẽ thiết lập automated scheduling với EventBridge để chạy function này theo lịch trình tự động.</p>
 
 
 
@@ -1512,19 +1244,19 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752473023"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752473023"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752473023"></script>
-    <script src="/js/jquery.sticky.js?1752473023"></script>
-    <script src="/js/featherlight.min.js?1752473023"></script>
-    <script src="/js/highlight.pack.js?1752473023"></script>
+    <script src="/js/clipboard.min.js?1752487100"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752487100"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752487100"></script>
+    <script src="/js/jquery.sticky.js?1752487100"></script>
+    <script src="/js/featherlight.min.js?1752487100"></script>
+    <script src="/js/highlight.pack.js?1752487100"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752473023"></script>
-    <script src="/js/learn.js?1752473023"></script>
-    <script src="/js/hugo-learn.js?1752473023"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752487100"></script>
+    <script src="/js/learn.js?1752487100"></script>
+    <script src="/js/hugo-learn.js?1752487100"></script>
 
-    <link href="/mermaid/mermaid.css?1752473023" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752473023"></script>
+    <link href="/mermaid/mermaid.css?1752487100" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752487100"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

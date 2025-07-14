@@ -8,14 +8,15 @@ pre: "<b>3. </b>"
 
 Trong module này, chúng ta sẽ xây dựng Lambda functions để xử lý và chuyển đổi dữ liệu thời tiết thô từ module 2 thành định dạng phù hợp cho phân tích. Đây là bước "Transform" trong pipeline ETL, giúp làm sạch, chuẩn hóa và tạo ra các metrics có ý nghĩa từ dữ liệu thô.
 
-
 **Dữ liệu thô từ OpenWeatherMap API có nhiều vấn đề**:
+
 - **Cấu trúc phức tạp**: Nested JSON khó query
 - **Đơn vị không thống nhất**: Kelvin, m/s, Pascal...
 - **Dữ liệu dư thừa**: Nhiều fields không cần thiết
 - **Thiếu insights**: Không có derived metrics
 
 **Vì vậy cần phải processing để có:**
+
 - **Cấu trúc phẳng**: Dễ query với SQL
 - **Đơn vị thống nhất**: Celsius, km/h, %...
 - **Dữ liệu sạch**: Chỉ giữ thông tin cần thiết
@@ -37,7 +38,6 @@ Trong module này, chúng ta sẽ xây dựng Lambda functions để xử lý v�
 - **Cost optimization**: Khác nhau về storage class
 - **Analytics**: Processed data tối ưu cho query
 
-
 ### 1.1 Tạo Processed Data Bucket
 
 1. **AWS Console** → **S3** → **Create bucket**
@@ -46,7 +46,7 @@ Trong module này, chúng ta sẽ xây dựng Lambda functions để xử lý v�
    - **Bucket name**: `weather-processed-{your-account-id}`
    - **Region**: `ap-southeast-1` (same as raw bucket)
    - **Block all public access**: Enabled
-   - **Bucket versioning**: Enabled
+   - **Bucket versioning**: Disable
    - **Default encryption**: SSE-S3
 
 ![Create Processed Bucket](/images/data-processing/3b1.png)
@@ -60,86 +60,30 @@ Trong module này, chúng ta sẽ xây dựng Lambda functions để xử lý v�
 ```
 weather-processed-{account-id}/
 ├── current-weather/
-│   ├── year=2025/
-│   │   ├── month=01/
-│   │   │   ├── day=03/
-│   │   │   │   ├── hour=00/
-│   │   │   │   │   ├── hcm_20250103_000000.json
-│   │   │   │   │   ├── hanoi_20250103_000000.json
-│   │   │   │   │   └── ...
-│   │   │   │   └── hour=01/
-│   │   │   └── day=04/
-│   │   └── month=02/
-│   └── year=2026/
-└── forecast/
     ├── year=2025/
     │   ├── month=01/
     │   │   ├── day=03/
     │   │   │   ├── hour=00/
-    │   │   │   │   ├── hcm_forecast_20250103_000000.json
+    │   │   │   │   ├── hcm_20250103_000000.json
+    │   │   │   │   ├── hanoi_20250103_000000.json
     │   │   │   │   └── ...
-    │   │   │   └── hour=06/
+    │   │   │   └── hour=01/
     │   │   └── day=04/
     │   └── month=02/
     └── year=2026/
+
 ```
 
-{{% notice info %}}
-**Tại sao dùng Hive-style partitioning?**
+**Ở đây sẽ dùng Hive-style partitioning vì:**
 
-- 📊 **Athena optimization**: Query performance tốt hơn
-- 💰 **Cost savings**: Chỉ scan data cần thiết
-- 🔍 **Easy filtering**: Filter theo year/month/day/hour
-- 📈 **Scalability**: Handle large datasets efficiently
-  {{% /notice %}}
+- **Athena optimization**: Query performance tốt hơn
+- **Cost savings**: Chỉ scan data cần thiết
+- **Easy filtering**: Filter theo year/month/day/hour
+- **Scalability**: Xử lý các bộ dữ liệu lớn một cách hiệu quả
 
 ## Bước 2: Tạo Lambda Function cho Data Processing
 
-### 2.1 Tạo IAM Role cho Lambda
-
-1. **AWS Console** → **IAM** → **Roles** → **Create role**
-
-2. **Trusted entity**: **AWS service** → **Lambda**
-
-3. **Permissions**: **Create policy** với JSON:
-
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:aws:logs:*:*:*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": ["s3:GetObject"],
-      "Resource": "arn:aws:s3:::weather-data-*/*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": ["s3:PutObject", "s3:PutObjectAcl"],
-      "Resource": "arn:aws:s3:::weather-processed-*/*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": ["cloudwatch:PutMetricData"],
-      "Resource": "*"
-    }
-  ]
-}
-```
-
-4. **Role name**: `WeatherDataProcessorRole`
-
-![IAM Role](/images/data-processing/31b02.png)
-
-### 2.2 Tạo Lambda Function
+### 2.1 Tạo Lambda Function
 
 1. **AWS Console** → **Lambda** → **Create function**
 
@@ -147,9 +91,9 @@ weather-processed-{account-id}/
    - **Function name**: `weather-data-processor`
    - **Runtime**: `Python 3.11`
    - **Architecture**: `x86_64`
-   - **Execution role**: `WeatherDataProcessorRole`
+   - **Execution role**: `WeatherCollectorLambdaRole`
 
-![Create Lambda](/images/data-processing/31b03.png)
+![Create Lambda](/images/data-processing/3b2.png)
 
 3. **Advanced settings**:
    - **Memory**: `512 MB`
@@ -158,9 +102,9 @@ weather-processed-{account-id}/
      - `PROCESSED_BUCKET_NAME`: `weather-processed-{your-account-id}`
      - `LOG_LEVEL`: `INFO`
 
-![Lambda Configuration](/images/data-processing/31b04.png)
+![Lambda Configuration](/images/data-processing/3b3.png)
 
-### 2.3 Lambda Function Code
+### 2.2 Lambda Function Code
 
 **Thay thế code mặc định bằng code sau:**
 
@@ -258,15 +202,12 @@ def process_weather_file(source_bucket: str, source_key: str) -> bool:
         response = s3_client.get_object(Bucket=source_bucket, Key=source_key)
         raw_data = json.loads(response['Body'].read().decode('utf-8'))
 
-        # Determine data type based on key path
+        # Only process current weather data
         if 'current-weather' in source_key:
             processed_data = transform_current_weather(raw_data)
             data_type = 'current-weather'
-        elif 'forecast' in source_key:
-            processed_data = transform_forecast_weather(raw_data)
-            data_type = 'forecast'
         else:
-            logger.warning(f"Unknown data type for key: {source_key}")
+            logger.warning(f"Skipping non-current-weather file: {source_key}")
             return False
 
         # Generate processed file key
@@ -417,121 +358,6 @@ def transform_current_weather(raw_data: Dict) -> Dict:
 
     except Exception as e:
         logger.error(f"Error transforming current weather data: {e}")
-        raise
-
-def transform_forecast_weather(raw_data: Dict) -> List[Dict]:
-    """
-    Transform forecast weather data from OpenWeatherMap format to analytics format
-    """
-    try:
-        # Extract city information
-        city_info = raw_data.get('city', {})
-        city_name = city_info.get('name', 'Unknown')
-
-        processed_forecasts = []
-
-        # Process each forecast item
-        for item in raw_data.get('list', []):
-            # Get forecast timestamp
-            dt = datetime.fromtimestamp(item.get('dt', 0), tz=timezone.utc)
-
-            # Base forecast data structure
-            forecast = {
-                # Identifiers
-                'city_name': city_name,
-                'city_id': city_info.get('id'),
-                'country_code': city_info.get('country', 'Unknown'),
-                'latitude': city_info.get('coord', {}).get('lat'),
-                'longitude': city_info.get('coord', {}).get('lon'),
-
-                # Timestamps
-                'forecast_timestamp': dt.isoformat(),
-                'forecast_date': dt.strftime('%Y-%m-%d'),
-                'forecast_hour': dt.hour,
-                'collection_timestamp': raw_data.get('collection_timestamp'),
-
-                # Weather conditions
-                'weather_id': None,
-                'weather_main': None,
-                'weather_description': None,
-                'weather_icon': None,
-
-                # Temperature
-                'temperature_celsius': None,
-                'temperature_fahrenheit': None,
-                'feels_like_celsius': None,
-                'feels_like_fahrenheit': None,
-                'temp_min_celsius': None,
-                'temp_max_celsius': None,
-
-                # Atmospheric conditions
-                'pressure_hpa': item.get('main', {}).get('pressure'),
-                'humidity_percent': item.get('main', {}).get('humidity'),
-                'visibility_meters': item.get('visibility'),
-
-                # Wind
-                'wind_speed_ms': item.get('wind', {}).get('speed'),
-                'wind_speed_kmh': None,
-                'wind_direction_deg': item.get('wind', {}).get('deg'),
-                'wind_gust_ms': item.get('wind', {}).get('gust'),
-
-                # Clouds and precipitation
-                'cloud_coverage_percent': item.get('clouds', {}).get('all'),
-                'rain_3h_mm': item.get('rain', {}).get('3h'),
-                'snow_3h_mm': item.get('snow', {}).get('3h'),
-                'precipitation_probability': item.get('pop', 0) * 100,  # Convert to percentage
-
-                # Derived metrics
-                'heat_index_celsius': None,
-                'comfort_level': None,
-                'wind_condition': None,
-                'weather_severity': None
-            }
-
-            # Process weather conditions
-            weather_list = item.get('weather', [])
-            if weather_list:
-                weather = weather_list[0]
-                forecast.update({
-                    'weather_id': weather.get('id'),
-                    'weather_main': weather.get('main'),
-                    'weather_description': weather.get('description'),
-                    'weather_icon': weather.get('icon')
-                })
-
-            # Process temperature data
-            main_data = item.get('main', {})
-            if main_data.get('temp'):
-                temp_k = main_data['temp']
-                forecast['temperature_celsius'] = round(temp_k - 273.15, 1)
-                forecast['temperature_fahrenheit'] = round((temp_k - 273.15) * 9/5 + 32, 1)
-
-            if main_data.get('feels_like'):
-                feels_k = main_data['feels_like']
-                forecast['feels_like_celsius'] = round(feels_k - 273.15, 1)
-                forecast['feels_like_fahrenheit'] = round((feels_k - 273.15) * 9/5 + 32, 1)
-
-            if main_data.get('temp_min'):
-                min_k = main_data['temp_min']
-                forecast['temp_min_celsius'] = round(min_k - 273.15, 1)
-
-            if main_data.get('temp_max'):
-                max_k = main_data['temp_max']
-                forecast['temp_max_celsius'] = round(max_k - 273.15, 1)
-
-            # Process wind data
-            if forecast['wind_speed_ms']:
-                forecast['wind_speed_kmh'] = round(forecast['wind_speed_ms'] * 3.6, 1)
-
-            # Calculate derived metrics
-            forecast.update(calculate_derived_metrics(forecast))
-
-            processed_forecasts.append(forecast)
-
-        return processed_forecasts
-
-    except Exception as e:
-        logger.error(f"Error transforming forecast weather data: {e}")
         raise
 
 def calculate_derived_metrics(data: Dict) -> Dict:
@@ -686,13 +512,11 @@ def decimal_default(obj):
 
 4. **Deploy** code bằng cách click **"Deploy"**
 
-![Deploy Lambda](/images/data-processing/31b05.png)
+![Deploy Lambda](/images/data-processing/3b4.png)
 
 ## Bước 3: Thiết lập S3 Event Trigger
 
-{{% notice warning %}}
 **Quan trọng**: S3 Event Trigger sẽ tự động chạy Lambda mỗi khi có file mới được upload vào raw bucket. Đảm bảo Lambda function hoạt động đúng trước khi enable trigger.
-{{% /notice %}}
 
 ### 3.1 Thêm Permission cho S3 invoke Lambda
 
@@ -703,7 +527,7 @@ def decimal_default(obj):
    - **Source ARN**: `arn:aws:s3:::weather-data-{your-account-id}`
    - **Action**: `lambda:InvokeFunction`
 
-![Lambda Permissions](/images/data-processing/31b06.png)
+![Lambda Permissions](/images/data-processing/3b5.png)
 
 ### 3.2 Configure S3 Event Notification
 
@@ -711,326 +535,63 @@ def decimal_default(obj):
 
 2. **Event notifications** → **Create event notification**:
    - **Event name**: `weather-data-processing-trigger`
-   - **Event types**: ✅ **All object create events**
+   - **Event types**: **All object create events**
    - **Prefix**: `raw/`
    - **Suffix**: `.json`
    - **Destination**: **Lambda function** → **weather-data-processor**
 
-![S3 Event Notification](/images/data-processing/31b07.png)
+![S3 Event Notification](/images/data-processing/3b6.png)
 
 3. **Save changes**
 
 ## Bước 4: Testing Data Processing
 
-### 4.1 Test với Manual Upload
-
-**Upload một file test để trigger processing:**
-
-1. **Tạo test file** `test_weather.json`:
-
-```json
-{
-  "coord": { "lon": 106.6297, "lat": 10.8231 },
-  "weather": [
-    {
-      "id": 800,
-      "main": "Clear",
-      "description": "clear sky",
-      "icon": "01d"
-    }
-  ],
-  "main": {
-    "temp": 305.15,
-    "feels_like": 309.65,
-    "temp_min": 305.15,
-    "temp_max": 305.15,
-    "pressure": 1013,
-    "humidity": 74
-  },
-  "wind": { "speed": 3.2, "deg": 220 },
-  "clouds": { "all": 0 },
-  "dt": 1704268800,
-  "sys": {
-    "country": "VN",
-    "sunrise": 1704225600,
-    "sunset": 1704268800
-  },
-  "timezone": 25200,
-  "id": 1566083,
-  "name": "HoChiMinh",
-  "collection_timestamp": "2025-01-03T08:00:00Z"
-}
-```
-
-2. **Upload file**:
-
-```bash
-aws s3 cp test_weather.json s3://weather-data-{your-account-id}/raw/current-weather/year=2025/month=01/day=03/hour=08/hcm_20250103_080000.json
-```
-
-3. **Check CloudWatch Logs**:
-   - **CloudWatch Console** → **Log groups** → `/aws/lambda/weather-data-processor`
-   - **Latest log stream** → Verify processing logs
-
-![CloudWatch Logs](/images/data-processing/31b08.png)
-
-### 4.2 Verify Processed Data
-
-1. **Check processed bucket**:
-
-```bash
-aws s3 ls s3://weather-processed-{your-account-id}/current-weather/ --recursive
-```
-
-2. **Download và examine processed file**:
-
-```bash
-aws s3 cp s3://weather-processed-{your-account-id}/current-weather/year=2025/month=01/day=03/hour=08/hcm_processed_20250103_080000.json ./
-cat hcm_processed_20250103_080000.json | jq .
-```
-
-**Expected processed output:**
-
-```json
-{
-  "city_name": "HoChiMinh",
-  "country_code": "VN",
-  "latitude": 10.8231,
-  "longitude": 106.6297,
-  "collection_timestamp": "2025-01-03T08:00:00+00:00",
-  "collection_date": "2025-01-03",
-  "collection_hour": 8,
-  "weather_main": "Clear",
-  "weather_description": "clear sky",
-  "temperature_celsius": 32.0,
-  "temperature_fahrenheit": 89.6,
-  "feels_like_celsius": 36.5,
-  "feels_like_fahrenheit": 97.7,
-  "humidity_percent": 74,
-  "pressure_hpa": 1013,
-  "wind_speed_ms": 3.2,
-  "wind_speed_kmh": 11.5,
-  "wind_direction_deg": 220,
-  "cloud_coverage_percent": 0,
-  "comfort_level": "hot",
-  "wind_condition": "light",
-  "weather_severity": "normal"
-}
-```
-
-### 4.3 Test với Real Data từ Module 2
+### Test với Real Data từ Module 2
 
 **Nếu EventBridge rules từ Module 2 đang chạy:**
 
-1. **Wait for scheduled collection** (next hour hoặc 6-hour interval)
+1. **Chờ Lambda tự động chạy**: EventBridge sẽ trigger functions theo lịch:
 
-2. **Check logs** để verify automatic processing:
+   - **Current weather**: Mỗi giờ
 
-```bash
-aws logs filter-log-events \
-    --log-group-name /aws/lambda/weather-data-processor \
-    --start-time $(date -d '1 hour ago' +%s)000 \
-    --filter-pattern "Processing file"
+2. **Monitoring real-time processing**:
+
+   ```bash
+   # Check raw data được tạo
+   aws s3 ls s3://weather-data-{your-account-id}/raw/current-weather/ --recursive
+
+   # Check processed data được tạo
+   aws s3 ls s3://weather-processed-{your-account-id}/current-weather/ --recursive
+   ```
+
+3. **CloudWatch Logs real-time**:
+   - **Lambda Console** → **Functions** → **weather-data-processor** → **Monitor** → **View logs in CloudWatch**
+
+**Expected workflow**:
+
+```
+Module 2 EventBridge → weather-current-collector → S3 raw/current-weather/
+                        ↓ (S3 Event)
+                      weather-data-processor → S3 processed/current-weather/
 ```
 
-3. **Verify processed data structure**:
+## Tổng kết 
 
-```bash
-aws s3 ls s3://weather-processed-{your-account-id}/ --recursive | head -20
-```
+**Đã hoàn thành:**
 
-## Bước 5: Monitoring và Optimization
+- **S3 Processed Bucket**: Storage tối ưu cho analytics
+- **Lambda Data Processor**: Transform current weather data
+- **S3 Event Triggers**: Tự động processing khi có raw data
+- **Data Transformation**: Clean, enrich, standardize weather data
+- **Hive Partitioning**: Analytics-ready folder structure
+- **Error Handling**: Robust error handling và retry logic
 
-### 5.1 CloudWatch Metrics Dashboard
+**Kết quả:**
 
-1. **CloudWatch Console** → **Dashboards** → **Create dashboard**
+- Weather data được transform từ complex JSON → flat structure
+- Temperature converted từ Kelvin → Celsius/Fahrenheit
+- Derived metrics: comfort level, wind condition, weather severity
+- Partitioned data cho efficient querying
+- Real-time processing pipeline hoạt động 24/7
 
-2. **Dashboard name**: `Weather-Data-Processing`
-
-3. **Add widgets**:
-
-**Widget 1 - Processing Success Rate:**
-
-- **Metric**: `Weather/Processing > ProcessedFiles`
-- **Metric**: `Weather/Processing > FailedFiles`
-- **Period**: 1 hour
-- **Statistic**: Sum
-
-**Widget 2 - Lambda Performance:**
-
-- **Metric**: `AWS/Lambda > Duration` (function: weather-data-processor)
-- **Metric**: `AWS/Lambda > Errors` (function: weather-data-processor)
-- **Period**: 5 minutes
-
-**Widget 3 - S3 Object Count:**
-
-- **Metric**: `AWS/S3 > NumberOfObjects` (bucket: weather-processed-\*)
-- **Period**: 1 day
-
-![Processing Dashboard](/images/data-processing/31b09.png)
-
-### 5.2 CloudWatch Alarms
-
-**Tạo alarm cho processing failures:**
-
-1. **Alarm name**: `WeatherProcessing-HighFailureRate`
-2. **Metric**: `Weather/Processing > FailedFiles`
-3. **Condition**: `Greater than 2` (trong 1 hour)
-4. **Action**: Send to SNS topic từ Module 2
-
-**Tạo alarm cho Lambda errors:**
-
-1. **Alarm name**: `WeatherProcessor-LambdaErrors`
-2. **Metric**: `AWS/Lambda > Errors`
-3. **Condition**: `Greater than 1` (trong 5 minutes)
-4. **Action**: Send to SNS topic
-
-### 5.3 Cost Optimization
-
-**Optimize Lambda configuration:**
-
-1. **Memory**: Monitor actual usage và adjust accordingly
-2. **Timeout**: Reduce nếu processing time stable
-3. **Reserved concurrency**: Set limit để avoid cost spikes
-
-**S3 Storage optimization:**
-
-1. **Lifecycle policies** cho processed data:
-   - After 30 days: Move to IA
-   - After 90 days: Move to Glacier
-   - After 365 days: Move to Deep Archive
-
-![S3 Lifecycle](/images/data-processing/31b10.png)
-
-## Data Comparison: Raw vs Processed
-
-### Raw Data (từ Module 2)
-
-```json
-{
-  "coord": { "lon": 106.6297, "lat": 10.8231 },
-  "weather": [
-    { "id": 800, "main": "Clear", "description": "clear sky", "icon": "01d" }
-  ],
-  "main": {
-    "temp": 305.15,
-    "feels_like": 309.65,
-    "pressure": 1013,
-    "humidity": 74
-  },
-  "wind": { "speed": 3.2, "deg": 220 },
-  "clouds": { "all": 0 },
-  "dt": 1704268800,
-  "sys": { "country": "VN", "sunrise": 1704225600, "sunset": 1704268800 },
-  "timezone": 25200,
-  "id": 1566083,
-  "name": "HoChiMinh",
-  "collection_timestamp": "2025-01-03T08:00:00Z"
-}
-```
-
-### Processed Data (sau Module 3)
-
-```json
-{
-  "city_name": "HoChiMinh",
-  "country_code": "VN",
-  "latitude": 10.8231,
-  "longitude": 106.6297,
-  "collection_timestamp": "2025-01-03T08:00:00+00:00",
-  "collection_date": "2025-01-03",
-  "collection_hour": 8,
-  "weather_main": "Clear",
-  "weather_description": "clear sky",
-  "temperature_celsius": 32.0,
-  "temperature_fahrenheit": 89.6,
-  "feels_like_celsius": 36.5,
-  "feels_like_fahrenheit": 97.7,
-  "humidity_percent": 74,
-  "pressure_hpa": 1013,
-  "wind_speed_ms": 3.2,
-  "wind_speed_kmh": 11.5,
-  "wind_direction_deg": 220,
-  "cloud_coverage_percent": 0,
-  "comfort_level": "hot",
-  "wind_condition": "light",
-  "weather_severity": "normal"
-}
-```
-
-**Key improvements:**
-
-- ✅ **Flat structure**: Dễ query với SQL
-- ✅ **Standardized units**: Celsius, km/h, %
-- ✅ **Rich metadata**: Date, hour partitioning
-- ✅ **Derived insights**: Comfort level, wind condition, weather severity
-- ✅ **Analytics-ready**: Optimized cho Athena queries
-
-## Troubleshooting Common Issues
-
-### Processing Failures
-
-**Issue**: Lambda function timeout
-**Solution**:
-
-- Increase timeout (max 15 minutes)
-- Optimize code performance
-- Process files in batches
-
-**Issue**: S3 permission denied
-**Solution**:
-
-- Verify IAM role permissions
-- Check bucket policies
-- Ensure correct bucket names
-
-**Issue**: JSON parsing errors
-**Solution**:
-
-- Add error handling for malformed JSON
-- Log problematic files for manual inspection
-- Implement retry logic
-
-### Performance Issues
-
-**Issue**: High processing latency
-**Solution**:
-
-- Increase Lambda memory (more CPU)
-- Optimize data transformation logic
-- Use concurrent processing
-
-**Issue**: High costs
-**Solution**:
-
-- Right-size Lambda memory
-- Implement S3 lifecycle policies
-- Use reserved concurrency limits
-
-## Tóm tắt
-
-Trong module này, chúng ta đã hoàn thành:
-
-**Xây dựng Data Processing Pipeline**:
-
-- Lambda function xử lý real-time data từ S3 events
-- Transform raw weather data thành analytics-ready format
-- Automatic partitioning cho optimal query performance
-
-**Data Transformation Features**:
-
-- Convert units (Kelvin → Celsius, m/s → km/h)
-- Calculate derived metrics (heat index, comfort level)
-- Clean và normalize data structure
-- Add rich metadata cho analytics
-
-**Monitoring và Optimization**:
-
-- CloudWatch metrics và alarms
-- Performance monitoring dashboard
-- Cost optimization strategies
-- Error handling và retry logic
-
-**Kết quả**: Dữ liệu thời tiết clean, structured, và ready cho advanced analytics trong Module 4!
-
-**Tiếp theo**: Trong Module 4, chúng ta sẽ sử dụng Amazon Athena để query và analyze processed data này một cách hiệu quả.
+**Sẵn sàng cho Module 4**: Data Analytics và Visualization! 

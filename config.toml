@@ -61,9 +61,9 @@ identifier = "AWS Study Group"
 url = "http://awsstudygroup.com"
 weight = 20
 
-baseURL = "https://workshop.aws.com/"
-languageCode = "en-US"
-defaultContentLanguage = "en"
+baseURL = "https://imvhuy.github.io/workshop_awsfcj_2025/"
+languageCode = "vi-VN"
+defaultContentLanguage = "vi"
 
 title = "Weather ETL Pipeline with AWS"
 uglyurls = false

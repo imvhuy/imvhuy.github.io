@@ -12,21 +12,21 @@
     <title>Lập lịch Tự động với EventBridge :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752473023" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752473023" rel="stylesheet">
-    <link href="/css/hybrid.css?1752473023" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752473023" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752473023" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752473023" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752473023" rel="stylesheet">
-    <link href="/css/theme.css?1752473023" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752473023" rel="stylesheet">
+    <link href="/css/nucleus.css?1752487100" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752487100" rel="stylesheet">
+    <link href="/css/hybrid.css?1752487100" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752487100" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752487100" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752487100" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752487100" rel="stylesheet">
+    <link href="/css/theme.css?1752487100" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752487100" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752473023" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752487100" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752473023"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752487100"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752473023"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752473023"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752487100"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752487100"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752473023"></script>
+<script type="text/javascript" src="/js/search.js?1752487100"></script>
 
     
   </div>
@@ -473,13 +473,6 @@
         <li><a href="#15-configure-tags-và-review">1.5 Configure tags và Review</a></li>
       </ul>
     </li>
-    <li><a href="#bước-2-thiết-lập-eventbridge-rule-cho-weather-forecast">Bước 2: Thiết lập EventBridge Rule cho Weather Forecast</a>
-      <ul>
-        <li><a href="#21-tạo-rule-thứ-hai">2.1 Tạo Rule thứ hai</a></li>
-        <li><a href="#22-cấu-hình-schedule-cho-forecast">2.2 Cấu hình Schedule cho Forecast</a></li>
-        <li><a href="#23-select-target-cho-forecast">2.3 Select Target cho Forecast</a></li>
-      </ul>
-    </li>
     <li><a href="#bước-3-thiết-lập-monitoring-với-cloudwatch-alarms">Bước 3: Thiết lập Monitoring với CloudWatch Alarms</a>
       <ul>
         <li><a href="#31-tạo-sns-topic-cho-email-alerts">3.1 Tạo SNS Topic cho Email Alerts</a></li>
@@ -537,7 +530,6 @@
 <p><strong>Lịch trình đề xuất:</strong></p>
 <ul>
 <li><strong>Current Weather</strong>: Mỗi giờ (24 lần/ngày) - Để theo dõi thời tiết real-time</li>
-<li><strong>Forecast</strong>: Mỗi 6 giờ (4 lần/ngày) - Dự báo không thay đổi nhiều</li>
 </ul>
 <h2 id="bước-1-thiết-lập-eventbridge-rule-cho-current-weather">Bước 1: Thiết lập EventBridge Rule cho Current Weather</h2>
 
@@ -640,7 +632,7 @@
 <p><strong>JSON input này sẽ:</strong></p>
 <ul>
 <li>Cho Lambda biết đây là scheduled event (không phải manual test)</li>
-<li>Giúp phân biệt current weather vs forecast collection</li>
+<li>Giúp phân biệt current weather</li>
 <li>Cung cấp metadata để logging và monitoring</li>
 </ul>
 <ol start="5">
@@ -672,63 +664,19 @@
 <p>Rule cho current weather đã được tạo thành công.</p>
 <p>Rule sẽ trigger Lambda function <code>weather-current-collector</code> mỗi giờ để thu thập dữ liệu thời tiết hiện tại.</p>
 <p><img src="/images/data-collection/23b20.png" alt="Review Rule"></p>
-<h2 id="bước-2-thiết-lập-eventbridge-rule-cho-weather-forecast">Bước 2: Thiết lập EventBridge Rule cho Weather Forecast</h2>
-<p><strong>Bước này sẽ tạo lịch trình chạy Lambda mỗi 6 giờ để thu thập dự báo thời tiết.</strong></p>
-<p>Ví dụ: Function sẽ chạy lúc 00:00, 06:00, 12:00, 18:00 hàng ngày</p>
-<h3 id="21-tạo-rule-thứ-hai">2.1 Tạo Rule thứ hai</h3>
-<ol>
-<li>
-<p><strong>Trong EventBridge Console</strong> → <strong>&ldquo;Create rule&rdquo;</strong></p>
-</li>
-<li>
-<p><strong>Bước 1 - Define rule detail:</strong></p>
+
+<div class="notices success" ><p><strong>Hoàn thành EventBridge Setup!</strong></p>
+<p>EventBridge rule đã được tạo và sẽ tự động trigger Lambda function mỗi giờ:</p>
 <ul>
-<li><strong>Name</strong>: <code>weather-forecast-6hourly</code></li>
-<li><strong>Description</strong>: <code>Thu thập dữ liệu dự báo thời tiết mỗi 6 giờ cho 6 thành phố Việt Nam</code></li>
-<li><strong>Event bus</strong>: <code>default</code></li>
-<li><strong>Rule type</strong>: <code>Schedule</code></li>
+<li>⏰ <strong>Schedule</strong>: Mỗi giờ (24 lần/ngày)</li>
+<li>🎯 <strong>Target</strong>: <code>weather-current-collector</code> Lambda function</li>
+<li>📊 <strong>Data</strong>: Thu thập thời tiết hiện tại cho 6 thành phố</li>
+<li>🔄 <strong>Status</strong>: Enabled và ready to run</li>
 </ul>
-</li>
-</ol>
-<h3 id="22-cấu-hình-schedule-cho-forecast">2.2 Cấu hình Schedule cho Forecast</h3>
-<ol>
-<li>
-<p><strong>Schedule pattern</strong>: Chọn <strong>&ldquo;A fine-grained schedule that runs at a specific time&rdquo;</strong></p>
-</li>
-<li>
-<p><strong>Cron expression</strong>:</p>
-<pre tabindex="0"><code>cron(0 0,6,12,18 * * ? *)
-</code></pre></li>
-</ol>
-<p><img src="/images/data-collection/23b21.png" alt="Forecast Schedule"></p>
-<h3 id="23-select-target-cho-forecast">2.3 Select Target cho Forecast</h3>
-<ol>
-<li>
-<p><strong>Target types</strong>: <strong>&ldquo;AWS service&rdquo;</strong></p>
-</li>
-<li>
-<p><strong>Select a service</strong>: <strong>&ldquo;Lambda function&rdquo;</strong></p>
-</li>
-<li>
-<p><strong>Function</strong>: <strong><code>weather-forecast-collector</code></strong></p>
-</li>
-<li>
-<p><strong>Configure target input</strong>: <strong>&ldquo;Constant (JSON text)&rdquo;</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge-schedule&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail-type&#34;</span>: <span style="color:#e6db74">&#34;Scheduled Event&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;collection_type&#34;</span>: <span style="color:#e6db74">&#34;forecast&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scheduled_time&#34;</span>: <span style="color:#e6db74">&#34;every_6_hours&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;trigger_source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Create rule</strong>
-<img src="/images/data-collection/23b22.png" alt="Forecast Schedule"></p>
-</li>
-</ol>
+<p><strong>Workflow tự động:</strong>
+<code>EventBridge</code> → <code>weather-current-collector</code> → <code>S3 Storage</code> → <code>CloudWatch Metrics</code></p>
+</div>
+
 <h2 id="bước-3-thiết-lập-monitoring-với-cloudwatch-alarms">Bước 3: Thiết lập Monitoring với CloudWatch Alarms</h2>
 <p><strong>Tại sao cần Monitoring?</strong></p>
 <p>Khi Lambda functions chạy tự động 24/7, bạn cần biết ngay khi có vấn đề:</p>
@@ -849,18 +797,31 @@
 </ol>
 <h2 id="tóm-tắt">Tóm tắt</h2>
 <p>Trong phần này, chúng ta đã hoàn thành:</p>
-<p><strong>Thiết lập EventBridge Rules</strong>:</p>
+<p><strong>✅ Thiết lập EventBridge Rule:</strong></p>
 <ul>
-<li>Current weather: Mỗi giờ (24 lần/ngày)</li>
-<li>Forecast: Mỗi 6 giờ (4 lần/ngày)</li>
+<li>⏰ Current weather collection: Mỗi giờ (24 lần/ngày)</li>
+<li>🎯 Target: <code>weather-current-collector</code> Lambda function</li>
+<li>📊 Thu thập dữ liệu 6 thành phố Việt Nam tự động</li>
 </ul>
-<p><strong>Testing và Verification</strong>:</p>
+<p><strong>✅ CloudWatch Monitoring:</strong></p>
 <ul>
-<li>Manual testing các rules</li>
-<li>Verify S3 data collection</li>
+<li>SNS topic cho email alerts</li>
+<li>CloudWatch alarms cho Lambda errors và duration</li>
+<li>Metrics tracking cho system health</li>
+</ul>
+<p><strong>✅ Testing và Verification:</strong></p>
+<ul>
+<li>Manual testing EventBridge rules</li>
+<li>Verify S3 data collection hoạt động</li>
 <li>Check CloudWatch logs và metrics</li>
 </ul>
-<p><strong>Kết quả</strong>: Hệ thống thu thập dữ liệu thời tiết tự động 24/7 với monitoring đầy đủ!</p>
+<p><strong>🎉 Kết quả đạt được:</strong></p>
+<ul>
+<li>Hệ thống thu thập dữ liệu thời tiết tự động 24/7</li>
+<li>Monitoring và alerting đầy đủ</li>
+<li>Data pipeline reliable và scalable</li>
+<li>Sẵn sàng cho data processing ở Module 3</li>
+</ul>
 <p><strong>Tiếp theo</strong>: Trong module 2.4, chúng ta sẽ thiết lập testing và validation toàn diện để đảm bảo data quality và system reliability.</p>
 
 
@@ -1076,19 +1037,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752473023"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752473023"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752473023"></script>
-    <script src="/js/jquery.sticky.js?1752473023"></script>
-    <script src="/js/featherlight.min.js?1752473023"></script>
-    <script src="/js/highlight.pack.js?1752473023"></script>
+    <script src="/js/clipboard.min.js?1752487100"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752487100"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752487100"></script>
+    <script src="/js/jquery.sticky.js?1752487100"></script>
+    <script src="/js/featherlight.min.js?1752487100"></script>
+    <script src="/js/highlight.pack.js?1752487100"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752473023"></script>
-    <script src="/js/learn.js?1752473023"></script>
-    <script src="/js/hugo-learn.js?1752473023"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752487100"></script>
+    <script src="/js/learn.js?1752487100"></script>
+    <script src="/js/hugo-learn.js?1752487100"></script>
 
-    <link href="/mermaid/mermaid.css?1752473023" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752473023"></script>
+    <link href="/mermaid/mermaid.css?1752487100" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752487100"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

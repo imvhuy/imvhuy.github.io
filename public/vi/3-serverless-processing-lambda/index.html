@@ -12,21 +12,21 @@
     <title>Xử lý và Chuyển đổi Dữ liệu Serverless :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752473023" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752473023" rel="stylesheet">
-    <link href="/css/hybrid.css?1752473023" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752473023" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752473023" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752473023" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752473023" rel="stylesheet">
-    <link href="/css/theme.css?1752473023" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752473023" rel="stylesheet">
+    <link href="/css/nucleus.css?1752487100" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752487100" rel="stylesheet">
+    <link href="/css/hybrid.css?1752487100" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752487100" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752487100" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752487100" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752487100" rel="stylesheet">
+    <link href="/css/theme.css?1752487100" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752487100" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752473023" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752487100" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752473023"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752487100"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752473023"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752473023"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752487100"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752487100"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752473023"></script>
+<script type="text/javascript" src="/js/search.js?1752487100"></script>
 
     
   </div>
@@ -466,9 +466,8 @@
     </li>
     <li><a href="#bước-2-tạo-lambda-function-cho-data-processing">Bước 2: Tạo Lambda Function cho Data Processing</a>
       <ul>
-        <li><a href="#21-tạo-iam-role-cho-lambda">2.1 Tạo IAM Role cho Lambda</a></li>
-        <li><a href="#22-tạo-lambda-function">2.2 Tạo Lambda Function</a></li>
-        <li><a href="#23-lambda-function-code">2.3 Lambda Function Code</a></li>
+        <li><a href="#21-tạo-lambda-function">2.1 Tạo Lambda Function</a></li>
+        <li><a href="#22-lambda-function-code">2.2 Lambda Function Code</a></li>
       </ul>
     </li>
     <li><a href="#bước-3-thiết-lập-s3-event-trigger">Bước 3: Thiết lập S3 Event Trigger</a>
@@ -479,31 +478,10 @@
     </li>
     <li><a href="#bước-4-testing-data-processing">Bước 4: Testing Data Processing</a>
       <ul>
-        <li><a href="#41-test-với-manual-upload">4.1 Test với Manual Upload</a></li>
-        <li><a href="#42-verify-processed-data">4.2 Verify Processed Data</a></li>
-        <li><a href="#43-test-với-real-data-từ-module-2">4.3 Test với Real Data từ Module 2</a></li>
+        <li><a href="#test-với-real-data-từ-module-2">Test với Real Data từ Module 2</a></li>
       </ul>
     </li>
-    <li><a href="#bước-5-monitoring-và-optimization">Bước 5: Monitoring và Optimization</a>
-      <ul>
-        <li><a href="#51-cloudwatch-metrics-dashboard">5.1 CloudWatch Metrics Dashboard</a></li>
-        <li><a href="#52-cloudwatch-alarms">5.2 CloudWatch Alarms</a></li>
-        <li><a href="#53-cost-optimization">5.3 Cost Optimization</a></li>
-      </ul>
-    </li>
-    <li><a href="#data-comparison-raw-vs-processed">Data Comparison: Raw vs Processed</a>
-      <ul>
-        <li><a href="#raw-data-từ-module-2">Raw Data (từ Module 2)</a></li>
-        <li><a href="#processed-data-sau-module-3">Processed Data (sau Module 3)</a></li>
-      </ul>
-    </li>
-    <li><a href="#troubleshooting-common-issues">Troubleshooting Common Issues</a>
-      <ul>
-        <li><a href="#processing-failures">Processing Failures</a></li>
-        <li><a href="#performance-issues">Performance Issues</a></li>
-      </ul>
-    </li>
-    <li><a href="#tóm-tắt">Tóm tắt</a></li>
+    <li><a href="#tổng-kết">Tổng kết</a></li>
   </ul>
 </nav>
     </div>
@@ -570,7 +548,7 @@
 <li><strong>Bucket name</strong>: <code>weather-processed-{your-account-id}</code></li>
 <li><strong>Region</strong>: <code>ap-southeast-1</code> (same as raw bucket)</li>
 <li><strong>Block all public access</strong>: Enabled</li>
-<li><strong>Bucket versioning</strong>: Enabled</li>
+<li><strong>Bucket versioning</strong>: Disable</li>
 <li><strong>Default encryption</strong>: SSE-S3</li>
 </ul>
 </li>
@@ -583,85 +561,26 @@
 <p><strong>Tạo folder structure tối ưu cho analytics:</strong></p>
 <pre tabindex="0"><code>weather-processed-{account-id}/
 ├── current-weather/
-│   ├── year=2025/
-│   │   ├── month=01/
-│   │   │   ├── day=03/
-│   │   │   │   ├── hour=00/
-│   │   │   │   │   ├── hcm_20250103_000000.json
-│   │   │   │   │   ├── hanoi_20250103_000000.json
-│   │   │   │   │   └── ...
-│   │   │   │   └── hour=01/
-│   │   │   └── day=04/
-│   │   └── month=02/
-│   └── year=2026/
-└── forecast/
     ├── year=2025/
     │   ├── month=01/
     │   │   ├── day=03/
     │   │   │   ├── hour=00/
-    │   │   │   │   ├── hcm_forecast_20250103_000000.json
+    │   │   │   │   ├── hcm_20250103_000000.json
+    │   │   │   │   ├── hanoi_20250103_000000.json
     │   │   │   │   └── ...
-    │   │   │   └── hour=06/
+    │   │   │   └── hour=01/
     │   │   └── day=04/
     │   └── month=02/
     └── year=2026/
-</code></pre>
-<div class="notices info" ><p><strong>Tại sao dùng Hive-style partitioning?</strong></p>
+</code></pre><p><strong>Ở đây sẽ dùng Hive-style partitioning vì:</strong></p>
 <ul>
-<li>📊 <strong>Athena optimization</strong>: Query performance tốt hơn</li>
-<li>💰 <strong>Cost savings</strong>: Chỉ scan data cần thiết</li>
-<li>🔍 <strong>Easy filtering</strong>: Filter theo year/month/day/hour</li>
-<li>📈 <strong>Scalability</strong>: Handle large datasets efficiently</li>
+<li><strong>Athena optimization</strong>: Query performance tốt hơn</li>
+<li><strong>Cost savings</strong>: Chỉ scan data cần thiết</li>
+<li><strong>Easy filtering</strong>: Filter theo year/month/day/hour</li>
+<li><strong>Scalability</strong>: Xử lý các bộ dữ liệu lớn một cách hiệu quả</li>
 </ul>
-</div>
-
 <h2 id="bước-2-tạo-lambda-function-cho-data-processing">Bước 2: Tạo Lambda Function cho Data Processing</h2>
-<h3 id="21-tạo-iam-role-cho-lambda">2.1 Tạo IAM Role cho Lambda</h3>
-<ol>
-<li>
-<p><strong>AWS Console</strong> → <strong>IAM</strong> → <strong>Roles</strong> → <strong>Create role</strong></p>
-</li>
-<li>
-<p><strong>Trusted entity</strong>: <strong>AWS service</strong> → <strong>Lambda</strong></p>
-</li>
-<li>
-<p><strong>Permissions</strong>: <strong>Create policy</strong> với JSON:</p>
-</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statement&#34;</span>: [
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;logs:CreateLogGroup&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;logs:CreateLogStream&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;logs:PutLogEvents&#34;</span>
-</span></span><span style="display:flex;"><span>      ],
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:logs:*:*:*&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: [<span style="color:#e6db74">&#34;s3:GetObject&#34;</span>],
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:s3:::weather-data-*/*&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: [<span style="color:#e6db74">&#34;s3:PutObject&#34;</span>, <span style="color:#e6db74">&#34;s3:PutObjectAcl&#34;</span>],
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:s3:::weather-processed-*/*&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: [<span style="color:#e6db74">&#34;cloudwatch:PutMetricData&#34;</span>],
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;*&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  ]
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ol start="4">
-<li><strong>Role name</strong>: <code>WeatherDataProcessorRole</code></li>
-</ol>
-<p><img src="/images/data-processing/31b02.png" alt="IAM Role"></p>
-<h3 id="22-tạo-lambda-function">2.2 Tạo Lambda Function</h3>
+<h3 id="21-tạo-lambda-function">2.1 Tạo Lambda Function</h3>
 <ol>
 <li>
 <p><strong>AWS Console</strong> → <strong>Lambda</strong> → <strong>Create function</strong></p>
@@ -672,11 +591,11 @@
 <li><strong>Function name</strong>: <code>weather-data-processor</code></li>
 <li><strong>Runtime</strong>: <code>Python 3.11</code></li>
 <li><strong>Architecture</strong>: <code>x86_64</code></li>
-<li><strong>Execution role</strong>: <code>WeatherDataProcessorRole</code></li>
+<li><strong>Execution role</strong>: <code>WeatherCollectorLambdaRole</code></li>
 </ul>
 </li>
 </ol>
-<p><img src="/images/data-processing/31b03.png" alt="Create Lambda"></p>
+<p><img src="/images/data-processing/3b2.png" alt="Create Lambda"></p>
 <ol start="3">
 <li><strong>Advanced settings</strong>:
 <ul>
@@ -691,8 +610,8 @@
 </ul>
 </li>
 </ol>
-<p><img src="/images/data-processing/31b04.png" alt="Lambda Configuration"></p>
-<h3 id="23-lambda-function-code">2.3 Lambda Function Code</h3>
+<p><img src="/images/data-processing/3b3.png" alt="Lambda Configuration"></p>
+<h3 id="22-lambda-function-code">2.2 Lambda Function Code</h3>
 <p><strong>Thay thế code mặc định bằng code sau:</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
@@ -787,15 +706,12 @@
 </span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> s3_client<span style="color:#f92672">.</span>get_object(Bucket<span style="color:#f92672">=</span>source_bucket, Key<span style="color:#f92672">=</span>source_key)
 </span></span><span style="display:flex;"><span>        raw_data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(response[<span style="color:#e6db74">&#39;Body&#39;</span>]<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Determine data type based on key path</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Only process current weather data</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;current-weather&#39;</span> <span style="color:#f92672">in</span> source_key:
 </span></span><span style="display:flex;"><span>            processed_data <span style="color:#f92672">=</span> transform_current_weather(raw_data)
 </span></span><span style="display:flex;"><span>            data_type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;current-weather&#39;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;forecast&#39;</span> <span style="color:#f92672">in</span> source_key:
-</span></span><span style="display:flex;"><span>            processed_data <span style="color:#f92672">=</span> transform_forecast_weather(raw_data)
-</span></span><span style="display:flex;"><span>            data_type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;forecast&#39;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Unknown data type for key: </span><span style="color:#e6db74">{</span>source_key<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Skipping non-current-weather file: </span><span style="color:#e6db74">{</span>source_key<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Generate processed file key</span>
@@ -946,121 +862,6 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
 </span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Error transforming current weather data: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">transform_forecast_weather</span>(raw_data: Dict) <span style="color:#f92672">-&gt;</span> List[Dict]:
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Transform forecast weather data from OpenWeatherMap format to analytics format
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Extract city information</span>
-</span></span><span style="display:flex;"><span>        city_info <span style="color:#f92672">=</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;city&#39;</span>, {})
-</span></span><span style="display:flex;"><span>        city_name <span style="color:#f92672">=</span> city_info<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;Unknown&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        processed_forecasts <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Process each forecast item</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;list&#39;</span>, []):
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Get forecast timestamp</span>
-</span></span><span style="display:flex;"><span>            dt <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>fromtimestamp(item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;dt&#39;</span>, <span style="color:#ae81ff">0</span>), tz<span style="color:#f92672">=</span>timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Base forecast data structure</span>
-</span></span><span style="display:flex;"><span>            forecast <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Identifiers</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;city_name&#39;</span>: city_name,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;city_id&#39;</span>: city_info<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;id&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;country_code&#39;</span>: city_info<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;country&#39;</span>, <span style="color:#e6db74">&#39;Unknown&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;latitude&#39;</span>: city_info<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;coord&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;lat&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;longitude&#39;</span>: city_info<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;coord&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;lon&#39;</span>),
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Timestamps</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;forecast_timestamp&#39;</span>: dt<span style="color:#f92672">.</span>isoformat(),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;forecast_date&#39;</span>: dt<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;forecast_hour&#39;</span>: dt<span style="color:#f92672">.</span>hour,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;collection_timestamp&#39;</span>: raw_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;collection_timestamp&#39;</span>),
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Weather conditions</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_id&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_main&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_description&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_icon&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Temperature</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;temperature_celsius&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;temperature_fahrenheit&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;feels_like_celsius&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;feels_like_fahrenheit&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;temp_min_celsius&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;temp_max_celsius&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Atmospheric conditions</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;pressure_hpa&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;pressure&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;humidity_percent&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;humidity&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;visibility_meters&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;visibility&#39;</span>),
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Wind</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;wind_speed_ms&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;wind&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;speed&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;wind_speed_kmh&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;wind_direction_deg&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;wind&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;deg&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;wind_gust_ms&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;wind&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;gust&#39;</span>),
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Clouds and precipitation</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;cloud_coverage_percent&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;clouds&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;all&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;rain_3h_mm&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;rain&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;3h&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;snow_3h_mm&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;snow&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;3h&#39;</span>),
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;precipitation_probability&#39;</span>: item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;pop&#39;</span>, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>,  <span style="color:#75715e"># Convert to percentage</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Derived metrics</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;heat_index_celsius&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;comfort_level&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;wind_condition&#39;</span>: <span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;weather_severity&#39;</span>: <span style="color:#66d9ef">None</span>
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Process weather conditions</span>
-</span></span><span style="display:flex;"><span>            weather_list <span style="color:#f92672">=</span> item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;weather&#39;</span>, [])
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> weather_list:
-</span></span><span style="display:flex;"><span>                weather <span style="color:#f92672">=</span> weather_list[<span style="color:#ae81ff">0</span>]
-</span></span><span style="display:flex;"><span>                forecast<span style="color:#f92672">.</span>update({
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;weather_id&#39;</span>: weather<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;id&#39;</span>),
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;weather_main&#39;</span>: weather<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>),
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;weather_description&#39;</span>: weather<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;description&#39;</span>),
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;weather_icon&#39;</span>: weather<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;icon&#39;</span>)
-</span></span><span style="display:flex;"><span>                })
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Process temperature data</span>
-</span></span><span style="display:flex;"><span>            main_data <span style="color:#f92672">=</span> item<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>, {})
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> main_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;temp&#39;</span>):
-</span></span><span style="display:flex;"><span>                temp_k <span style="color:#f92672">=</span> main_data[<span style="color:#e6db74">&#39;temp&#39;</span>]
-</span></span><span style="display:flex;"><span>                forecast[<span style="color:#e6db74">&#39;temperature_celsius&#39;</span>] <span style="color:#f92672">=</span> round(temp_k <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>                forecast[<span style="color:#e6db74">&#39;temperature_fahrenheit&#39;</span>] <span style="color:#f92672">=</span> round((temp_k <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span><span style="color:#f92672">/</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> main_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;feels_like&#39;</span>):
-</span></span><span style="display:flex;"><span>                feels_k <span style="color:#f92672">=</span> main_data[<span style="color:#e6db74">&#39;feels_like&#39;</span>]
-</span></span><span style="display:flex;"><span>                forecast[<span style="color:#e6db74">&#39;feels_like_celsius&#39;</span>] <span style="color:#f92672">=</span> round(feels_k <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>                forecast[<span style="color:#e6db74">&#39;feels_like_fahrenheit&#39;</span>] <span style="color:#f92672">=</span> round((feels_k <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">9</span><span style="color:#f92672">/</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> main_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;temp_min&#39;</span>):
-</span></span><span style="display:flex;"><span>                min_k <span style="color:#f92672">=</span> main_data[<span style="color:#e6db74">&#39;temp_min&#39;</span>]
-</span></span><span style="display:flex;"><span>                forecast[<span style="color:#e6db74">&#39;temp_min_celsius&#39;</span>] <span style="color:#f92672">=</span> round(min_k <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> main_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;temp_max&#39;</span>):
-</span></span><span style="display:flex;"><span>                max_k <span style="color:#f92672">=</span> main_data[<span style="color:#e6db74">&#39;temp_max&#39;</span>]
-</span></span><span style="display:flex;"><span>                forecast[<span style="color:#e6db74">&#39;temp_max_celsius&#39;</span>] <span style="color:#f92672">=</span> round(max_k <span style="color:#f92672">-</span> <span style="color:#ae81ff">273.15</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Process wind data</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> forecast[<span style="color:#e6db74">&#39;wind_speed_ms&#39;</span>]:
-</span></span><span style="display:flex;"><span>                forecast[<span style="color:#e6db74">&#39;wind_speed_kmh&#39;</span>] <span style="color:#f92672">=</span> round(forecast[<span style="color:#e6db74">&#39;wind_speed_ms&#39;</span>] <span style="color:#f92672">*</span> <span style="color:#ae81ff">3.6</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Calculate derived metrics</span>
-</span></span><span style="display:flex;"><span>            forecast<span style="color:#f92672">.</span>update(calculate_derived_metrics(forecast))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            processed_forecasts<span style="color:#f92672">.</span>append(forecast)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> processed_forecasts
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Error transforming forecast weather data: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">raise</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calculate_derived_metrics</span>(data: Dict) <span style="color:#f92672">-&gt;</span> Dict:
@@ -1214,12 +1015,9 @@
 </span></span></code></pre></div><ol start="4">
 <li><strong>Deploy</strong> code bằng cách click <strong>&ldquo;Deploy&rdquo;</strong></li>
 </ol>
-<p><img src="/images/data-processing/31b05.png" alt="Deploy Lambda"></p>
+<p><img src="/images/data-processing/3b4.png" alt="Deploy Lambda"></p>
 <h2 id="bước-3-thiết-lập-s3-event-trigger">Bước 3: Thiết lập S3 Event Trigger</h2>
-
-<div class="notices warning" ><p><strong>Quan trọng</strong>: S3 Event Trigger sẽ tự động chạy Lambda mỗi khi có file mới được upload vào raw bucket. Đảm bảo Lambda function hoạt động đúng trước khi enable trigger.</p>
-</div>
-
+<p><strong>Quan trọng</strong>: S3 Event Trigger sẽ tự động chạy Lambda mỗi khi có file mới được upload vào raw bucket. Đảm bảo Lambda function hoạt động đúng trước khi enable trigger.</p>
 <h3 id="31-thêm-permission-cho-s3-invoke-lambda">3.1 Thêm Permission cho S3 invoke Lambda</h3>
 <ol>
 <li>
@@ -1234,7 +1032,7 @@
 </ul>
 </li>
 </ol>
-<p><img src="/images/data-processing/31b06.png" alt="Lambda Permissions"></p>
+<p><img src="/images/data-processing/3b5.png" alt="Lambda Permissions"></p>
 <h3 id="32-configure-s3-event-notification">3.2 Configure S3 Event Notification</h3>
 <ol>
 <li>
@@ -1244,302 +1042,65 @@
 <p><strong>Event notifications</strong> → <strong>Create event notification</strong>:</p>
 <ul>
 <li><strong>Event name</strong>: <code>weather-data-processing-trigger</code></li>
-<li><strong>Event types</strong>: ✅ <strong>All object create events</strong></li>
+<li><strong>Event types</strong>: <strong>All object create events</strong></li>
 <li><strong>Prefix</strong>: <code>raw/</code></li>
 <li><strong>Suffix</strong>: <code>.json</code></li>
 <li><strong>Destination</strong>: <strong>Lambda function</strong> → <strong>weather-data-processor</strong></li>
 </ul>
 </li>
 </ol>
-<p><img src="/images/data-processing/31b07.png" alt="S3 Event Notification"></p>
+<p><img src="/images/data-processing/3b6.png" alt="S3 Event Notification"></p>
 <ol start="3">
 <li><strong>Save changes</strong></li>
 </ol>
 <h2 id="bước-4-testing-data-processing">Bước 4: Testing Data Processing</h2>
-<h3 id="41-test-với-manual-upload">4.1 Test với Manual Upload</h3>
-<p><strong>Upload một file test để trigger processing:</strong></p>
-<ol>
-<li><strong>Tạo test file</strong> <code>test_weather.json</code>:</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;coord&#34;</span>: { <span style="color:#f92672">&#34;lon&#34;</span>: <span style="color:#ae81ff">106.6297</span>, <span style="color:#f92672">&#34;lat&#34;</span>: <span style="color:#ae81ff">10.8231</span> },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather&#34;</span>: [
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">800</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;main&#34;</span>: <span style="color:#e6db74">&#34;Clear&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;clear sky&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;01d&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  ],
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;main&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;temp&#34;</span>: <span style="color:#ae81ff">305.15</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;feels_like&#34;</span>: <span style="color:#ae81ff">309.65</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;temp_min&#34;</span>: <span style="color:#ae81ff">305.15</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;temp_max&#34;</span>: <span style="color:#ae81ff">305.15</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;pressure&#34;</span>: <span style="color:#ae81ff">1013</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;humidity&#34;</span>: <span style="color:#ae81ff">74</span>
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind&#34;</span>: { <span style="color:#f92672">&#34;speed&#34;</span>: <span style="color:#ae81ff">3.2</span>, <span style="color:#f92672">&#34;deg&#34;</span>: <span style="color:#ae81ff">220</span> },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;clouds&#34;</span>: { <span style="color:#f92672">&#34;all&#34;</span>: <span style="color:#ae81ff">0</span> },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;dt&#34;</span>: <span style="color:#ae81ff">1704268800</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sys&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;country&#34;</span>: <span style="color:#e6db74">&#34;VN&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sunrise&#34;</span>: <span style="color:#ae81ff">1704225600</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sunset&#34;</span>: <span style="color:#ae81ff">1704268800</span>
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timezone&#34;</span>: <span style="color:#ae81ff">25200</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1566083</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;HoChiMinh&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;collection_timestamp&#34;</span>: <span style="color:#e6db74">&#34;2025-01-03T08:00:00Z&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><ol start="2">
-<li><strong>Upload file</strong>:</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 cp test_weather.json s3://weather-data-<span style="color:#f92672">{</span>your-account-id<span style="color:#f92672">}</span>/raw/current-weather/year<span style="color:#f92672">=</span>2025/month<span style="color:#f92672">=</span>01/day<span style="color:#f92672">=</span>03/hour<span style="color:#f92672">=</span>08/hcm_20250103_080000.json
-</span></span></code></pre></div><ol start="3">
-<li><strong>Check CloudWatch Logs</strong>:
-<ul>
-<li><strong>CloudWatch Console</strong> → <strong>Log groups</strong> → <code>/aws/lambda/weather-data-processor</code></li>
-<li><strong>Latest log stream</strong> → Verify processing logs</li>
-</ul>
-</li>
-</ol>
-<p><img src="/images/data-processing/31b08.png" alt="CloudWatch Logs"></p>
-<h3 id="42-verify-processed-data">4.2 Verify Processed Data</h3>
-<ol>
-<li><strong>Check processed bucket</strong>:</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 ls s3://weather-processed-<span style="color:#f92672">{</span>your-account-id<span style="color:#f92672">}</span>/current-weather/ --recursive
-</span></span></code></pre></div><ol start="2">
-<li><strong>Download và examine processed file</strong>:</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 cp s3://weather-processed-<span style="color:#f92672">{</span>your-account-id<span style="color:#f92672">}</span>/current-weather/year<span style="color:#f92672">=</span>2025/month<span style="color:#f92672">=</span>01/day<span style="color:#f92672">=</span>03/hour<span style="color:#f92672">=</span>08/hcm_processed_20250103_080000.json ./
-</span></span><span style="display:flex;"><span>cat hcm_processed_20250103_080000.json | jq .
-</span></span></code></pre></div><p><strong>Expected processed output:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;city_name&#34;</span>: <span style="color:#e6db74">&#34;HoChiMinh&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;country_code&#34;</span>: <span style="color:#e6db74">&#34;VN&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;latitude&#34;</span>: <span style="color:#ae81ff">10.8231</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;longitude&#34;</span>: <span style="color:#ae81ff">106.6297</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;collection_timestamp&#34;</span>: <span style="color:#e6db74">&#34;2025-01-03T08:00:00+00:00&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;collection_date&#34;</span>: <span style="color:#e6db74">&#34;2025-01-03&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;collection_hour&#34;</span>: <span style="color:#ae81ff">8</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_main&#34;</span>: <span style="color:#e6db74">&#34;Clear&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_description&#34;</span>: <span style="color:#e6db74">&#34;clear sky&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature_celsius&#34;</span>: <span style="color:#ae81ff">32.0</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature_fahrenheit&#34;</span>: <span style="color:#ae81ff">89.6</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;feels_like_celsius&#34;</span>: <span style="color:#ae81ff">36.5</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;feels_like_fahrenheit&#34;</span>: <span style="color:#ae81ff">97.7</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;humidity_percent&#34;</span>: <span style="color:#ae81ff">74</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pressure_hpa&#34;</span>: <span style="color:#ae81ff">1013</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_speed_ms&#34;</span>: <span style="color:#ae81ff">3.2</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_speed_kmh&#34;</span>: <span style="color:#ae81ff">11.5</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_direction_deg&#34;</span>: <span style="color:#ae81ff">220</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;cloud_coverage_percent&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;comfort_level&#34;</span>: <span style="color:#e6db74">&#34;hot&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_condition&#34;</span>: <span style="color:#e6db74">&#34;light&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_severity&#34;</span>: <span style="color:#e6db74">&#34;normal&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="43-test-với-real-data-từ-module-2">4.3 Test với Real Data từ Module 2</h3>
+<h3 id="test-với-real-data-từ-module-2">Test với Real Data từ Module 2</h3>
 <p><strong>Nếu EventBridge rules từ Module 2 đang chạy:</strong></p>
 <ol>
 <li>
-<p><strong>Wait for scheduled collection</strong> (next hour hoặc 6-hour interval)</p>
+<p><strong>Chờ Lambda tự động chạy</strong>: EventBridge sẽ trigger functions theo lịch:</p>
+<ul>
+<li><strong>Current weather</strong>: Mỗi giờ</li>
+</ul>
 </li>
 <li>
-<p><strong>Check logs</strong> để verify automatic processing:</p>
-</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws logs filter-log-events <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --log-group-name /aws/lambda/weather-data-processor <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --start-time <span style="color:#66d9ef">$(</span>date -d <span style="color:#e6db74">&#39;1 hour ago&#39;</span> +%s<span style="color:#66d9ef">)</span><span style="color:#ae81ff">000</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --filter-pattern <span style="color:#e6db74">&#34;Processing file&#34;</span>
-</span></span></code></pre></div><ol start="3">
-<li><strong>Verify processed data structure</strong>:</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 ls s3://weather-processed-<span style="color:#f92672">{</span>your-account-id<span style="color:#f92672">}</span>/ --recursive | head -20
-</span></span></code></pre></div><h2 id="bước-5-monitoring-và-optimization">Bước 5: Monitoring và Optimization</h2>
-<h3 id="51-cloudwatch-metrics-dashboard">5.1 CloudWatch Metrics Dashboard</h3>
-<ol>
+<p><strong>Monitoring real-time processing</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check raw data được tạo</span>
+</span></span><span style="display:flex;"><span>aws s3 ls s3://weather-data-<span style="color:#f92672">{</span>your-account-id<span style="color:#f92672">}</span>/raw/current-weather/ --recursive
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check processed data được tạo</span>
+</span></span><span style="display:flex;"><span>aws s3 ls s3://weather-processed-<span style="color:#f92672">{</span>your-account-id<span style="color:#f92672">}</span>/current-weather/ --recursive
+</span></span></code></pre></div></li>
 <li>
-<p><strong>CloudWatch Console</strong> → <strong>Dashboards</strong> → <strong>Create dashboard</strong></p>
-</li>
-<li>
-<p><strong>Dashboard name</strong>: <code>Weather-Data-Processing</code></p>
-</li>
-<li>
-<p><strong>Add widgets</strong>:</p>
-</li>
-</ol>
-<p><strong>Widget 1 - Processing Success Rate:</strong></p>
+<p><strong>CloudWatch Logs real-time</strong>:</p>
 <ul>
-<li><strong>Metric</strong>: <code>Weather/Processing &gt; ProcessedFiles</code></li>
-<li><strong>Metric</strong>: <code>Weather/Processing &gt; FailedFiles</code></li>
-<li><strong>Period</strong>: 1 hour</li>
-<li><strong>Statistic</strong>: Sum</li>
-</ul>
-<p><strong>Widget 2 - Lambda Performance:</strong></p>
-<ul>
-<li><strong>Metric</strong>: <code>AWS/Lambda &gt; Duration</code> (function: weather-data-processor)</li>
-<li><strong>Metric</strong>: <code>AWS/Lambda &gt; Errors</code> (function: weather-data-processor)</li>
-<li><strong>Period</strong>: 5 minutes</li>
-</ul>
-<p><strong>Widget 3 - S3 Object Count:</strong></p>
-<ul>
-<li><strong>Metric</strong>: <code>AWS/S3 &gt; NumberOfObjects</code> (bucket: weather-processed-*)</li>
-<li><strong>Period</strong>: 1 day</li>
-</ul>
-<p><img src="/images/data-processing/31b09.png" alt="Processing Dashboard"></p>
-<h3 id="52-cloudwatch-alarms">5.2 CloudWatch Alarms</h3>
-<p><strong>Tạo alarm cho processing failures:</strong></p>
-<ol>
-<li><strong>Alarm name</strong>: <code>WeatherProcessing-HighFailureRate</code></li>
-<li><strong>Metric</strong>: <code>Weather/Processing &gt; FailedFiles</code></li>
-<li><strong>Condition</strong>: <code>Greater than 2</code> (trong 1 hour)</li>
-<li><strong>Action</strong>: Send to SNS topic từ Module 2</li>
-</ol>
-<p><strong>Tạo alarm cho Lambda errors:</strong></p>
-<ol>
-<li><strong>Alarm name</strong>: <code>WeatherProcessor-LambdaErrors</code></li>
-<li><strong>Metric</strong>: <code>AWS/Lambda &gt; Errors</code></li>
-<li><strong>Condition</strong>: <code>Greater than 1</code> (trong 5 minutes)</li>
-<li><strong>Action</strong>: Send to SNS topic</li>
-</ol>
-<h3 id="53-cost-optimization">5.3 Cost Optimization</h3>
-<p><strong>Optimize Lambda configuration:</strong></p>
-<ol>
-<li><strong>Memory</strong>: Monitor actual usage và adjust accordingly</li>
-<li><strong>Timeout</strong>: Reduce nếu processing time stable</li>
-<li><strong>Reserved concurrency</strong>: Set limit để avoid cost spikes</li>
-</ol>
-<p><strong>S3 Storage optimization:</strong></p>
-<ol>
-<li><strong>Lifecycle policies</strong> cho processed data:
-<ul>
-<li>After 30 days: Move to IA</li>
-<li>After 90 days: Move to Glacier</li>
-<li>After 365 days: Move to Deep Archive</li>
+<li><strong>Lambda Console</strong> → <strong>Functions</strong> → <strong>weather-data-processor</strong> → <strong>Monitor</strong> → <strong>View logs in CloudWatch</strong></li>
 </ul>
 </li>
 </ol>
-<p><img src="/images/data-processing/31b10.png" alt="S3 Lifecycle"></p>
-<h2 id="data-comparison-raw-vs-processed">Data Comparison: Raw vs Processed</h2>
-<h3 id="raw-data-từ-module-2">Raw Data (từ Module 2)</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;coord&#34;</span>: { <span style="color:#f92672">&#34;lon&#34;</span>: <span style="color:#ae81ff">106.6297</span>, <span style="color:#f92672">&#34;lat&#34;</span>: <span style="color:#ae81ff">10.8231</span> },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather&#34;</span>: [
-</span></span><span style="display:flex;"><span>    { <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">800</span>, <span style="color:#f92672">&#34;main&#34;</span>: <span style="color:#e6db74">&#34;Clear&#34;</span>, <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;clear sky&#34;</span>, <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;01d&#34;</span> }
-</span></span><span style="display:flex;"><span>  ],
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;main&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;temp&#34;</span>: <span style="color:#ae81ff">305.15</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;feels_like&#34;</span>: <span style="color:#ae81ff">309.65</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;pressure&#34;</span>: <span style="color:#ae81ff">1013</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;humidity&#34;</span>: <span style="color:#ae81ff">74</span>
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind&#34;</span>: { <span style="color:#f92672">&#34;speed&#34;</span>: <span style="color:#ae81ff">3.2</span>, <span style="color:#f92672">&#34;deg&#34;</span>: <span style="color:#ae81ff">220</span> },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;clouds&#34;</span>: { <span style="color:#f92672">&#34;all&#34;</span>: <span style="color:#ae81ff">0</span> },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;dt&#34;</span>: <span style="color:#ae81ff">1704268800</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;sys&#34;</span>: { <span style="color:#f92672">&#34;country&#34;</span>: <span style="color:#e6db74">&#34;VN&#34;</span>, <span style="color:#f92672">&#34;sunrise&#34;</span>: <span style="color:#ae81ff">1704225600</span>, <span style="color:#f92672">&#34;sunset&#34;</span>: <span style="color:#ae81ff">1704268800</span> },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timezone&#34;</span>: <span style="color:#ae81ff">25200</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1566083</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;HoChiMinh&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;collection_timestamp&#34;</span>: <span style="color:#e6db74">&#34;2025-01-03T08:00:00Z&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="processed-data-sau-module-3">Processed Data (sau Module 3)</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;city_name&#34;</span>: <span style="color:#e6db74">&#34;HoChiMinh&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;country_code&#34;</span>: <span style="color:#e6db74">&#34;VN&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;latitude&#34;</span>: <span style="color:#ae81ff">10.8231</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;longitude&#34;</span>: <span style="color:#ae81ff">106.6297</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;collection_timestamp&#34;</span>: <span style="color:#e6db74">&#34;2025-01-03T08:00:00+00:00&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;collection_date&#34;</span>: <span style="color:#e6db74">&#34;2025-01-03&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;collection_hour&#34;</span>: <span style="color:#ae81ff">8</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_main&#34;</span>: <span style="color:#e6db74">&#34;Clear&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_description&#34;</span>: <span style="color:#e6db74">&#34;clear sky&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature_celsius&#34;</span>: <span style="color:#ae81ff">32.0</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;temperature_fahrenheit&#34;</span>: <span style="color:#ae81ff">89.6</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;feels_like_celsius&#34;</span>: <span style="color:#ae81ff">36.5</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;feels_like_fahrenheit&#34;</span>: <span style="color:#ae81ff">97.7</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;humidity_percent&#34;</span>: <span style="color:#ae81ff">74</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pressure_hpa&#34;</span>: <span style="color:#ae81ff">1013</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_speed_ms&#34;</span>: <span style="color:#ae81ff">3.2</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_speed_kmh&#34;</span>: <span style="color:#ae81ff">11.5</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_direction_deg&#34;</span>: <span style="color:#ae81ff">220</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;cloud_coverage_percent&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;comfort_level&#34;</span>: <span style="color:#e6db74">&#34;hot&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;wind_condition&#34;</span>: <span style="color:#e6db74">&#34;light&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;weather_severity&#34;</span>: <span style="color:#e6db74">&#34;normal&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Key improvements:</strong></p>
+<p><strong>Expected workflow</strong>:</p>
+<pre tabindex="0"><code>Module 2 EventBridge → weather-current-collector → S3 raw/current-weather/
+                        ↓ (S3 Event)
+                      weather-data-processor → S3 processed/current-weather/
+</code></pre><h2 id="tổng-kết">Tổng kết</h2>
+<p><strong>Đã hoàn thành:</strong></p>
 <ul>
-<li>✅ <strong>Flat structure</strong>: Dễ query với SQL</li>
-<li>✅ <strong>Standardized units</strong>: Celsius, km/h, %</li>
-<li>✅ <strong>Rich metadata</strong>: Date, hour partitioning</li>
-<li>✅ <strong>Derived insights</strong>: Comfort level, wind condition, weather severity</li>
-<li>✅ <strong>Analytics-ready</strong>: Optimized cho Athena queries</li>
+<li><strong>S3 Processed Bucket</strong>: Storage tối ưu cho analytics</li>
+<li><strong>Lambda Data Processor</strong>: Transform current weather data</li>
+<li><strong>S3 Event Triggers</strong>: Tự động processing khi có raw data</li>
+<li><strong>Data Transformation</strong>: Clean, enrich, standardize weather data</li>
+<li><strong>Hive Partitioning</strong>: Analytics-ready folder structure</li>
+<li><strong>Error Handling</strong>: Robust error handling và retry logic</li>
 </ul>
-<h2 id="troubleshooting-common-issues">Troubleshooting Common Issues</h2>
-<h3 id="processing-failures">Processing Failures</h3>
-<p><strong>Issue</strong>: Lambda function timeout
-<strong>Solution</strong>:</p>
+<p><strong>Kết quả:</strong></p>
 <ul>
-<li>Increase timeout (max 15 minutes)</li>
-<li>Optimize code performance</li>
-<li>Process files in batches</li>
+<li>Weather data được transform từ complex JSON → flat structure</li>
+<li>Temperature converted từ Kelvin → Celsius/Fahrenheit</li>
+<li>Derived metrics: comfort level, wind condition, weather severity</li>
+<li>Partitioned data cho efficient querying</li>
+<li>Real-time processing pipeline hoạt động 24/7</li>
 </ul>
-<p><strong>Issue</strong>: S3 permission denied
-<strong>Solution</strong>:</p>
-<ul>
-<li>Verify IAM role permissions</li>
-<li>Check bucket policies</li>
-<li>Ensure correct bucket names</li>
-</ul>
-<p><strong>Issue</strong>: JSON parsing errors
-<strong>Solution</strong>:</p>
-<ul>
-<li>Add error handling for malformed JSON</li>
-<li>Log problematic files for manual inspection</li>
-<li>Implement retry logic</li>
-</ul>
-<h3 id="performance-issues">Performance Issues</h3>
-<p><strong>Issue</strong>: High processing latency
-<strong>Solution</strong>:</p>
-<ul>
-<li>Increase Lambda memory (more CPU)</li>
-<li>Optimize data transformation logic</li>
-<li>Use concurrent processing</li>
-</ul>
-<p><strong>Issue</strong>: High costs
-<strong>Solution</strong>:</p>
-<ul>
-<li>Right-size Lambda memory</li>
-<li>Implement S3 lifecycle policies</li>
-<li>Use reserved concurrency limits</li>
-</ul>
-<h2 id="tóm-tắt">Tóm tắt</h2>
-<p>Trong module này, chúng ta đã hoàn thành:</p>
-<p><strong>Xây dựng Data Processing Pipeline</strong>:</p>
-<ul>
-<li>Lambda function xử lý real-time data từ S3 events</li>
-<li>Transform raw weather data thành analytics-ready format</li>
-<li>Automatic partitioning cho optimal query performance</li>
-</ul>
-<p><strong>Data Transformation Features</strong>:</p>
-<ul>
-<li>Convert units (Kelvin → Celsius, m/s → km/h)</li>
-<li>Calculate derived metrics (heat index, comfort level)</li>
-<li>Clean và normalize data structure</li>
-<li>Add rich metadata cho analytics</li>
-</ul>
-<p><strong>Monitoring và Optimization</strong>:</p>
-<ul>
-<li>CloudWatch metrics và alarms</li>
-<li>Performance monitoring dashboard</li>
-<li>Cost optimization strategies</li>
-<li>Error handling và retry logic</li>
-</ul>
-<p><strong>Kết quả</strong>: Dữ liệu thời tiết clean, structured, và ready cho advanced analytics trong Module 4!</p>
-<p><strong>Tiếp theo</strong>: Trong Module 4, chúng ta sẽ sử dụng Amazon Athena để query và analyze processed data này một cách hiệu quả.</p>
+<p><strong>Sẵn sàng cho Module 4</strong>: Data Analytics và Visualization!</p>
 
 
 
@@ -1750,19 +1311,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752473023"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752473023"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752473023"></script>
-    <script src="/js/jquery.sticky.js?1752473023"></script>
-    <script src="/js/featherlight.min.js?1752473023"></script>
-    <script src="/js/highlight.pack.js?1752473023"></script>
+    <script src="/js/clipboard.min.js?1752487100"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752487100"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752487100"></script>
+    <script src="/js/jquery.sticky.js?1752487100"></script>
+    <script src="/js/featherlight.min.js?1752487100"></script>
+    <script src="/js/highlight.pack.js?1752487100"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752473023"></script>
-    <script src="/js/learn.js?1752473023"></script>
-    <script src="/js/hugo-learn.js?1752473023"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752487100"></script>
+    <script src="/js/learn.js?1752487100"></script>
+    <script src="/js/hugo-learn.js?1752487100"></script>
 
-    <link href="/mermaid/mermaid.css?1752473023" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752473023"></script>
+    <link href="/mermaid/mermaid.css?1752487100" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752487100"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

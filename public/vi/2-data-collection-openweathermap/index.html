@@ -12,21 +12,21 @@
     <title>Thu thập Dữ liệu Thời tiết với OpenWeatherMap :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752473023" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752473023" rel="stylesheet">
-    <link href="/css/hybrid.css?1752473023" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752473023" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752473023" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752473023" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752473023" rel="stylesheet">
-    <link href="/css/theme.css?1752473023" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752473023" rel="stylesheet">
+    <link href="/css/nucleus.css?1752487100" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752487100" rel="stylesheet">
+    <link href="/css/hybrid.css?1752487100" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752487100" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752487100" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752487100" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752487100" rel="stylesheet">
+    <link href="/css/theme.css?1752487100" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752487100" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752473023" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752487100" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752473023"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752487100"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752473023"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752473023"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752487100"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752487100"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752473023"></script>
+<script type="text/javascript" src="/js/search.js?1752487100"></script>
 
     
   </div>
@@ -511,27 +511,38 @@
 <p><strong>Testing và Monitoring Toàn diện</strong></p>
 <p>Thiết lập testing strategy bao gồm manual testing, data quality validation, performance testing, và automated health checks. Tạo dashboard để monitor hệ thống.</p>
 <h2 id="kiến-trúc-tổng-quan">Kiến trúc Tổng quan</h2>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
-    A[OpenWeatherMap API] --&gt; B[Lambda Weather Collector]
-    C[CloudWatch Events] --&gt; B
-    B --&gt; D[S3 Raw Data Storage]
-    B --&gt; E[CloudWatch Logs]
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+    A[OpenWeatherMap API&lt;br/&gt;Current Weather Data] --&gt; B[Lambda Function&lt;br/&gt;weather-current-collector]
+    C[EventBridge Rule&lt;br/&gt;Every Hour] --&gt; B
+    B --&gt; D[S3 Raw Storage&lt;br/&gt;current-weather/]
+    B --&gt; E[CloudWatch Logs&lt;br/&gt;Monitoring]
+    B --&gt; F[CloudWatch Metrics&lt;br/&gt;Success/Error Counts]
 
-    style A fill:#e1f5fe
+    G[6 Vietnamese Cities&lt;br/&gt;HCM, Hanoi, Danang&lt;br/&gt;GiaLai, CanTho, Hue] --&gt; A
+
+    style A fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style C fill:#e8f5e8
-    style D fill:#f3e5f5
-    style E fill:#fff3e0    
+    style C fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    style D fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    style E fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+    style F fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style G fill:#f1f8e9,stroke:#558b2f,stroke-width:2px
 </code></pre><h2 id="loại-dữ-liệu-thu-thập">Loại Dữ liệu Thu thập</h2>
-<p>Thu thập dữ liệu thời tiết sẽ tập trung vào:</p>
+<p>Thu thập dữ liệu thời tiết hiện tại cho <strong>6 tỉnh thành Việt Nam</strong>:</p>
 <ol>
-<li><strong>Thời tiết Hiện tại</strong>: Điều kiện thời gian thực cho 6 tỉnh thành ở Việt Nam là: Hà Nội, Hồ Chí Minh, Đà Nẵng, Gia Lai, Cần Thơ, Huế</li>
-<li><strong>Dự báo 5 Ngày</strong>: Dự đoán thời tiết mỗi 3 giờ</li>
-<li><strong>Metadata</strong>: Timestamp, location, collection info</li>
+<li><strong>🏙️ Thành phố chính</strong>: Hà Nội, Hồ Chí Minh, Đà Nẵng</li>
+<li><strong>🌾 Khu vực nông nghiệp</strong>: Gia Lai, Cần Thơ</li>
+<li><strong>🏛️ Di sản văn hóa</strong>: Huế</li>
 </ol>
+<p><strong>📊 Dữ liệu thu thập</strong>:</p>
+<ul>
+<li>Nhiệt độ (°C, °F), độ ẩm, áp suất</li>
+<li>Tốc độ gió, hướng gió, mây che phủ</li>
+<li>Mô tả thời tiết, weather condition</li>
+<li>Metadata: timestamp, location, collection info</li>
+</ul>
 <h2 id="lịch-trình-thu-thập">Lịch trình Thu thập</h2>
-<p><strong>Thời tiết Hiện tại</strong>: Mỗi giờ (24 lần/ngày)<br>
-<strong>Dự báo Thời tiết</strong>: Mỗi 6 giờ (4 lần/ngày)</p>
+<p>⏰ <strong>Thời tiết Hiện tại</strong>: Mỗi giờ (24 lần/ngày × 6 thành phố = 144 data points/ngày)</p>
 <h2 id="ước-tính-chi-phí">Ước tính Chi phí</h2>
 <table>
   <thead>
@@ -544,28 +555,28 @@
   <tbody>
       <tr>
           <td>OpenWeatherMap API</td>
-          <td>1,000 calls/ngày</td>
+          <td>144 calls/ngày</td>
           <td><strong>Free</strong></td>
       </tr>
       <tr>
           <td>Lambda Executions</td>
-          <td>4,000 invocations</td>
+          <td>720 invocations/tháng</td>
           <td><strong>Free Tier</strong></td>
       </tr>
       <tr>
           <td>S3 Storage</td>
-          <td>1 GB dữ liệu thời tiết</td>
+          <td>500 MB dữ liệu</td>
           <td><strong>Free Tier</strong></td>
       </tr>
       <tr>
           <td>CloudWatch Logs</td>
-          <td>5 GB logs</td>
-          <td>$2.50</td>
+          <td>2 GB logs</td>
+          <td>$1.00</td>
       </tr>
       <tr>
           <td><strong>Tổng</strong></td>
           <td></td>
-          <td><strong>~$2.50/tháng</strong></td>
+          <td><strong>~$1.00/tháng</strong></td>
       </tr>
   </tbody>
 </table>
@@ -793,19 +804,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752473023"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752473023"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752473023"></script>
-    <script src="/js/jquery.sticky.js?1752473023"></script>
-    <script src="/js/featherlight.min.js?1752473023"></script>
-    <script src="/js/highlight.pack.js?1752473023"></script>
+    <script src="/js/clipboard.min.js?1752487100"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752487100"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752487100"></script>
+    <script src="/js/jquery.sticky.js?1752487100"></script>
+    <script src="/js/featherlight.min.js?1752487100"></script>
+    <script src="/js/highlight.pack.js?1752487100"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752473023"></script>
-    <script src="/js/learn.js?1752473023"></script>
-    <script src="/js/hugo-learn.js?1752473023"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752487100"></script>
+    <script src="/js/learn.js?1752487100"></script>
+    <script src="/js/hugo-learn.js?1752487100"></script>
 
-    <link href="/mermaid/mermaid.css?1752473023" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752473023"></script>
+    <link href="/mermaid/mermaid.css?1752487100" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752487100"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
