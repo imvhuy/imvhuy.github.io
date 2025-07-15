@@ -320,14 +320,6 @@ Kết quả:
 
 **Sắp tới trong Module 6**: Học cách dọn dẹp đúng cách các tài nguyên AWS và khám phá các cải tiến nâng cao cho nền tảng phân tích thời tiết của bạn.
 
-{{% notice tip %}}
-Lưu dashboard của bạn dưới dạng template để nhanh chóng tạo dashboard tương tự cho các dataset hoặc thời gian khác nhau.
-{{% /notice %}}
-
-{{% notice info %}}
-QuickSight cung cấp insights được hỗ trợ ML. Hãy thử tính năng **ML Insights** để tự động khám phá anomalies và trends trong dữ liệu thời tiết của bạn.
-{{% /notice %}}
-
 {{% notice warning %}}
-Nhớ hủy đăng ký QuickSight sau workshop nếu bạn không có kế hoạch tiếp tục sử dụng để tránh các khoản phí liên tục.
+Hủy đăng ký QuickSight sau workshop nếu không có kế hoạch tiếp tục sử dụng để tránh các khoản phí liên tục.
 {{% /notice %}}

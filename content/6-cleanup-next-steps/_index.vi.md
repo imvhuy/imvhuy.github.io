@@ -1,12 +1,11 @@
 ---
-title: "Dọn dẹp Tài nguyên và Bước tiếp theo"
+title: "Dọn dẹp Tài nguyên"
 date: 2025-01-07T09:00:00+00:00
 weight: 60
 chapter: false
 pre: "<b>6. </b>"
 ---
 
-# Dọn dẹp Tài nguyên và Bước tiếp theo
 
 Chúc mừng bạn đã xây dựng xong pipeline ETL thời tiết serverless hoàn chỉnh! Module cuối cùng này tập trung vào việc dọn dẹp đúng cách tất cả tài nguyên AWS để tránh các khoản phí liên tục và khám phá các cơ hội cải tiến thêm.
 
