@@ -12,21 +12,21 @@
     <title>Dọn dẹp Tài nguyên :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752567448" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752567448" rel="stylesheet">
-    <link href="/css/hybrid.css?1752567448" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752567448" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752567448" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752567448" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752567448" rel="stylesheet">
-    <link href="/css/theme.css?1752567448" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752567448" rel="stylesheet">
+    <link href="/css/nucleus.css?1752587029" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752587029" rel="stylesheet">
+    <link href="/css/hybrid.css?1752587029" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752587029" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752587029" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752587029" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752587029" rel="stylesheet">
+    <link href="/css/theme.css?1752587029" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752587029" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752567448" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752587029" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752567448"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752587029"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752567448"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752567448"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752587029"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752587029"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752567448"></script>
+<script type="text/javascript" src="/js/search.js?1752587029"></script>
 
     
   </div>
@@ -458,30 +458,18 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#tổng-quan-module">Tổng quan Module</a></li>
-    <li><a href="#mục-tiêu-học-tập">Mục tiêu Học tập</a></li>
-    <li><a href="#tầm-quan-trọng-của-dọn-dẹp">Tầm quan trọng của Dọn dẹp</a></li>
-    <li><a href="#danh-sách-kiểm-tra-dọn-dẹp-hoàn-chỉnh">Danh sách Kiểm tra Dọn dẹp Hoàn chỉnh</a>
+    <li>
       <ul>
         <li><a href="#61-tài-nguyên-quicksight">6.1 Tài nguyên QuickSight</a></li>
-        <li><a href="#62-tài-nguyên-athena">6.2 Tài nguyên Athena</a></li>
-        <li><a href="#63-s3-bucket-và-dữ-liệu">6.3 S3 Bucket và Dữ liệu</a></li>
-        <li><a href="#64-lambda-function">6.4 Lambda Function</a></li>
-        <li><a href="#65-tài-nguyên-cloudwatch">6.5 Tài nguyên CloudWatch</a></li>
-        <li><a href="#66-iam-role-và-policy">6.6 IAM Role và Policy</a></li>
-        <li><a href="#67-systems-manager-parameter">6.7 Systems Manager Parameter</a></li>
+        <li><a href="#bước-1-hủy-đăng-ký-amazon-quicksight"><strong>Bước 1: Hủy đăng ký Amazon QuickSight</strong></a></li>
+        <li><a href="#bước-2-xóa-tài-nguyên-amazon-athena"><strong>Bước 2: Xóa tài nguyên Amazon Athena</strong></a></li>
+        <li><a href="#bước-3-xóa-amazon-s3-buckets"><strong>Bước 3: Xóa Amazon S3 Buckets</strong></a></li>
+        <li><a href="#bước-4-xóa-tài-nguyên-scheduling-và-lambda"><strong>Bước 4: Xóa tài nguyên Scheduling và Lambda</strong></a></li>
+        <li><a href="#bước-5-xóa-cloudwatch-log-groups"><strong>Bước 5: Xóa CloudWatch Log Groups</strong></a></li>
+        <li><a href="#bước-6-xóa-iam-roles-và-policies"><strong>Bước 6: Xóa IAM Roles và Policies</strong></a></li>
       </ul>
     </li>
-    <li><a href="#tóm-tắt-chi-phí-cuối-cùng">Tóm tắt Chi phí Cuối cùng</a></li>
-    <li><a href="#bước-tiếp-theo-và-cải-tiến">Bước tiếp theo và Cải tiến</a>
-      <ul>
-        <li><a href="#cải-tiến-ngay-lập-tức">Cải tiến Ngay lập tức</a></li>
-        <li><a href="#cân-nhắc-production">Cân nhắc Production</a></li>
-        <li><a href="#tài-nguyên-học-tập">Tài nguyên Học tập</a></li>
-      </ul>
-    </li>
-    <li><a href="#bước-xác-minh">Bước Xác minh</a></li>
-    <li><a href="#kết-luận">Kết luận</a></li>
+    <li><a href="#xác-minh-lần-cuối">Xác minh lần cuối</a></li>
   </ul>
 </nav>
     </div>
@@ -507,256 +495,165 @@
 
 
 
-	<p>Chúc mừng bạn đã xây dựng xong pipeline ETL thời tiết serverless hoàn chỉnh! Module cuối cùng này tập trung vào việc dọn dẹp đúng cách tất cả tài nguyên AWS để tránh các khoản phí liên tục và khám phá các cơ hội cải tiến thêm.</p>
-<h2 id="tổng-quan-module">Tổng quan Module</h2>
-<p>Sau khi hoàn thành workshop thực hành, việc dọn dẹp tài nguyên là rất quan trọng để ngăn ngừa các khoản phí bất ngờ. Module này cung cấp các thủ tục dọn dẹp toàn diện và gợi ý các bước tiếp theo để mở rộng pipeline thời tiết của bạn.</p>
-<h2 id="mục-tiêu-học-tập">Mục tiêu Học tập</h2>
-<p>Sau khi hoàn thành module này, bạn sẽ:</p>
-<ul>
-<li>Hiểu tầm quan trọng của việc dọn dẹp tài nguyên trong AWS</li>
-<li>Thực hiện các thủ tục dọn dẹp toàn diện cho tất cả tài nguyên đã tạo</li>
-<li>Học các chiến lược tối ưu chi phí cho các dự án tương lai</li>
-<li>Khám phá các tính năng nâng cao và cải tiến cho pipeline của bạn</li>
-<li>Khám phá các tài nguyên học tập bổ sung</li>
-</ul>
-<h2 id="tầm-quan-trọng-của-dọn-dẹp">Tầm quan trọng của Dọn dẹp</h2>
-<p>Dọn dẹp đúng cách là cần thiết vì:</p>
-<ul>
-<li><strong>Quản lý Chi phí</strong>: Ngăn ngừa các khoản phí bất ngờ từ tài nguyên không sử dụng</li>
-<li><strong>Bảo mật</strong>: Loại bỏ các quyền và điểm truy cập không sử dụng</li>
-<li><strong>Best Practices</strong>: Thiết lập thói quen quản lý tài nguyên AWS tốt</li>
-<li><strong>Vệ sinh Tài khoản</strong>: Giữ tài khoản AWS của bạn có tổ chức và dễ quản lý</li>
-</ul>
-<h2 id="danh-sách-kiểm-tra-dọn-dẹp-hoàn-chỉnh">Danh sách Kiểm tra Dọn dẹp Hoàn chỉnh</h2>
+	<p>Sau khi hoàn thành workshop thực hành, việc dọn dẹp tài nguyên là rất quan trọng để ngăn ngừa các khoản phí bất ngờ. M</p>
 <h3 id="61-tài-nguyên-quicksight">6.1 Tài nguyên QuickSight</h3>
-<p><strong>Ưu tiên: Cao (Chi phí đăng ký liên tục)</strong></p>
 <ol>
-<li>
-<p><strong>Xóa Dashboard</strong></p>
+<li><strong>Xóa Dashboard</strong></li>
+</ol>
+<p>Chúng ta sẽ dọn dẹp theo thứ tự ngược lại của quá trình tạo để tránh các lỗi phụ thuộc (ví dụ: không thể xóa S3 bucket nếu nó vẫn còn được sử dụng bởi một dịch vụ khác).</p>
+<h3 id="bước-1-hủy-đăng-ký-amazon-quicksight"><strong>Bước 1: Hủy đăng ký Amazon QuickSight</strong></h3>
+<p>QuickSight là dịch vụ có phí đăng ký hàng tháng, vì vậy hãy ưu tiên hủy nó trước.</p>
+<ol>
+<li><strong>Truy cập QuickSight</strong>:
 <ul>
-<li>Loại bỏ dashboard thời tiết của bạn</li>
-<li>Xóa mọi phiên bản đã chia sẻ</li>
+<li>Mở AWS Console, tìm và chọn <strong>QuickSight</strong>.</li>
+<li>Nhấp vào <strong>Go to QuickSight</strong> để vào giao diện quản lý.</li>
 </ul>
 </li>
-<li>
-<p><strong>Xóa Dataset</strong></p>
+<li><strong>Xóa các tài sản (Analyses, Dashboards, Datasets)</strong>:
 <ul>
-<li>Loại bỏ dataset dữ liệu thời tiết</li>
-<li>Xóa mọi dữ liệu cached</li>
+<li>Trong menu bên trái, đi đến từng mục <strong>Dashboards</strong>, <strong>Analyses</strong>, và <strong>Datasets</strong>.</li>
+<li>Với mỗi mục, chọn tất cả các tài sản liên quan đến workshop (ví dụ: &ldquo;Dashboard Phân tích Thời tiết&rdquo;) và nhấp <strong>Delete</strong>. Xác nhận xóa.</li>
 </ul>
 </li>
-<li>
-<p><strong>Hủy Đăng ký</strong> (nếu không còn cần thiết)</p>
+<li><strong>Hủy đăng ký (Unsubscribe)</strong>:
 <ul>
-<li>Hạ cấp từ Author xuống Reader</li>
-<li>Hủy đăng ký để tránh phí hàng tháng</li>
+<li>Ở góc trên bên phải, nhấp vào <strong>biểu tượng profile</strong> của bạn và chọn <strong>Manage QuickSight</strong>.</li>
+<li>Trong menu bên trái, chọn <strong>Your Account</strong>.</li>
+<li>Nhấp vào <strong>Manage account</strong>. Một hộp thoại xác nhận sẽ hiện ra. Confirm và tiến hành xóa tài khoản</li>
 </ul>
 </li>
 </ol>
-<h3 id="62-tài-nguyên-athena">6.2 Tài nguyên Athena</h3>
-<p><strong>Ưu tiên: Trung bình (Lưu trữ kết quả truy vấn)</strong></p>
+<h3 id="bước-2-xóa-tài-nguyên-amazon-athena"><strong>Bước 2: Xóa tài nguyên Amazon Athena</strong></h3>
+<p>Athena tự nó không tốn phí, nhưng các kết quả truy vấn được lưu trong S3 thì có.</p>
 <ol>
-<li>
-<p><strong>Drop Tables</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> weather_data_processed;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> weather_data_raw;
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Drop Database</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">DATABASE</span> weather_analytics;
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Dọn dẹp Kết quả Truy vấn</strong></p>
+<li><strong>Truy cập Athena</strong>:
 <ul>
-<li>Xóa các file kết quả truy vấn Athena từ S3</li>
+<li>Mở AWS Console, tìm và chọn <strong>Athena</strong>.</li>
+</ul>
+</li>
+<li><strong>Xóa bảng (Drop Table)</strong>:
+<ul>
+<li>Trong <strong>Query editor</strong>, đảm bảo bạn đã chọn database <code>weather_analytics</code>.</li>
+<li>Chạy lệnh sau để xóa bảng:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> weather_analytics.current_weather;
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li><strong>Xóa cơ sở dữ liệu (Drop Database)</strong>:
+<ul>
+<li>Sau khi xóa bảng, chạy lệnh sau:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">DATABASE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> weather_analytics;
+</span></span></code></pre></div></li>
 </ul>
 </li>
 </ol>
-<h3 id="63-s3-bucket-và-dữ-liệu">6.3 S3 Bucket và Dữ liệu</h3>
-<p><strong>Ưu tiên: Cao (Chi phí lưu trữ)</strong></p>
+<h3 id="bước-3-xóa-amazon-s3-buckets"><strong>Bước 3: Xóa Amazon S3 Buckets</strong></h3>
+<p>S3 tính phí lưu trữ, vì vậy việc xóa bucket là rất quan trọng.</p>
+
+<div class="notices danger" ><p>Bạn phải làm trống bucket (delete all objects) trước khi có thể xóa bucket.</p>
+</div>
+
 <ol>
-<li>
-<p><strong>Xóa Raw Data Bucket</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 rm s3://weather-data-raw-<span style="color:#f92672">[</span>YOUR-ID<span style="color:#f92672">]</span> --recursive
-</span></span><span style="display:flex;"><span>aws s3 rb s3://weather-data-raw-<span style="color:#f92672">[</span>YOUR-ID<span style="color:#f92672">]</span>
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Xóa Processed Data Bucket</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 rm s3://weather-data-processed-<span style="color:#f92672">[</span>YOUR-ID<span style="color:#f92672">]</span> --recursive
-</span></span><span style="display:flex;"><span>aws s3 rb s3://weather-data-processed-<span style="color:#f92672">[</span>YOUR-ID<span style="color:#f92672">]</span>
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Xóa Athena Results Bucket</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 rm s3://aws-athena-query-results-<span style="color:#f92672">[</span>ACCOUNT-ID<span style="color:#f92672">]</span>-<span style="color:#f92672">[</span>REGION<span style="color:#f92672">]</span> --recursive
-</span></span></code></pre></div></li>
-</ol>
-<h3 id="64-lambda-function">6.4 Lambda Function</h3>
-<p><strong>Ưu tiên: Trung bình (Chi phí liên tục tối thiểu)</strong></p>
-<ol>
-<li>
-<p><strong>Xóa Weather Collector Function</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws lambda delete-function --function-name weather-data-collector
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Xóa Weather Processor Function</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws lambda delete-function --function-name weather-data-processor
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Loại bỏ Function Trigger</strong></p>
+<li><strong>Truy cập S3</strong>:
 <ul>
-<li>Xóa EventBridge rules</li>
-<li>Loại bỏ S3 event notification</li>
+<li>Mở AWS Console, tìm và chọn <strong>S3</strong>.</li>
+</ul>
+</li>
+<li><strong>Làm trống và xóa từng Bucket</strong>:
+<ul>
+<li>Thực hiện các bước sau cho cả 3 bucket:
+<ul>
+<li><code>your-weather-raw-bucket-[ID]</code></li>
+<li><code>your-weather-processed-bucket-[ID]</code></li>
+<li><code>your-athena-query-results-bucket-[ID]</code></li>
+</ul>
+</li>
+<li><strong>Các bước cho mỗi bucket</strong>:
+<ol>
+<li>Nhấp vào tên bucket để mở nó.</li>
+<li>Chọn tất cả các đối tượng và thư mục bên trong.</li>
+<li>Nhấp vào nút <strong>Delete</strong>.</li>
+<li>Trong màn hình xác nhận, nhập <code>permanently delete</code> và nhấp <strong>Delete objects</strong>.</li>
+<li>Sau khi bucket trống, quay lại danh sách các bucket.</li>
+<li>Chọn bucket (đã trống) và nhấp <strong>Delete</strong>.</li>
+<li>Trong màn hình xác nhận, nhập tên bucket và nhấp <strong>Delete bucket</strong>.</li>
+</ol>
+</li>
 </ul>
 </li>
 </ol>
-<h3 id="65-tài-nguyên-cloudwatch">6.5 Tài nguyên CloudWatch</h3>
-<p><strong>Ưu tiên: Thấp (Free tier bao gồm hầu hết việc sử dụng)</strong></p>
+<h3 id="bước-4-xóa-tài-nguyên-scheduling-và-lambda"><strong>Bước 4: Xóa tài nguyên Scheduling và Lambda</strong></h3>
 <ol>
-<li>
-<p><strong>Xóa Log Group</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws logs delete-log-group --log-group-name /aws/lambda/weather-data-collector
-</span></span><span style="display:flex;"><span>aws logs delete-log-group --log-group-name /aws/lambda/weather-data-processor
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Xóa EventBridge Rule</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws events delete-rule --name weather-collection-schedule
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Loại bỏ Custom Metric</strong> (nếu có)</p>
-</li>
-</ol>
-<h3 id="66-iam-role-và-policy">6.6 IAM Role và Policy</h3>
-<p><strong>Ưu tiên: Trung bình (Bảo mật và tổ chức)</strong></p>
-<ol>
-<li>
-<p><strong>Detach Policy từ Role</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws iam detach-role-policy --role-name weather-lambda-role --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
-</span></span><span style="display:flex;"><span>aws iam detach-role-policy --role-name weather-lambda-role --policy-arn arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Xóa IAM Role</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws iam delete-role --role-name weather-lambda-role
-</span></span><span style="display:flex;"><span>aws iam delete-role --role-name quicksight-athena-role
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Loại bỏ Custom Policy</strong> (nếu đã tạo)</p>
-</li>
-</ol>
-<h3 id="67-systems-manager-parameter">6.7 Systems Manager Parameter</h3>
-<p><strong>Ưu tiên: Thấp (Không có chi phí liên tục)</strong></p>
-<ol>
-<li><strong>Xóa Parameter Store Value</strong>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws ssm delete-parameter --name /weather-etl/openweathermap/api-key
-</span></span></code></pre></div></li>
-</ol>
-<h2 id="tóm-tắt-chi-phí-cuối-cùng">Tóm tắt Chi phí Cuối cùng</h2>
-<p>Sau khi hoàn thành dọn dẹp, tổng chi phí workshop ước tính của bạn sẽ là:</p>
+<li><strong>Xóa EventBridge (CloudWatch Events) Rule</strong>:
 <ul>
-<li><strong>Lambda Execution</strong>: ~$0.10 (trong Free Tier)</li>
-<li><strong>S3 Storage</strong>: ~$0.20 (dữ liệu tối thiểu được lưu trữ)</li>
-<li><strong>Athena Queries</strong>: ~$0.15 (truy vấn dataset nhỏ)</li>
-<li><strong>QuickSight</strong>: ~$3-4 (nếu sử dụng free trial)</li>
-<li><strong>Data Transfer</strong>: ~$0.05 (tối thiểu)</li>
-</ul>
-<p><strong>Tổng Chi phí Workshop</strong>: Dưới $5 (không bao gồm đăng ký QuickSight)</p>
-<h2 id="bước-tiếp-theo-và-cải-tiến">Bước tiếp theo và Cải tiến</h2>
-<h3 id="cải-tiến-ngay-lập-tức">Cải tiến Ngay lập tức</h3>
-<ol>
-<li>
-<p><strong>Thu thập Dữ liệu Nâng cao</strong></p>
-<ul>
-<li>Thêm nhiều thành phố và thông số thời tiết</li>
-<li>Triển khai xử lý lỗi và retry</li>
-<li>Thêm xác thực và kiểm tra chất lượng dữ liệu</li>
+<li>Mở AWS Console, tìm và chọn <strong>Amazon EventBridge</strong>.</li>
+<li>Trong menu bên trái, chọn <strong>Rules</strong>.</li>
+<li>Chọn rule bạn đã tạo (ví dụ: <code>weather-collection-schedule</code>).</li>
+<li>Nhấp <strong>Delete</strong> và xác nhận.</li>
 </ul>
 </li>
-<li>
-<p><strong>Xử lý Nâng cao</strong></p>
+<li><strong>Xóa Lambda Functions</strong>:
 <ul>
-<li>Triển khai tổng hợp dữ liệu và xu hướng</li>
-<li>Thêm cảnh báo và thông báo thời tiết</li>
-<li>Bao gồm so sánh thời tiết lịch sử</li>
+<li>Mở AWS Console, tìm và chọn <strong>Lambda</strong>.</li>
+<li>Xóa từng hàm một:
+<ul>
+<li>Chọn hàm <code>weather-data-collector</code>. Nhấp <strong>Actions</strong> &gt; <strong>Delete</strong>. Xác nhận xóa.</li>
+<li>Chọn hàm <code>weather-data-processor</code>. Nhấp <strong>Actions</strong> &gt; <strong>Delete</strong>. Xác nhận xóa.</li>
 </ul>
 </li>
-<li>
-<p><strong>Phân tích Tốt hơn</strong></p>
-<ul>
-<li>Tạo truy vấn Athena phức tạp hơn</li>
-<li>Triển khai dự đoán machine learning</li>
-<li>Thêm phân tích streaming real-time</li>
 </ul>
 </li>
 </ol>
-<h3 id="cân-nhắc-production">Cân nhắc Production</h3>
+<h3 id="bước-5-xóa-cloudwatch-log-groups"><strong>Bước 5: Xóa CloudWatch Log Groups</strong></h3>
+<p>Lambda tự động tạo các log group. Chúng chiếm dung lượng và có thể phát sinh chi phí nhỏ.</p>
 <ol>
-<li>
-<p><strong>Cải tiến Bảo mật</strong></p>
+<li><strong>Truy cập CloudWatch</strong>:
 <ul>
-<li>Triển khai IAM policy least-privilege</li>
-<li>Thêm mã hóa khi lưu trữ và truyền tải</li>
-<li>Sử dụng AWS Secrets Manager cho API key</li>
+<li>Mở AWS Console, tìm và chọn <strong>CloudWatch</strong>.</li>
 </ul>
 </li>
-<li>
-<p><strong>Giám sát và Cảnh báo</strong></p>
+<li><strong>Xóa Log Groups</strong>:
 <ul>
-<li>Thiết lập CloudWatch dashboard toàn diện</li>
-<li>Triển khai SNS notification cho lỗi</li>
-<li>Thêm custom metric và alarm</li>
+<li>Trong menu bên trái, chọn <strong>Log groups</strong>.</li>
+<li>Tìm và chọn các log group sau:
+<ul>
+<li><code>/aws/lambda/weather-data-collector</code></li>
+<li><code>/aws/lambda/weather-data-processor</code></li>
 </ul>
 </li>
-<li>
-<p><strong>Tối ưu hóa Hiệu suất</strong></p>
-<ul>
-<li>Tối ưu hóa bộ nhớ và timeout setting Lambda</li>
-<li>Triển khai S3 lifecycle policy</li>
-<li>Thêm caching layer khi thích hợp</li>
+<li>Nhấp <strong>Actions</strong> &gt; <strong>Delete log group(s)</strong> và xác nhận.</li>
 </ul>
 </li>
 </ol>
-<h3 id="tài-nguyên-học-tập">Tài nguyên Học tập</h3>
-<ul>
-<li><strong>AWS Documentation</strong>: Tìm hiểu sâu hơn về các dịch vụ cụ thể</li>
-<li><strong>AWS Training</strong>: Tham gia các khóa học AWS chính thức về data engineering</li>
-<li><strong>Community</strong>: Tham gia diễn đàn và nhóm người dùng AWS</li>
-<li><strong>Certification</strong>: Cân nhắc AWS Certified Data Analytics specialty</li>
-</ul>
-<h2 id="bước-xác-minh">Bước Xác minh</h2>
-<p>Sau khi dọn dẹp, xác minh mọi thứ đã được loại bỏ:</p>
+<h3 id="bước-6-xóa-iam-roles-và-policies"><strong>Bước 6: Xóa IAM Roles và Policies</strong></h3>
+<p>Đây là bước quan trọng để dọn dẹp các quyền không cần thiết.</p>
 <ol>
-<li>
-<p><strong>Kiểm tra AWS Console</strong></p>
+<li><strong>Truy cập IAM</strong>:
 <ul>
-<li>Xem lại từng service console để tìm tài nguyên còn lại</li>
-<li>Kiểm tra billing dashboard cho các khoản phí liên tục</li>
+<li>Mở AWS Console, tìm và chọn <strong>IAM</strong>.</li>
 </ul>
 </li>
-<li>
-<p><strong>Xác minh CLI</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 ls | grep weather
-</span></span><span style="display:flex;"><span>aws lambda list-functions | grep weather
-</span></span><span style="display:flex;"><span>aws iam list-roles | grep weather
-</span></span></code></pre></div></li>
-<li>
-<p><strong>Giám sát Chi phí</strong></p>
+<li><strong>Xóa IAM Role cho Lambda</strong>:
 <ul>
-<li>Thiết lập billing alert cho các dự án tương lai</li>
-<li>Xem lại AWS Cost Explorer cho bất kỳ khoản phí bất ngờ nào</li>
+<li>Trong menu bên trái, chọn <strong>Roles</strong>.</li>
+<li>Tìm role bạn đã tạo cho Lambda (ví dụ: <code>weather-lambda-role</code>).</li>
+<li><strong>Lưu ý</strong>: Nếu role này có các policy đính kèm, bạn cần <strong>detach</strong> chúng trước khi có thể xóa role. Thông thường, khi xóa role, AWS sẽ tự động detach các policy do bạn tạo.</li>
+<li>Chọn role, nhấp <strong>Delete</strong> và xác nhận.</li>
+</ul>
+</li>
+<li><strong>Xóa IAM Role cho QuickSight</strong> (nếu bạn đã tạo riêng):
+<ul>
+<li>Lặp lại quy trình trên cho role của QuickSight (ví dụ: <code>quicksight-athena-role</code>).</li>
 </ul>
 </li>
 </ol>
-<h2 id="kết-luận">Kết luận</h2>
-<p>Bạn đã xây dựng thành công và giờ đây dọn dẹp một pipeline ETL thời tiết serverless hoàn chỉnh! Trải nghiệm này cung cấp nền tảng vững chắc để xây dựng các hệ thống xử lý dữ liệu phức tạp hơn.</p>
-<p><strong>Điểm chính:</strong></p>
-<ul>
-<li>Kiến trúc serverless tiết kiệm chi phí và có thể mở rộng</li>
-<li>Dọn dẹp tài nguyên đúng cách là cần thiết cho quản lý chi phí</li>
-<li>AWS cung cấp các công cụ mạnh mẽ cho thu thập, xử lý và trực quan hóa dữ liệu</li>
-<li>Pipeline ETL có thể được xây dựng từng bước và kiểm tra ở mỗi giai đoạn</li>
-</ul>
-<p><strong>Cảm ơn bạn đã hoàn thành workshop này!</strong> Các kỹ năng bạn đã học có thể được áp dụng cho nhiều thách thức data engineering trong thế giới thực.</p>
-<hr>
-<p><strong>Workshop Hoàn thành</strong> - Nhớ xác minh tất cả tài nguyên đã được dọn dẹp để tránh các khoản phí bất ngờ.</p>
+<h2 id="xác-minh-lần-cuối">Xác minh lần cuối</h2>
+<p>Sau khi hoàn thành các bước trên, hãy kiểm tra lại một lần nữa:</p>
+<ol>
+<li><strong>Kiểm tra Billing Dashboard</strong>: Truy cập <strong>AWS Billing</strong> và xem có chi phí phát sinh bất thường nào không trong vài giờ tới.</li>
+<li><strong>Kiểm tra các dịch vụ</strong>: Lướt qua console của S3, Lambda, IAM để đảm bảo không còn tài nguyên nào có tên liên quan đến workshop.</li>
+</ol>
 
 
 
@@ -964,19 +861,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752567448"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752567448"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752567448"></script>
-    <script src="/js/jquery.sticky.js?1752567448"></script>
-    <script src="/js/featherlight.min.js?1752567448"></script>
-    <script src="/js/highlight.pack.js?1752567448"></script>
+    <script src="/js/clipboard.min.js?1752587029"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752587029"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752587029"></script>
+    <script src="/js/jquery.sticky.js?1752587029"></script>
+    <script src="/js/featherlight.min.js?1752587029"></script>
+    <script src="/js/highlight.pack.js?1752587029"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752567448"></script>
-    <script src="/js/learn.js?1752567448"></script>
-    <script src="/js/hugo-learn.js?1752567448"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752587029"></script>
+    <script src="/js/learn.js?1752587029"></script>
+    <script src="/js/hugo-learn.js?1752587029"></script>
 
-    <link href="/mermaid/mermaid.css?1752567448" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752567448"></script>
+    <link href="/mermaid/mermaid.css?1752587029" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752587029"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
