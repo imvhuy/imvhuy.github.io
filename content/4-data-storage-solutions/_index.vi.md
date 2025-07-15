@@ -8,84 +8,149 @@ pre: "<b>4. </b>"
 
 # Phân tích Dữ liệu với Athena
 
-Trong module này, bạn sẽ học cách sử dụng Amazon Athena để chạy các truy vấn SQL trực tiếp trên dữ liệu thời tiết đã xử lý được lưu trữ trong S3. Athena là dịch vụ truy vấn serverless giúp dễ dàng phân tích dữ liệu bằng SQL tiêu chuẩn mà không cần thiết lập cơ sở hạ tầng kho dữ liệu phức tạp.
+Trong module này, ta sẽ sử dụng Amazon Athena để chạy các truy vấn SQL trực tiếp trên dữ liệu thời tiết đã xử lý được lưu trữ trong S3. Athena là dịch vụ truy vấn serverless giúp dễ dàng phân tích dữ liệu bằng SQL tiêu chuẩn mà không cần thiết lập cơ sở hạ tầng kho dữ liệu phức tạp.
 
-## Tổng quan Module
+## Mục tiêu Module
 
-Amazon Athena cho phép bạn phân tích dữ liệu trong S3 bằng các truy vấn SQL tiêu chuẩn mà không cần phải di chuyển dữ liệu hoặc thiết lập máy chủ. Điều này làm cho nó trở thành công cụ lý tưởng để phân tích dữ liệu thời tiết của bạn. Trong module này, chúng ta sẽ thiết lập Athena để truy vấn dữ liệu thời tiết đã xử lý và trích xuất những hiểu biết có ý nghĩa.
-
-**Thời gian:** 40-50 phút  
-**Chi phí:** ~$0.50
-
-## Những gì bạn sẽ xây dựng
-
-```mermaid
-graph LR
-    A[S3 Processed Data] --> B[Athena Query Service]
-    B --> C[SQL Analysis]
-    C --> D[Weather Insights]
-
-    style B fill:#4fc3f7,stroke:#232f3e,stroke-width:3px
-    style A fill:#f3e5f5
-    style D fill:#66bb6a
-```
+- Thiết lập Amazon Athena để query dữ liệu từ S3
+- Tạo database và external table cho dữ liệu thời tiết
+- Viết SQL queries để phân tích dữ liệu thời tiết
+- Sử dụng các trường đã enriched như `comfort_level`, `weather_severity`, `wind_condition`
+- Tạo reports và insights từ dữ liệu thời tiết
+- Tối ưu hóa performance và cost cho Athena queries
 
 ## Điều kiện tiên quyết
 
-- Đã hoàn thành Module 3: Xử lý và Chuyển đổi Dữ liệu
-- Dữ liệu thời tiết đã xử lý có sẵn trong S3
-- Truy cập AWS Console
+- **Hoàn thành Module 3**: Xử lý và Chuyển đổi Dữ liệu
+- **Có dữ liệu thời tiết đã xử lý** trong S3 với format JSON đã cung cấp
+- **Truy cập AWS Console** với quyền Administrator hoặc quyền cho Athena, S3
+- **Hiểu biết cơ bản về SQL** (SELECT, WHERE, GROUP BY, etc.)
 
-## Bước 1: Thiết lập Vị trí Kết quả Truy vấn Athena
+{{% notice info %}}
+**Kiểm tra dữ liệu**: Hãy chắc chắn rằng bạn có dữ liệu JSON trong S3 bucket processed với cấu trúc
+{{% /notice %}}
 
-Trước khi sử dụng Athena, bạn cần cấu hình vị trí để lưu trữ kết quả truy vấn.
+## Bước 1: Thiết lập S3 Bucket cho Athena Query Results
 
-### 1.1 Tạo S3 Bucket cho Kết quả Truy vấn
+Athena cần một S3 bucket để lưu trữ kết quả truy vấn. Chúng ta sẽ tạo bucket này thủ công qua AWS Console.
 
-```bash
-# Tạo bucket cho kết quả truy vấn Athena
-aws s3 mb s3://your-athena-query-results-bucket
+### 1.1 Tạo S3 Bucket cho Query Results
 
-# Tùy chọn: Thiết lập lifecycle policy để xóa kết quả cũ sau 30 ngày
-cat > lifecycle-policy.json << EOF
-{
-  "Rules": [
-    {
-      "ID": "DeleteOldQueryResults",
-      "Status": "Enabled",
-      "Filter": {"Prefix": ""},
-      "Expiration": {"Days": 30}
-    }
-  ]
-}
-EOF
+**Bước 1: Truy cập S3 Console**
 
-aws s3api put-bucket-lifecycle-configuration \
-  --bucket your-athena-query-results-bucket \
-  --lifecycle-configuration file://lifecycle-policy.json
-```
+1. Đăng nhập vào **AWS Console**
+2. Tìm kiếm và chọn **S3** service
+3. Nhấp **Create bucket**
 
-### 1.2 Cấu hình Vị trí Kết quả Truy vấn Athena
+![S3 Console](/images/data-storage-solutions/4b1.png)
 
-1. Mở **Amazon Athena console**
-2. Nhấp **Settings** ở góc phải trên
-3. Nhấp **Manage**
-4. Nhập đường dẫn S3 bucket: `s3://your-athena-query-results-bucket/`
-5. Nhấp **Save**
+**Bước 2: Cấu hình Bucket**
 
-## Bước 2: Tạo Database và Table
+1. **Bucket name**: Nhập tên unique, ví dụ: `weather-athena-query-results-[your-account-id]`
+
+2. **Region**: Chọn cùng region với bucket dữ liệu weather của bạn 
+
+3. **Object Ownership**: Để mặc định **ACLs disabled**
+
+4. **Block Public Access**: Để mặc định (block all public access) 
+
+![S3 Bucket Configuration](/images/data-storage-solutions/4b2.png)
+
+**Bước 3: Advanced Settings**
+
+1. **Bucket Versioning**: Disable (không cần thiết cho query results)
+2. **Default encryption**: Enable với **Amazon S3 managed keys (SSE-S3)**
+3. Nhấp **Create bucket**
+
+![S3 Bucket Advanced](/images/data-storage-solutions/4b3.png)
+
+### 1.2 Thiết lập Lifecycle Policy (Tùy chọn)
+
+Để tự động xóa query results cũ và tiết kiệm chi phí:
+
+**Bước 1: Vào Bucket Management**
+
+1. Nhấp vào bucket vừa tạo
+2. Chọn tab **Management**
+3. Nhấp **Create lifecycle rule**
+
+**Bước 2: Cấu hình Lifecycle Rule**
+
+1. **Rule name**: `delete-old-query-results`
+2. **Status**: Enable
+3. **Rule scope**: Apply to all objects in the bucket
+4. **Lifecycle rule actions**: Expire current versions of objects
+5. **Expire current versions of objects**: 30 days
+6. Nhấp **Create rule**
+
+{{% notice info %}}
+Lifecycle policy này sẽ tự động xóa query results sau 30 ngày để tiết kiệm chi phí storage.
+{{% /notice %}}
+
+![S3 Lifecycle Policy](/images/data-storage-solutions/4b4.png)
+
+### 1.3 Cấu hình Athena Query Result Location
+
+**Bước 1: Truy cập Athena Console**
+
+1. Tìm kiếm và chọn **Amazon Athena** service
+
+![Athena console](/images/data-storage-solutions/4b5.png)
+
+**Bước 2: Set up Query Result Location**
+1. Chọn **Query editor** ở menu bên phải
+1. Nhấp **Settings** ở góc phải trên cùng
+2. Nhấp **Manage**
+
+![Athena Settings](/images/data-storage-solutions/4b6.png)
+
+**Bước 3: Configure Location**
+
+1. **Query result location**: Chọn Browse S3 đang có sẵn là bucket result vừa tạo ở trên
+
+   {{% notice warning %}}
+   Nhớ thêm `/` ở cuối đường dẫn S3!
+   {{% /notice %}}
+
+2. **Expected bucket owner**: Để trống
+3. **Encrypt query results**: Check và chọn **SSE-S3**
+4. Nhấp **Save**
+
+![Athena Settings](/images/data-storage-solutions/4b7.png)
+
+## Bước 2: Tạo Database và External Table
 
 ### 2.1 Tạo Weather Analytics Database
 
-Trong Athena Query Editor, chạy:
+**Bước 1: Mở Query Editor**
+
+1. Trong Athena Console, chọn **Query editor** từ menu bên trái
+2. Đảm bảo bạn đang ở **Data source**: AwsDataCatalog
+3. **Database**: default
+
+**Bước 2: Tạo Database**
+
+Copy và chạy query sau trong Athena Query Editor:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS weather_analytics
-COMMENT 'Database for weather data analysis'
-LOCATION 's3://your-athena-query-results-bucket/databases/weather_analytics/';
+LOCATION 's3://weather-athena-query-results-[your-account-id]/databases/weather_analytics/';
 ```
 
-### 2.2 Tạo External Table cho Dữ liệu Thời tiết Đã Xử lý
+![Athena Settings](/images/data-storage-solutions/4b8.png)
+
+**Bước 3: Chọn Database**
+
+1. Sau khi query chạy thành công, refresh page
+2. Trong dropdown **Database**, chọn `weather_analytics`
+
+![Athena Settings](/images/data-storage-solutions/4b9.png)
+
+### 2.2 Tạo External Table cho Weather Data
+
+**Bước 1: Chuẩn bị Schema**
+
+Dựa trên cấu trúc JSON đã xử lý trước đó, chúng ta sẽ tạo external table:
 
 ```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS weather_analytics.current_weather (
@@ -95,9 +160,9 @@ CREATE EXTERNAL TABLE IF NOT EXISTS weather_analytics.current_weather (
   latitude DOUBLE,
   longitude DOUBLE,
   data_collection_date STRING,
-  temperature_kelvin DOUBLE,
   temperature_celsius DOUBLE,
   temperature_fahrenheit DOUBLE,
+  temperature_kelvin DOUBLE,
   feels_like_celsius DOUBLE,
   feels_like_fahrenheit DOUBLE,
   humidity_percent INT,
@@ -109,15 +174,11 @@ CREATE EXTERNAL TABLE IF NOT EXISTS weather_analytics.current_weather (
   weather_description STRING,
   weather_icon STRING,
   wind_speed_ms DOUBLE,
-  wind_speed_kmh DOUBLE,
-  wind_speed_mph DOUBLE,
   wind_direction_deg INT,
   wind_gust_ms DOUBLE,
+  wind_speed_kmh DOUBLE,
+  wind_speed_mph DOUBLE,
   cloud_coverage_percent INT,
-  rain_1h_mm DOUBLE,
-  rain_3h_mm DOUBLE,
-  snow_1h_mm DOUBLE,
-  snow_3h_mm DOUBLE,
   heat_index_fahrenheit DOUBLE,
   heat_index_celsius DOUBLE,
   comfort_level STRING,
@@ -139,339 +200,351 @@ TBLPROPERTIES (
 );
 ```
 
-### 2.3 Xác minh Tạo Table
+![Athena Settings](/images/data-storage-solutions/4b10.png)
+
+{{% notice info %}}
+**Schema Explanation**:
+
+- Schema này match chính xác với JSON structure từ module 3
+- Bao gồm các trường mới: `comfort_level`, `wind_condition`, `weather_severity`
+- Sử dụng JsonSerDe để parse JSON files
+- Có partition projection cho performance tốt hơn
+  {{% /notice %}}
+
+### 2.3 Verify Table Creation
+
+**Test Basic Query**
 
 ```sql
--- Kiểm tra xem table đã được tạo thành công chưa
-SHOW TABLES IN weather_analytics;
-
--- Lấy schema của table
-DESCRIBE weather_analytics.current_weather;
-
--- Đếm tổng số bản ghi
 SELECT COUNT(*) as total_records
 FROM weather_analytics.current_weather;
 ```
 
-## Bước 3: Phân tích Dữ liệu Thời tiết Cơ bản
+![Athena Query](/images/data-storage-solutions/4b11.png)
 
-### 3.1 Truy vấn Khám phá Dữ liệu
-
-#### Xem Dữ liệu Mẫu
+**Sample Data**
 
 ```sql
--- Lấy mẫu dữ liệu của bạn
 SELECT *
 FROM weather_analytics.current_weather
-LIMIT 10;
+ORDER BY timestamp DESC
+LIMIT 5;
 ```
 
-#### Kiểm tra Chất lượng Dữ liệu
+![Athena Query](/images/data-storage-solutions/4b12.png)
+
+## Bước 3: Phân tích Dữ liệu Cơ bản
+
+### 3.1 Data Quality Check
+
+**Kiểm tra chất lượng dữ liệu:**
 
 ```sql
--- Kiểm tra giá trị thiếu trong các trường chính
 SELECT
   COUNT(*) as total_records,
+  COUNT(DISTINCT city_name) as unique_cities,
+  COUNT(DISTINCT data_collection_date) as unique_dates,
   COUNT(temperature_celsius) as temp_records,
-  COUNT(humidity_percent) as humidity_records,
-  COUNT(pressure_hpa) as pressure_records,
-  COUNT(wind_speed_ms) as wind_records
-FROM weather_analytics.current_weather;
-```
-
-#### Phân tích Phạm vi Ngày
-
-```sql
--- Kiểm tra phạm vi ngày của dữ liệu
-SELECT
+  COUNT(comfort_level) as comfort_records,
+  COUNT(weather_severity) as severity_records,
   MIN(data_collection_date) as earliest_date,
-  MAX(data_collection_date) as latest_date,
-  COUNT(DISTINCT data_collection_date) as unique_dates
+  MAX(data_collection_date) as latest_date
 FROM weather_analytics.current_weather;
 ```
 
-### 3.2 Phân tích Nhiệt độ
+![Athena Query](/images/data-storage-solutions/4b13.png)
 
-#### Nhiệt độ Trung bình theo Thành phố
+### 3.2 City-wise Temperature Analysis
+
+**Phân tích nhiệt độ theo thành phố:**
 
 ```sql
+WITH base_data AS (
+  SELECT
+    CASE
+      WHEN city_name IN ('HoChiMinh', 'Ho Chi Minh City', 'TPHCM') THEN 'Ho Chi Minh'
+      WHEN city_name IN ('CanTho', 'Can Tho') THEN 'Can Tho'
+      WHEN city_name IN ('GiaLai', 'Pleiku') THEN 'Gia Lai'
+      WHEN city_name IN ('Da Nang', 'Danang', 'Ap Ba') THEN 'Da Nang'
+      WHEN city_name IN ('Hanoi', 'Ha Noi', 'Xom Pho') THEN 'Ha Noi'
+      WHEN city_name IN ('Hue') THEN 'Hue'
+      ELSE city_name
+    END AS standardized_city,
+    country,
+    comfort_level,
+    temperature_celsius,
+    heat_index_celsius
+  FROM weather_analytics.current_weather
+),
+
+comfort_counts AS (
+  SELECT
+    standardized_city,
+    country,
+    comfort_level,
+    COUNT(*) AS level_count,
+    ROW_NUMBER() OVER (
+      PARTITION BY standardized_city, country
+      ORDER BY COUNT(*) DESC
+    ) AS rn
+  FROM base_data
+  GROUP BY standardized_city, country, comfort_level
+)
+
 SELECT
-  city_name,
-  country,
-  COUNT(*) as measurement_count,
-  ROUND(AVG(temperature_celsius), 2) as avg_temp_celsius,
-  ROUND(MIN(temperature_celsius), 2) as min_temp_celsius,
-  ROUND(MAX(temperature_celsius), 2) as max_temp_celsius
-FROM weather_analytics.current_weather
-GROUP BY city_name, country
+  t.standardized_city AS city_name,
+  t.country,
+  COUNT(*) AS measurement_count,
+  ROUND(AVG(t.temperature_celsius), 2) AS avg_temp_celsius,
+  ROUND(MIN(t.temperature_celsius), 2) AS min_temp_celsius,
+  ROUND(MAX(t.temperature_celsius), 2) AS max_temp_celsius,
+  ROUND(AVG(t.heat_index_celsius), 2) AS avg_heat_index,
+  c.comfort_level AS most_common_comfort_level
+FROM base_data t
+LEFT JOIN comfort_counts c
+  ON t.standardized_city = c.standardized_city
+ AND t.country = c.country
+ AND c.rn = 1
+GROUP BY t.standardized_city, t.country, c.comfort_level
 ORDER BY avg_temp_celsius DESC;
 ```
 
-#### Xu hướng Nhiệt độ Theo Thời gian
+![Athena Query](/images/data-storage-solutions/4b14.png)
+
+### 3.3 Comfort Level Distribution
+
+**Phân tích comfort level:**
 
 ```sql
 SELECT
-  data_collection_date,
-  city_name,
-  ROUND(AVG(temperature_celsius), 2) as avg_temp,
-  ROUND(AVG(feels_like_celsius), 2) as avg_feels_like
-FROM weather_analytics.current_weather
-WHERE data_collection_date >= DATE('2025-01-01')
-GROUP BY data_collection_date, city_name
-ORDER BY data_collection_date, city_name;
-```
-
-#### Phân tích Chỉ số Nhiệt
-
-```sql
-SELECT
-  city_name,
-  ROUND(AVG(heat_index_celsius), 2) as avg_heat_index,
   comfort_level,
-  COUNT(*) as occurrence_count
-FROM weather_analytics.current_weather
-WHERE heat_index_celsius IS NOT NULL
-GROUP BY city_name, comfort_level
-ORDER BY avg_heat_index DESC;
-```
-
-### 3.3 Phân tích Mẫu Thời tiết
-
-#### Phân bố Điều kiện Thời tiết
-
-```sql
-SELECT
-  weather_main,
-  weather_description,
   COUNT(*) as occurrence_count,
-  ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage
+  ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,
+  ROUND(AVG(temperature_celsius), 2) as avg_temp,
+  ROUND(AVG(humidity_percent), 2) as avg_humidity,
+  ROUND(AVG(heat_index_celsius), 2) as avg_heat_index
 FROM weather_analytics.current_weather
-GROUP BY weather_main, weather_description
+WHERE comfort_level IS NOT NULL
+GROUP BY comfort_level
 ORDER BY occurrence_count DESC;
 ```
 
-#### Phân tích Gió
+![Athena Query](/images/data-storage-solutions/4b15.png)
+
+### 3.4 Weather Severity Analysis
+
+**Phân tích mức độ nghiêm trọng thời tiết:**
 
 ```sql
 SELECT
-  city_name,
-  wind_condition,
-  COUNT(*) as occurrence_count,
-  ROUND(AVG(wind_speed_kmh), 2) as avg_wind_speed_kmh,
-  ROUND(MAX(wind_speed_kmh), 2) as max_wind_speed_kmh
-FROM weather_analytics.current_weather
-GROUP BY city_name, wind_condition
-ORDER BY city_name, avg_wind_speed_kmh DESC;
-```
-
-#### Tương quan Độ ẩm và Nhiệt độ
-
-```sql
-SELECT
-  city_name,
-  CASE
-    WHEN temperature_celsius < 15 THEN 'Lạnh'
-    WHEN temperature_celsius < 25 THEN 'Vừa'
-    ELSE 'Nóng'
-  END as temp_category,
-  ROUND(AVG(humidity_percent), 2) as avg_humidity,
+  weather_severity,
+  COUNT(*) as total_occurrences,
+  COUNT(DISTINCT city_name) as cities_affected,
   ROUND(AVG(temperature_celsius), 2) as avg_temperature,
-  COUNT(*) as sample_count
+  ROUND(AVG(wind_speed_kmh), 2) as avg_wind_speed,
+  ROUND(AVG(humidity_percent), 2) as avg_humidity,
+  ROUND(AVG(pressure_hpa), 2) as avg_pressure
 FROM weather_analytics.current_weather
-GROUP BY city_name,
-  CASE
-    WHEN temperature_celsius < 15 THEN 'Lạnh'
-    WHEN temperature_celsius < 25 THEN 'Vừa'
-    ELSE 'Nóng'
-  END
-ORDER BY city_name, temp_category;
+WHERE weather_severity IS NOT NULL
+GROUP BY weather_severity
+ORDER BY
+  CASE weather_severity
+    WHEN 'severe' THEN 1
+    WHEN 'moderate' THEN 2
+    WHEN 'light' THEN 3
+    ELSE 4
+  END;
 ```
 
-## Bước 4: Truy vấn Phân tích Nâng cao
+![Athena Query](/images/data-storage-solutions/4b16.png)
 
-### 4.1 Phân tích Chuỗi Thời gian
+## Bước 4: Advanced Analytics
 
-#### Tóm tắt Thời tiết Hàng ngày
+### 4.1 Daily Weather Summary
 
-```sql
-SELECT
-  data_collection_date,
-  COUNT(DISTINCT city_name) as cities_measured,
-  ROUND(AVG(temperature_celsius), 2) as global_avg_temp,
-  ROUND(AVG(humidity_percent), 2) as global_avg_humidity,
-  ROUND(AVG(pressure_hpa), 2) as global_avg_pressure
-FROM weather_analytics.current_weather
-GROUP BY data_collection_date
-ORDER BY data_collection_date;
-```
-
-#### Cực trị Thời tiết
+**Tạo báo cáo thời tiết hàng ngày:**
 
 ```sql
--- Tìm cực trị nhiệt độ
-WITH temp_extremes AS (
+WITH mode_counts AS (
   SELECT
     data_collection_date,
     city_name,
-    temperature_celsius,
-    ROW_NUMBER() OVER (PARTITION BY data_collection_date ORDER BY temperature_celsius DESC) as hot_rank,
-    ROW_NUMBER() OVER (PARTITION BY data_collection_date ORDER BY temperature_celsius ASC) as cold_rank
+    weather_main,
+    comfort_level,
+    wind_condition,
+    weather_severity,
+    COUNT(*) AS freq,
+    ROW_NUMBER() OVER (PARTITION BY data_collection_date, city_name ORDER BY COUNT(*) DESC) AS rn_weather,
+    ROW_NUMBER() OVER (PARTITION BY data_collection_date, city_name, comfort_level ORDER BY COUNT(*) DESC) AS rn_comfort,
+    ROW_NUMBER() OVER (PARTITION BY data_collection_date, city_name, wind_condition ORDER BY COUNT(*) DESC) AS rn_wind,
+    ROW_NUMBER() OVER (PARTITION BY data_collection_date, city_name, weather_severity ORDER BY COUNT(*) DESC) AS rn_severity
   FROM weather_analytics.current_weather
+  WHERE DATE(data_collection_date) >= DATE('2025-07-01')
+
+  GROUP BY data_collection_date, city_name, weather_main, comfort_level, wind_condition, weather_severity
 )
+
 SELECT
-  data_collection_date,
-  MAX(CASE WHEN hot_rank = 1 THEN city_name END) as hottest_city,
-  MAX(CASE WHEN hot_rank = 1 THEN temperature_celsius END) as highest_temp,
-  MAX(CASE WHEN cold_rank = 1 THEN city_name END) as coldest_city,
-  MAX(CASE WHEN cold_rank = 1 THEN temperature_celsius END) as lowest_temp
-FROM temp_extremes
-WHERE hot_rank = 1 OR cold_rank = 1
-GROUP BY data_collection_date
-ORDER BY data_collection_date;
+  stats.data_collection_date,
+  stats.city_name,
+  stats.daily_measurements,
+  stats.avg_temp_c,
+  stats.avg_humidity,
+  stats.avg_pressure,
+  stats.avg_wind_kmh,
+  m.weather_main AS dominant_weather,
+  m.comfort_level AS dominant_comfort,
+  m.wind_condition AS dominant_wind_condition,
+  m.weather_severity AS dominant_severity
+FROM (
+  SELECT
+    data_collection_date,
+    city_name,
+    COUNT(*) AS daily_measurements,
+    ROUND(AVG(temperature_celsius), 1) AS avg_temp_c,
+    ROUND(AVG(humidity_percent), 1) AS avg_humidity,
+    ROUND(AVG(pressure_hpa), 1) AS avg_pressure,
+    ROUND(AVG(wind_speed_kmh), 1) AS avg_wind_kmh
+  FROM weather_analytics.current_weather
+  WHERE DATE(data_collection_date) >= DATE('2025-07-01')
+  GROUP BY data_collection_date, city_name
+) stats
+LEFT JOIN mode_counts m
+  ON stats.data_collection_date = m.data_collection_date
+ AND stats.city_name = m.city_name
+ AND m.rn_weather = 1
+ AND m.rn_comfort = 1
+ AND m.rn_wind = 1
+ AND m.rn_severity = 1
+ORDER BY stats.data_collection_date DESC, stats.city_name;
+
 ```
 
-### 4.2 Phân tích Địa lý
+![Athena Query](/images/data-storage-solutions/4b17.png)
 
-#### Thời tiết theo Vùng Địa lý
+### 4.2 Weather Pattern Correlation
+
+**Phân tích mối tương quan giữa các yếu tố thời tiết:**
 
 ```sql
 SELECT
-  CASE
-    WHEN latitude > 23.5 THEN 'Ôn đới Bắc'
-    WHEN latitude > 0 THEN 'Nhiệt đới Bắc'
-    WHEN latitude > -23.5 THEN 'Nhiệt đới Nam'
-    ELSE 'Ôn đới Nam'
-  END as climate_zone,
-  COUNT(*) as measurement_count,
+  comfort_level,
+  weather_main,
+  weather_severity,
+  COUNT(*) as occurrence_count,
   ROUND(AVG(temperature_celsius), 2) as avg_temperature,
   ROUND(AVG(humidity_percent), 2) as avg_humidity,
+  ROUND(AVG(heat_index_celsius), 2) as avg_heat_index,
   ROUND(AVG(wind_speed_kmh), 2) as avg_wind_speed
 FROM weather_analytics.current_weather
-GROUP BY
-  CASE
-    WHEN latitude > 23.5 THEN 'Ôn đới Bắc'
-    WHEN latitude > 0 THEN 'Nhiệt đới Bắc'
-    WHEN latitude > -23.5 THEN 'Nhiệt đới Nam'
-    ELSE 'Ôn đới Nam'
-  END
-ORDER BY avg_temperature DESC;
+WHERE comfort_level IS NOT NULL
+  AND weather_severity IS NOT NULL
+GROUP BY comfort_level, weather_main, weather_severity
+HAVING COUNT(*) >= 3  -- Chỉ hiển thị patterns với ít nhất 3 occurrences
+ORDER BY comfort_level, occurrence_count DESC;
 ```
 
-## Bước 5: Xuất và Trực quan hóa Kết quả
+![Athena Query](/images/data-storage-solutions/4b18.png)
 
-### 5.1 Lưu Kết quả Truy vấn
+### 4.3 Wind Analysis
 
-1. Chạy bất kỳ truy vấn nào trong Athena
-2. Nhấp **Download** để lưu kết quả dưới dạng CSV
-3. Kết quả cũng được tự động lưu vào S3 query results bucket của bạn
-
-### 5.2 Tạo Trực quan hóa Đơn giản
-
-Bạn có thể sử dụng các file CSV đã xuất để tạo biểu đồ trong:
-
-- **Excel hoặc Google Sheets** cho biểu đồ cơ bản
-- **Python/Jupyter** cho phân tích nâng cao
-- **QuickSight** (được đề cập trong module tiếp theo)
-
-### 5.3 Ví dụ Quy trình Phân tích
+**Phân tích điều kiện gió:**
 
 ```sql
--- Tạo báo cáo thời tiết toàn diện
+WITH base_data AS (
+  SELECT
+    CASE
+      WHEN city_name IN ('HoChiMinh', 'Ho Chi Minh City', 'TPHCM') THEN 'Ho Chi Minh'
+      WHEN city_name IN ('CanTho', 'Can Tho') THEN 'Can Tho'
+      WHEN city_name IN ('GiaLai', 'Pleiku') THEN 'Gia Lai'
+      WHEN city_name IN ('Da Nang', 'Danang', 'Ap Ba') THEN 'Da Nang'
+      WHEN city_name IN ('Hanoi', 'Ha Noi', 'Xom Pho') THEN 'Ha Noi'
+      WHEN city_name IN ('Hue') THEN 'Hue'
+      ELSE city_name
+    END AS standardized_city,
+    wind_condition,
+    wind_speed_kmh,
+    wind_gust_ms,
+    wind_direction_deg
+  FROM weather_analytics.current_weather
+  WHERE wind_condition IS NOT NULL
+)
+
 SELECT
+  standardized_city AS city_name,
+  wind_condition,
+  COUNT(*) AS occurrence_count,
+  ROUND(AVG(wind_speed_kmh), 2) AS avg_wind_speed_kmh,
+  ROUND(MAX(wind_speed_kmh), 2) AS max_wind_speed_kmh,
+  ROUND(AVG(wind_gust_ms), 2) AS avg_wind_gust_ms,
+  CASE
+    WHEN AVG(wind_direction_deg) BETWEEN 0 AND 45 OR AVG(wind_direction_deg) > 315 THEN 'North'
+    WHEN AVG(wind_direction_deg) BETWEEN 45 AND 135 THEN 'East'
+    WHEN AVG(wind_direction_deg) BETWEEN 135 AND 225 THEN 'South'
+    WHEN AVG(wind_direction_deg) BETWEEN 225 AND 315 THEN 'West'
+    ELSE 'Variable'
+  END AS dominant_wind_direction
+FROM base_data
+GROUP BY standardized_city, wind_condition
+ORDER BY city_name, avg_wind_speed_kmh DESC;
+```
+
+![Athena Query](/images/data-storage-solutions/4b19.png)
+
+## Bước 5: Tạo Views cho Reporting
+
+### 5.1 Daily Weather Summary View
+
+**Tạo view cho báo cáo hàng ngày:**
+
+```sql
+CREATE OR REPLACE VIEW weather_analytics.daily_weather_summary AS
+SELECT
+  data_collection_date,
   city_name,
   country,
-  COUNT(*) as total_measurements,
-  ROUND(AVG(temperature_celsius), 1) as avg_temp_c,
-  ROUND(MIN(temperature_celsius), 1) as min_temp_c,
-  ROUND(MAX(temperature_celsius), 1) as max_temp_c,
-  ROUND(AVG(humidity_percent), 1) as avg_humidity,
-  ROUND(AVG(pressure_hpa), 1) as avg_pressure,
-  ROUND(AVG(wind_speed_kmh), 1) as avg_wind_kmh,
-  MODE() WITHIN GROUP (ORDER BY weather_main) as most_common_weather,
-  MODE() WITHIN GROUP (ORDER BY comfort_level) as most_common_comfort
+  COUNT(*) as measurement_count,
+  ROUND(AVG(temperature_celsius), 2) as avg_temperature,
+  ROUND(AVG(feels_like_celsius), 2) as avg_feels_like,
+  ROUND(AVG(heat_index_celsius), 2) as avg_heat_index,
+  ROUND(AVG(humidity_percent), 2) as avg_humidity,
+  ROUND(AVG(pressure_hpa), 2) as avg_pressure,
+  ROUND(AVG(wind_speed_kmh), 2) as avg_wind_speed,
+  MODE() WITHIN GROUP (ORDER BY weather_main) as dominant_weather,
+  MODE() WITHIN GROUP (ORDER BY comfort_level) as dominant_comfort_level,
+  MODE() WITHIN GROUP (ORDER BY wind_condition) as dominant_wind_condition,
+  MODE() WITHIN GROUP (ORDER BY weather_severity) as dominant_weather_severity
 FROM weather_analytics.current_weather
-GROUP BY city_name, country
-HAVING COUNT(*) >= 5  -- Chỉ các thành phố có ít nhất 5 phép đo
-ORDER BY avg_temp_c DESC;
+GROUP BY data_collection_date, city_name, country;
 ```
 
-## Bước 6: Tối ưu hóa Hiệu suất
+### 5.2 Sử dụng Views
 
-### 6.1 Mẹo Hiệu suất Truy vấn
-
-1. **Sử dụng LIMIT** cho truy vấn khám phá:
+**Query từ view:**
 
 ```sql
-SELECT * FROM weather_analytics.current_weather
-WHERE data_collection_date = '2025-01-15'
-LIMIT 100;
+SELECT *
+FROM weather_analytics.daily_weather_summary
+WHERE data_collection_date >= DATE('2025-07-01')
+ORDER BY data_collection_date DESC, city_name;
 ```
 
-2. **Lọc trên cột partition**:
+![Athena Query](/images/data-storage-solutions/4b20.png)
 
-```sql
--- Tốt - lọc trên cột đã partition
-SELECT * FROM weather_analytics.current_weather
-WHERE data_collection_date BETWEEN '2025-01-01' AND '2025-01-07';
-```
+**Export results:**
 
-3. **Chỉ select cột cần thiết**:
+1. Chạy query trong Athena
+2. Nhấp **Download** để lưu kết quả CSV
+3. Kết quả cũng tự động lưu trong S3 query results bucket
 
-```sql
--- Hiệu suất tốt hơn
-SELECT city_name, temperature_celsius, humidity_percent
-FROM weather_analytics.current_weather;
-```
 
-### 6.2 Tối ưu hóa Chi phí
+Sau khi hoàn thành module này, bạn đã có thể:
 
-Giám sát việc sử dụng Athena của bạn:
+**Analyze weather data** với SQL queries phức tạp  
+**Create insights** từ comfort levels và weather severity  
+**Generate reports** cho business applications  
+**Understand weather patterns** qua correlations
 
-1. Kiểm tra **CloudWatch metrics** cho dữ liệu được quét
-2. Sử dụng **Athena Query History** để phân tích chi phí
-3. Xem xét chuyển đổi sang **định dạng Parquet** cho dataset lớn
-
-## Khắc phục Các Vấn đề Thường gặp
-
-### Vấn đề 1: Lỗi "Table not found"
-
-- Xác minh quyền S3 bucket của bạn
-- Kiểm tra dữ liệu tồn tại trong vị trí S3 đã chỉ định
-- Đảm bảo schema table phù hợp với dữ liệu của bạn
-
-### Vấn đề 2: "Zero records returned"
-
-- Xác minh định dạng dữ liệu phù hợp với schema table
-- Kiểm tra đường dẫn S3 trong định nghĩa table
-- Đảm bảo files ở định dạng JSON như mong đợi
-
-### Vấn đề 3: Lỗi "Access denied"
-
-- Kiểm tra quyền IAM cho Athena và S3
-- Xác minh quyền query results bucket
-
-## Phân tích Chi phí
-
-Chi phí điển hình cho module này:
-
-- **Truy vấn Athena**: ~$5 per TB dữ liệu được quét
-- **Lưu trữ S3**: ~$0.023 per GB/tháng
-- **Yêu cầu S3**: ~$0.0004 per 1,000 yêu cầu
-
-Đối với dataset thời tiết điển hình (1-10 MB), mong đợi tổng chi phí dưới $0.50.
-
-## Các bước tiếp theo
-
-Sau khi hoàn thành module này, bạn sẽ có thể phân tích dữ liệu thời tiết của mình bằng các truy vấn SQL trong Athena. Trong module tiếp theo, chúng ta sẽ xây dựng trên nền tảng này để tạo bảng điều khiển tương tác bằng Amazon QuickSight.
-
-{{% notice tip %}}
-Khi viết truy vấn Athena, luôn cố gắng giới hạn lượng dữ liệu được quét bằng cách sử dụng mệnh đề WHERE thích hợp trên các trường ngày tháng và các cột được lọc thường xuyên khác.
-{{% /notice %}}
-
-{{% notice info %}}
-Lưu các truy vấn hữu ích của bạn dưới dạng **Saved Queries** trong Athena để tái sử dụng. Bạn cũng có thể tạo **Views** cho các truy vấn phức tạp thường được sử dụng.
-{{% /notice %}}
-
-{{% notice warning %}}
-Nhớ thay thế tên bucket placeholder bằng tên S3 bucket thực tế của bạn trong tất cả truy vấn SQL.
-{{% /notice %}}
+- Trong module tiếp theo, chúng ta sẽ tạo **QuickSight dashboards** từ Athena data
+- Visualize weather trends và patterns
+- Create interactive business intelligence reports

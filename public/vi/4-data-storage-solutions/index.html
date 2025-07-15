@@ -12,21 +12,21 @@
     <title>Phân tích Dữ liệu với Athena :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752487100" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752487100" rel="stylesheet">
-    <link href="/css/hybrid.css?1752487100" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752487100" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752487100" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752487100" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752487100" rel="stylesheet">
-    <link href="/css/theme.css?1752487100" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752487100" rel="stylesheet">
+    <link href="/css/nucleus.css?1752561409" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752561409" rel="stylesheet">
+    <link href="/css/hybrid.css?1752561409" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752561409" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752561409" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752561409" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752561409" rel="stylesheet">
+    <link href="/css/theme.css?1752561409" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752561409" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752487100" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752561409" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752487100"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752561409"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752487100"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752487100"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752561409"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752561409"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752487100"></script>
+<script type="text/javascript" src="/js/search.js?1752561409"></script>
 
     
   </div>
@@ -458,57 +458,43 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#tổng-quan-module">Tổng quan Module</a></li>
-    <li><a href="#những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</a></li>
+    <li><a href="#mục-tiêu-module">Mục tiêu Module</a></li>
     <li><a href="#điều-kiện-tiên-quyết">Điều kiện tiên quyết</a></li>
-    <li><a href="#bước-1-thiết-lập-vị-trí-kết-quả-truy-vấn-athena">Bước 1: Thiết lập Vị trí Kết quả Truy vấn Athena</a>
+    <li><a href="#bước-1-thiết-lập-s3-bucket-cho-athena-query-results">Bước 1: Thiết lập S3 Bucket cho Athena Query Results</a>
       <ul>
-        <li><a href="#11-tạo-s3-bucket-cho-kết-quả-truy-vấn">1.1 Tạo S3 Bucket cho Kết quả Truy vấn</a></li>
-        <li><a href="#12-cấu-hình-vị-trí-kết-quả-truy-vấn-athena">1.2 Cấu hình Vị trí Kết quả Truy vấn Athena</a></li>
+        <li><a href="#11-tạo-s3-bucket-cho-query-results">1.1 Tạo S3 Bucket cho Query Results</a></li>
+        <li><a href="#12-thiết-lập-lifecycle-policy-tùy-chọn">1.2 Thiết lập Lifecycle Policy (Tùy chọn)</a></li>
+        <li><a href="#13-cấu-hình-athena-query-result-location">1.3 Cấu hình Athena Query Result Location</a></li>
       </ul>
     </li>
-    <li><a href="#bước-2-tạo-database-và-table">Bước 2: Tạo Database và Table</a>
+    <li><a href="#bước-2-tạo-database-và-external-table">Bước 2: Tạo Database và External Table</a>
       <ul>
         <li><a href="#21-tạo-weather-analytics-database">2.1 Tạo Weather Analytics Database</a></li>
-        <li><a href="#22-tạo-external-table-cho-dữ-liệu-thời-tiết-đã-xử-lý">2.2 Tạo External Table cho Dữ liệu Thời tiết Đã Xử lý</a></li>
-        <li><a href="#23-xác-minh-tạo-table">2.3 Xác minh Tạo Table</a></li>
+        <li><a href="#22-tạo-external-table-cho-weather-data">2.2 Tạo External Table cho Weather Data</a></li>
+        <li><a href="#23-verify-table-creation">2.3 Verify Table Creation</a></li>
       </ul>
     </li>
-    <li><a href="#bước-3-phân-tích-dữ-liệu-thời-tiết-cơ-bản">Bước 3: Phân tích Dữ liệu Thời tiết Cơ bản</a>
+    <li><a href="#bước-3-phân-tích-dữ-liệu-cơ-bản">Bước 3: Phân tích Dữ liệu Cơ bản</a>
       <ul>
-        <li><a href="#31-truy-vấn-khám-phá-dữ-liệu">3.1 Truy vấn Khám phá Dữ liệu</a></li>
-        <li><a href="#32-phân-tích-nhiệt-độ">3.2 Phân tích Nhiệt độ</a></li>
-        <li><a href="#33-phân-tích-mẫu-thời-tiết">3.3 Phân tích Mẫu Thời tiết</a></li>
+        <li><a href="#31-data-quality-check">3.1 Data Quality Check</a></li>
+        <li><a href="#32-city-wise-temperature-analysis">3.2 City-wise Temperature Analysis</a></li>
+        <li><a href="#33-comfort-level-distribution">3.3 Comfort Level Distribution</a></li>
+        <li><a href="#34-weather-severity-analysis">3.4 Weather Severity Analysis</a></li>
       </ul>
     </li>
-    <li><a href="#bước-4-truy-vấn-phân-tích-nâng-cao">Bước 4: Truy vấn Phân tích Nâng cao</a>
+    <li><a href="#bước-4-advanced-analytics">Bước 4: Advanced Analytics</a>
       <ul>
-        <li><a href="#41-phân-tích-chuỗi-thời-gian">4.1 Phân tích Chuỗi Thời gian</a></li>
-        <li><a href="#42-phân-tích-địa-lý">4.2 Phân tích Địa lý</a></li>
+        <li><a href="#41-daily-weather-summary">4.1 Daily Weather Summary</a></li>
+        <li><a href="#42-weather-pattern-correlation">4.2 Weather Pattern Correlation</a></li>
+        <li><a href="#43-wind-analysis">4.3 Wind Analysis</a></li>
       </ul>
     </li>
-    <li><a href="#bước-5-xuất-và-trực-quan-hóa-kết-quả">Bước 5: Xuất và Trực quan hóa Kết quả</a>
+    <li><a href="#bước-5-tạo-views-cho-reporting">Bước 5: Tạo Views cho Reporting</a>
       <ul>
-        <li><a href="#51-lưu-kết-quả-truy-vấn">5.1 Lưu Kết quả Truy vấn</a></li>
-        <li><a href="#52-tạo-trực-quan-hóa-đơn-giản">5.2 Tạo Trực quan hóa Đơn giản</a></li>
-        <li><a href="#53-ví-dụ-quy-trình-phân-tích">5.3 Ví dụ Quy trình Phân tích</a></li>
+        <li><a href="#51-daily-weather-summary-view">5.1 Daily Weather Summary View</a></li>
+        <li><a href="#52-sử-dụng-views">5.2 Sử dụng Views</a></li>
       </ul>
     </li>
-    <li><a href="#bước-6-tối-ưu-hóa-hiệu-suất">Bước 6: Tối ưu hóa Hiệu suất</a>
-      <ul>
-        <li><a href="#61-mẹo-hiệu-suất-truy-vấn">6.1 Mẹo Hiệu suất Truy vấn</a></li>
-        <li><a href="#62-tối-ưu-hóa-chi-phí">6.2 Tối ưu hóa Chi phí</a></li>
-      </ul>
-    </li>
-    <li><a href="#khắc-phục-các-vấn-đề-thường-gặp">Khắc phục Các Vấn đề Thường gặp</a>
-      <ul>
-        <li><a href="#vấn-đề-1-lỗi-table-not-found">Vấn đề 1: Lỗi &ldquo;Table not found&rdquo;</a></li>
-        <li><a href="#vấn-đề-2-zero-records-returned">Vấn đề 2: &ldquo;Zero records returned&rdquo;</a></li>
-        <li><a href="#vấn-đề-3-lỗi-access-denied">Vấn đề 3: Lỗi &ldquo;Access denied&rdquo;</a></li>
-      </ul>
-    </li>
-    <li><a href="#phân-tích-chi-phí">Phân tích Chi phí</a></li>
-    <li><a href="#các-bước-tiếp-theo">Các bước tiếp theo</a></li>
   </ul>
 </nav>
     </div>
@@ -535,64 +521,137 @@
 
 
 	<h1 id="phân-tích-dữ-liệu-với-athena">Phân tích Dữ liệu với Athena</h1>
-<p>Trong module này, bạn sẽ học cách sử dụng Amazon Athena để chạy các truy vấn SQL trực tiếp trên dữ liệu thời tiết đã xử lý được lưu trữ trong S3. Athena là dịch vụ truy vấn serverless giúp dễ dàng phân tích dữ liệu bằng SQL tiêu chuẩn mà không cần thiết lập cơ sở hạ tầng kho dữ liệu phức tạp.</p>
-<h2 id="tổng-quan-module">Tổng quan Module</h2>
-<p>Amazon Athena cho phép bạn phân tích dữ liệu trong S3 bằng các truy vấn SQL tiêu chuẩn mà không cần phải di chuyển dữ liệu hoặc thiết lập máy chủ. Điều này làm cho nó trở thành công cụ lý tưởng để phân tích dữ liệu thời tiết của bạn. Trong module này, chúng ta sẽ thiết lập Athena để truy vấn dữ liệu thời tiết đã xử lý và trích xuất những hiểu biết có ý nghĩa.</p>
-<p><strong>Thời gian:</strong> 40-50 phút<br>
-<strong>Chi phí:</strong> ~$0.50</p>
-<h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ xây dựng</h2>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
-    A[S3 Processed Data] --&gt; B[Athena Query Service]
-    B --&gt; C[SQL Analysis]
-    C --&gt; D[Weather Insights]
-
-    style B fill:#4fc3f7,stroke:#232f3e,stroke-width:3px
-    style A fill:#f3e5f5
-    style D fill:#66bb6a
-</code></pre><h2 id="điều-kiện-tiên-quyết">Điều kiện tiên quyết</h2>
+<p>Trong module này, ta sẽ sử dụng Amazon Athena để chạy các truy vấn SQL trực tiếp trên dữ liệu thời tiết đã xử lý được lưu trữ trong S3. Athena là dịch vụ truy vấn serverless giúp dễ dàng phân tích dữ liệu bằng SQL tiêu chuẩn mà không cần thiết lập cơ sở hạ tầng kho dữ liệu phức tạp.</p>
+<h2 id="mục-tiêu-module">Mục tiêu Module</h2>
 <ul>
-<li>Đã hoàn thành Module 3: Xử lý và Chuyển đổi Dữ liệu</li>
-<li>Dữ liệu thời tiết đã xử lý có sẵn trong S3</li>
-<li>Truy cập AWS Console</li>
+<li>Thiết lập Amazon Athena để query dữ liệu từ S3</li>
+<li>Tạo database và external table cho dữ liệu thời tiết</li>
+<li>Viết SQL queries để phân tích dữ liệu thời tiết</li>
+<li>Sử dụng các trường đã enriched như <code>comfort_level</code>, <code>weather_severity</code>, <code>wind_condition</code></li>
+<li>Tạo reports và insights từ dữ liệu thời tiết</li>
+<li>Tối ưu hóa performance và cost cho Athena queries</li>
 </ul>
-<h2 id="bước-1-thiết-lập-vị-trí-kết-quả-truy-vấn-athena">Bước 1: Thiết lập Vị trí Kết quả Truy vấn Athena</h2>
-<p>Trước khi sử dụng Athena, bạn cần cấu hình vị trí để lưu trữ kết quả truy vấn.</p>
-<h3 id="11-tạo-s3-bucket-cho-kết-quả-truy-vấn">1.1 Tạo S3 Bucket cho Kết quả Truy vấn</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Tạo bucket cho kết quả truy vấn Athena</span>
-</span></span><span style="display:flex;"><span>aws s3 mb s3://your-athena-query-results-bucket
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Tùy chọn: Thiết lập lifecycle policy để xóa kết quả cũ sau 30 ngày</span>
-</span></span><span style="display:flex;"><span>cat &gt; lifecycle-policy.json <span style="color:#e6db74">&lt;&lt; EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;Rules&#34;: [
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;ID&#34;: &#34;DeleteOldQueryResults&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;Status&#34;: &#34;Enabled&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;Filter&#34;: {&#34;Prefix&#34;: &#34;&#34;},
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;Expiration&#34;: {&#34;Days&#34;: 30}
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  ]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>aws s3api put-bucket-lifecycle-configuration <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --bucket your-athena-query-results-bucket <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --lifecycle-configuration file://lifecycle-policy.json
-</span></span></code></pre></div><h3 id="12-cấu-hình-vị-trí-kết-quả-truy-vấn-athena">1.2 Cấu hình Vị trí Kết quả Truy vấn Athena</h3>
+<h2 id="điều-kiện-tiên-quyết">Điều kiện tiên quyết</h2>
+<ul>
+<li><strong>Hoàn thành Module 3</strong>: Xử lý và Chuyển đổi Dữ liệu</li>
+<li><strong>Có dữ liệu thời tiết đã xử lý</strong> trong S3 với format JSON đã cung cấp</li>
+<li><strong>Truy cập AWS Console</strong> với quyền Administrator hoặc quyền cho Athena, S3</li>
+<li><strong>Hiểu biết cơ bản về SQL</strong> (SELECT, WHERE, GROUP BY, etc.)</li>
+</ul>
+
+<div class="notices info" ><p><strong>Kiểm tra dữ liệu</strong>: Hãy chắc chắn rằng bạn có dữ liệu JSON trong S3 bucket processed với cấu trúc</p>
+</div>
+
+<h2 id="bước-1-thiết-lập-s3-bucket-cho-athena-query-results">Bước 1: Thiết lập S3 Bucket cho Athena Query Results</h2>
+<p>Athena cần một S3 bucket để lưu trữ kết quả truy vấn. Chúng ta sẽ tạo bucket này thủ công qua AWS Console.</p>
+<h3 id="11-tạo-s3-bucket-cho-query-results">1.1 Tạo S3 Bucket cho Query Results</h3>
+<p><strong>Bước 1: Truy cập S3 Console</strong></p>
 <ol>
-<li>Mở <strong>Amazon Athena console</strong></li>
-<li>Nhấp <strong>Settings</strong> ở góc phải trên</li>
-<li>Nhấp <strong>Manage</strong></li>
-<li>Nhập đường dẫn S3 bucket: <code>s3://your-athena-query-results-bucket/</code></li>
-<li>Nhấp <strong>Save</strong></li>
+<li>Đăng nhập vào <strong>AWS Console</strong></li>
+<li>Tìm kiếm và chọn <strong>S3</strong> service</li>
+<li>Nhấp <strong>Create bucket</strong></li>
 </ol>
-<h2 id="bước-2-tạo-database-và-table">Bước 2: Tạo Database và Table</h2>
+<p><img src="/images/data-storage-solutions/4b1.png" alt="S3 Console"></p>
+<p><strong>Bước 2: Cấu hình Bucket</strong></p>
+<ol>
+<li>
+<p><strong>Bucket name</strong>: Nhập tên unique, ví dụ: <code>weather-athena-query-results-[your-account-id]</code></p>
+</li>
+<li>
+<p><strong>Region</strong>: Chọn cùng region với bucket dữ liệu weather của bạn</p>
+</li>
+<li>
+<p><strong>Object Ownership</strong>: Để mặc định <strong>ACLs disabled</strong></p>
+</li>
+<li>
+<p><strong>Block Public Access</strong>: Để mặc định (block all public access)</p>
+</li>
+</ol>
+<p><img src="/images/data-storage-solutions/4b2.png" alt="S3 Bucket Configuration"></p>
+<p><strong>Bước 3: Advanced Settings</strong></p>
+<ol>
+<li><strong>Bucket Versioning</strong>: Disable (không cần thiết cho query results)</li>
+<li><strong>Default encryption</strong>: Enable với <strong>Amazon S3 managed keys (SSE-S3)</strong></li>
+<li>Nhấp <strong>Create bucket</strong></li>
+</ol>
+<p><img src="/images/data-storage-solutions/4b3.png" alt="S3 Bucket Advanced"></p>
+<h3 id="12-thiết-lập-lifecycle-policy-tùy-chọn">1.2 Thiết lập Lifecycle Policy (Tùy chọn)</h3>
+<p>Để tự động xóa query results cũ và tiết kiệm chi phí:</p>
+<p><strong>Bước 1: Vào Bucket Management</strong></p>
+<ol>
+<li>Nhấp vào bucket vừa tạo</li>
+<li>Chọn tab <strong>Management</strong></li>
+<li>Nhấp <strong>Create lifecycle rule</strong></li>
+</ol>
+<p><strong>Bước 2: Cấu hình Lifecycle Rule</strong></p>
+<ol>
+<li><strong>Rule name</strong>: <code>delete-old-query-results</code></li>
+<li><strong>Status</strong>: Enable</li>
+<li><strong>Rule scope</strong>: Apply to all objects in the bucket</li>
+<li><strong>Lifecycle rule actions</strong>: Expire current versions of objects</li>
+<li><strong>Expire current versions of objects</strong>: 30 days</li>
+<li>Nhấp <strong>Create rule</strong></li>
+</ol>
+
+<div class="notices info" ><p>Lifecycle policy này sẽ tự động xóa query results sau 30 ngày để tiết kiệm chi phí storage.</p>
+</div>
+
+<p><img src="/images/data-storage-solutions/4b4.png" alt="S3 Lifecycle Policy"></p>
+<h3 id="13-cấu-hình-athena-query-result-location">1.3 Cấu hình Athena Query Result Location</h3>
+<p><strong>Bước 1: Truy cập Athena Console</strong></p>
+<ol>
+<li>Tìm kiếm và chọn <strong>Amazon Athena</strong> service</li>
+</ol>
+<p><img src="/images/data-storage-solutions/4b5.png" alt="Athena console"></p>
+<p><strong>Bước 2: Set up Query Result Location</strong></p>
+<ol>
+<li>Chọn <strong>Query editor</strong> ở menu bên phải</li>
+<li>Nhấp <strong>Settings</strong> ở góc phải trên cùng</li>
+<li>Nhấp <strong>Manage</strong></li>
+</ol>
+<p><img src="/images/data-storage-solutions/4b6.png" alt="Athena Settings"></p>
+<p><strong>Bước 3: Configure Location</strong></p>
+<ol>
+<li>
+<p><strong>Query result location</strong>: Chọn Browse S3 đang có sẵn là bucket result vừa tạo ở trên</p>
+
+<div class="notices warning" ><p>Nhớ thêm <code>/</code> ở cuối đường dẫn S3!</p>
+</div>
+
+</li>
+<li>
+<p><strong>Expected bucket owner</strong>: Để trống</p>
+</li>
+<li>
+<p><strong>Encrypt query results</strong>: Check và chọn <strong>SSE-S3</strong></p>
+</li>
+<li>
+<p>Nhấp <strong>Save</strong></p>
+</li>
+</ol>
+<p><img src="/images/data-storage-solutions/4b7.png" alt="Athena Settings"></p>
+<h2 id="bước-2-tạo-database-và-external-table">Bước 2: Tạo Database và External Table</h2>
 <h3 id="21-tạo-weather-analytics-database">2.1 Tạo Weather Analytics Database</h3>
-<p>Trong Athena Query Editor, chạy:</p>
+<p><strong>Bước 1: Mở Query Editor</strong></p>
+<ol>
+<li>Trong Athena Console, chọn <strong>Query editor</strong> từ menu bên trái</li>
+<li>Đảm bảo bạn đang ở <strong>Data source</strong>: AwsDataCatalog</li>
+<li><strong>Database</strong>: default</li>
+</ol>
+<p><strong>Bước 2: Tạo Database</strong></p>
+<p>Copy và chạy query sau trong Athena Query Editor:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span> weather_analytics
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;Database for weather data analysis&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LOCATION</span> <span style="color:#e6db74">&#39;s3://your-athena-query-results-bucket/databases/weather_analytics/&#39;</span>;
-</span></span></code></pre></div><h3 id="22-tạo-external-table-cho-dữ-liệu-thời-tiết-đã-xử-lý">2.2 Tạo External Table cho Dữ liệu Thời tiết Đã Xử lý</h3>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LOCATION</span> <span style="color:#e6db74">&#39;s3://weather-athena-query-results-[your-account-id]/databases/weather_analytics/&#39;</span>;
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b8.png" alt="Athena Settings"></p>
+<p><strong>Bước 3: Chọn Database</strong></p>
+<ol>
+<li>Sau khi query chạy thành công, refresh page</li>
+<li>Trong dropdown <strong>Database</strong>, chọn <code>weather_analytics</code></li>
+</ol>
+<p><img src="/images/data-storage-solutions/4b9.png" alt="Athena Settings"></p>
+<h3 id="22-tạo-external-table-cho-weather-data">2.2 Tạo External Table cho Weather Data</h3>
+<p><strong>Bước 1: Chuẩn bị Schema</strong></p>
+<p>Dựa trên cấu trúc JSON đã xử lý trước đó, chúng ta sẽ tạo external table:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">EXTERNAL</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span> weather_analytics.current_weather (
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">timestamp</span> STRING,
 </span></span><span style="display:flex;"><span>  city_name STRING,
@@ -600,9 +659,9 @@
 </span></span><span style="display:flex;"><span>  latitude DOUBLE,
 </span></span><span style="display:flex;"><span>  longitude DOUBLE,
 </span></span><span style="display:flex;"><span>  data_collection_date STRING,
-</span></span><span style="display:flex;"><span>  temperature_kelvin DOUBLE,
 </span></span><span style="display:flex;"><span>  temperature_celsius DOUBLE,
 </span></span><span style="display:flex;"><span>  temperature_fahrenheit DOUBLE,
+</span></span><span style="display:flex;"><span>  temperature_kelvin DOUBLE,
 </span></span><span style="display:flex;"><span>  feels_like_celsius DOUBLE,
 </span></span><span style="display:flex;"><span>  feels_like_fahrenheit DOUBLE,
 </span></span><span style="display:flex;"><span>  humidity_percent INT,
@@ -614,15 +673,11 @@
 </span></span><span style="display:flex;"><span>  weather_description STRING,
 </span></span><span style="display:flex;"><span>  weather_icon STRING,
 </span></span><span style="display:flex;"><span>  wind_speed_ms DOUBLE,
-</span></span><span style="display:flex;"><span>  wind_speed_kmh DOUBLE,
-</span></span><span style="display:flex;"><span>  wind_speed_mph DOUBLE,
 </span></span><span style="display:flex;"><span>  wind_direction_deg INT,
 </span></span><span style="display:flex;"><span>  wind_gust_ms DOUBLE,
+</span></span><span style="display:flex;"><span>  wind_speed_kmh DOUBLE,
+</span></span><span style="display:flex;"><span>  wind_speed_mph DOUBLE,
 </span></span><span style="display:flex;"><span>  cloud_coverage_percent INT,
-</span></span><span style="display:flex;"><span>  rain_1h_mm DOUBLE,
-</span></span><span style="display:flex;"><span>  rain_3h_mm DOUBLE,
-</span></span><span style="display:flex;"><span>  snow_1h_mm DOUBLE,
-</span></span><span style="display:flex;"><span>  snow_3h_mm DOUBLE,
 </span></span><span style="display:flex;"><span>  heat_index_fahrenheit DOUBLE,
 </span></span><span style="display:flex;"><span>  heat_index_celsius DOUBLE,
 </span></span><span style="display:flex;"><span>  comfort_level STRING,
@@ -642,264 +697,285 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;projection.data_collection_date.format&#39;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;yyyy-MM-dd&#39;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;storage.location.template&#39;</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;s3://your-weather-processed-bucket/processed/year=${data_collection_date}&#39;</span>
 </span></span><span style="display:flex;"><span>);
-</span></span></code></pre></div><h3 id="23-xác-minh-tạo-table">2.3 Xác minh Tạo Table</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- Kiểm tra xem table đã được tạo thành công chưa
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SHOW</span> TABLES <span style="color:#66d9ef">IN</span> weather_analytics;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- Lấy schema của table
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">DESCRIBE</span> weather_analytics.current_weather;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">-- Đếm tổng số bản ghi
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> total_records
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b10.png" alt="Athena Settings"></p>
+
+<div class="notices info" ><p><strong>Schema Explanation</strong>:</p>
+<ul>
+<li>Schema này match chính xác với JSON structure từ module 3</li>
+<li>Bao gồm các trường mới: <code>comfort_level</code>, <code>wind_condition</code>, <code>weather_severity</code></li>
+<li>Sử dụng JsonSerDe để parse JSON files</li>
+<li>Có partition projection cho performance tốt hơn</li>
+</ul>
+</div>
+
+<h3 id="23-verify-table-creation">2.3 Verify Table Creation</h3>
+<p><strong>Test Basic Query</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> total_records
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather;
-</span></span></code></pre></div><h2 id="bước-3-phân-tích-dữ-liệu-thời-tiết-cơ-bản">Bước 3: Phân tích Dữ liệu Thời tiết Cơ bản</h2>
-<h3 id="31-truy-vấn-khám-phá-dữ-liệu">3.1 Truy vấn Khám phá Dữ liệu</h3>
-<h4 id="xem-dữ-liệu-mẫu">Xem Dữ liệu Mẫu</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- Lấy mẫu dữ liệu của bạn
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b11.png" alt="Athena Query"></p>
+<p><strong>Sample Data</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">10</span>;
-</span></span></code></pre></div><h4 id="kiểm-tra-chất-lượng-dữ-liệu">Kiểm tra Chất lượng Dữ liệu</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- Kiểm tra giá trị thiếu trong các trường chính
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">timestamp</span> <span style="color:#66d9ef">DESC</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">5</span>;
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b12.png" alt="Athena Query"></p>
+<h2 id="bước-3-phân-tích-dữ-liệu-cơ-bản">Bước 3: Phân tích Dữ liệu Cơ bản</h2>
+<h3 id="31-data-quality-check">3.1 Data Quality Check</h3>
+<p><strong>Kiểm tra chất lượng dữ liệu:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> total_records,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">DISTINCT</span> city_name) <span style="color:#66d9ef">as</span> unique_cities,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">DISTINCT</span> data_collection_date) <span style="color:#66d9ef">as</span> unique_dates,
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(temperature_celsius) <span style="color:#66d9ef">as</span> temp_records,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(humidity_percent) <span style="color:#66d9ef">as</span> humidity_records,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(pressure_hpa) <span style="color:#66d9ef">as</span> pressure_records,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(wind_speed_ms) <span style="color:#66d9ef">as</span> wind_records
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather;
-</span></span></code></pre></div><h4 id="phân-tích-phạm-vi-ngày">Phân tích Phạm vi Ngày</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- Kiểm tra phạm vi ngày của dữ liệu
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(comfort_level) <span style="color:#66d9ef">as</span> comfort_records,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(weather_severity) <span style="color:#66d9ef">as</span> severity_records,
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MIN</span>(data_collection_date) <span style="color:#66d9ef">as</span> earliest_date,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MAX</span>(data_collection_date) <span style="color:#66d9ef">as</span> latest_date,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">DISTINCT</span> data_collection_date) <span style="color:#66d9ef">as</span> unique_dates
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MAX</span>(data_collection_date) <span style="color:#66d9ef">as</span> latest_date
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather;
-</span></span></code></pre></div><h3 id="32-phân-tích-nhiệt-độ">3.2 Phân tích Nhiệt độ</h3>
-<h4 id="nhiệt-độ-trung-bình-theo-thành-phố">Nhiệt độ Trung bình theo Thành phố</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  city_name,
-</span></span><span style="display:flex;"><span>  country,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> measurement_count,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_temp_celsius,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">MIN</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> min_temp_celsius,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">MAX</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> max_temp_celsius
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> city_name, country
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b13.png" alt="Athena Query"></p>
+<h3 id="32-city-wise-temperature-analysis">3.2 City-wise Temperature Analysis</h3>
+<p><strong>Phân tích nhiệt độ theo thành phố:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> base_data <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">CASE</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;HoChiMinh&#39;</span>, <span style="color:#e6db74">&#39;Ho Chi Minh City&#39;</span>, <span style="color:#e6db74">&#39;TPHCM&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Ho Chi Minh&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;CanTho&#39;</span>, <span style="color:#e6db74">&#39;Can Tho&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Can Tho&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;GiaLai&#39;</span>, <span style="color:#e6db74">&#39;Pleiku&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Gia Lai&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;Da Nang&#39;</span>, <span style="color:#e6db74">&#39;Danang&#39;</span>, <span style="color:#e6db74">&#39;Ap Ba&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Da Nang&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;Hanoi&#39;</span>, <span style="color:#e6db74">&#39;Ha Noi&#39;</span>, <span style="color:#e6db74">&#39;Xom Pho&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Ha Noi&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;Hue&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Hue&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ELSE</span> city_name
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">AS</span> standardized_city,
+</span></span><span style="display:flex;"><span>    country,
+</span></span><span style="display:flex;"><span>    comfort_level,
+</span></span><span style="display:flex;"><span>    temperature_celsius,
+</span></span><span style="display:flex;"><span>    heat_index_celsius
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>comfort_counts <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>    standardized_city,
+</span></span><span style="display:flex;"><span>    country,
+</span></span><span style="display:flex;"><span>    comfort_level,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> level_count,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER (
+</span></span><span style="display:flex;"><span>      PARTITION <span style="color:#66d9ef">BY</span> standardized_city, country
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">DESC</span>
+</span></span><span style="display:flex;"><span>    ) <span style="color:#66d9ef">AS</span> rn
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> base_data
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> standardized_city, country, comfort_level
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>  t.standardized_city <span style="color:#66d9ef">AS</span> city_name,
+</span></span><span style="display:flex;"><span>  t.country,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> measurement_count,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(t.temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> avg_temp_celsius,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">MIN</span>(t.temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> min_temp_celsius,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">MAX</span>(t.temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> max_temp_celsius,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(t.heat_index_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> avg_heat_index,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">c</span>.comfort_level <span style="color:#66d9ef">AS</span> most_common_comfort_level
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> base_data t
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> comfort_counts <span style="color:#66d9ef">c</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">ON</span> t.standardized_city <span style="color:#f92672">=</span> <span style="color:#66d9ef">c</span>.standardized_city
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">AND</span> t.country <span style="color:#f92672">=</span> <span style="color:#66d9ef">c</span>.country
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">c</span>.rn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> t.standardized_city, t.country, <span style="color:#66d9ef">c</span>.comfort_level
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> avg_temp_celsius <span style="color:#66d9ef">DESC</span>;
-</span></span></code></pre></div><h4 id="xu-hướng-nhiệt-độ-theo-thời-gian">Xu hướng Nhiệt độ Theo Thời gian</h4>
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b14.png" alt="Athena Query"></p>
+<h3 id="33-comfort-level-distribution">3.3 Comfort Level Distribution</h3>
+<p><strong>Phân tích comfort level:</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  data_collection_date,
-</span></span><span style="display:flex;"><span>  city_name,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_temp,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(feels_like_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_feels_like
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> data_collection_date <span style="color:#f92672">&gt;=</span> DATE(<span style="color:#e6db74">&#39;2025-01-01&#39;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> data_collection_date, city_name
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> data_collection_date, city_name;
-</span></span></code></pre></div><h4 id="phân-tích-chỉ-số-nhiệt">Phân tích Chỉ số Nhiệt</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  city_name,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(heat_index_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_heat_index,
 </span></span><span style="display:flex;"><span>  comfort_level,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> occurrence_count
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> heat_index_celsius <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> city_name, comfort_level
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> avg_heat_index <span style="color:#66d9ef">DESC</span>;
-</span></span></code></pre></div><h3 id="33-phân-tích-mẫu-thời-tiết">3.3 Phân tích Mẫu Thời tiết</h3>
-<h4 id="phân-bố-điều-kiện-thời-tiết">Phân bố Điều kiện Thời tiết</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  weather_main,
-</span></span><span style="display:flex;"><span>  weather_description,
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> occurrence_count,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>)) OVER (), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> percentage
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> weather_main, weather_description
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> occurrence_count <span style="color:#66d9ef">DESC</span>;
-</span></span></code></pre></div><h4 id="phân-tích-gió">Phân tích Gió</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  city_name,
-</span></span><span style="display:flex;"><span>  wind_condition,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> occurrence_count,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(wind_speed_kmh), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_wind_speed_kmh,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">MAX</span>(wind_speed_kmh), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> max_wind_speed_kmh
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> city_name, wind_condition
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> city_name, avg_wind_speed_kmh <span style="color:#66d9ef">DESC</span>;
-</span></span></code></pre></div><h4 id="tương-quan-độ-ẩm-và-nhiệt-độ">Tương quan Độ ẩm và Nhiệt độ</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  city_name,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CASE</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> temperature_celsius <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">15</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Lạnh&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> temperature_celsius <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">25</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Vừa&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;Nóng&#39;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">as</span> temp_category,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>.<span style="color:#ae81ff">0</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">SUM</span>(<span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>)) OVER (), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> percentage,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_temp,
 </span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(humidity_percent), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_humidity,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_temperature,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> sample_count
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(heat_index_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_heat_index
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> city_name,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CASE</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> temperature_celsius <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">15</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Lạnh&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> temperature_celsius <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">25</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Vừa&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;Nóng&#39;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">END</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> city_name, temp_category;
-</span></span></code></pre></div><h2 id="bước-4-truy-vấn-phân-tích-nâng-cao">Bước 4: Truy vấn Phân tích Nâng cao</h2>
-<h3 id="41-phân-tích-chuỗi-thời-gian">4.1 Phân tích Chuỗi Thời gian</h3>
-<h4 id="tóm-tắt-thời-tiết-hàng-ngày">Tóm tắt Thời tiết Hàng ngày</h4>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> comfort_level <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> comfort_level
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> occurrence_count <span style="color:#66d9ef">DESC</span>;
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b15.png" alt="Athena Query"></p>
+<h3 id="34-weather-severity-analysis">3.4 Weather Severity Analysis</h3>
+<p><strong>Phân tích mức độ nghiêm trọng thời tiết:</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  data_collection_date,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">DISTINCT</span> city_name) <span style="color:#66d9ef">as</span> cities_measured,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> global_avg_temp,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(humidity_percent), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> global_avg_humidity,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(pressure_hpa), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> global_avg_pressure
+</span></span><span style="display:flex;"><span>  weather_severity,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> total_occurrences,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#66d9ef">DISTINCT</span> city_name) <span style="color:#66d9ef">as</span> cities_affected,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_temperature,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(wind_speed_kmh), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_wind_speed,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(humidity_percent), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_humidity,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(pressure_hpa), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_pressure
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> data_collection_date
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> data_collection_date;
-</span></span></code></pre></div><h4 id="cực-trị-thời-tiết">Cực trị Thời tiết</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- Tìm cực trị nhiệt độ
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">WITH</span> temp_extremes <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> weather_severity <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> weather_severity
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CASE</span> weather_severity
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> <span style="color:#e6db74">&#39;severe&#39;</span> <span style="color:#66d9ef">THEN</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> <span style="color:#e6db74">&#39;moderate&#39;</span> <span style="color:#66d9ef">THEN</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> <span style="color:#e6db74">&#39;light&#39;</span> <span style="color:#66d9ef">THEN</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSE</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">END</span>;
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b16.png" alt="Athena Query"></p>
+<h2 id="bước-4-advanced-analytics">Bước 4: Advanced Analytics</h2>
+<h3 id="41-daily-weather-summary">4.1 Daily Weather Summary</h3>
+<p><strong>Tạo báo cáo thời tiết hàng ngày:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> mode_counts <span style="color:#66d9ef">AS</span> (
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span>
 </span></span><span style="display:flex;"><span>    data_collection_date,
 </span></span><span style="display:flex;"><span>    city_name,
-</span></span><span style="display:flex;"><span>    temperature_celsius,
-</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER (PARTITION <span style="color:#66d9ef">BY</span> data_collection_date <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> temperature_celsius <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">as</span> hot_rank,
-</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER (PARTITION <span style="color:#66d9ef">BY</span> data_collection_date <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> temperature_celsius <span style="color:#66d9ef">ASC</span>) <span style="color:#66d9ef">as</span> cold_rank
+</span></span><span style="display:flex;"><span>    weather_main,
+</span></span><span style="display:flex;"><span>    comfort_level,
+</span></span><span style="display:flex;"><span>    wind_condition,
+</span></span><span style="display:flex;"><span>    weather_severity,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> freq,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER (PARTITION <span style="color:#66d9ef">BY</span> data_collection_date, city_name <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> rn_weather,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER (PARTITION <span style="color:#66d9ef">BY</span> data_collection_date, city_name, comfort_level <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> rn_comfort,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER (PARTITION <span style="color:#66d9ef">BY</span> data_collection_date, city_name, wind_condition <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> rn_wind,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER (PARTITION <span style="color:#66d9ef">BY</span> data_collection_date, city_name, weather_severity <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">DESC</span>) <span style="color:#66d9ef">AS</span> rn_severity
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">WHERE</span> DATE(data_collection_date) <span style="color:#f92672">&gt;=</span> DATE(<span style="color:#e6db74">&#39;2025-07-01&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> data_collection_date, city_name, weather_main, comfort_level, wind_condition, weather_severity
 </span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  data_collection_date,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MAX</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> hot_rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> city_name <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">as</span> hottest_city,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MAX</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> hot_rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> temperature_celsius <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">as</span> highest_temp,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MAX</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> cold_rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> city_name <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">as</span> coldest_city,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MAX</span>(<span style="color:#66d9ef">CASE</span> <span style="color:#66d9ef">WHEN</span> cold_rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">THEN</span> temperature_celsius <span style="color:#66d9ef">END</span>) <span style="color:#66d9ef">as</span> lowest_temp
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> temp_extremes
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> hot_rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">OR</span> cold_rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> data_collection_date
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> data_collection_date;
-</span></span></code></pre></div><h3 id="42-phân-tích-địa-lý">4.2 Phân tích Địa lý</h3>
-<h4 id="thời-tiết-theo-vùng-địa-lý">Thời tiết theo Vùng Địa lý</h4>
+</span></span><span style="display:flex;"><span>  stats.data_collection_date,
+</span></span><span style="display:flex;"><span>  stats.city_name,
+</span></span><span style="display:flex;"><span>  stats.daily_measurements,
+</span></span><span style="display:flex;"><span>  stats.avg_temp_c,
+</span></span><span style="display:flex;"><span>  stats.avg_humidity,
+</span></span><span style="display:flex;"><span>  stats.avg_pressure,
+</span></span><span style="display:flex;"><span>  stats.avg_wind_kmh,
+</span></span><span style="display:flex;"><span>  m.weather_main <span style="color:#66d9ef">AS</span> dominant_weather,
+</span></span><span style="display:flex;"><span>  m.comfort_level <span style="color:#66d9ef">AS</span> dominant_comfort,
+</span></span><span style="display:flex;"><span>  m.wind_condition <span style="color:#66d9ef">AS</span> dominant_wind_condition,
+</span></span><span style="display:flex;"><span>  m.weather_severity <span style="color:#66d9ef">AS</span> dominant_severity
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>    data_collection_date,
+</span></span><span style="display:flex;"><span>    city_name,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> daily_measurements,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> avg_temp_c,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#66d9ef">AVG</span>(humidity_percent), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> avg_humidity,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#66d9ef">AVG</span>(pressure_hpa), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> avg_pressure,
+</span></span><span style="display:flex;"><span>    ROUND(<span style="color:#66d9ef">AVG</span>(wind_speed_kmh), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">AS</span> avg_wind_kmh
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">WHERE</span> DATE(data_collection_date) <span style="color:#f92672">&gt;=</span> DATE(<span style="color:#e6db74">&#39;2025-07-01&#39;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> data_collection_date, city_name
+</span></span><span style="display:flex;"><span>) stats
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> mode_counts m
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">ON</span> stats.data_collection_date <span style="color:#f92672">=</span> m.data_collection_date
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">AND</span> stats.city_name <span style="color:#f92672">=</span> m.city_name
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">AND</span> m.rn_weather <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">AND</span> m.rn_comfort <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">AND</span> m.rn_wind <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">AND</span> m.rn_severity <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> stats.data_collection_date <span style="color:#66d9ef">DESC</span>, stats.city_name;
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b17.png" alt="Athena Query"></p>
+<h3 id="42-weather-pattern-correlation">4.2 Weather Pattern Correlation</h3>
+<p><strong>Phân tích mối tương quan giữa các yếu tố thời tiết:</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CASE</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> latitude <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">23</span>.<span style="color:#ae81ff">5</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Ôn đới Bắc&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> latitude <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Nhiệt đới Bắc&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> latitude <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">23</span>.<span style="color:#ae81ff">5</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Nhiệt đới Nam&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;Ôn đới Nam&#39;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">as</span> climate_zone,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> measurement_count,
+</span></span><span style="display:flex;"><span>  comfort_level,
+</span></span><span style="display:flex;"><span>  weather_main,
+</span></span><span style="display:flex;"><span>  weather_severity,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> occurrence_count,
 </span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_temperature,
 </span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(humidity_percent), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_humidity,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(heat_index_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_heat_index,
 </span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(wind_speed_kmh), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_wind_speed
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> comfort_level <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> weather_severity <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> comfort_level, weather_main, weather_severity
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">HAVING</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">3</span>  <span style="color:#75715e">-- Chỉ hiển thị patterns với ít nhất 3 occurrences
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> comfort_level, occurrence_count <span style="color:#66d9ef">DESC</span>;
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b18.png" alt="Athena Query"></p>
+<h3 id="43-wind-analysis">4.3 Wind Analysis</h3>
+<p><strong>Phân tích điều kiện gió:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> base_data <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">CASE</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;HoChiMinh&#39;</span>, <span style="color:#e6db74">&#39;Ho Chi Minh City&#39;</span>, <span style="color:#e6db74">&#39;TPHCM&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Ho Chi Minh&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;CanTho&#39;</span>, <span style="color:#e6db74">&#39;Can Tho&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Can Tho&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;GiaLai&#39;</span>, <span style="color:#e6db74">&#39;Pleiku&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Gia Lai&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;Da Nang&#39;</span>, <span style="color:#e6db74">&#39;Danang&#39;</span>, <span style="color:#e6db74">&#39;Ap Ba&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Da Nang&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;Hanoi&#39;</span>, <span style="color:#e6db74">&#39;Ha Noi&#39;</span>, <span style="color:#e6db74">&#39;Xom Pho&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Ha Noi&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">WHEN</span> city_name <span style="color:#66d9ef">IN</span> (<span style="color:#e6db74">&#39;Hue&#39;</span>) <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Hue&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ELSE</span> city_name
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">AS</span> standardized_city,
+</span></span><span style="display:flex;"><span>    wind_condition,
+</span></span><span style="display:flex;"><span>    wind_speed_kmh,
+</span></span><span style="display:flex;"><span>    wind_gust_ms,
+</span></span><span style="display:flex;"><span>    wind_direction_deg
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">WHERE</span> wind_condition <span style="color:#66d9ef">IS</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>  standardized_city <span style="color:#66d9ef">AS</span> city_name,
+</span></span><span style="display:flex;"><span>  wind_condition,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">AS</span> occurrence_count,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(wind_speed_kmh), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> avg_wind_speed_kmh,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">MAX</span>(wind_speed_kmh), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> max_wind_speed_kmh,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(wind_gust_ms), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">AS</span> avg_wind_gust_ms,
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">CASE</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> latitude <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">23</span>.<span style="color:#ae81ff">5</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Ôn đới Bắc&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> latitude <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Nhiệt đới Bắc&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> latitude <span style="color:#f92672">&gt;</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">23</span>.<span style="color:#ae81ff">5</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;Nhiệt đới Nam&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;Ôn đới Nam&#39;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">END</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> avg_temperature <span style="color:#66d9ef">DESC</span>;
-</span></span></code></pre></div><h2 id="bước-5-xuất-và-trực-quan-hóa-kết-quả">Bước 5: Xuất và Trực quan hóa Kết quả</h2>
-<h3 id="51-lưu-kết-quả-truy-vấn">5.1 Lưu Kết quả Truy vấn</h3>
-<ol>
-<li>Chạy bất kỳ truy vấn nào trong Athena</li>
-<li>Nhấp <strong>Download</strong> để lưu kết quả dưới dạng CSV</li>
-<li>Kết quả cũng được tự động lưu vào S3 query results bucket của bạn</li>
-</ol>
-<h3 id="52-tạo-trực-quan-hóa-đơn-giản">5.2 Tạo Trực quan hóa Đơn giản</h3>
-<p>Bạn có thể sử dụng các file CSV đã xuất để tạo biểu đồ trong:</p>
-<ul>
-<li><strong>Excel hoặc Google Sheets</strong> cho biểu đồ cơ bản</li>
-<li><strong>Python/Jupyter</strong> cho phân tích nâng cao</li>
-<li><strong>QuickSight</strong> (được đề cập trong module tiếp theo)</li>
-</ul>
-<h3 id="53-ví-dụ-quy-trình-phân-tích">5.3 Ví dụ Quy trình Phân tích</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- Tạo báo cáo thời tiết toàn diện
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> <span style="color:#66d9ef">AVG</span>(wind_direction_deg) <span style="color:#66d9ef">BETWEEN</span> <span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> <span style="color:#ae81ff">45</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">AVG</span>(wind_direction_deg) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">315</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;North&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> <span style="color:#66d9ef">AVG</span>(wind_direction_deg) <span style="color:#66d9ef">BETWEEN</span> <span style="color:#ae81ff">45</span> <span style="color:#66d9ef">AND</span> <span style="color:#ae81ff">135</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;East&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> <span style="color:#66d9ef">AVG</span>(wind_direction_deg) <span style="color:#66d9ef">BETWEEN</span> <span style="color:#ae81ff">135</span> <span style="color:#66d9ef">AND</span> <span style="color:#ae81ff">225</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;South&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHEN</span> <span style="color:#66d9ef">AVG</span>(wind_direction_deg) <span style="color:#66d9ef">BETWEEN</span> <span style="color:#ae81ff">225</span> <span style="color:#66d9ef">AND</span> <span style="color:#ae81ff">315</span> <span style="color:#66d9ef">THEN</span> <span style="color:#e6db74">&#39;West&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ELSE</span> <span style="color:#e6db74">&#39;Variable&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">END</span> <span style="color:#66d9ef">AS</span> dominant_wind_direction
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> base_data
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> standardized_city, wind_condition
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> city_name, avg_wind_speed_kmh <span style="color:#66d9ef">DESC</span>;
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b19.png" alt="Athena Query"></p>
+<h2 id="bước-5-tạo-views-cho-reporting">Bước 5: Tạo Views cho Reporting</h2>
+<h3 id="51-daily-weather-summary-view">5.1 Daily Weather Summary View</h3>
+<p><strong>Tạo view cho báo cáo hàng ngày:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">OR</span> <span style="color:#66d9ef">REPLACE</span> <span style="color:#66d9ef">VIEW</span> weather_analytics.daily_weather_summary <span style="color:#66d9ef">AS</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+</span></span><span style="display:flex;"><span>  data_collection_date,
 </span></span><span style="display:flex;"><span>  city_name,
 </span></span><span style="display:flex;"><span>  country,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> total_measurements,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> avg_temp_c,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">MIN</span>(temperature_celsius), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> min_temp_c,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">MAX</span>(temperature_celsius), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> max_temp_c,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(humidity_percent), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> avg_humidity,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(pressure_hpa), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> avg_pressure,
-</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(wind_speed_kmh), <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">as</span> avg_wind_kmh,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MODE</span>() WITHIN <span style="color:#66d9ef">GROUP</span> (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> weather_main) <span style="color:#66d9ef">as</span> most_common_weather,
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MODE</span>() WITHIN <span style="color:#66d9ef">GROUP</span> (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> comfort_level) <span style="color:#66d9ef">as</span> most_common_comfort
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">as</span> measurement_count,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(temperature_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_temperature,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(feels_like_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_feels_like,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(heat_index_celsius), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_heat_index,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(humidity_percent), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_humidity,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(pressure_hpa), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_pressure,
+</span></span><span style="display:flex;"><span>  ROUND(<span style="color:#66d9ef">AVG</span>(wind_speed_kmh), <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">as</span> avg_wind_speed,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MODE</span>() WITHIN <span style="color:#66d9ef">GROUP</span> (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> weather_main) <span style="color:#66d9ef">as</span> dominant_weather,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MODE</span>() WITHIN <span style="color:#66d9ef">GROUP</span> (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> comfort_level) <span style="color:#66d9ef">as</span> dominant_comfort_level,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MODE</span>() WITHIN <span style="color:#66d9ef">GROUP</span> (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> wind_condition) <span style="color:#66d9ef">as</span> dominant_wind_condition,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">MODE</span>() WITHIN <span style="color:#66d9ef">GROUP</span> (<span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> weather_severity) <span style="color:#66d9ef">as</span> dominant_weather_severity
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> city_name, country
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">HAVING</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e">-- Chỉ các thành phố có ít nhất 5 phép đo
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> avg_temp_c <span style="color:#66d9ef">DESC</span>;
-</span></span></code></pre></div><h2 id="bước-6-tối-ưu-hóa-hiệu-suất">Bước 6: Tối ưu hóa Hiệu suất</h2>
-<h3 id="61-mẹo-hiệu-suất-truy-vấn">6.1 Mẹo Hiệu suất Truy vấn</h3>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> data_collection_date, city_name, country;
+</span></span></code></pre></div><h3 id="52-sử-dụng-views">5.2 Sử dụng Views</h3>
+<p><strong>Query từ view:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.daily_weather_summary
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> data_collection_date <span style="color:#f92672">&gt;=</span> DATE(<span style="color:#e6db74">&#39;2025-07-01&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> data_collection_date <span style="color:#66d9ef">DESC</span>, city_name;
+</span></span></code></pre></div><p><img src="/images/data-storage-solutions/4b20.png" alt="Athena Query"></p>
+<p><strong>Export results:</strong></p>
 <ol>
-<li><strong>Sử dụng LIMIT</strong> cho truy vấn khám phá:</li>
+<li>Chạy query trong Athena</li>
+<li>Nhấp <strong>Download</strong> để lưu kết quả CSV</li>
+<li>Kết quả cũng tự động lưu trong S3 query results bucket</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> data_collection_date <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;2025-01-15&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">100</span>;
-</span></span></code></pre></div><ol start="2">
-<li><strong>Lọc trên cột partition</strong>:</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- Tốt - lọc trên cột đã partition
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> weather_analytics.current_weather
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> data_collection_date <span style="color:#66d9ef">BETWEEN</span> <span style="color:#e6db74">&#39;2025-01-01&#39;</span> <span style="color:#66d9ef">AND</span> <span style="color:#e6db74">&#39;2025-01-07&#39;</span>;
-</span></span></code></pre></div><ol start="3">
-<li><strong>Chỉ select cột cần thiết</strong>:</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- Hiệu suất tốt hơn
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> city_name, temperature_celsius, humidity_percent
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> weather_analytics.current_weather;
-</span></span></code></pre></div><h3 id="62-tối-ưu-hóa-chi-phí">6.2 Tối ưu hóa Chi phí</h3>
-<p>Giám sát việc sử dụng Athena của bạn:</p>
-<ol>
-<li>Kiểm tra <strong>CloudWatch metrics</strong> cho dữ liệu được quét</li>
-<li>Sử dụng <strong>Athena Query History</strong> để phân tích chi phí</li>
-<li>Xem xét chuyển đổi sang <strong>định dạng Parquet</strong> cho dataset lớn</li>
-</ol>
-<h2 id="khắc-phục-các-vấn-đề-thường-gặp">Khắc phục Các Vấn đề Thường gặp</h2>
-<h3 id="vấn-đề-1-lỗi-table-not-found">Vấn đề 1: Lỗi &ldquo;Table not found&rdquo;</h3>
+<p>Sau khi hoàn thành module này, bạn đã có thể:</p>
+<p><strong>Analyze weather data</strong> với SQL queries phức tạp<br>
+<strong>Create insights</strong> từ comfort levels và weather severity<br>
+<strong>Generate reports</strong> cho business applications<br>
+<strong>Understand weather patterns</strong> qua correlations</p>
 <ul>
-<li>Xác minh quyền S3 bucket của bạn</li>
-<li>Kiểm tra dữ liệu tồn tại trong vị trí S3 đã chỉ định</li>
-<li>Đảm bảo schema table phù hợp với dữ liệu của bạn</li>
+<li>Trong module tiếp theo, chúng ta sẽ tạo <strong>QuickSight dashboards</strong> từ Athena data</li>
+<li>Visualize weather trends và patterns</li>
+<li>Create interactive business intelligence reports</li>
 </ul>
-<h3 id="vấn-đề-2-zero-records-returned">Vấn đề 2: &ldquo;Zero records returned&rdquo;</h3>
-<ul>
-<li>Xác minh định dạng dữ liệu phù hợp với schema table</li>
-<li>Kiểm tra đường dẫn S3 trong định nghĩa table</li>
-<li>Đảm bảo files ở định dạng JSON như mong đợi</li>
-</ul>
-<h3 id="vấn-đề-3-lỗi-access-denied">Vấn đề 3: Lỗi &ldquo;Access denied&rdquo;</h3>
-<ul>
-<li>Kiểm tra quyền IAM cho Athena và S3</li>
-<li>Xác minh quyền query results bucket</li>
-</ul>
-<h2 id="phân-tích-chi-phí">Phân tích Chi phí</h2>
-<p>Chi phí điển hình cho module này:</p>
-<ul>
-<li><strong>Truy vấn Athena</strong>: ~$5 per TB dữ liệu được quét</li>
-<li><strong>Lưu trữ S3</strong>: ~$0.023 per GB/tháng</li>
-<li><strong>Yêu cầu S3</strong>: ~$0.0004 per 1,000 yêu cầu</li>
-</ul>
-<p>Đối với dataset thời tiết điển hình (1-10 MB), mong đợi tổng chi phí dưới $0.50.</p>
-<h2 id="các-bước-tiếp-theo">Các bước tiếp theo</h2>
-<p>Sau khi hoàn thành module này, bạn sẽ có thể phân tích dữ liệu thời tiết của mình bằng các truy vấn SQL trong Athena. Trong module tiếp theo, chúng ta sẽ xây dựng trên nền tảng này để tạo bảng điều khiển tương tác bằng Amazon QuickSight.</p>
-
-<div class="notices tip" ><p>Khi viết truy vấn Athena, luôn cố gắng giới hạn lượng dữ liệu được quét bằng cách sử dụng mệnh đề WHERE thích hợp trên các trường ngày tháng và các cột được lọc thường xuyên khác.</p>
-</div>
-
-
-<div class="notices info" ><p>Lưu các truy vấn hữu ích của bạn dưới dạng <strong>Saved Queries</strong> trong Athena để tái sử dụng. Bạn cũng có thể tạo <strong>Views</strong> cho các truy vấn phức tạp thường được sử dụng.</p>
-</div>
-
-
-<div class="notices warning" ><p>Nhớ thay thế tên bucket placeholder bằng tên S3 bucket thực tế của bạn trong tất cả truy vấn SQL.</p>
-</div>
-
 
 
 
@@ -1110,19 +1186,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752487100"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752487100"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752487100"></script>
-    <script src="/js/jquery.sticky.js?1752487100"></script>
-    <script src="/js/featherlight.min.js?1752487100"></script>
-    <script src="/js/highlight.pack.js?1752487100"></script>
+    <script src="/js/clipboard.min.js?1752561409"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752561409"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752561409"></script>
+    <script src="/js/jquery.sticky.js?1752561409"></script>
+    <script src="/js/featherlight.min.js?1752561409"></script>
+    <script src="/js/highlight.pack.js?1752561409"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752487100"></script>
-    <script src="/js/learn.js?1752487100"></script>
-    <script src="/js/hugo-learn.js?1752487100"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752561409"></script>
+    <script src="/js/learn.js?1752561409"></script>
+    <script src="/js/hugo-learn.js?1752561409"></script>
 
-    <link href="/mermaid/mermaid.css?1752487100" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752487100"></script>
+    <link href="/mermaid/mermaid.css?1752561409" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752561409"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

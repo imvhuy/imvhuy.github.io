@@ -111,273 +111,214 @@ weather-processed-{account-id}/
 ```python
 import json
 import boto3
-import os
+import datetime
 import logging
-from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any
 from decimal import Decimal
-import urllib.parse
+import os
+from urllib.parse import unquote_plus
 
 # Logging configuration
 logger = logging.getLogger()
-logger.setLevel(os.environ.get('LOG_LEVEL', 'INFO'))
+logger.setLevel(logging.INFO)
 
-# AWS clients
-s3_client = boto3.client('s3')
-cloudwatch = boto3.client('cloudwatch')
-
-# Configuration
-PROCESSED_BUCKET_NAME = os.environ.get('PROCESSED_BUCKET_NAME')
+# AWS clients with retry configuration
+s3_client = boto3.client('s3', config=boto3.session.Config(
+    retries={'max_attempts': 3, 'mode': 'adaptive'}
+))
 
 def lambda_handler(event, context):
     """
     Main Lambda handler for weather data processing
     """
-    logger.info(f"Processing event: {json.dumps(event)}")
-
-    processed_count = 0
-    failed_count = 0
-
     try:
-        # Handle S3 event trigger
-        if 'Records' in event:
-            for record in event['Records']:
-                try:
-                    # Extract S3 information
-                    bucket = record['s3']['bucket']['name']
-                    key = urllib.parse.unquote_plus(record['s3']['object']['key'])
+        # Environment variable validation
+        processed_bucket = os.environ.get('PROCESSED_BUCKET_NAME')
+        if not processed_bucket:
+            logger.error("PROCESSED_BUCKET_NAME environment variable is required")
+            return {
+                'statusCode': 500,
+                'body': json.dumps({
+                    'error': 'Configuration error',
+                    'message': 'PROCESSED_BUCKET_NAME environment variable not set'
+                })
+            }
 
-                    logger.info(f"Processing file: s3://{bucket}/{key}")
+        processed_count = 0
 
-                    # Process the file
-                    success = process_weather_file(bucket, key)
+        # Process each S3 event record
+        for record in event['Records']:
+            try:
+                # Extract bucket and key from event
+                source_bucket = record['s3']['bucket']['name']
+                source_key_encoded = record['s3']['object']['key']
+                source_key = unquote_plus(source_key_encoded)
 
-                    if success:
-                        processed_count += 1
-                    else:
-                        failed_count += 1
+                logger.info(f"Processing file: {source_key} from bucket: {source_bucket}")
+                if source_key_encoded != source_key:
+                    logger.debug(f"URL decoded key from {source_key_encoded} to {source_key}")
 
-                except Exception as e:
-                    logger.error(f"Error processing record: {e}")
-                    failed_count += 1
+                # Get raw weather data from S3
+                response = s3_client.get_object(Bucket=source_bucket, Key=source_key)
+                raw_data = json.loads(response['Body'].read().decode('utf-8'))
 
-        # Handle manual invocation
-        else:
-            logger.info("Manual invocation - processing recent files")
-            # This could be extended to process recent files
-            processed_count = 1
+                # Transform weather data
+                processed_data = transform_weather_data(raw_data)
 
-        # Send metrics to CloudWatch
-        send_processing_metrics(processed_count, failed_count)
+                # Create key for processed file
+                processed_key = source_key.replace('raw/', 'processed/').replace('.json', '.jsonl')
+
+                # Save processed data to S3 dưới dạng NDJSON (jsonl)
+                if isinstance(processed_data, list):
+                    jsonl_content = '\n'.join(json.dumps(obj, default=decimal_default) for obj in processed_data)
+                else:
+                    jsonl_content = json.dumps(processed_data, default=decimal_default)
+
+                s3_client.put_object(
+                    Bucket=processed_bucket,
+                    Key=processed_key,
+                    Body=jsonl_content,
+                    ContentType='application/jsonl; charset=utf-8',
+                    ServerSideEncryption='AES256'
+                )
+
+                processed_count += 1
+                logger.info(f"Successfully processed and saved: {processed_key}")
+
+            except Exception as e:
+                logger.error(f"Error processing record {source_key}: {str(e)}")
+                continue
 
         return {
             'statusCode': 200,
             'body': json.dumps({
-                'message': 'Weather data processing completed',
-                'processed_count': processed_count,
-                'failed_count': failed_count
+                'message': f'Successfully processed {processed_count} files',
+                'processedCount': processed_count
             })
         }
 
     except Exception as e:
-        logger.error(f"Lambda handler error: {e}")
-
-        # Send error metric
-        send_processing_metrics(0, 1)
-
+        logger.error(f"Lambda execution error: {str(e)}")
         return {
             'statusCode': 500,
             'body': json.dumps({
-                'error': 'Internal processing error',
-                'message': str(e)
+                'error': str(e)
             })
         }
 
-def process_weather_file(source_bucket: str, source_key: str) -> bool:
+def transform_weather_data(raw_data):
     """
-    Process a single weather data file
-    """
-    try:
-        # Download raw data from S3
-        response = s3_client.get_object(Bucket=source_bucket, Key=source_key)
-        raw_data = json.loads(response['Body'].read().decode('utf-8'))
-
-        # Only process current weather data
-        if 'current-weather' in source_key:
-            processed_data = transform_current_weather(raw_data)
-            data_type = 'current-weather'
-        else:
-            logger.warning(f"Skipping non-current-weather file: {source_key}")
-            return False
-
-        # Generate processed file key
-        processed_key = generate_processed_key(source_key, data_type)
-
-        # Save processed data to S3
-        s3_client.put_object(
-            Bucket=PROCESSED_BUCKET_NAME,
-            Key=processed_key,
-            Body=json.dumps(processed_data, indent=2, ensure_ascii=False, default=decimal_default),
-            ContentType='application/json; charset=utf-8',
-            Metadata={
-                'source-key': source_key,
-                'processing-timestamp': datetime.now(timezone.utc).isoformat(),
-                'data-type': data_type,
-                'city': processed_data.get('city_name', 'unknown')
-            }
-        )
-
-        logger.info(f"Successfully processed and saved: s3://{PROCESSED_BUCKET_NAME}/{processed_key}")
-        return True
-
-    except Exception as e:
-        logger.error(f"Error processing file {source_key}: {e}")
-        return False
-
-def transform_current_weather(raw_data: Dict) -> Dict:
-    """
-    Transform current weather data from OpenWeatherMap format to analytics format
+    Transform raw OpenWeatherMap data into analytics-friendly format
     """
     try:
-        # Extract basic information
-        city_name = raw_data.get('name', 'Unknown')
-
-        # Get collection timestamp from metadata (added by our collector)
-        collection_timestamp = raw_data.get('collection_timestamp')
-        if collection_timestamp:
-            dt = datetime.fromisoformat(collection_timestamp.replace('Z', '+00:00'))
+        # Extract timestamp (use collection_timestamp if available, otherwise dt)
+        if 'collection_timestamp' in raw_data:
+            timestamp = raw_data['collection_timestamp']
+            collection_date = datetime.datetime.fromisoformat(timestamp.replace('Z', '+00:00')).strftime('%Y-%m-%d')
         else:
-            # Fallback to API timestamp
-            dt = datetime.fromtimestamp(raw_data.get('dt', 0), tz=timezone.utc)
+            timestamp = datetime.datetime.fromtimestamp(raw_data['dt']).isoformat() + 'Z'
+            collection_date = datetime.datetime.fromtimestamp(raw_data['dt']).strftime('%Y-%m-%d')
 
-        # Base processed data structure
-        processed = {
-            # Identifiers
-            'city_name': city_name,
-            'city_id': raw_data.get('id'),
-            'country_code': raw_data.get('sys', {}).get('country', 'Unknown'),
+        # Extract basic location and weather information
+        processed_data = {
+            'timestamp': timestamp,
+            'city_name': raw_data.get('name', 'Unknown'),
+            'country': raw_data.get('sys', {}).get('country', 'Unknown'),
             'latitude': raw_data.get('coord', {}).get('lat'),
             'longitude': raw_data.get('coord', {}).get('lon'),
-
-            # Timestamps
-            'collection_timestamp': dt.isoformat(),
-            'collection_date': dt.strftime('%Y-%m-%d'),
-            'collection_hour': dt.hour,
-            'api_timestamp': datetime.fromtimestamp(raw_data.get('dt', 0), tz=timezone.utc).isoformat(),
-
-            # Weather conditions
-            'weather_id': None,
-            'weather_main': None,
-            'weather_description': None,
-            'weather_icon': None,
-
-            # Temperature (convert from Kelvin to Celsius)
-            'temperature_celsius': None,
-            'temperature_fahrenheit': None,
-            'feels_like_celsius': None,
-            'feels_like_fahrenheit': None,
-            'temp_min_celsius': None,
-            'temp_max_celsius': None,
-
-            # Atmospheric conditions
-            'pressure_hpa': raw_data.get('main', {}).get('pressure'),
-            'humidity_percent': raw_data.get('main', {}).get('humidity'),
-            'visibility_meters': raw_data.get('visibility'),
-
-            # Wind
-            'wind_speed_ms': raw_data.get('wind', {}).get('speed'),
-            'wind_speed_kmh': None,
-            'wind_direction_deg': raw_data.get('wind', {}).get('deg'),
-            'wind_gust_ms': raw_data.get('wind', {}).get('gust'),
-
-            # Clouds and precipitation
-            'cloud_coverage_percent': raw_data.get('clouds', {}).get('all'),
-            'rain_1h_mm': raw_data.get('rain', {}).get('1h'),
-            'rain_3h_mm': raw_data.get('rain', {}).get('3h'),
-            'snow_1h_mm': raw_data.get('snow', {}).get('1h'),
-            'snow_3h_mm': raw_data.get('snow', {}).get('3h'),
-
-            # Sun times
-            'sunrise_timestamp': None,
-            'sunset_timestamp': None,
-
-            # Derived metrics (calculated later)
-            'heat_index_celsius': None,
-            'comfort_level': None,
-            'wind_condition': None,
-            'weather_severity': None,
-            'uv_risk_level': None
+            'data_collection_date': collection_date
         }
 
-        # Process weather conditions
+        # Add custom city metadata if available
+        if 'city_metadata' in raw_data:
+            city_meta = raw_data['city_metadata']
+            processed_data.update({
+                'city_name': city_meta.get('name', processed_data['city_name']),
+                'latitude': city_meta.get('lat', processed_data['latitude']),
+                'longitude': city_meta.get('lon', processed_data['longitude'])
+            })
+
+        # Temperature conversion (OpenWeatherMap returns Celsius when units=metric)
+        temp_celsius = raw_data.get('main', {}).get('temp')
+        if temp_celsius:
+            processed_data['temperature_celsius'] = round(temp_celsius, 2)
+            processed_data['temperature_fahrenheit'] = round(temp_celsius * 9/5 + 32, 2)
+            processed_data['temperature_kelvin'] = round(temp_celsius + 273.15, 2)
+
+        # Feels like temperature
+        feels_like_celsius = raw_data.get('main', {}).get('feels_like')
+        if feels_like_celsius:
+            processed_data['feels_like_celsius'] = round(feels_like_celsius, 2)
+            processed_data['feels_like_fahrenheit'] = round(feels_like_celsius * 9/5 + 32, 2)
+
+        # Other weather parameters
+        processed_data.update({
+            'humidity_percent': raw_data.get('main', {}).get('humidity'),
+            'pressure_hpa': raw_data.get('main', {}).get('pressure'),
+            'visibility_meters': raw_data.get('visibility'),
+            'uv_index': raw_data.get('uvi')  # If available
+        })
+
+        # Weather description
         weather_list = raw_data.get('weather', [])
         if weather_list:
             weather = weather_list[0]
-            processed.update({
+            processed_data.update({
                 'weather_id': weather.get('id'),
                 'weather_main': weather.get('main'),
                 'weather_description': weather.get('description'),
                 'weather_icon': weather.get('icon')
             })
 
-        # Process temperature data
-        main_data = raw_data.get('main', {})
-        if main_data.get('temp'):
-            temp_k = main_data['temp']
-            processed['temperature_celsius'] = round(temp_k - 273.15, 1)
-            processed['temperature_fahrenheit'] = round((temp_k - 273.15) * 9/5 + 32, 1)
+        # Wind information
+        wind_data = raw_data.get('wind', {})
+        processed_data.update({
+            'wind_speed_ms': wind_data.get('speed'),
+            'wind_direction_deg': wind_data.get('deg'),
+            'wind_gust_ms': wind_data.get('gust')
+        })
 
-        if main_data.get('feels_like'):
-            feels_k = main_data['feels_like']
-            processed['feels_like_celsius'] = round(feels_k - 273.15, 1)
-            processed['feels_like_fahrenheit'] = round((feels_k - 273.15) * 9/5 + 32, 1)
+        # Convert wind speed to km/h and mph
+        if wind_data.get('speed'):
+            processed_data['wind_speed_kmh'] = round(wind_data['speed'] * 3.6, 2)
+            processed_data['wind_speed_mph'] = round(wind_data['speed'] * 2.237, 2)
 
-        if main_data.get('temp_min'):
-            min_k = main_data['temp_min']
-            processed['temp_min_celsius'] = round(min_k - 273.15, 1)
+        # Cloud coverage
+        processed_data['cloud_coverage_percent'] = raw_data.get('clouds', {}).get('all')
 
-        if main_data.get('temp_max'):
-            max_k = main_data['temp_max']
-            processed['temp_max_celsius'] = round(max_k - 273.15, 1)
+        # Precipitation (if available)
+        rain_data = raw_data.get('rain', {})
+        if rain_data:
+            processed_data['rain_1h_mm'] = rain_data.get('1h')
+            processed_data['rain_3h_mm'] = rain_data.get('3h')
 
-        # Process wind data
-        if processed['wind_speed_ms']:
-            processed['wind_speed_kmh'] = round(processed['wind_speed_ms'] * 3.6, 1)
+        snow_data = raw_data.get('snow', {})
+        if snow_data:
+            processed_data['snow_1h_mm'] = snow_data.get('1h')
+            processed_data['snow_3h_mm'] = snow_data.get('3h')
 
-        # Process sun times
-        sys_data = raw_data.get('sys', {})
-        if sys_data.get('sunrise'):
-            processed['sunrise_timestamp'] = datetime.fromtimestamp(sys_data['sunrise'], tz=timezone.utc).isoformat()
-        if sys_data.get('sunset'):
-            processed['sunset_timestamp'] = datetime.fromtimestamp(sys_data['sunset'], tz=timezone.utc).isoformat()
+        # Add derived fields
+        processed_data.update(calculate_derived_fields(processed_data))
 
-        # Calculate derived metrics
-        processed.update(calculate_derived_metrics(processed))
-
-        return processed
+        return processed_data
 
     except Exception as e:
-        logger.error(f"Error transforming current weather data: {e}")
+        logger.error(f"Weather data transformation error: {str(e)}")
         raise
 
-def calculate_derived_metrics(data: Dict) -> Dict:
+def calculate_derived_fields(data):
     """
-    Calculate derived weather metrics
+    Calculate derived weather indicators
     """
     derived = {}
 
     try:
-        temp_c = data.get('temperature_celsius')
+        # Calculate heat index (simplified)
+        temp_f = data.get('temperature_fahrenheit')
         humidity = data.get('humidity_percent')
-        wind_speed_kmh = data.get('wind_speed_kmh')
-        weather_main = data.get('weather_main', '').lower()
 
-        # Calculate heat index (only meaningful above 27°C)
-        if temp_c and humidity and temp_c >= 27:
-            temp_f = temp_c * 9/5 + 32
-
-            # Simplified heat index calculation
-            if temp_f >= 80:
+        if temp_f and humidity:
+            if temp_f >= 80:  # Heat index only meaningful above 80°F
+                # Simplified heat index formula
                 heat_index_f = (
                     -42.379 +
                     2.04901523 * temp_f +
@@ -389,25 +330,26 @@ def calculate_derived_metrics(data: Dict) -> Dict:
                     8.5282e-4 * temp_f * humidity**2 -
                     1.99e-6 * temp_f**2 * humidity**2
                 )
-                derived['heat_index_celsius'] = round((heat_index_f - 32) * 5/9, 1)
+                derived['heat_index_fahrenheit'] = round(heat_index_f, 2)
+                derived['heat_index_celsius'] = round((heat_index_f - 32) * 5/9, 2)
 
-        # Calculate comfort level
+        # Comfort level based on temperature and humidity
+        temp_c = data.get('temperature_celsius')
         if temp_c and humidity:
-            if temp_c < 16:
+            if temp_c < 10:
                 comfort = 'cold'
-            elif temp_c < 20:
+            elif temp_c < 18:
                 comfort = 'cool'
-            elif temp_c <= 26 and humidity <= 60:
+            elif temp_c <= 24 and humidity <= 60:
                 comfort = 'comfortable'
             elif temp_c <= 30 and humidity <= 70:
                 comfort = 'warm'
-            elif temp_c <= 35:
-                comfort = 'hot'
             else:
-                comfort = 'very_hot'
+                comfort = 'hot'
             derived['comfort_level'] = comfort
 
-        # Calculate wind condition
+        # Wind condition
+        wind_speed_kmh = data.get('wind_speed_kmh')
         if wind_speed_kmh:
             if wind_speed_kmh < 5:
                 wind_condition = 'calm'
@@ -421,14 +363,15 @@ def calculate_derived_metrics(data: Dict) -> Dict:
                 wind_condition = 'very_strong'
             derived['wind_condition'] = wind_condition
 
-        # Calculate weather severity
+        # Weather severity level
+        weather_main = data.get('weather_main', '').lower()
         if weather_main:
             if weather_main in ['thunderstorm', 'tornado']:
                 severity = 'severe'
             elif weather_main in ['rain', 'snow', 'drizzle']:
                 severity = 'moderate'
-            elif weather_main in ['mist', 'fog', 'haze', 'smoke']:
-                severity = 'mild'
+            elif weather_main in ['mist', 'fog', 'haze']:
+                severity = 'light'
             else:
                 severity = 'normal'
             derived['weather_severity'] = severity
@@ -436,78 +379,16 @@ def calculate_derived_metrics(data: Dict) -> Dict:
         return derived
 
     except Exception as e:
-        logger.error(f"Error calculating derived metrics: {e}")
+        logger.error(f"Error calculating derived fields: {str(e)}")
         return {}
-
-def generate_processed_key(source_key: str, data_type: str) -> str:
-    """
-    Generate processed file key with proper partitioning
-    """
-    try:
-        # Extract timestamp from source key
-        now = datetime.now(timezone.utc)
-
-        # Extract city name from source key
-        key_parts = source_key.split('/')
-        filename = key_parts[-1]
-        city_name = filename.split('_')[0]
-
-        # Generate processed key with Hive partitioning
-        processed_key = (
-            f"{data_type}/"
-            f"year={now.year}/"
-            f"month={now.month:02d}/"
-            f"day={now.day:02d}/"
-            f"hour={now.hour:02d}/"
-            f"{city_name}_processed_{now.strftime('%Y%m%d_%H%M%S')}.json"
-        )
-
-        return processed_key
-
-    except Exception as e:
-        logger.error(f"Error generating processed key: {e}")
-        return f"processed/{source_key}"
-
-def send_processing_metrics(processed_count: int, failed_count: int):
-    """
-    Send processing metrics to CloudWatch
-    """
-    try:
-        cloudwatch.put_metric_data(
-            Namespace='Weather/Processing',
-            MetricData=[
-                {
-                    'MetricName': 'ProcessedFiles',
-                    'Value': processed_count,
-                    'Unit': 'Count',
-                    'Timestamp': datetime.now(timezone.utc)
-                },
-                {
-                    'MetricName': 'FailedFiles',
-                    'Value': failed_count,
-                    'Unit': 'Count',
-                    'Timestamp': datetime.now(timezone.utc)
-                },
-                {
-                    'MetricName': 'ProcessingSuccess',
-                    'Value': 1 if failed_count == 0 else 0,
-                    'Unit': 'Count',
-                    'Timestamp': datetime.now(timezone.utc)
-                }
-            ]
-        )
-        logger.info(f"Sent metrics - Processed: {processed_count}, Failed: {failed_count}")
-
-    except Exception as e:
-        logger.error(f"Error sending metrics: {e}")
 
 def decimal_default(obj):
     """
-    JSON serializer for objects not serializable by default json code
+    JSON serializer for objects that are not serializable by default
     """
     if isinstance(obj, Decimal):
         return float(obj)
-    raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
+    raise TypeError
 ```
 
 4. **Deploy** code bằng cách click **"Deploy"**
@@ -575,7 +456,7 @@ Module 2 EventBridge → weather-current-collector → S3 raw/current-weather/
                       weather-data-processor → S3 processed/current-weather/
 ```
 
-## Tổng kết 
+## Tổng kết
 
 **Đã hoàn thành:**
 
@@ -594,4 +475,4 @@ Module 2 EventBridge → weather-current-collector → S3 raw/current-weather/
 - Partitioned data cho efficient querying
 - Real-time processing pipeline hoạt động 24/7
 
-**Sẵn sàng cho Module 4**: Data Analytics và Visualization! 
+**Sẵn sàng cho Module 4**: Data Analytics và Visualization!
