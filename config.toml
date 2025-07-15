@@ -61,7 +61,7 @@ identifier = "AWS Study Group"
 url = "http://awsstudygroup.com"
 weight = 20
 
-baseURL = "https://imvhuy.github.io/workshop_awsfcj_2025/"
+baseURL = "https://imvhuy.github.io/"
 languageCode = "vi-VN"
 defaultContentLanguage = "vi"
 
