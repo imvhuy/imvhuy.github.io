@@ -12,21 +12,21 @@
     <title>Trực quan hóa Dữ liệu với QuickSight :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752557528" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752557528" rel="stylesheet">
-    <link href="/css/hybrid.css?1752557528" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752557528" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752557528" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752557528" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752557528" rel="stylesheet">
-    <link href="/css/theme.css?1752557528" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752557528" rel="stylesheet">
+    <link href="/css/nucleus.css?1752566860" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752566860" rel="stylesheet">
+    <link href="/css/hybrid.css?1752566860" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752566860" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752566860" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752566860" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752566860" rel="stylesheet">
+    <link href="/css/theme.css?1752566860" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752566860" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752557528" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752566860" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752557528"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752566860"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752557528"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752557528"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752566860"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752566860"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752557528"></script>
+<script type="text/javascript" src="/js/search.js?1752566860"></script>
 
     
   </div>
@@ -459,7 +459,6 @@
 <nav id="TableOfContents">
   <ul>
     <li><a href="#tổng-quan-module">Tổng quan Module</a></li>
-    <li><a href="#những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ Xây dựng</a></li>
     <li><a href="#điều-kiện-tiên-quyết">Điều kiện tiên quyết</a></li>
     <li><a href="#bước-1-thiết-lập-amazon-quicksight">Bước 1: Thiết lập Amazon QuickSight</a>
       <ul>
@@ -478,7 +477,7 @@
         <li><a href="#31-biểu-đồ-đường-xu-hướng-nhiệt-độ">3.1 Biểu đồ Đường Xu hướng Nhiệt độ</a></li>
         <li><a href="#32-biểu-đồ-tròn-điều-kiện-thời-tiết">3.2 Biểu đồ Tròn Điều kiện Thời tiết</a></li>
         <li><a href="#33-biểu-đồ-cột-so-sánh-nhiệt-độ-thành-phố">3.3 Biểu đồ Cột So sánh Nhiệt độ Thành phố</a></li>
-        <li><a href="#34-biểu-đồ-phân-tán-độ-ẩm-vs-nhiệt-độ">3.4 Biểu đồ Phân tán Độ ẩm vs Nhiệt độ</a></li>
+        <li><a href="#34-biểu-đồ-đường-so-sánh-giữa-temperature_celsius-và-feels_like_celsius">3.4 Biểu đồ đường so sánh giữa temperature_celsius và feels_like_celsius</a></li>
         <li><a href="#35-chỉ-số-hiệu-suất-chính-kpis">3.5 Chỉ số Hiệu suất Chính (KPIs)</a></li>
       </ul>
     </li>
@@ -491,9 +490,7 @@
     </li>
     <li><a href="#bước-5-trực-quan-hóa-nâng-cao">Bước 5: Trực quan hóa Nâng cao</a>
       <ul>
-        <li><a href="#51-tạo-heat-map-cho-nhiệt-độ-theo-thời-gian">5.1 Tạo Heat Map cho Nhiệt độ theo Thời gian</a></li>
-        <li><a href="#52-biểu-đồ-hướng-gió-sử-dụng-calculated-fields">5.2 Biểu đồ Hướng Gió (Sử dụng Calculated Fields)</a></li>
-        <li><a href="#53-gauge-mức-độ-nghiêm-trọng-thời-tiết">5.3 Gauge Mức độ Nghiêm trọng Thời tiết</a></li>
+        <li><a href="#biểu-đồ-hướng-gió-sử-dụng-calculated-fields">Biểu đồ Hướng Gió (Sử dụng Calculated Fields)</a></li>
       </ul>
     </li>
     <li><a href="#bước-6-xuất-bản-và-chia-sẻ-dashboard">Bước 6: Xuất bản và Chia sẻ Dashboard</a>
@@ -509,22 +506,7 @@
         <li><a href="#72-giám-sát-trạng-thái-làm-mới">7.2 Giám sát Trạng thái Làm mới</a></li>
       </ul>
     </li>
-    <li><a href="#bước-8-tối-ưu-hóa-dashboard-và-best-practices">Bước 8: Tối ưu hóa Dashboard và Best Practices</a>
-      <ul>
-        <li><a href="#81-tối-ưu-hóa-hiệu-suất">8.1 Tối ưu hóa Hiệu suất</a></li>
-        <li><a href="#82-best-practices-trải-nghiệm-người-dùng">8.2 Best Practices Trải nghiệm Người dùng</a></li>
-      </ul>
-    </li>
-    <li><a href="#khắc-phục-các-vấn-đề-thường-gặp">Khắc phục Các Vấn đề Thường gặp</a>
-      <ul>
-        <li><a href="#vấn-đề-1-lỗi-insufficient-permissions">Vấn đề 1: Lỗi &ldquo;Insufficient permissions&rdquo;</a></li>
-        <li><a href="#vấn-đề-2-dữ-liệu-không-làm-mới">Vấn đề 2: Dữ liệu Không Làm mới</a></li>
-        <li><a href="#vấn-đề-3-hiệu-suất-dashboard-chậm">Vấn đề 3: Hiệu suất Dashboard Chậm</a></li>
-      </ul>
-    </li>
-    <li><a href="#phân-tích-chi-phí">Phân tích Chi phí</a></li>
-    <li><a href="#best-practices-bảo-mật">Best Practices Bảo mật</a></li>
-    <li><a href="#các-bước-tiếp-theo">Các bước tiếp theo</a></li>
+    <li><a href="#bước-8-tối-ưu-hóa-dashboard-và-best-practices">Bước 8: Tối ưu hóa Dashboard và Best Practices</a></li>
   </ul>
 </nav>
     </div>
@@ -550,31 +532,25 @@
 
 
 
-	<h1 id="trực-quan-hóa-dữ-liệu-với-amazon-quicksight">Trực quan hóa Dữ liệu với Amazon QuickSight</h1>
-<p>Bây giờ khi bạn đã có dữ liệu thời tiết được lưu trữ và có thể truy vấn thông qua Athena, đã đến lúc tạo các trực quan hóa hấp dẫn! Trong module này, bạn sẽ sử dụng Amazon QuickSight để xây dựng dashboard tương tác giúp dữ liệu thời tiết của bạn trở nên sinh động.</p>
+	<p>Bây giờ khi bạn đã có dữ liệu thời tiết được lưu trữ và có thể truy vấn thông qua Athena, đã đến lúc tạo các trực quan hóa hấp dẫn! Trong module này, ta sẽ sử dụng Amazon QuickSight để xây dựng dashboard tương tác giúp dữ liệu thời tiết của chúng ta trở nên sinh động.</p>
 <h2 id="tổng-quan-module">Tổng quan Module</h2>
 <p>Amazon QuickSight là dịch vụ business intelligence (BI) của AWS giúp dễ dàng tạo và xuất bản các dashboard tương tác. Bạn sẽ kết nối QuickSight với nguồn dữ liệu Athena và tạo các trực quan hóa tiết lộ các mẫu và thông tin chi tiết từ dữ liệu thời tiết.</p>
-<p><strong>Thời gian:</strong> 45-60 phút<br>
-<strong>Chi phí:</strong> ~$3-4 (sử dụng dùng thử miễn phí)</p>
-<h2 id="những-gì-bạn-sẽ-xây-dựng">Những gì bạn sẽ Xây dựng</h2>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
-    A[Athena Data] --&gt; B[QuickSight Dataset]
-    B --&gt; C[Visualizations]
-    C --&gt; D[Interactive Dashboard]
-    D --&gt; E[Published Reports]
-
-    style B fill:#ff9900,stroke:#232f3e,stroke-width:3px
-    style D fill:#66bb6a
-</code></pre><h2 id="điều-kiện-tiên-quyết">Điều kiện tiên quyết</h2>
+<h2 id="điều-kiện-tiên-quyết">Điều kiện tiên quyết</h2>
 <ul>
-<li>Đã hoàn thành Module 4: Phân tích Dữ liệu với Athena</li>
+<li>Phân tích Dữ liệu với Athena</li>
 <li>Dữ liệu thời tiết có sẵn trong bảng Athena</li>
 <li>Tài khoản AWS với quyền QuickSight</li>
 </ul>
 <h2 id="bước-1-thiết-lập-amazon-quicksight">Bước 1: Thiết lập Amazon QuickSight</h2>
 <h3 id="11-đăng-ký-quicksight">1.1 Đăng ký QuickSight</h3>
 <ol>
-<li>Điều hướng đến <strong>Amazon QuickSight console</strong></li>
+<li>Truy cập QuickSight</li>
+</ol>
+<ul>
+<li>Đăng nhập AWS Console.</li>
+<li>Ở thanh tìm kiếm, nhập QuickSight và chọn Amazon QuickSight.</li>
+</ul>
+<ol start="2">
 <li>Nhấp <strong>Sign up for QuickSight</strong></li>
 <li>Chọn <strong>Standard Edition</strong> (bao gồm dùng thử miễn phí 30 ngày)</li>
 <li>Nhập thông tin tài khoản:
@@ -585,16 +561,18 @@
 </li>
 <li>Nhấp <strong>Finish</strong></li>
 </ol>
+<p><img src="/images/analytics-visualization/5b1.png" alt="Quicksight">
+<img src="/images/analytics-visualization/5b2.png" alt="Quicksight"></p>
 <h3 id="12-cấu-hình-quyền-quicksight">1.2 Cấu hình Quyền QuickSight</h3>
 <ol>
 <li>Trong QuickSight, nhấp <strong>biểu tượng profile</strong> (góc phải trên)</li>
 <li>Chọn <strong>Manage QuickSight</strong></li>
 <li>Chọn <strong>Security &amp; permissions</strong></li>
-<li>Nhấp <strong>Add or remove</strong></li>
+<li>Nhấp <strong>Manage</strong></li>
 <li>Kích hoạt các dịch vụ sau:
 <ul>
-<li>✅ <strong>Amazon Athena</strong></li>
-<li>✅ <strong>Amazon S3</strong></li>
+<li><strong>Amazon Athena</strong></li>
+<li><strong>Amazon S3</strong></li>
 </ul>
 </li>
 <li>Cho S3, nhấp <strong>Select S3 buckets</strong></li>
@@ -604,8 +582,9 @@
 <li><code>your-athena-query-results-bucket</code></li>
 </ul>
 </li>
-<li>Nhấp <strong>Update</strong></li>
+<li>Nhấp <strong>Save</strong></li>
 </ol>
+<p><img src="/images/analytics-visualization/5b3.png" alt="Quicksight"></p>
 <h2 id="bước-2-tạo-data-source-và-dataset">Bước 2: Tạo Data Source và Dataset</h2>
 <h3 id="21-kết-nối-với-athena">2.1 Kết nối với Athena</h3>
 <ol>
@@ -620,12 +599,15 @@
 </li>
 <li>Nhấp <strong>Create data source</strong></li>
 </ol>
+<p><img src="/images/analytics-visualization/5b4.png" alt="Quicksight"></p>
 <h3 id="22-tạo-dataset-từ-weather-table">2.2 Tạo Dataset từ Weather Table</h3>
 <ol>
 <li>Chọn database: <code>weather_analytics</code></li>
 <li>Chọn table: <code>current_weather</code></li>
 <li>Chọn <strong>Directly query your data</strong></li>
-<li>Nhấp <strong>Visualize</strong></li>
+<li>Nhấp <strong>Visualize</strong>
+<img src="/images/analytics-visualization/5b5.png" alt="Quicksight">
+<img src="/images/analytics-visualization/5b6.png" alt="Quicksight"></li>
 </ol>
 
 <div class="notices tip" ><p>Nếu dataset của bạn nhỏ (&lt; 1GB), bạn có thể chọn &ldquo;Import to SPICE&rdquo; để có hiệu suất tốt hơn. SPICE là engine tính toán trong bộ nhớ của QuickSight.</p>
@@ -659,6 +641,7 @@
 </ul>
 </li>
 </ol>
+<p><img src="/images/analytics-visualization/5b7.png" alt="Quicksight"></p>
 <h3 id="32-biểu-đồ-tròn-điều-kiện-thời-tiết">3.2 Biểu đồ Tròn Điều kiện Thời tiết</h3>
 <ol>
 <li>
@@ -684,6 +667,7 @@
 </ul>
 </li>
 </ol>
+<p><img src="/images/analytics-visualization/5b8.png" alt="Quicksight"></p>
 <h3 id="33-biểu-đồ-cột-so-sánh-nhiệt-độ-thành-phố">3.3 Biểu đồ Cột So sánh Nhiệt độ Thành phố</h3>
 <ol>
 <li>
@@ -709,32 +693,32 @@
 </ul>
 </li>
 </ol>
-<h3 id="34-biểu-đồ-phân-tán-độ-ẩm-vs-nhiệt-độ">3.4 Biểu đồ Phân tán Độ ẩm vs Nhiệt độ</h3>
+<p><img src="/images/analytics-visualization/5b9.png" alt="Quicksight"></p>
+<h3 id="34-biểu-đồ-đường-so-sánh-giữa-temperature_celsius-và-feels_like_celsius">3.4 Biểu đồ đường so sánh giữa temperature_celsius và feels_like_celsius</h3>
 <ol>
 <li>
 <p><strong>Thêm visual mới</strong>:</p>
 <ul>
-<li>Chọn <strong>Scatter plot</strong></li>
+<li>Chọn <strong>Line chart</strong></li>
 </ul>
 </li>
 <li>
 <p><strong>Cấu hình</strong>:</p>
 <ul>
-<li><strong>X-axis</strong>: Kéo <code>temperature_celsius</code> vào X-axis</li>
-<li><strong>Y-axis</strong>: Kéo <code>humidity_percent</code> vào Y-axis</li>
-<li><strong>Color</strong>: Kéo <code>comfort_level</code> vào Color</li>
-<li><strong>Size</strong>: Kéo <code>pressure_hpa</code> vào Size</li>
+<li><strong>X-axis</strong>: Kéo <code>timestamp</code> vào X-axis</li>
+<li><strong>Value</strong>: Kéo <code>temperature_celsius</code> và <code>feels_like_celsius</code> vào Value</li>
+<li><strong>Aggregate</strong>: Đổi thành <strong>Average</strong></li>
 </ul>
 </li>
 <li>
 <p><strong>Tùy chỉnh</strong>:</p>
 <ul>
-<li><strong>Title</strong>: &ldquo;Tương quan Độ ẩm và Nhiệt độ&rdquo;</li>
-<li><strong>X-axis label</strong>: &ldquo;Nhiệt độ (°C)&rdquo;</li>
-<li><strong>Y-axis label</strong>: &ldquo;Độ ẩm (%)&rdquo;</li>
+<li><strong>Title</strong>: &ldquo;So sánh nhiệt đồ ngoài trời và nhiệt độ cảm nhận&rdquo;</li>
+<li><strong>X-axis label</strong>: &ldquo;Thời gian&rdquo;</li>
 </ul>
 </li>
 </ol>
+<p><img src="/images/analytics-visualization/5b10.png" alt="Quicksight"></p>
 <h3 id="35-chỉ-số-hiệu-suất-chính-kpis">3.5 Chỉ số Hiệu suất Chính (KPIs)</h3>
 <p>Tạo các ô KPI cho dữ liệu thời tiết mới nhất:</p>
 <h4 id="kpi-nhiệt-độ-hiện-tại">KPI Nhiệt độ Hiện tại</h4>
@@ -748,17 +732,6 @@
 </li>
 <li><strong>Filter</strong>: Thêm filter cho ngày mới nhất</li>
 <li><strong>Title</strong>: &ldquo;Nhiệt độ Trung bình Hiện tại&rdquo;</li>
-</ol>
-<h4 id="kpi-tốc-độ-gió">KPI Tốc độ Gió</h4>
-<ol>
-<li><strong>Thêm KPI visual</strong></li>
-<li><strong>Cấu hình</strong>:
-<ul>
-<li><strong>Value</strong>: <code>wind_speed_kmh</code></li>
-<li><strong>Aggregate</strong>: <strong>Average</strong></li>
-</ul>
-</li>
-<li><strong>Title</strong>: &ldquo;Tốc độ Gió Trung bình Hiện tại&rdquo;</li>
 </ol>
 <h4 id="kpi-độ-ẩm">KPI Độ ẩm</h4>
 <ol>
@@ -780,7 +753,6 @@
 <li>Đặt KPIs ở trên cùng theo hàng ngang</li>
 <li>Biểu đồ xu hướng nhiệt độ ở khu vực chính</li>
 <li>Biểu đồ tròn và biểu đồ cột cạnh nhau bên dưới</li>
-<li>Biểu đồ phân tán ở dưới cùng</li>
 </ul>
 </li>
 <li>
@@ -844,24 +816,7 @@
 </li>
 </ol>
 <h2 id="bước-5-trực-quan-hóa-nâng-cao">Bước 5: Trực quan hóa Nâng cao</h2>
-<h3 id="51-tạo-heat-map-cho-nhiệt-độ-theo-thời-gian">5.1 Tạo Heat Map cho Nhiệt độ theo Thời gian</h3>
-<ol>
-<li><strong>Thêm visual mới</strong> → <strong>Heat map</strong></li>
-<li><strong>Cấu hình</strong>:
-<ul>
-<li><strong>Rows</strong>: <code>city_name</code></li>
-<li><strong>Columns</strong>: <code>data_collection_date</code></li>
-<li><strong>Values</strong>: <code>temperature_celsius</code> (Average)</li>
-</ul>
-</li>
-<li><strong>Tùy chỉnh</strong>:
-<ul>
-<li><strong>Title</strong>: &ldquo;Heat Map Nhiệt độ theo Thành phố và Ngày&rdquo;</li>
-<li><strong>Color scale</strong>: Xanh (lạnh) đến Đỏ (nóng)</li>
-</ul>
-</li>
-</ol>
-<h3 id="52-biểu-đồ-hướng-gió-sử-dụng-calculated-fields">5.2 Biểu đồ Hướng Gió (Sử dụng Calculated Fields)</h3>
+<h3 id="biểu-đồ-hướng-gió-sử-dụng-calculated-fields">Biểu đồ Hướng Gió (Sử dụng Calculated Fields)</h3>
 <ol>
 <li>
 <p><strong>Tạo calculated field</strong>:</p>
@@ -891,30 +846,7 @@
 </ul>
 </li>
 </ol>
-<h3 id="53-gauge-mức-độ-nghiêm-trọng-thời-tiết">5.3 Gauge Mức độ Nghiêm trọng Thời tiết</h3>
-<ol>
-<li>
-<p><strong>Tạo calculated field</strong>:</p>
-<ul>
-<li><strong>Name</strong>: <code>severity_score</code></li>
-<li><strong>Formula</strong>:</li>
-</ul>
-<pre tabindex="0"><code>ifelse(
-  weather_severity = &#34;nghiêm_trọng&#34;, 4,
-  weather_severity = &#34;vừa&#34;, 3,
-  weather_severity = &#34;nhẹ&#34;, 2,
-  1
-)
-</code></pre></li>
-<li>
-<p><strong>Thêm gauge visual</strong>:</p>
-<ul>
-<li><strong>Value</strong>: <code>severity_score</code> (Average)</li>
-<li><strong>Title</strong>: &ldquo;Chỉ số Mức độ Nghiêm trọng Thời tiết&rdquo;</li>
-<li><strong>Range</strong>: 1-4</li>
-</ul>
-</li>
-</ol>
+<p><img src="/images/analytics-visualization/5b11.png" alt="Quicksight"></p>
 <h2 id="bước-6-xuất-bản-và-chia-sẻ-dashboard">Bước 6: Xuất bản và Chia sẻ Dashboard</h2>
 <h3 id="61-xuất-bản-dashboard">6.1 Xuất bản Dashboard</h3>
 <ol>
@@ -941,10 +873,11 @@
 <li>Kích hoạt <strong>Make dashboard public</strong></li>
 <li>Sao chép URL công khai để chia sẻ bên ngoài</li>
 </ol>
-
-<div class="notices warning" ><p>Chỉ công khai dashboard nếu dữ liệu thời tiết của bạn không chứa thông tin nhạy cảm.</p>
+<p>
+<div class="notices warning" ><p>Chỉ công khai dashboard nếu dữ liệu không chứa thông tin nhạy cảm.</p>
 </div>
 
+<img src="/images/analytics-visualization/5b12.png" alt="Quicksight"></p>
 <h2 id="bước-7-thiết-lập-làm-mới-dữ-liệu-tự-động">Bước 7: Thiết lập Làm mới Dữ liệu Tự động</h2>
 <h3 id="71-cấu-hình-làm-mới-dataset">7.1 Cấu hình Làm mới Dataset</h3>
 <ol>
@@ -964,112 +897,16 @@
 <ol>
 <li>Kiểm tra lịch sử làm mới trong <strong>Dataset settings</strong></li>
 <li>Thiết lập <strong>thông báo</strong> cho làm mới thất bại</li>
-<li>Giám sát chỉ báo độ tươi của dữ liệu trong dashboard</li>
+<li>Giám sát chỉ báo độ tươi của dữ liệu trong dashboard
+<img src="/images/analytics-visualization/5b13.png" alt="Quicksight"></li>
 </ol>
 <h2 id="bước-8-tối-ưu-hóa-dashboard-và-best-practices">Bước 8: Tối ưu hóa Dashboard và Best Practices</h2>
-<h3 id="81-tối-ưu-hóa-hiệu-suất">8.1 Tối ưu hóa Hiệu suất</h3>
-<ol>
-<li>
-<p><strong>Sử dụng SPICE cho hiệu suất tốt hơn</strong>:</p>
+<p>Kết quả:</p>
 <ul>
-<li>Import dữ liệu vào SPICE nếu dataset &lt; 10GB</li>
-<li>Lập lịch làm mới SPICE thường xuyên</li>
-</ul>
-</li>
-<li>
-<p><strong>Tối ưu hóa truy vấn</strong>:</p>
-<ul>
-<li>Sử dụng filter để giảm việc quét dữ liệu</li>
-<li>Tạo bảng tóm tắt trong Athena cho dataset lớn</li>
-</ul>
-</li>
-<li>
-<p><strong>Giới hạn độ phức tạp visual</strong>:</p>
-<ul>
-<li>Tối đa 15-20 điểm dữ liệu mỗi biểu đồ</li>
-<li>Sử dụng drill-down cho view chi tiết</li>
-</ul>
-</li>
-</ol>
-<h3 id="82-best-practices-trải-nghiệm-người-dùng">8.2 Best Practices Trải nghiệm Người dùng</h3>
-<ol>
-<li>
-<p><strong>Thứ bậc visual rõ ràng</strong>:</p>
-<ul>
-<li>Các metric quan trọng nhất ở trên</li>
-<li>Các visual liên quan được nhóm lại</li>
-<li>Màu sắc nhất quán</li>
-</ul>
-</li>
-<li>
-<p><strong>Các yếu tố tương tác</strong>:</p>
-<ul>
-<li>Cung cấp hướng dẫn filter rõ ràng</li>
-<li>Sử dụng phạm vi ngày nhất quán</li>
-<li>Kích hoạt cross-filtering giữa các visual</li>
-</ul>
-</li>
-<li>
-<p><strong>Tính responsive di động</strong>:</p>
-<ul>
-<li>Kiểm tra dashboard trên thiết bị di động</li>
-<li>Điều chỉnh layout cho màn hình nhỏ hơn</li>
-<li>Ưu tiên metric chính cho view di động</li>
-</ul>
-</li>
-</ol>
-<h2 id="khắc-phục-các-vấn-đề-thường-gặp">Khắc phục Các Vấn đề Thường gặp</h2>
-<h3 id="vấn-đề-1-lỗi-insufficient-permissions">Vấn đề 1: Lỗi &ldquo;Insufficient permissions&rdquo;</h3>
-<ul>
-<li><strong>Giải pháp</strong>: Kiểm tra quyền IAM của QuickSight cho truy cập Athena và S3</li>
-<li>Xác minh quyền bucket trong cài đặt bảo mật QuickSight</li>
-</ul>
-<h3 id="vấn-đề-2-dữ-liệu-không-làm-mới">Vấn đề 2: Dữ liệu Không Làm mới</h3>
-<ul>
-<li><strong>Giải pháp</strong>: Kiểm tra quyền truy vấn Athena</li>
-<li>Xác minh trạng thái kết nối data source</li>
-<li>Xem lại error logs của làm mới</li>
-</ul>
-<h3 id="vấn-đề-3-hiệu-suất-dashboard-chậm">Vấn đề 3: Hiệu suất Dashboard Chậm</h3>
-<ul>
-<li><strong>Giải pháp</strong>: Import dữ liệu vào SPICE</li>
-<li>Tối ưu hóa truy vấn Athena với filtering phù hợp</li>
-<li>Giảm số lượng visual mỗi dashboard</li>
-</ul>
-<h2 id="phân-tích-chi-phí">Phân tích Chi phí</h2>
-<p><strong>Chi phí QuickSight cho module này:</strong></p>
-<ul>
-<li><strong>Standard Edition</strong>: $9/tháng mỗi author (dùng thử miễn phí 30 ngày)</li>
-<li><strong>SPICE storage</strong>: $0.25/GB/tháng</li>
-<li><strong>Enterprise Edition</strong>: $18/tháng mỗi author (tính năng nâng cao)</li>
-</ul>
-<p><strong>Tổng chi phí ước tính</strong>: $0-4 trong thời gian dùng thử miễn phí</p>
-<h2 id="best-practices-bảo-mật">Best Practices Bảo mật</h2>
-<ol>
-<li>
-<p><strong>Kiểm soát Truy cập</strong>:</p>
-<ul>
-<li>Sử dụng IAM roles cho quyền dịch vụ</li>
-<li>Triển khai row-level security nếu cần</li>
-<li>Audit thường xuyên quyền truy cập người dùng</li>
-</ul>
-</li>
-<li>
-<p><strong>Bảo vệ Dữ liệu</strong>:</p>
-<ul>
-<li>Kích hoạt mã hóa trong transit và at rest</li>
-<li>Sử dụng VPC endpoints cho kết nối riêng tư</li>
-<li>Giám sát patterns truy cập dữ liệu</li>
-</ul>
-</li>
-</ol>
-<h2 id="các-bước-tiếp-theo">Các bước tiếp theo</h2>
-<p>Sau khi hoàn thành module này, bạn sẽ có:</p>
-<ul>
-<li>✅ Dashboard thời tiết tương tác với nhiều trực quan hóa</li>
-<li>✅ Làm mới dữ liệu tự động từ ETL pipeline</li>
-<li>✅ Insights có thể chia sẻ cho phân tích thời tiết</li>
-<li>✅ Hiểu biết về best practices của QuickSight</li>
+<li>Dashboard thời tiết tương tác với nhiều trực quan hóa</li>
+<li>Làm mới dữ liệu tự động từ ETL pipeline</li>
+<li>Insights có thể chia sẻ cho phân tích thời tiết</li>
+<li>Hiểu biết về best practices của QuickSight</li>
 </ul>
 <p><strong>Sắp tới trong Module 6</strong>: Học cách dọn dẹp đúng cách các tài nguyên AWS và khám phá các cải tiến nâng cao cho nền tảng phân tích thời tiết của bạn.</p>
 
@@ -1294,19 +1131,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752557528"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752557528"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752557528"></script>
-    <script src="/js/jquery.sticky.js?1752557528"></script>
-    <script src="/js/featherlight.min.js?1752557528"></script>
-    <script src="/js/highlight.pack.js?1752557528"></script>
+    <script src="/js/clipboard.min.js?1752566860"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752566860"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752566860"></script>
+    <script src="/js/jquery.sticky.js?1752566860"></script>
+    <script src="/js/featherlight.min.js?1752566860"></script>
+    <script src="/js/highlight.pack.js?1752566860"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752557528"></script>
-    <script src="/js/learn.js?1752557528"></script>
-    <script src="/js/hugo-learn.js?1752557528"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752566860"></script>
+    <script src="/js/learn.js?1752566860"></script>
+    <script src="/js/hugo-learn.js?1752566860"></script>
 
-    <link href="/mermaid/mermaid.css?1752557528" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752557528"></script>
+    <link href="/mermaid/mermaid.css?1752566860" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752566860"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
