@@ -256,6 +256,4 @@ Bạn đã xây dựng thành công và giờ đây dọn dẹp một pipeline E
 
 **Cảm ơn bạn đã hoàn thành workshop này!** Các kỹ năng bạn đã học có thể được áp dụng cho nhiều thách thức data engineering trong thế giới thực.
 
----
-
 **Workshop Hoàn thành** - Nhớ xác minh tất cả tài nguyên đã được dọn dẹp để tránh các khoản phí bất ngờ.
