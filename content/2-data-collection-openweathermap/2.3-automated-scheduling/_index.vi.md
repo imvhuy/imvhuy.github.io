@@ -1,5 +1,5 @@
 ---
-title: "Lập lịch Tự động với EventBridge"
+title: "2.3 Lập lịch Tự động với EventBridge"
 date: 2025-01-03T08:45:00+07:00
 weight: 3
 ---
@@ -13,23 +13,20 @@ EventBridge giống như "đồng hồ báo thức thông minh" của AWS:
 - **Tự động**: Không cần can thiệp thủ công
 - **Tiết kiệm**: Chỉ chạy khi cần, không tốn tài nguyên khi không hoạt động
 
-**Tại sao cần Scheduling?**
+**Scheduling để:**
 
 - Thu thập dữ liệu đều đặn 24/7
 - Dữ liệu luôn fresh và cập nhật
 - Tự động hóa hoàn toàn
 - Không phụ thuộc vào người vận hành
 
-**Lịch trình đề xuất:**
-
+**Lịch trình:**
 - **Current Weather**: Mỗi giờ (24 lần/ngày) - Để theo dõi thời tiết real-time
 
 ## Bước 1: Thiết lập EventBridge Rule cho Current Weather
 
 {{% notice tip %}}
 **Bước này sẽ tạo lịch trình chạy Lambda mỗi giờ để thu thập thời tiết hiện tại.**
-
-Ví dụ: Function sẽ chạy lúc 00:00, 01:00, 02:00... 23:00 hàng ngày
 {{% /notice %}}
 
 ### 1.1 Truy cập EventBridge Console
@@ -128,10 +125,10 @@ Ví dụ: Function sẽ chạy lúc 00:00, 01:00, 02:00... 23:00 hàng ngày
 
 2. **Review tất cả cài đặt**:
 
-   - ✅ Name: `weather-current-hourly`
-   - ✅ Schedule: `rate(1 hour)`
-   - ✅ Target: `weather-current-collector`
-   - ✅ State: **Enabled**
+   - Name: `weather-current-hourly`
+   - Schedule: `rate(1 hour)`
+   - Target: `weather-current-collector`
+   - State: **Enabled**
 
 3. **Click "Create rule"**
 
@@ -146,15 +143,10 @@ Rule sẽ trigger Lambda function `weather-current-collector` mỗi giờ để 
 {{% notice success %}}
 **Hoàn thành EventBridge Setup!**
 
-EventBridge rule đã được tạo và sẽ tự động trigger Lambda function mỗi giờ:
-
-- ⏰ **Schedule**: Mỗi giờ (24 lần/ngày)
-- 🎯 **Target**: `weather-current-collector` Lambda function
-- 📊 **Data**: Thu thập thời tiết hiện tại cho 6 thành phố
-- 🔄 **Status**: Enabled và ready to run
+EventBridge rule đã được tạo và sẽ tự động trigger Lambda function mỗi giờ
 
 **Workflow tự động:**
-`EventBridge` → `weather-current-collector` → `S3 Storage` → `CloudWatch Metrics`
+`EventBridge` → `weather-current-collector` → `S3` → `CloudWatch Metrics`
 {{% /notice %}}
 
 ## Bước 3: Thiết lập Monitoring với CloudWatch Alarms
@@ -186,7 +178,7 @@ Khi Lambda functions chạy tự động 24/7, bạn cần biết ngay khi có v
 
 4. **Tạo Subscription**:
    - **Protocol**: `Email`
-   - **Endpoint**: `your-email@example.com` (thay bằng email của bạn)
+   - **Endpoint**: `your-email@example.com` 
    - **Confirm subscription** qua email
 
 ![SNS Subscription](/images/data-collection/23b32.png)
@@ -278,29 +270,21 @@ cron(0 0,2,4 * * ? *)
 
 Trong phần này, chúng ta đã hoàn thành:
 
-**✅ Thiết lập EventBridge Rule:**
+**Thiết lập EventBridge Rule:**
 
-- ⏰ Current weather collection: Mỗi giờ (24 lần/ngày)
-- 🎯 Target: `weather-current-collector` Lambda function
-- 📊 Thu thập dữ liệu 6 thành phố Việt Nam tự động
+- Current weather collection: Mỗi giờ (24 lần/ngày)
+- Target: `weather-current-collector` Lambda function
+- Thu thập dữ liệu 6 thành phố Việt Nam tự động
 
-**✅ CloudWatch Monitoring:**
+**CloudWatch Monitoring:**
 
 - SNS topic cho email alerts
 - CloudWatch alarms cho Lambda errors và duration
 - Metrics tracking cho system health
 
-**✅ Testing và Verification:**
-
-- Manual testing EventBridge rules
-- Verify S3 data collection hoạt động
-- Check CloudWatch logs và metrics
-
-**🎉 Kết quả đạt được:**
+**Kết quả đạt được:**
 
 - Hệ thống thu thập dữ liệu thời tiết tự động 24/7
 - Monitoring và alerting đầy đủ
 - Data pipeline reliable và scalable
 - Sẵn sàng cho data processing ở Module 3
-
-**Tiếp theo**: Trong module 2.4, chúng ta sẽ thiết lập testing và validation toàn diện để đảm bảo data quality và system reliability.

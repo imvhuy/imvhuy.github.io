@@ -10,7 +10,7 @@ Trong module này, chúng ta sẽ xây dựng Lambda functions để xử lý v�
 
 **Dữ liệu thô từ OpenWeatherMap API có nhiều vấn đề**:
 
-- **Cấu trúc phức tạp**: Nested JSON khó query
+- **Cấu trúc phức tạp**: JSON khó query
 - **Đơn vị không thống nhất**: Kelvin, m/s, Pascal...
 - **Dữ liệu dư thừa**: Nhiều fields không cần thiết
 - **Thiếu insights**: Không có derived metrics
@@ -19,8 +19,6 @@ Trong module này, chúng ta sẽ xây dựng Lambda functions để xử lý v�
 
 - **Cấu trúc phẳng**: Dễ query với SQL
 - **Đơn vị thống nhất**: Celsius, km/h, %...
-- **Dữ liệu sạch**: Chỉ giữ thông tin cần thiết
-- **Rich insights**: Heat index, comfort level, weather severity...
 
 **Luồng xử lý:**
 
@@ -464,8 +462,6 @@ Module 2 EventBridge → weather-current-collector → S3 raw/current-weather/
 - **Lambda Data Processor**: Transform current weather data
 - **S3 Event Triggers**: Tự động processing khi có raw data
 - **Data Transformation**: Clean, enrich, standardize weather data
-- **Hive Partitioning**: Analytics-ready folder structure
-- **Error Handling**: Robust error handling và retry logic
 
 **Kết quả:**
 
@@ -475,4 +471,4 @@ Module 2 EventBridge → weather-current-collector → S3 raw/current-weather/
 - Partitioned data cho efficient querying
 - Real-time processing pipeline hoạt động 24/7
 
-**Sẵn sàng cho Module 4**: Data Analytics và Visualization!
+**Sẵn sàng cho phần 4**: Data Analytics và Visualization!

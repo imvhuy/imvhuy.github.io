@@ -9,7 +9,7 @@ chapter: false
 
 ## Tổng quan Workshop
 
-Trong workshop này, em sẽ tạo một pipeline dữ liệu thời tiết đơn giản nhưng hoàn chỉnh, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS.
+Trong workshop này, em sẽ tạo một pipeline dữ liệu thời tiết đơn giản, minh họa các khái niệm ETL cốt lõi sử dụng công nghệ serverless của AWS.
 
 Workshop này trình bày cách xây dựng một pipeline ETL đơn giản sử dụng công nghệ serverless của AWS:
 
@@ -21,7 +21,7 @@ Workshop này trình bày cách xây dựng một pipeline ETL đơn giản sử
 - **Dọn dẹp** tài nguyên để tối ưu chi phí
 
 ### Công nghệ sử dụng:
-- Workshop sử dụng AWS Lambda, S3, Athena, QuickSight kết hợp với OpenWeatherMap API để xây dựng pipeline ETL serverless thu thập và phân tích dữ liệu thời tiết.
+- AWS Lambda, S3, Athena, QuickSight kết hợp với OpenWeatherMap API để xây dựng pipeline ETL serverless thu thập và phân tích dữ liệu thời tiết.
 
 ## Các phần chính
 
@@ -39,9 +39,7 @@ Workshop này trình bày cách xây dựng một pipeline ETL đơn giản sử
 ### 3. [Xử lý Dữ liệu Serverless với Lambda](3-serverless-processing-lambda/)
 - Xây dựng Lambda function chuyển đổi dữ liệu
 - Chuyển đổi JSON thời tiết thô sang định dạng phân tích
-- Triển khai xác thực và làm giàu dữ liệu
 - Thiết lập triggers xử lý
-
 
 ### 4. [Phân tích Dữ liệu với Amazon Athena](4-data-storage-solutions/)
 - Tạo cấu trúc data lake S3
@@ -55,8 +53,4 @@ Workshop này trình bày cách xây dựng một pipeline ETL đơn giản sử
 - Xây dựng trực quan hóa tương tác
 - Chia sẻ và xuất bản dashboard
 
-### 6. [Dọn dẹp Tài nguyên và Bước tiếp theo](6-cleanup-next-steps/)
-- Danh sách kiểm tra dọn dẹp toàn diện
-- Chiến lược tối ưu chi phí
-- Đề xuất cải tiến và mở rộng
-- Tài nguyên học tập bổ sung
+### 6. [Dọn dẹp Tài nguyên](6-cleanup-next-steps/)

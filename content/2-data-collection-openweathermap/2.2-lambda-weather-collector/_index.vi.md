@@ -1,5 +1,5 @@
 ---
-title: "Xây dựng Lambda Weather Collector"
+title: "2.2 Xây dựng Lambda Weather Collector"
 date: 2025-01-03T08:30:00+07:00
 weight: 2
 ---
@@ -29,17 +29,17 @@ Trong phần này, chúng ta sẽ tạo các hàm AWS Lambda để tự động 
 
 **AWS Managed Policy là gì?**
 
-AWS đã tạo sẵn nhiều policies phổ biến mà chúng ta có thể "gắn" (attach) vào Role thay vì tự viết từ đầu. Điều này tiết kiệm thời gian và đảm bảo bảo mật.
+AWS đã tạo sẵn nhiều policies phổ biến mà chúng ta có thể attach vào Role thay vì tự viết từ đầu. Điều này tiết kiệm thời gian và đảm bảo bảo mật.
 
 **Cách gắn các policies trong AWS Console:**
 
 1. **Khi tạo Role** `WeatherCollectorLambdaRole`, ở bước "Add permissions"
 2. **Tab "Permissions"** → Click "Attach policies directly"
 3. **Tìm kiếm và chọn từng policy sau:**
-   - ✅ Gõ `AWSLambdaBasicExecutionRole` → tick chọn
-   - ✅ Gõ `AmazonS3FullAccess` → tick chọn
-   - ✅ Gõ `AmazonSSMReadOnlyAccess` → tick chọn
-   - ✅ Gõ `CloudWatchAgentServerPolicy` → tick chọn
+   - Gõ `AWSLambdaBasicExecutionRole` → tick chọn
+   - Gõ `AmazonS3FullAccess` → tick chọn
+   - Gõ `AmazonSSMReadOnlyAccess` → tick chọn
+   - Gõ `CloudWatchAgentServerPolicy` → tick chọn
 4. **Click "Add Permissions"** và hoàn thành tạo role
 
 ![Managed Policies](/images/data-collection/22b11.png)
@@ -432,7 +432,9 @@ Account ID có thể tìm ở góc phải trên AWS Console (dãy số 12 chữ 
 }
 ```
 
-![S3 Results](/images/data-collection/22b36.png) 4. **Kiểm tra S3**: Vào S3 bucket và xem có file JSON mới không
+![S3 Results](/images/data-collection/22b36.png) 
+
+4. **Kiểm tra S3**: Vào S3 bucket và xem có file JSON mới không
 
 ![S3 Results](/images/data-collection/22b37.png)
 
@@ -443,19 +445,8 @@ Nếu test thành công, bạn đã có:
 - CloudWatch metrics được gửi
 - Error handling hoạt động
 
-**Lambda đã sẵn sàng để tự động chạy theo schedule**
-
-**Nếu test thất bại**, kiểm tra:
-
-1. **CloudWatch Logs**: Lambda → Monitoring → View logs → Xem lỗi cụ thể
-2. **API Key**: Đảm bảo key OpenWeatherMap đúng
-3. **Environment variable**: WEATHER_BUCKET_NAME đúng format
-4. **IAM Role**: Đảm bảo role có đủ permissions
-5. **S3 Bucket**: Bucket đã được tạo chưa
 
 ### 4.1 Test Lambda Function
-
-**Bây giờ hãy test xem function hoạt động không!**
 
 1. **Click "Deploy"** để lưu code và cấu hình
 2. **Tạo test event**:
@@ -489,36 +480,27 @@ Nếu test thành công, bạn đã có:
 }
 ```
 
-![S3 Results](/images/data-collection/22b36.png) 4. **Kiểm tra S3**: Vào S3 bucket và xem có file JSON mới không
+![S3 Results](/images/data-collection/22b36.png) 
+4. **Kiểm tra S3**: Vào S3 bucket và xem có file JSON mới không
 
 ![S3 Results](/images/data-collection/22b37.png)
 
-Nếu test thành công, bạn đã có:
+Nếu test thành công:
 
 - Lambda function hoạt động
 - Dữ liệu thời tiết được lưu vào S3
 - CloudWatch metrics được gửi
 - Error handling hoạt động
 
-**Lambda đã sẵn sàng để tự động chạy theo schedule**
-
-**Nếu test thất bại**, kiểm tra:
-
-1. **CloudWatch Logs**: Lambda → Monitoring → View logs → Xem lỗi cụ thể
-2. **API Key**: Đảm bảo key OpenWeatherMap đúng
-3. **Environment variable**: WEATHER_BUCKET_NAME đúng format
-4. **IAM Role**: Đảm bảo role có đủ permissions
-5. **S3 Bucket**: Bucket đã được tạo chưa
-
 ## Tóm tắt
 
 Trong phần này, chúng ta đã:
 
-- ✅ Tạo IAM roles và policies cho Lambda function
-- ✅ Thiết lập S3 bucket với cấu trúc partition thông minh
-- ✅ Xây dựng Lambda function thu thập thời tiết hiện tại
-- ✅ Cấu hình error handling và CloudWatch metrics
-- ✅ Test function thành công với 6 thành phố Việt Nam
+- Tạo IAM roles và policies cho Lambda function
+- Thiết lập S3 bucket với cấu trúc partition thông minh
+- Xây dựng Lambda function thu thập thời tiết hiện tại
+- Cấu hình error handling và CloudWatch metrics
+- Test function thành công với 6 thành phố ở Việt Nam
 
 **Kết quả đạt được:**
 
@@ -527,4 +509,4 @@ Trong phần này, chúng ta đã:
 - Monitoring và metrics đầy đủ qua CloudWatch
 - Error handling robust với retry mechanism
 
-**Tiếp theo**: Trong module 2.3, chúng ta sẽ thiết lập automated scheduling với EventBridge để chạy function này theo lịch trình tự động.
+**Tiếp theo**: Trong 2.3, chúng ta sẽ thiết lập automated scheduling với EventBridge để chạy function này theo lịch trình tự động.

@@ -12,21 +12,21 @@
     <title>Phân tích Dữ liệu với Athena :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752585664" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752585664" rel="stylesheet">
-    <link href="/css/hybrid.css?1752585664" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752585664" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752585664" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752585664" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752585664" rel="stylesheet">
-    <link href="/css/theme.css?1752585664" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752585664" rel="stylesheet">
+    <link href="/css/nucleus.css?1752636930" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752636930" rel="stylesheet">
+    <link href="/css/hybrid.css?1752636930" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752636930" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752636930" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752636930" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752636930" rel="stylesheet">
+    <link href="/css/theme.css?1752636930" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752636930" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752585664" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752636930" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752585664"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752636930"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752585664"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752585664"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752636930"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752636930"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752585664"></script>
+<script type="text/javascript" src="/js/search.js?1752636930"></script>
 
     
   </div>
@@ -139,13 +139,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="2.1 Thiết lập OpenWeatherMap API" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/">
-          Thiết lập OpenWeatherMap API
+          2.1 Thiết lập OpenWeatherMap API
           
             <i class="fas fa-check read-icon"></i>
           
@@ -167,13 +167,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Xây dựng Lambda Weather Collector" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="2.2 Xây dựng Lambda Weather Collector" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
-          Xây dựng Lambda Weather Collector
+          2.2 Xây dựng Lambda Weather Collector
           
             <i class="fas fa-check read-icon"></i>
           
@@ -195,13 +195,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với EventBridge" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Lập lịch Tự động với EventBridge" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">
-          Lập lịch Tự động với EventBridge
+          2.3 Lập lịch Tự động với EventBridge
           
             <i class="fas fa-check read-icon"></i>
           
@@ -458,7 +458,7 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#mục-tiêu-module">Mục tiêu Module</a></li>
+    <li><a href="#mục-tiêu">Mục tiêu:</a></li>
     <li><a href="#điều-kiện-tiên-quyết">Điều kiện tiên quyết</a></li>
     <li><a href="#bước-1-thiết-lập-s3-bucket-cho-athena-query-results">Bước 1: Thiết lập S3 Bucket cho Athena Query Results</a>
       <ul>
@@ -520,9 +520,8 @@
 
 
 
-	<h1 id="phân-tích-dữ-liệu-với-athena">Phân tích Dữ liệu với Athena</h1>
-<p>Trong module này, ta sẽ sử dụng Amazon Athena để chạy các truy vấn SQL trực tiếp trên dữ liệu thời tiết đã xử lý được lưu trữ trong S3. Athena là dịch vụ truy vấn serverless giúp dễ dàng phân tích dữ liệu bằng SQL tiêu chuẩn mà không cần thiết lập cơ sở hạ tầng kho dữ liệu phức tạp.</p>
-<h2 id="mục-tiêu-module">Mục tiêu Module</h2>
+	<p>Trong phần này, ta sẽ sử dụng Amazon Athena để chạy các truy vấn SQL trực tiếp trên dữ liệu thời tiết đã xử lý được lưu trữ trong S3. Athena là dịch vụ truy vấn serverless giúp dễ dàng phân tích dữ liệu bằng SQL tiêu chuẩn mà không cần thiết lập cơ sở hạ tầng kho dữ liệu phức tạp.</p>
+<h2 id="mục-tiêu">Mục tiêu:</h2>
 <ul>
 <li>Thiết lập Amazon Athena để query dữ liệu từ S3</li>
 <li>Tạo database và external table cho dữ liệu thời tiết</li>
@@ -538,10 +537,6 @@
 <li><strong>Truy cập AWS Console</strong> với quyền Administrator hoặc quyền cho Athena, S3</li>
 <li><strong>Hiểu biết cơ bản về SQL</strong> (SELECT, WHERE, GROUP BY, etc.)</li>
 </ul>
-
-<div class="notices info" ><p><strong>Kiểm tra dữ liệu</strong>: Hãy chắc chắn rằng bạn có dữ liệu JSON trong S3 bucket processed với cấu trúc</p>
-</div>
-
 <h2 id="bước-1-thiết-lập-s3-bucket-cho-athena-query-results">Bước 1: Thiết lập S3 Bucket cho Athena Query Results</h2>
 <p>Athena cần một S3 bucket để lưu trữ kết quả truy vấn. Chúng ta sẽ tạo bucket này thủ công qua AWS Console.</p>
 <h3 id="11-tạo-s3-bucket-cho-query-results">1.1 Tạo S3 Bucket cho Query Results</h3>
@@ -966,15 +961,20 @@
 <li>Nhấp <strong>Download</strong> để lưu kết quả CSV</li>
 <li>Kết quả cũng tự động lưu trong S3 query results bucket</li>
 </ol>
-<p>Sau khi hoàn thành module này, bạn đã có thể:</p>
-<p><strong>Analyze weather data</strong> với SQL queries phức tạp<br>
-<strong>Create insights</strong> từ comfort levels và weather severity<br>
-<strong>Generate reports</strong> cho business applications<br>
-<strong>Understand weather patterns</strong> qua correlations</p>
+<p>Kết quả:</p>
 <ul>
-<li>Trong module tiếp theo, chúng ta sẽ tạo <strong>QuickSight dashboards</strong> từ Athena data</li>
-<li>Visualize weather trends và patterns</li>
-<li>Create interactive business intelligence reports</li>
+<li>
+<p>Phân tích dữ liệu thời tiết với SQL queries phức tạp</p>
+</li>
+<li>
+<p>Tạo Insights từ comfort levels và weather severity</p>
+</li>
+<li>
+<p>Tạo Report cho business applications</p>
+</li>
+<li>
+<p>Trong phần tiếp theo, chúng ta sẽ tạo <strong>QuickSight dashboards</strong> từ Athena data</p>
+</li>
 </ul>
 
 
@@ -1186,19 +1186,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752585664"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752585664"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752585664"></script>
-    <script src="/js/jquery.sticky.js?1752585664"></script>
-    <script src="/js/featherlight.min.js?1752585664"></script>
-    <script src="/js/highlight.pack.js?1752585664"></script>
+    <script src="/js/clipboard.min.js?1752636930"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752636930"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752636930"></script>
+    <script src="/js/jquery.sticky.js?1752636930"></script>
+    <script src="/js/featherlight.min.js?1752636930"></script>
+    <script src="/js/highlight.pack.js?1752636930"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752585664"></script>
-    <script src="/js/learn.js?1752585664"></script>
-    <script src="/js/hugo-learn.js?1752585664"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752636930"></script>
+    <script src="/js/learn.js?1752636930"></script>
+    <script src="/js/hugo-learn.js?1752636930"></script>
 
-    <link href="/mermaid/mermaid.css?1752585664" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752585664"></script>
+    <link href="/mermaid/mermaid.css?1752636930" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752636930"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -9,24 +9,24 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Xây dựng Lambda Weather Collector :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>2.2 Xây dựng Lambda Weather Collector :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752585664" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752585664" rel="stylesheet">
-    <link href="/css/hybrid.css?1752585664" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752585664" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752585664" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752585664" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752585664" rel="stylesheet">
-    <link href="/css/theme.css?1752585664" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752585664" rel="stylesheet">
+    <link href="/css/nucleus.css?1752636930" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752636930" rel="stylesheet">
+    <link href="/css/hybrid.css?1752636930" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752636930" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752636930" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752636930" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752636930" rel="stylesheet">
+    <link href="/css/theme.css?1752636930" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752636930" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752585664" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752636930" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752585664"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752636930"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752585664"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752585664"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752636930"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752636930"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752585664"></script>
+<script type="text/javascript" src="/js/search.js?1752636930"></script>
 
     
   </div>
@@ -139,13 +139,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="2.1 Thiết lập OpenWeatherMap API" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/">
-          Thiết lập OpenWeatherMap API
+          2.1 Thiết lập OpenWeatherMap API
           
             <i class="fas fa-check read-icon"></i>
           
@@ -167,13 +167,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Xây dựng Lambda Weather Collector" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="2.2 Xây dựng Lambda Weather Collector" class="dd-item 
         
         active
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
-          Xây dựng Lambda Weather Collector
+          2.2 Xây dựng Lambda Weather Collector
           
             <i class="fas fa-check read-icon"></i>
           
@@ -195,13 +195,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với EventBridge" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Lập lịch Tự động với EventBridge" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">
-          Lập lịch Tự động với EventBridge
+          2.3 Lập lịch Tự động với EventBridge
           
             <i class="fas fa-check read-icon"></i>
           
@@ -449,7 +449,7 @@
             
           
           
-            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > <a href='/vi/2-data-collection-openweathermap/'>Thu thập Dữ liệu Thời tiết với OpenWeatherMap</a> > Xây dựng Lambda Weather Collector
+            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > <a href='/vi/2-data-collection-openweathermap/'>Thu thập Dữ liệu Thời tiết với OpenWeatherMap</a> > 2.2 Xây dựng Lambda Weather Collector
           
         
           
@@ -502,7 +502,7 @@
           
             <h1>
               
-              Xây dựng Lambda Weather Collector
+              2.2 Xây dựng Lambda Weather Collector
             </h1>
           
 
@@ -539,17 +539,17 @@
 </ol>
 <h3 id="12-gắn-aws-managed-policies">1.2 Gắn AWS Managed Policies</h3>
 <p><strong>AWS Managed Policy là gì?</strong></p>
-<p>AWS đã tạo sẵn nhiều policies phổ biến mà chúng ta có thể &ldquo;gắn&rdquo; (attach) vào Role thay vì tự viết từ đầu. Điều này tiết kiệm thời gian và đảm bảo bảo mật.</p>
+<p>AWS đã tạo sẵn nhiều policies phổ biến mà chúng ta có thể attach vào Role thay vì tự viết từ đầu. Điều này tiết kiệm thời gian và đảm bảo bảo mật.</p>
 <p><strong>Cách gắn các policies trong AWS Console:</strong></p>
 <ol>
 <li><strong>Khi tạo Role</strong> <code>WeatherCollectorLambdaRole</code>, ở bước &ldquo;Add permissions&rdquo;</li>
 <li><strong>Tab &ldquo;Permissions&rdquo;</strong> → Click &ldquo;Attach policies directly&rdquo;</li>
 <li><strong>Tìm kiếm và chọn từng policy sau:</strong>
 <ul>
-<li>✅ Gõ <code>AWSLambdaBasicExecutionRole</code> → tick chọn</li>
-<li>✅ Gõ <code>AmazonS3FullAccess</code> → tick chọn</li>
-<li>✅ Gõ <code>AmazonSSMReadOnlyAccess</code> → tick chọn</li>
-<li>✅ Gõ <code>CloudWatchAgentServerPolicy</code> → tick chọn</li>
+<li>Gõ <code>AWSLambdaBasicExecutionRole</code> → tick chọn</li>
+<li>Gõ <code>AmazonS3FullAccess</code> → tick chọn</li>
+<li>Gõ <code>AmazonSSMReadOnlyAccess</code> → tick chọn</li>
+<li>Gõ <code>CloudWatchAgentServerPolicy</code> → tick chọn</li>
 </ul>
 </li>
 <li><strong>Click &ldquo;Add Permissions&rdquo;</strong> và hoàn thành tạo role</li>
@@ -943,7 +943,10 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ]
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results"> 4. <strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</p>
+</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results"></p>
+<ol start="4">
+<li><strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</li>
+</ol>
 <p><img src="/images/data-collection/22b37.png" alt="S3 Results"></p>
 <p>Nếu test thành công, bạn đã có:</p>
 <ul>
@@ -952,17 +955,7 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 <li>CloudWatch metrics được gửi</li>
 <li>Error handling hoạt động</li>
 </ul>
-<p><strong>Lambda đã sẵn sàng để tự động chạy theo schedule</strong></p>
-<p><strong>Nếu test thất bại</strong>, kiểm tra:</p>
-<ol>
-<li><strong>CloudWatch Logs</strong>: Lambda → Monitoring → View logs → Xem lỗi cụ thể</li>
-<li><strong>API Key</strong>: Đảm bảo key OpenWeatherMap đúng</li>
-<li><strong>Environment variable</strong>: WEATHER_BUCKET_NAME đúng format</li>
-<li><strong>IAM Role</strong>: Đảm bảo role có đủ permissions</li>
-<li><strong>S3 Bucket</strong>: Bucket đã được tạo chưa</li>
-</ol>
 <h3 id="41-test-lambda-function">4.1 Test Lambda Function</h3>
-<p><strong>Bây giờ hãy test xem function hoạt động không!</strong></p>
 <ol>
 <li><strong>Click &ldquo;Deploy&rdquo;</strong> để lưu code và cấu hình</li>
 <li><strong>Tạo test event</strong>:
@@ -995,32 +988,24 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ]
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results"> 4. <strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</p>
+</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results">
+4. <strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</p>
 <p><img src="/images/data-collection/22b37.png" alt="S3 Results"></p>
-<p>Nếu test thành công, bạn đã có:</p>
+<p>Nếu test thành công:</p>
 <ul>
 <li>Lambda function hoạt động</li>
 <li>Dữ liệu thời tiết được lưu vào S3</li>
 <li>CloudWatch metrics được gửi</li>
 <li>Error handling hoạt động</li>
 </ul>
-<p><strong>Lambda đã sẵn sàng để tự động chạy theo schedule</strong></p>
-<p><strong>Nếu test thất bại</strong>, kiểm tra:</p>
-<ol>
-<li><strong>CloudWatch Logs</strong>: Lambda → Monitoring → View logs → Xem lỗi cụ thể</li>
-<li><strong>API Key</strong>: Đảm bảo key OpenWeatherMap đúng</li>
-<li><strong>Environment variable</strong>: WEATHER_BUCKET_NAME đúng format</li>
-<li><strong>IAM Role</strong>: Đảm bảo role có đủ permissions</li>
-<li><strong>S3 Bucket</strong>: Bucket đã được tạo chưa</li>
-</ol>
 <h2 id="tóm-tắt">Tóm tắt</h2>
 <p>Trong phần này, chúng ta đã:</p>
 <ul>
-<li>✅ Tạo IAM roles và policies cho Lambda function</li>
-<li>✅ Thiết lập S3 bucket với cấu trúc partition thông minh</li>
-<li>✅ Xây dựng Lambda function thu thập thời tiết hiện tại</li>
-<li>✅ Cấu hình error handling và CloudWatch metrics</li>
-<li>✅ Test function thành công với 6 thành phố Việt Nam</li>
+<li>Tạo IAM roles và policies cho Lambda function</li>
+<li>Thiết lập S3 bucket với cấu trúc partition thông minh</li>
+<li>Xây dựng Lambda function thu thập thời tiết hiện tại</li>
+<li>Cấu hình error handling và CloudWatch metrics</li>
+<li>Test function thành công với 6 thành phố ở Việt Nam</li>
 </ul>
 <p><strong>Kết quả đạt được:</strong></p>
 <ul>
@@ -1029,7 +1014,7 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 <li>Monitoring và metrics đầy đủ qua CloudWatch</li>
 <li>Error handling robust với retry mechanism</li>
 </ul>
-<p><strong>Tiếp theo</strong>: Trong module 2.3, chúng ta sẽ thiết lập automated scheduling với EventBridge để chạy function này theo lịch trình tự động.</p>
+<p><strong>Tiếp theo</strong>: Trong 2.3, chúng ta sẽ thiết lập automated scheduling với EventBridge để chạy function này theo lịch trình tự động.</p>
 
 
 
@@ -1231,10 +1216,10 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 	 
 	 
 		
-			<a class="nav nav-prev" href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="2.1 Thiết lập OpenWeatherMap API"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với EventBridge" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Lập lịch Tự động với EventBridge" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1244,19 +1229,19 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752585664"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752585664"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752585664"></script>
-    <script src="/js/jquery.sticky.js?1752585664"></script>
-    <script src="/js/featherlight.min.js?1752585664"></script>
-    <script src="/js/highlight.pack.js?1752585664"></script>
+    <script src="/js/clipboard.min.js?1752636930"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752636930"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752636930"></script>
+    <script src="/js/jquery.sticky.js?1752636930"></script>
+    <script src="/js/featherlight.min.js?1752636930"></script>
+    <script src="/js/highlight.pack.js?1752636930"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752585664"></script>
-    <script src="/js/learn.js?1752585664"></script>
-    <script src="/js/hugo-learn.js?1752585664"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752636930"></script>
+    <script src="/js/learn.js?1752636930"></script>
+    <script src="/js/hugo-learn.js?1752636930"></script>
 
-    <link href="/mermaid/mermaid.css?1752585664" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752585664"></script>
+    <link href="/mermaid/mermaid.css?1752636930" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752636930"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

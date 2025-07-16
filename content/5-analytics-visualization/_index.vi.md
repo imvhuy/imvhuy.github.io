@@ -6,17 +6,11 @@ chapter: false
 pre: "<b>5. </b>"
 ---
 
-Bây giờ khi bạn đã có dữ liệu thời tiết được lưu trữ và có thể truy vấn thông qua Athena, đã đến lúc tạo các trực quan hóa hấp dẫn! Trong module này, ta sẽ sử dụng Amazon QuickSight để xây dựng dashboard tương tác giúp dữ liệu thời tiết của chúng ta trở nên sinh động.
+Khi đã có dữ liệu thời tiết được lưu trữ và có thể truy vấn thông qua Athena thì sẽ đến với việc trực quan hóa dữ liệu. Trong phần này, ta sẽ sử dụng Amazon QuickSight để xây dựng dashboard tương tác giúp dữ liệu thời tiết trở nên sinh động.
 
-## Tổng quan Module
+## Tổng quan
 
 Amazon QuickSight là dịch vụ business intelligence (BI) của AWS giúp dễ dàng tạo và xuất bản các dashboard tương tác. Bạn sẽ kết nối QuickSight với nguồn dữ liệu Athena và tạo các trực quan hóa tiết lộ các mẫu và thông tin chi tiết từ dữ liệu thời tiết.
-
-## Điều kiện tiên quyết
-
-- Phân tích Dữ liệu với Athena
-- Dữ liệu thời tiết có sẵn trong bảng Athena
-- Tài khoản AWS với quyền QuickSight
 
 ## Bước 1: Thiết lập Amazon QuickSight
 
@@ -318,8 +312,6 @@ Kết quả:
 - Insights có thể chia sẻ cho phân tích thời tiết
 - Hiểu biết về best practices của QuickSight
 
-**Sắp tới trong Module 6**: Học cách dọn dẹp đúng cách các tài nguyên AWS và khám phá các cải tiến nâng cao cho nền tảng phân tích thời tiết của bạn.
 
-{{% notice warning %}}
-Hủy đăng ký QuickSight sau workshop nếu không có kế hoạch tiếp tục sử dụng để tránh các khoản phí liên tục.
-{{% /notice %}}
+
+

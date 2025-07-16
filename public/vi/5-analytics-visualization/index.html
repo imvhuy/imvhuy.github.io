@@ -12,21 +12,21 @@
     <title>Trực quan hóa Dữ liệu với QuickSight :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752585664" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752585664" rel="stylesheet">
-    <link href="/css/hybrid.css?1752585664" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752585664" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752585664" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752585664" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752585664" rel="stylesheet">
-    <link href="/css/theme.css?1752585664" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752585664" rel="stylesheet">
+    <link href="/css/nucleus.css?1752636930" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752636930" rel="stylesheet">
+    <link href="/css/hybrid.css?1752636930" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752636930" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752636930" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752636930" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752636930" rel="stylesheet">
+    <link href="/css/theme.css?1752636930" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752636930" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752585664" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752636930" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752585664"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752636930"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752585664"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752585664"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752636930"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752636930"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752585664"></script>
+<script type="text/javascript" src="/js/search.js?1752636930"></script>
 
     
   </div>
@@ -139,13 +139,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="Thiết lập OpenWeatherMap API" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="2.1 Thiết lập OpenWeatherMap API" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/">
-          Thiết lập OpenWeatherMap API
+          2.1 Thiết lập OpenWeatherMap API
           
             <i class="fas fa-check read-icon"></i>
           
@@ -167,13 +167,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="Xây dựng Lambda Weather Collector" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="2.2 Xây dựng Lambda Weather Collector" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
-          Xây dựng Lambda Weather Collector
+          2.2 Xây dựng Lambda Weather Collector
           
             <i class="fas fa-check read-icon"></i>
           
@@ -195,13 +195,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="Lập lịch Tự động với EventBridge" class="dd-item 
+    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Lập lịch Tự động với EventBridge" class="dd-item 
         
         
         
         ">
       <a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">
-          Lập lịch Tự động với EventBridge
+          2.3 Lập lịch Tự động với EventBridge
           
             <i class="fas fa-check read-icon"></i>
           
@@ -458,8 +458,7 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#tổng-quan-module">Tổng quan Module</a></li>
-    <li><a href="#điều-kiện-tiên-quyết">Điều kiện tiên quyết</a></li>
+    <li><a href="#tổng-quan">Tổng quan</a></li>
     <li><a href="#bước-1-thiết-lập-amazon-quicksight">Bước 1: Thiết lập Amazon QuickSight</a>
       <ul>
         <li><a href="#11-đăng-ký-quicksight">1.1 Đăng ký QuickSight</a></li>
@@ -532,15 +531,9 @@
 
 
 
-	<p>Bây giờ khi bạn đã có dữ liệu thời tiết được lưu trữ và có thể truy vấn thông qua Athena, đã đến lúc tạo các trực quan hóa hấp dẫn! Trong module này, ta sẽ sử dụng Amazon QuickSight để xây dựng dashboard tương tác giúp dữ liệu thời tiết của chúng ta trở nên sinh động.</p>
-<h2 id="tổng-quan-module">Tổng quan Module</h2>
+	<p>Khi đã có dữ liệu thời tiết được lưu trữ và có thể truy vấn thông qua Athena thì sẽ đến với việc trực quan hóa dữ liệu. Trong phần này, ta sẽ sử dụng Amazon QuickSight để xây dựng dashboard tương tác giúp dữ liệu thời tiết trở nên sinh động.</p>
+<h2 id="tổng-quan">Tổng quan</h2>
 <p>Amazon QuickSight là dịch vụ business intelligence (BI) của AWS giúp dễ dàng tạo và xuất bản các dashboard tương tác. Bạn sẽ kết nối QuickSight với nguồn dữ liệu Athena và tạo các trực quan hóa tiết lộ các mẫu và thông tin chi tiết từ dữ liệu thời tiết.</p>
-<h2 id="điều-kiện-tiên-quyết">Điều kiện tiên quyết</h2>
-<ul>
-<li>Phân tích Dữ liệu với Athena</li>
-<li>Dữ liệu thời tiết có sẵn trong bảng Athena</li>
-<li>Tài khoản AWS với quyền QuickSight</li>
-</ul>
 <h2 id="bước-1-thiết-lập-amazon-quicksight">Bước 1: Thiết lập Amazon QuickSight</h2>
 <h3 id="11-đăng-ký-quicksight">1.1 Đăng ký QuickSight</h3>
 <ol>
@@ -908,11 +901,6 @@
 <li>Insights có thể chia sẻ cho phân tích thời tiết</li>
 <li>Hiểu biết về best practices của QuickSight</li>
 </ul>
-<p><strong>Sắp tới trong Module 6</strong>: Học cách dọn dẹp đúng cách các tài nguyên AWS và khám phá các cải tiến nâng cao cho nền tảng phân tích thời tiết của bạn.</p>
-
-<div class="notices warning" ><p>Hủy đăng ký QuickSight sau workshop nếu không có kế hoạch tiếp tục sử dụng để tránh các khoản phí liên tục.</p>
-</div>
-
 
 
 
@@ -1123,19 +1111,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752585664"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752585664"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752585664"></script>
-    <script src="/js/jquery.sticky.js?1752585664"></script>
-    <script src="/js/featherlight.min.js?1752585664"></script>
-    <script src="/js/highlight.pack.js?1752585664"></script>
+    <script src="/js/clipboard.min.js?1752636930"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752636930"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752636930"></script>
+    <script src="/js/jquery.sticky.js?1752636930"></script>
+    <script src="/js/featherlight.min.js?1752636930"></script>
+    <script src="/js/highlight.pack.js?1752636930"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752585664"></script>
-    <script src="/js/learn.js?1752585664"></script>
-    <script src="/js/hugo-learn.js?1752585664"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752636930"></script>
+    <script src="/js/learn.js?1752636930"></script>
+    <script src="/js/hugo-learn.js?1752636930"></script>
 
-    <link href="/mermaid/mermaid.css?1752585664" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752585664"></script>
+    <link href="/mermaid/mermaid.css?1752636930" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752636930"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

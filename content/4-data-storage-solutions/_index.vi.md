@@ -6,11 +6,9 @@ chapter: false
 pre: "<b>4. </b>"
 ---
 
-# Phân tích Dữ liệu với Athena
+Trong phần này, ta sẽ sử dụng Amazon Athena để chạy các truy vấn SQL trực tiếp trên dữ liệu thời tiết đã xử lý được lưu trữ trong S3. Athena là dịch vụ truy vấn serverless giúp dễ dàng phân tích dữ liệu bằng SQL tiêu chuẩn mà không cần thiết lập cơ sở hạ tầng kho dữ liệu phức tạp.
 
-Trong module này, ta sẽ sử dụng Amazon Athena để chạy các truy vấn SQL trực tiếp trên dữ liệu thời tiết đã xử lý được lưu trữ trong S3. Athena là dịch vụ truy vấn serverless giúp dễ dàng phân tích dữ liệu bằng SQL tiêu chuẩn mà không cần thiết lập cơ sở hạ tầng kho dữ liệu phức tạp.
-
-## Mục tiêu Module
+## Mục tiêu:
 
 - Thiết lập Amazon Athena để query dữ liệu từ S3
 - Tạo database và external table cho dữ liệu thời tiết
@@ -26,9 +24,6 @@ Trong module này, ta sẽ sử dụng Amazon Athena để chạy các truy vấ
 - **Truy cập AWS Console** với quyền Administrator hoặc quyền cho Athena, S3
 - **Hiểu biết cơ bản về SQL** (SELECT, WHERE, GROUP BY, etc.)
 
-{{% notice info %}}
-**Kiểm tra dữ liệu**: Hãy chắc chắn rằng bạn có dữ liệu JSON trong S3 bucket processed với cấu trúc
-{{% /notice %}}
 
 ## Bước 1: Thiết lập S3 Bucket cho Athena Query Results
 
@@ -538,13 +533,10 @@ ORDER BY data_collection_date DESC, city_name;
 3. Kết quả cũng tự động lưu trong S3 query results bucket
 
 
-Sau khi hoàn thành module này, bạn đã có thể:
+Kết quả:
 
-**Analyze weather data** với SQL queries phức tạp  
-**Create insights** từ comfort levels và weather severity  
-**Generate reports** cho business applications  
-**Understand weather patterns** qua correlations
+- Phân tích dữ liệu thời tiết với SQL queries phức tạp  
+- Tạo Insights từ comfort levels và weather severity  
+- Tạo Report cho business applications  
 
-- Trong module tiếp theo, chúng ta sẽ tạo **QuickSight dashboards** từ Athena data
-- Visualize weather trends và patterns
-- Create interactive business intelligence reports
+- Trong phần tiếp theo, chúng ta sẽ tạo **QuickSight dashboards** từ Athena data
