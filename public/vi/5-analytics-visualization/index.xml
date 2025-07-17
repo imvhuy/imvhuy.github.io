@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Trực quan hóa Dữ liệu với QuickSight on Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
-    <link>//localhost:1313/vi/5-analytics-visualization/</link>
+    <link>/vi/5-analytics-visualization/</link>
     <description>Recent content in Trực quan hóa Dữ liệu với QuickSight on Hệ thống ETL Dữ liệu Thời tiết với AWS</description>
     <generator>Hugo</generator>
     <language>vi</language>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="//localhost:1313/vi/5-analytics-visualization/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/vi/5-analytics-visualization/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
