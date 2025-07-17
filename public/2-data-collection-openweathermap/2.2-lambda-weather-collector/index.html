@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="js csstransforms3d">
+<html lang="en" class="js csstransforms3d">
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>2.2 Xây dựng Lambda Weather Collector :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
+    <title>2.2 Building the Lambda Weather Collector :: Weather ETL Pipeline with AWS</title>
 
     
     <link href="/css/nucleus.css?1752729177" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
+  <body class="" data-url="/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -61,7 +61,7 @@
 <script type="text/javascript" src="/js/auto-complete.js?1752729177"></script>
 <script type="text/javascript">
     
-        var baseurl = "\/\/localhost:1313\/\/vi";
+        var baseurl = "\/\/localhost:1313\/";
     
 </script>
 <script type="text/javascript" src="/js/search.js?1752729177"></script>
@@ -82,13 +82,13 @@
  
   
     
-    <li data-nav-id="/vi/1-introduction/" title="Giới thiệu" class="dd-item 
+    <li data-nav-id="/1-introduction/" title="Introduction" class="dd-item 
         
         
         
         ">
-      <a href="/vi/1-introduction/">
-          <b>1. </b>Giới thiệu
+      <a href="/1-introduction/">
+          <b>1. </b>Introduction
           
             <i class="fas fa-check read-icon"></i>
           
@@ -108,13 +108,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/" title="Thu thập Dữ liệu Thời tiết với OpenWeatherMap" class="dd-item 
+    <li data-nav-id="/2-data-collection-openweathermap/" title="Data Collection with OpenWeatherMap" class="dd-item 
         parent
         
         
         ">
-      <a href="/vi/2-data-collection-openweathermap/">
-          <b>2. </b>Thu thập Dữ liệu Thời tiết với OpenWeatherMap
+      <a href="/2-data-collection-openweathermap/">
+          <b>2. </b>Data Collection with OpenWeatherMap
           
             <i class="fas fa-check read-icon"></i>
           
@@ -139,13 +139,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="2.1 Thiết lập OpenWeatherMap API" class="dd-item 
+    <li data-nav-id="/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="2.1 OpenWeatherMap API Setup" class="dd-item 
         
         
         
         ">
-      <a href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/">
-          2.1 Thiết lập OpenWeatherMap API
+      <a href="/2-data-collection-openweathermap/2.1-openweathermap-setup/">
+          2.1 OpenWeatherMap API Setup
           
             <i class="fas fa-check read-icon"></i>
           
@@ -167,13 +167,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="2.2 Xây dựng Lambda Weather Collector" class="dd-item 
+    <li data-nav-id="/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="2.2 Building the Lambda Weather Collector" class="dd-item 
         
         active
         
         ">
-      <a href="/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
-          2.2 Xây dựng Lambda Weather Collector
+      <a href="/2-data-collection-openweathermap/2.2-lambda-weather-collector/">
+          2.2 Building the Lambda Weather Collector
           
             <i class="fas fa-check read-icon"></i>
           
@@ -195,13 +195,13 @@
  
   
     
-    <li data-nav-id="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Lập lịch Tự động với EventBridge" class="dd-item 
+    <li data-nav-id="/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Automated Scheduling with EventBridge" class="dd-item 
         
         
         
         ">
-      <a href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">
-          2.3 Lập lịch Tự động với EventBridge
+      <a href="/2-data-collection-openweathermap/2.3-automated-scheduling/">
+          2.3 Automated Scheduling with EventBridge
           
             <i class="fas fa-check read-icon"></i>
           
@@ -230,13 +230,13 @@
  
   
     
-    <li data-nav-id="/vi/3-serverless-processing-lambda/" title="Xử lý và Chuyển đổi Dữ liệu Serverless" class="dd-item 
+    <li data-nav-id="/3-serverless-processing-lambda/" title="Serverless Data Processing and Transformation" class="dd-item 
         
         
         
         ">
-      <a href="/vi/3-serverless-processing-lambda/">
-          <b>3. </b>Xử lý và Chuyển đổi Dữ liệu Serverless
+      <a href="/3-serverless-processing-lambda/">
+          <b>3. </b>Serverless Data Processing and Transformation
           
             <i class="fas fa-check read-icon"></i>
           
@@ -256,13 +256,13 @@
  
   
     
-    <li data-nav-id="/vi/4-data-storage-solutions/" title="Phân tích Dữ liệu với Athena" class="dd-item 
+    <li data-nav-id="/4-data-storage-solutions/" title="Data Analysis with Athena" class="dd-item 
         
         
         
         ">
-      <a href="/vi/4-data-storage-solutions/">
-          <b>4. </b>Phân tích Dữ liệu với Athena
+      <a href="/4-data-storage-solutions/">
+          <b>4. </b>Data Analysis with Athena
           
             <i class="fas fa-check read-icon"></i>
           
@@ -282,13 +282,13 @@
  
   
     
-    <li data-nav-id="/vi/5-analytics-visualization/" title="Trực quan hóa Dữ liệu với QuickSight" class="dd-item 
+    <li data-nav-id="/5-analytics-visualization/" title="Data Visualization with QuickSight" class="dd-item 
         
         
         
         ">
-      <a href="/vi/5-analytics-visualization/">
-          <b>5. </b>Trực quan hóa Dữ liệu với QuickSight
+      <a href="/5-analytics-visualization/">
+          <b>5. </b>Data Visualization with QuickSight
           
             <i class="fas fa-check read-icon"></i>
           
@@ -308,13 +308,13 @@
  
   
     
-    <li data-nav-id="/vi/6-cleanup-next-steps/" title="Dọn dẹp Tài nguyên" class="dd-item 
+    <li data-nav-id="/6-cleanup-next-steps/" title="Resource Cleanup" class="dd-item 
         
         
         
         ">
-      <a href="/vi/6-cleanup-next-steps/">
-          <b>6. </b>Dọn dẹp Tài nguyên
+      <a href="/6-cleanup-next-steps/">
+          <b>6. </b>Resource Cleanup
           
             <i class="fas fa-check read-icon"></i>
           
@@ -336,7 +336,7 @@
         <ul>
           
               <li> 
-                  <a class="padding" href="http://awsstudygroup.com"><i class='fab fa-aws'></i> AWS Study Group - Blog</a>
+                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj"><i class='fab fa-facebook'></i> AWS Study Group - FB Group</a>
               </li>
           
         </ul>
@@ -361,7 +361,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/2.2-lambda-weather-collector/">English</option>
+                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/2.2-lambda-weather-collector/" selected>English</option>
                     
                   
               
@@ -375,7 +375,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/" selected>Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/">Tiếng Việt</option>
                     
                   
               
@@ -463,7 +463,7 @@
             
           
           
-            <a href='/vi/'>Xây dựng Pipeline ETL Thời tiết Serverless</a> > <a href='/vi/2-data-collection-openweathermap/'>Thu thập Dữ liệu Thời tiết với OpenWeatherMap</a> > 2.2 Xây dựng Lambda Weather Collector
+            <a href='/'>Building a Serverless Weather ETL Pipeline</a> > <a href='/2-data-collection-openweathermap/'>Data Collection with OpenWeatherMap</a> > 2.2 Building the Lambda Weather Collector
           
         
           
@@ -478,27 +478,23 @@
     <div class="wrapper">
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#bước-1-tạo-iam-role-cho-lambda">Bước 1: Tạo IAM Role cho Lambda</a>
+    <li><a href="#step-1-create-iam-role-for-lambda">Step 1: Create IAM Role for Lambda</a>
       <ul>
-        <li><a href="#11-tạo-lambda-execution-role">1.1 Tạo Lambda Execution Role</a></li>
-        <li><a href="#12-gắn-aws-managed-policies">1.2 Gắn AWS Managed Policies</a></li>
+        <li><a href="#11-create-lambda-execution-role">1.1 Create Lambda Execution Role</a></li>
+        <li><a href="#12-attach-aws-managed-policies">1.2 Attach AWS Managed Policies</a></li>
       </ul>
     </li>
-    <li><a href="#bước-2-tạo-s3-bucket-cho-dữ-liệu-thời-tiết">Bước 2: Tạo S3 Bucket cho Dữ liệu Thời tiết</a>
+    <li><a href="#step-2-create-s3-bucket-for-weather-data">Step 2: Create S3 Bucket for Weather Data</a>
       <ul>
-        <li><a href="#21-tạo-weather-data-bucket">2.1 Tạo Weather Data Bucket</a></li>
+        <li><a href="#21-create-weather-data-bucket">2.1 Create Weather Data Bucket</a></li>
       </ul>
     </li>
-    <li><a href="#bước-3-lambda-function-cho-current-weather">Bước 3: Lambda Function cho Current Weather</a>
+    <li><a href="#step-3-lambda-function-for-current-weather">Step 3: Lambda Function for Current Weather</a>
       <ul>
-        <li><a href="#31-tạo-current-weather-function">3.1 Tạo Current Weather Function</a></li>
-        <li><a href="#32-thêm-function-code">3.2 Thêm Function Code</a></li>
-        <li><a href="#33-cấu-hình-environment-variables">3.3 Cấu hình Environment Variables</a></li>
-        <li><a href="#34-test-lambda-function">3.4 Test Lambda Function</a></li>
-        <li><a href="#41-test-lambda-function">4.1 Test Lambda Function</a></li>
+        <li><a href="#31-create-current-weather-function">3.1 Create Current Weather Function</a></li>
+        <li><a href="#32-add-function-code">3.2 Add Function Code</a></li>
       </ul>
     </li>
-    <li><a href="#tóm-tắt">Tóm tắt</a></li>
   </ul>
 </nav>
     </div>
@@ -516,7 +512,7 @@
           
             <h1>
               
-              2.2 Xây dựng Lambda Weather Collector
+              2.2 Building the Lambda Weather Collector
             </h1>
           
 
@@ -524,19 +520,19 @@
 
 
 
-	<p>Trong phần này, chúng ta sẽ tạo các hàm AWS Lambda để tự động thu thập dữ liệu thời tiết từ OpenWeatherMap API và lưu trữ vào S3. Những hàm này sẽ là lõi của hệ thống thu thập dữ liệu thời tiết.</p>
-<h2 id="bước-1-tạo-iam-role-cho-lambda">Bước 1: Tạo IAM Role cho Lambda</h2>
-<h3 id="11-tạo-lambda-execution-role">1.1 Tạo Lambda Execution Role</h3>
+	<p>In this section, we will create AWS Lambda functions to automatically collect weather data from the OpenWeatherMap API and store it in S3. These functions will be the core of our weather data collection system.</p>
+<h2 id="step-1-create-iam-role-for-lambda">Step 1: Create IAM Role for Lambda</h2>
+<h3 id="11-create-lambda-execution-role">1.1 Create Lambda Execution Role</h3>
 <ol>
 <li>
-<p><strong>Điều hướng đến IAM Console</strong></p>
+<p><strong>Navigate to IAM Console</strong></p>
 <ul>
 <li>AWS Console → IAM → Roles</li>
 <li>Click &ldquo;Create role&rdquo;</li>
 </ul>
 </li>
 <li>
-<p><strong>Chọn Trusted Entity</strong></p>
+<p><strong>Select Trusted Entity</strong></p>
 <ul>
 <li><strong>Service</strong>: Lambda</li>
 <li>Click &ldquo;Next&rdquo;
@@ -544,44 +540,44 @@
 </ul>
 </li>
 <li>
-<p><strong>Cấu hình Role</strong></p>
+<p><strong>Configure Role</strong></p>
 <ul>
 <li><strong>Role Name</strong>: <code>WeatherCollectorLambdaRole</code></li>
 <li><strong>Description</strong>: <code>Execution role for weather data collection Lambda functions</code></li>
 </ul>
 </li>
 </ol>
-<h3 id="12-gắn-aws-managed-policies">1.2 Gắn AWS Managed Policies</h3>
-<p><strong>AWS Managed Policy là gì?</strong></p>
-<p>AWS đã tạo sẵn nhiều policies phổ biến mà chúng ta có thể attach vào Role thay vì tự viết từ đầu. Điều này tiết kiệm thời gian và đảm bảo bảo mật.</p>
-<p><strong>Cách gắn các policies trong AWS Console:</strong></p>
+<h3 id="12-attach-aws-managed-policies">1.2 Attach AWS Managed Policies</h3>
+<p><strong>What is an AWS Managed Policy?</strong></p>
+<p>AWS has pre-created many common policies that we can attach to a Role instead of writing them from scratch. This saves time and ensures security.</p>
+<p><strong>How to attach policies in the AWS Console:</strong></p>
 <ol>
-<li><strong>Khi tạo Role</strong> <code>WeatherCollectorLambdaRole</code>, ở bước &ldquo;Add permissions&rdquo;</li>
-<li><strong>Tab &ldquo;Permissions&rdquo;</strong> → Click &ldquo;Attach policies directly&rdquo;</li>
-<li><strong>Tìm kiếm và chọn từng policy sau:</strong>
+<li><strong>When creating the <code>WeatherCollectorLambdaRole</code></strong>, at the &ldquo;Add permissions&rdquo; step</li>
+<li><strong>&ldquo;Permissions&rdquo; tab</strong> → Click &ldquo;Attach policies directly&rdquo;</li>
+<li><strong>Search for and select each of the following policies:</strong>
 <ul>
-<li>Gõ <code>AWSLambdaBasicExecutionRole</code> → tick chọn</li>
-<li>Gõ <code>AmazonS3FullAccess</code> → tick chọn</li>
-<li>Gõ <code>AmazonSSMReadOnlyAccess</code> → tick chọn</li>
-<li>Gõ <code>CloudWatchAgentServerPolicy</code> → tick chọn</li>
+<li>Type <code>AWSLambdaBasicExecutionRole</code> → check the box</li>
+<li>Type <code>AmazonS3FullAccess</code> → check the box</li>
+<li>Type <code>AmazonSSMReadOnlyAccess</code> → check the box</li>
+<li>Type <code>CloudWatchAgentServerPolicy</code> → check the box</li>
 </ul>
 </li>
-<li><strong>Click &ldquo;Add Permissions&rdquo;</strong> và hoàn thành tạo role</li>
+<li><strong>Click &ldquo;Add Permissions&rdquo;</strong> and finish creating the role</li>
 </ol>
 <p><img src="/images/data-collection/22b11.png" alt="Managed Policies"></p>
-<p><strong>Kết quả:</strong>
-Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies</strong></p>
-<p><strong>Policy này cho phép Lambda:</strong></p>
+<p><strong>Result:</strong>
+The <code>WeatherCollectorLambdaRole</code> will have <strong>4 managed policies</strong>.</p>
+<p><strong>This policy allows Lambda to:</strong></p>
 <ul>
-<li><strong>Tạo CloudWatch Log Group</strong> để ghi logs</li>
-<li><strong>Ghi logs vào CloudWatch</strong> khi function chạy</li>
-<li><strong>Basic networking</strong> để Lambda hoạt động</li>
+<li><strong>Create a CloudWatch Log Group</strong> to write logs</li>
+<li><strong>Write logs to CloudWatch</strong> when the function runs</li>
+<li><strong>Basic networking</strong> for Lambda to operate</li>
 </ul>
-<h2 id="bước-2-tạo-s3-bucket-cho-dữ-liệu-thời-tiết">Bước 2: Tạo S3 Bucket cho Dữ liệu Thời tiết</h2>
-<h3 id="21-tạo-weather-data-bucket">2.1 Tạo Weather Data Bucket</h3>
+<h2 id="step-2-create-s3-bucket-for-weather-data">Step 2: Create S3 Bucket for Weather Data</h2>
+<h3 id="21-create-weather-data-bucket">2.1 Create Weather Data Bucket</h3>
 <ol>
 <li>
-<p><strong>Điều hướng đến S3 Console</strong></p>
+<p><strong>Navigate to S3 Console</strong></p>
 <ul>
 <li>AWS Console → S3 → Create bucket</li>
 </ul>
@@ -590,17 +586,17 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 <p><img src="/images/data-collection/22b21.png" alt="S3"></p>
 <ol start="2">
 <li>
-<p><strong>Cấu hình Bucket</strong></p>
+<p><strong>Configure Bucket</strong></p>
 <ul>
-<li><strong>Bucket Name</strong>: <code>weather-data-{your-account-id}</code> (thay thế bằng AWS account ID của bạn)</li>
-<li><strong>Region</strong>: us-east-1 (hoặc region ưa thích của bạn)</li>
-<li><strong>Block Public Access</strong>: Giữ tất cả cài đặt được bật (khuyến nghị)</li>
+<li><strong>Bucket Name</strong>: <code>weather-data-{your-account-id}</code> (replace with your AWS account ID)</li>
+<li><strong>Region</strong>: us-east-1 (or your preferred region)</li>
+<li><strong>Block Public Access</strong>: Keep all settings enabled (recommended)</li>
 </ul>
 </li>
 </ol>
 <p><img src="/images/data-collection/22b22.png" alt="res-S3"></p>
 <ol start="3">
-<li><strong>Cấu trúc Bucket</strong>
+<li><strong>Bucket Structure</strong>
 <pre tabindex="0"><code>weather-data-123456789012/
 ├── raw/
     ├── current-weather/
@@ -608,18 +604,18 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
               └── year=2025/month=01/day=03/
 </code></pre></li>
 </ol>
-<h2 id="bước-3-lambda-function-cho-current-weather">Bước 3: Lambda Function cho Current Weather</h2>
-<h3 id="31-tạo-current-weather-function">3.1 Tạo Current Weather Function</h3>
+<h2 id="step-3-lambda-function-for-current-weather">Step 3: Lambda Function for Current Weather</h2>
+<h3 id="31-create-current-weather-function">3.1 Create Current Weather Function</h3>
 <ol>
 <li>
-<p><strong>Điều hướng đến Lambda Console</strong></p>
+<p><strong>Navigate to Lambda Console</strong></p>
 <ul>
 <li>AWS Console → Lambda → Create function
 <img src="/images/data-collection/22b31.png" alt="Lambda Console"></li>
 </ul>
 </li>
 <li>
-<p><strong>Cấu hình Function</strong></p>
+<p><strong>Configure Function</strong></p>
 <ul>
 <li><strong>Function Name</strong>: <code>weather-current-collector</code></li>
 <li><strong>Runtime</strong>: Python 3.11</li>
@@ -629,14 +625,14 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </li>
 </ol>
 <p><img src="/images/data-collection/22b32.png" alt="Create Lambda"></p>
-<h3 id="32-thêm-function-code">3.2 Thêm Function Code</h3>
-<p><strong>Quan trọng</strong>: Trước khi copy code, bạn cần <strong>thay đổi API key</strong>.
-Ở dòng <code>OPENWEATHER_API_KEY = 'API Key</code><br>
-→ Thay bằng API key của bạn từ OpenWeatherMap</p>
+<h3 id="32-add-function-code">3.2 Add Function Code</h3>
+<p><strong>Important</strong>: Before copying the code, you need to <strong>change the API key</strong>.
+In the line <code>OPENWEATHER_API_KEY = 'API Key</code><br>
+→ Replace it with your API key from OpenWeatherMap</p>
 <ol>
-<li><strong>Trong Lambda Console</strong> → Scroll xuống <strong>Code source</strong></li>
-<li><strong>Xóa toàn bộ code mặc định</strong> trong file <code>lambda_function.py</code></li>
-<li><strong>Copy và paste code sau:</strong></li>
+<li><strong>In the Lambda Console</strong> → Scroll down to <strong>Code source</strong></li>
+<li><strong>Delete all default code</strong> in the <code>lambda_function.py</code> file</li>
+<li><strong>Copy and paste the following code:</strong></li>
 </ol>
 <p><strong>File</strong>: <code>lambda_function.py</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
@@ -777,259 +773,7 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 </span></span><span style="display:flex;"><span>        )
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
 </span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Metric send error </span><span style="color:#e6db74">{</span>metric_name<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lambda_handler</span>(event, context):
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Main handler for Lambda function.&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Starting weather data collection: </span><span style="color:#e6db74">{</span>json<span style="color:#f92672">.</span>dumps(event)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Basic validation</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> BUCKET_NAME:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#34;WEATHER_BUCKET_NAME environment variable is required&#34;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">500</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;Configuration error&#39;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">&#39;WEATHER_BUCKET_NAME environment variable not set&#39;</span>
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    successful_collections <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    failed_collections <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    results <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># API key validation</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> OPENWEATHER_API_KEY <span style="color:#f92672">or</span> OPENWEATHER_API_KEY <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;your_api_key_here&#39;</span>:
-</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#34;OpenWeatherMap API key is not configured&#34;</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">500</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;Configuration error&#39;</span>,
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">&#39;OpenWeatherMap API key not set&#39;</span>
-</span></span><span style="display:flex;"><span>                })
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Collect data for each city</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> city <span style="color:#f92672">in</span> CITIES:
-</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Collecting data for </span><span style="color:#e6db74">{</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Fetch weather data</span>
-</span></span><span style="display:flex;"><span>            weather_data <span style="color:#f92672">=</span> fetch_current_weather(city, OPENWEATHER_API_KEY)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> weather_data:
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Save to S3</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> save_to_s3(weather_data, city[<span style="color:#e6db74">&#39;name&#39;</span>]):
-</span></span><span style="display:flex;"><span>                    successful_collections <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>                    results<span style="color:#f92672">.</span>append({
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;city&#39;</span>: city[<span style="color:#e6db74">&#39;name&#39;</span>],
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;status&#39;</span>: <span style="color:#e6db74">&#39;success&#39;</span>,
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;temperature&#39;</span>: weather_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;main&#39;</span>, {})<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;temp&#39;</span>),
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;description&#39;</span>: weather_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;weather&#39;</span>, [{}])[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;description&#39;</span>)
-</span></span><span style="display:flex;"><span>                    })
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>                    failed_collections <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>                    results<span style="color:#f92672">.</span>append({
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;city&#39;</span>: city[<span style="color:#e6db74">&#39;name&#39;</span>],
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;status&#39;</span>: <span style="color:#e6db74">&#39;failed&#39;</span>,
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;S3 save failed&#39;</span>
-</span></span><span style="display:flex;"><span>                    })
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>                failed_collections <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>                results<span style="color:#f92672">.</span>append({
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;city&#39;</span>: city[<span style="color:#e6db74">&#39;name&#39;</span>],
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;status&#39;</span>: <span style="color:#e6db74">&#39;failed&#39;</span>,
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;API fetch failed&#39;</span>
-</span></span><span style="display:flex;"><span>                })
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Send metrics (batched to save cost)</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> successful_collections <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> failed_collections <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>                cloudwatch<span style="color:#f92672">.</span>put_metric_data(
-</span></span><span style="display:flex;"><span>                    Namespace<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Weather/ETL&#39;</span>,
-</span></span><span style="display:flex;"><span>                    MetricData<span style="color:#f92672">=</span>[
-</span></span><span style="display:flex;"><span>                        {
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;MetricName&#39;</span>: <span style="color:#e6db74">&#39;SuccessfulCollections&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Value&#39;</span>: successful_collections,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Unit&#39;</span>: <span style="color:#e6db74">&#39;Count&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Timestamp&#39;</span>: datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>                        },
-</span></span><span style="display:flex;"><span>                        {
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;MetricName&#39;</span>: <span style="color:#e6db74">&#39;FailedCollections&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Value&#39;</span>: failed_collections,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Unit&#39;</span>: <span style="color:#e6db74">&#39;Count&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Timestamp&#39;</span>: datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>                        },
-</span></span><span style="display:flex;"><span>                        {
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;MetricName&#39;</span>: <span style="color:#e6db74">&#39;TotalCollections&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Value&#39;</span>: successful_collections <span style="color:#f92672">+</span> failed_collections,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Unit&#39;</span>: <span style="color:#e6db74">&#39;Count&#39;</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#39;Timestamp&#39;</span>: datetime<span style="color:#f92672">.</span>now(timezone<span style="color:#f92672">.</span>utc)
-</span></span><span style="display:flex;"><span>                        }
-</span></span><span style="display:flex;"><span>                    ]
-</span></span><span style="display:flex;"><span>                )
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>                logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Metrics send error: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Log results</span>
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Collection completed - Success: </span><span style="color:#e6db74">{</span>successful_collections<span style="color:#e6db74">}</span><span style="color:#e6db74">, Failed: </span><span style="color:#e6db74">{</span>failed_collections<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">200</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">&#39;Weather data collection completed&#39;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;successful_collections&#39;</span>: successful_collections,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;failed_collections&#39;</span>: failed_collections,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;results&#39;</span>: results
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Lambda handler error: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>        send_metrics(<span style="color:#e6db74">&#39;LambdaErrors&#39;</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">500</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;Internal error&#39;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;message&#39;</span>: str(e)
-</span></span><span style="display:flex;"><span>            })
-</span></span><span style="display:flex;"><span>        }
-</span></span></code></pre></div><p>Giải thích code</p>
-<ol>
-<li><strong>Import libraries</strong>: Các thư viện cần thiết cho HTTP requests, AWS services, logging</li>
-<li><strong>Cấu hình API key</strong>: Lưu OpenWeatherMap API key (nhớ thay bằng key của bạn!)</li>
-<li><strong>Danh sách thành phố</strong>: 6 thành phố Việt Nam với tọa độ GPS chính xác</li>
-<li><strong><code>fetch_current_weather()</code></strong>: Gọi API để lấy thời tiết hiện tại</li>
-<li><strong><code>save_to_s3()</code></strong>: Lưu dữ liệu JSON vào S3 với cấu trúc partition thông minh</li>
-<li><strong><code>send_metrics()</code></strong>: Gửi metrics tới CloudWatch để monitoring</li>
-<li><strong><code>lambda_handler()</code></strong>: Hàm chính - xử lý từng thành phố và trả về kết quả</li>
-</ol>
-<p><strong>Luồng hoạt động:</strong>
-<code>Lambda được trigger</code> → <code>Kiểm tra cấu hình</code> → <code>Lặp qua 6 thành phố</code> → <code>Gọi API</code> → <code>Lưu vào S3</code> → <code>Gửi metrics</code> → <code>Trả về kết quả</code></p>
-<h3 id="33-cấu-hình-environment-variables">3.3 Cấu hình Environment Variables</h3>
-<p><strong>Bước quan trọng</strong>: Lambda cần biết tên S3 bucket để lưu dữ liệu.</p>
-<ol>
-<li><strong>Trong Lambda Console</strong> → <strong>Configuration</strong> tab → <strong>Environment variables</strong>
-<img src="/images/data-collection/22b33.png" alt="Environment Variables"></li>
-<li><strong>Click &ldquo;Edit&rdquo;</strong> → <strong>Add environment variable</strong>:
-<ul>
-<li><strong>Key</strong>: <code>WEATHER_BUCKET_NAME</code></li>
-<li><strong>Value</strong>: <code>weather-data-{your-account-id}</code> (thay {your-account-id} bằng account ID thật)</li>
-</ul>
-</li>
-</ol>
-<p><img src="/images/data-collection/22b34.png" alt="Environment Variables"></p>
-
-<div class="notices tip" ><p>Account ID có thể tìm ở góc phải trên AWS Console (dãy số 12 chữ số)</p>
-</div>
-
-<h3 id="34-test-lambda-function">3.4 Test Lambda Function</h3>
-<p><strong>Bây giờ hãy test xem function hoạt động không!</strong></p>
-<ol>
-<li><strong>Click &ldquo;Deploy&rdquo;</strong> để lưu code và cấu hình</li>
-<li><strong>Tạo test event</strong>:
-<ul>
-<li><strong>Test</strong> tab → <strong>Create new event</strong></li>
-<li><strong>Event name</strong>: <code>manual-test</code></li>
-<li><strong>Event JSON</strong>: <code>{}</code> (để trống vì không cần input)</li>
-</ul>
-</li>
-</ol>
-<p><img src="/images/data-collection/22b35.png" alt="Test Event"></p>
-<ol start="3">
-<li><strong>Click &ldquo;Test&rdquo;</strong> và đợi kết quả</li>
-</ol>
-<p><strong>Kết quả mong đợi:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;statusCode&#34;</span>: <span style="color:#ae81ff">200</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;body&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Weather data collection completed&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;successful_collections&#34;</span>: <span style="color:#ae81ff">6</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;failed_collections&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;results&#34;</span>: [
-</span></span><span style="display:flex;"><span>      {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;HoChiMinh&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;status&#34;</span>: <span style="color:#e6db74">&#34;success&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;temperature&#34;</span>: <span style="color:#ae81ff">28.5</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;broken clouds&#34;</span>
-</span></span><span style="display:flex;"><span>      }
-</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// ... 5 thành phố khác
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ]
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results"></p>
-<ol start="4">
-<li><strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</li>
-</ol>
-<p><img src="/images/data-collection/22b37.png" alt="S3 Results"></p>
-<p>Nếu test thành công, bạn đã có:</p>
-<ul>
-<li>Lambda function hoạt động</li>
-<li>Dữ liệu thời tiết được lưu vào S3</li>
-<li>CloudWatch metrics được gửi</li>
-<li>Error handling hoạt động</li>
-</ul>
-<h3 id="41-test-lambda-function">4.1 Test Lambda Function</h3>
-<ol>
-<li><strong>Click &ldquo;Deploy&rdquo;</strong> để lưu code và cấu hình</li>
-<li><strong>Tạo test event</strong>:
-<ul>
-<li><strong>Test</strong> tab → <strong>Create new event</strong></li>
-<li><strong>Event name</strong>: <code>manual-test</code></li>
-<li><strong>Event JSON</strong>: <code>{}</code> (để trống vì không cần input)</li>
-</ul>
-</li>
-</ol>
-<p><img src="/images/data-collection/22b35.png" alt="Test Event"></p>
-<ol start="3">
-<li><strong>Click &ldquo;Test&rdquo;</strong> và đợi kết quả</li>
-</ol>
-<p><strong>Kết quả mong đợi:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;statusCode&#34;</span>: <span style="color:#ae81ff">200</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;body&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Weather data collection completed&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;successful_collections&#34;</span>: <span style="color:#ae81ff">6</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;failed_collections&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;results&#34;</span>: [
-</span></span><span style="display:flex;"><span>      {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;HoChiMinh&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;status&#34;</span>: <span style="color:#e6db74">&#34;success&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;temperature&#34;</span>: <span style="color:#ae81ff">28.5</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;broken clouds&#34;</span>
-</span></span><span style="display:flex;"><span>      }
-</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// ... 5 thành phố khác
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ]
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/data-collection/22b36.png" alt="S3 Results">
-4. <strong>Kiểm tra S3</strong>: Vào S3 bucket và xem có file JSON mới không</p>
-<p><img src="/images/data-collection/22b37.png" alt="S3 Results"></p>
-<p>Nếu test thành công:</p>
-<ul>
-<li>Lambda function hoạt động</li>
-<li>Dữ liệu thời tiết được lưu vào S3</li>
-<li>CloudWatch metrics được gửi</li>
-<li>Error handling hoạt động</li>
-</ul>
-<h2 id="tóm-tắt">Tóm tắt</h2>
-<p>Trong phần này, chúng ta đã:</p>
-<ul>
-<li>Tạo IAM roles và policies cho Lambda function</li>
-<li>Thiết lập S3 bucket với cấu trúc partition thông minh</li>
-<li>Xây dựng Lambda function thu thập thời tiết hiện tại</li>
-<li>Cấu hình error handling và CloudWatch metrics</li>
-<li>Test function thành công với 6 thành phố ở Việt Nam</li>
-</ul>
-<p><strong>Kết quả đạt được:</strong></p>
-<ul>
-<li>Lambda function <code>weather-current-collector</code> hoạt động ổn định</li>
-<li>Dữ liệu thời tiết được lưu vào S3 với format analytics-ready</li>
-<li>Monitoring và metrics đầy đủ qua CloudWatch</li>
-<li>Error handling robust với retry mechanism</li>
-</ul>
-<p><strong>Tiếp theo</strong>: Trong 2.3, chúng ta sẽ thiết lập automated scheduling với EventBridge để chạy function này theo lịch trình tự động.</p>
-
+</span></span></code></pre></div>
 
 
 
@@ -1230,10 +974,10 @@ Role <code>WeatherCollectorLambdaRole</code> sẽ có <strong>4 managed policies
 	 
 	 
 		
-			<a class="nav nav-prev" href="/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="2.1 Thiết lập OpenWeatherMap API"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/2-data-collection-openweathermap/2.1-openweathermap-setup/" title="2.1 OpenWeatherMap API Setup"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/vi/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Lập lịch Tự động với EventBridge" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Automated Scheduling with EventBridge" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>

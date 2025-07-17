@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Introduction and Architecture on Weather ETL Pipeline with AWS</title>
+    <title>Introduction on Weather ETL Pipeline with AWS</title>
     <link>//localhost:1313/1-introduction/</link>
-    <description>Recent content in Introduction and Architecture on Weather ETL Pipeline with AWS</description>
+    <description>Recent content in Introduction on Weather ETL Pipeline with AWS</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate></lastBuildDate>

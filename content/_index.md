@@ -1,112 +1,68 @@
 ---
-title: "Building ETL Data Pipeline for Weather Analytics on AWS"
-date: 2025-01-15
+title: "Building a Serverless Weather ETL Pipeline"
+date: 2025-07-09T09:00:00+00:00
 weight: 1
 chapter: false
 ---
 
-# Building ETL Data Pipeline for Weather Analytics on AWS
+# Building an ETL Data Pipeline for Weather Analysis on AWS
 
-#### Overview
+## Workshop Overview
 
-In this comprehensive workshop, you will learn how to build a **serverless ETL (Extract, Transform, Load) data pipeline** for weather analytics using AWS services and real-time weather data from OpenWeatherMap API. This hands-on workshop will guide you through creating a simple, cost-effective data processing system that collects, transforms, and analyzes real weather data including current conditions, forecasts, and historical trends across multiple cities.
+In this workshop, you will create a simple yet complete weather data pipeline, demonstrating core ETL concepts using AWS serverless technology.
 
-#### What You'll Build
+This workshop shows how to build a simple ETL pipeline using AWS serverless technology:
 
-You will create a complete **serverless data pipeline** that:
+- **Collect** weather data from the OpenWeatherMap API using AWS Lambda
+- **Process** and transform raw data into an analytics-ready format
+- **Store** data in Amazon S3 for both raw and processed data
+- **Analyze** data using Amazon Athena with SQL queries
+- **Visualize** insights through an Amazon QuickSight dashboard
+- **Clean up** resources to optimize costs
 
-- **Collects** real-time weather data from OpenWeatherMap API
-- **Processes** and transforms weather data using AWS Lambda
-- **Stores** structured weather data in S3 Data Lake
-- **Analyzes** weather patterns using Amazon Athena
-- **Visualizes** weather insights through QuickSight dashboards
+### Technologies Used:
 
-![ETL Pipeline Architecture](/images/etl/image.png?featherlight=false&width=90pc)
+- This workshop uses AWS Lambda, S3, Athena, and QuickSight combined with the OpenWeatherMap API to build a serverless ETL pipeline for collecting and analyzing weather data.
 
-{{% notice note%}}
-This workshop is designed for developers, data engineers, and cloud architects who want to gain hands-on experience with AWS data services. Prior knowledge of AWS basics and some programming experience (Python/SQL) is recommended but not required. You'll need an OpenWeatherMap API key (free tier available).
-{{% /notice%}}
+## Main Sections
 
-#### AWS Services You'll Learn
+### 1. [Introduction](1-introduction/)
 
-**Data Collection:**
+- Workshop overview and learning objectives
+- Architectural design and introduction to AWS services
+- Prerequisites and setup
 
-- **AWS Lambda** - Serverless compute for weather data collection and processing
-- **CloudWatch Events** - Scheduled execution and automation (hourly/daily)
+### 2. [Data Collection with OpenWeatherMap](2-data-collection-openweathermap/)
 
-**Data Storage:**
+- Set up an OpenWeatherMap API account
+- Create a Lambda function for data collection
+- Configure automated data fetching
+- Test and monitor the collection process
 
-- **Amazon S3** - Scalable object storage for weather data lakes
-- **S3 Intelligent Tiering** - Cost optimization for data storage
+### 3. [Serverless Data Processing with Lambda](3-serverless-processing-lambda/)
 
-**Analytics & Visualization:**
+- Build a Lambda function for data transformation
+- Convert raw weather JSON into an analytics format
+- Implement data validation and enrichment
+- Set up processing triggers
 
-- **Amazon Athena** - Interactive query service for S3 weather data
-- **Amazon QuickSight** - Business intelligence and weather visualization
+### 4. [Data Analysis with Amazon Athena](4-data-storage-solutions/)
 
-**Monitoring & Management:**
+- Create an S3 data lake structure
+- Set up Athena tables and schemas
+- Write SQL queries for weather analysis
+- Explore patterns and insights from the data
 
-- **Amazon CloudWatch** - Monitoring, logging, and weather alerting
-- **AWS IAM** - Identity and access management
-- **SNS** - Weather alert notifications
+### 5. [Data Visualization with QuickSight](5-analytics-visualization/)
 
-**External Integration:**
+- Set up Amazon QuickSight
+- Create a weather dashboard
+- Build interactive visualizations
+- Share and publish the dashboard
 
-- **OpenWeatherMap API** - Real-time weather data source (Developer Plan)
+### 6. [Resource Cleanup and Next Steps](6-cleanup-next-steps/)
 
-#### Business Use Cases
-
-This weather ETL pipeline demonstrates real-world analytics scenarios:
-
-- **Climate Analysis** - Temperature, humidity, and pressure trend analysis
-- **Agriculture Intelligence** - Weather conditions for crop planning and irrigation
-- **Tourism Planning** - Seasonal weather patterns for travel recommendations
-- **Energy Management** - Weather-based energy demand forecasting
-- **Logistics Optimization** - Weather-aware supply chain and transportation
-- **Risk Management** - Weather alert systems for disaster preparedness
-
-#### Architecture Components
-
-1. **Data Sources** - OpenWeatherMap API (current weather, forecasts, historical data)
-2. **Collection Layer** - Scheduled Lambda functions for multi-city weather retrieval
-3. **Processing Layer** - Lambda functions for data transformation and enrichment
-4. **Storage Layer** - S3 Data Lake with date/city partitioning
-5. **Analytics Layer** - Athena for SQL querying and QuickSight for weather visualization
-6. **Monitoring** - CloudWatch for logging, metrics, and weather alerting
-
-#### Expected Outcomes
-
-By the end of this workshop, you will:
-
-- Understand modern serverless data pipeline architectures
-- Master AWS Lambda for real-time weather data collection
-- Build analytics capabilities using live weather data
-- Implement monitoring and weather alert systems
-- Create interactive weather dashboards with QuickSight
-- Integrate external weather APIs into AWS data pipelines
-- Optimize costs with minimal AWS services (under $5/month)
-
-#### Workshop Duration
-
-- **Total Time**: 4-6 hours
-- **Skill Level**: Beginner to Intermediate
-- **Cost**: Under $5 using AWS Free Tier + OpenWeatherMap Developer Plan
-
-#### Prerequisites
-
-- Active AWS account with administrative access
-- OpenWeatherMap API key (Developer Plan recommended - 1M calls/month)
-- Basic understanding of cloud computing concepts
-- Familiarity with JSON data format and REST APIs
-- Internet connection to access OpenWeatherMap API
-- Optional: Basic Python or SQL knowledge
-
-#### Workshop Modules
-
-1. [Introduction & Architecture Design](1-introduction/)
-2. [Weather Data Collection with Lambda](2-data-collection-openweathermap/)
-3. [Data Processing and Transformation](3-serverless-processing-lambda/)
-4. [Setting up S3 Data Lake](4-data-storage-solutions/)
-5. [Analytics with Amazon Athena](5-analytics-visualization/)
-6. [Weather Visualization with QuickSight](6-monitoring-optimization/)
-7. [Cleanup and Next Steps](8-cleanup-next-steps/)
+- Comprehensive cleanup checklist
+- Cost optimization strategies
+- Suggestions for improvements and extensions
+- Additional learning resources

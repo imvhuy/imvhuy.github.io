@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/images/favicon.png" type="image/png">
 
-    <title>Building a Serverless Weather ETL Pipeline :: Weather ETL Pipeline with AWS</title>
+    <title>2.3 Automated Scheduling with EventBridge :: Weather ETL Pipeline with AWS</title>
 
     
     <link href="/css/nucleus.css?1752729177" rel="stylesheet">
@@ -36,7 +36,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/">
+  <body class="" data-url="/2-data-collection-openweathermap/2.3-automated-scheduling/">
     <nav id="sidebar" class="showVisitedLinks">
 
 
@@ -109,7 +109,7 @@
   
     
     <li data-nav-id="/2-data-collection-openweathermap/" title="Data Collection with OpenWeatherMap" class="dd-item 
-        
+        parent
         
         
         ">
@@ -197,7 +197,7 @@
     
     <li data-nav-id="/2-data-collection-openweathermap/2.3-automated-scheduling/" title="2.3 Automated Scheduling with EventBridge" class="dd-item 
         
-        
+        active
         
         ">
       <a href="/2-data-collection-openweathermap/2.3-automated-scheduling/">
@@ -361,7 +361,7 @@
                   
                     
                     
-                      <option id="en" value="//localhost:1313/" selected>English</option>
+                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/2.3-automated-scheduling/" selected>English</option>
                     
                   
               
@@ -375,7 +375,7 @@
                   
                     
                     
-                      <option id="vi" value="//localhost:1313/vi/">Tiếng Việt</option>
+                      <option id="vi" value="//localhost:1313/vi/2-data-collection-openweathermap/2.3-automated-scheduling/">Tiếng Việt</option>
                     
                   
               
@@ -436,80 +436,364 @@
         <div id="overlay"></div>
         <div class="padding highlightable">
               
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Building a Serverless Weather ETL Pipeline</a> > <a href='/2-data-collection-openweathermap/'>Data Collection with OpenWeatherMap</a> > 2.3 Automated Scheduling with EventBridge
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#step-1-set-up-eventbridge-rule-for-current-weather">Step 1: Set up EventBridge Rule for Current Weather</a>
+      <ul>
+        <li><a href="#11-access-eventbridge-console">1.1 Access EventBridge Console</a></li>
+        <li><a href="#12-create-rule-for-current-weather">1.2 Create Rule for Current Weather</a></li>
+        <li><a href="#13-configure-schedule-pattern">1.3 Configure Schedule Pattern</a></li>
+        <li><a href="#14-select-target-lambda-function">1.4 Select Target (Lambda Function)</a></li>
+        <li><a href="#15-configure-tags-and-review">1.5 Configure tags and Review</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-3-set-up-monitoring-with-cloudwatch-alarms">Step 3: Set up Monitoring with CloudWatch Alarms</a>
+      <ul>
+        <li><a href="#31-create-sns-topic-for-email-alerts">3.1 Create SNS Topic for Email Alerts</a></li>
+        <li><a href="#32-create-cloudwatch-alarm-for-lambda-errors">3.2 Create CloudWatch Alarm for Lambda Errors</a></li>
+      </ul>
+    </li>
+    <li><a href="#cost-and-performance-optimization">Cost and Performance Optimization</a>
+      <ul>
+        <li><a href="#1-smart-scheduling-strategy">1. Smart Scheduling Strategy</a></li>
+        <li><a href="#2-regional-optimization">2. Regional Optimization</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
         <div id="head-tags">
         
         </div>
         
         <div id="body-inner">
           
+            <h1>
+              
+              2.3 Automated Scheduling with EventBridge
+            </h1>
+          
 
         
 
-<span id="sidebar-toggle-span">
-<a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fas fa-bars"></i> navigation</a>
-</span>
 
- 
-<h1 id="building-an-etl-data-pipeline-for-weather-analysis-on-aws">Building an ETL Data Pipeline for Weather Analysis on AWS</h1>
-<h2 id="workshop-overview">Workshop Overview</h2>
-<p>In this workshop, you will create a simple yet complete weather data pipeline, demonstrating core ETL concepts using AWS serverless technology.</p>
-<p>This workshop shows how to build a simple ETL pipeline using AWS serverless technology:</p>
+
+	<p>In this section, we will set up automated scheduling for weather data collection using Amazon EventBridge (formerly CloudWatch Events). This allows Lambda functions to run on a regular schedule without manual intervention.</p>
+<p>EventBridge is like AWS&rsquo;s &ldquo;smart alarm clock&rdquo;:</p>
 <ul>
-<li><strong>Collect</strong> weather data from the OpenWeatherMap API using AWS Lambda</li>
-<li><strong>Process</strong> and transform raw data into an analytics-ready format</li>
-<li><strong>Store</strong> data in Amazon S3 for both raw and processed data</li>
-<li><strong>Analyze</strong> data using Amazon Athena with SQL queries</li>
-<li><strong>Visualize</strong> insights through an Amazon QuickSight dashboard</li>
-<li><strong>Clean up</strong> resources to optimize costs</li>
+<li><strong>Runs on time</strong>: Triggers Lambda functions on a specific schedule</li>
+<li><strong>Precise</strong>: Runs at the exact specified time (e.g., every hour, every day)</li>
+<li><strong>Automated</strong>: No manual intervention needed</li>
+<li><strong>Cost-effective</strong>: Only runs when needed, no resource cost when inactive</li>
 </ul>
-<h3 id="technologies-used">Technologies Used:</h3>
+<p><strong>Scheduling for:</strong></p>
 <ul>
-<li>This workshop uses AWS Lambda, S3, Athena, and QuickSight combined with the OpenWeatherMap API to build a serverless ETL pipeline for collecting and analyzing weather data.</li>
+<li>Regular 24/7 data collection</li>
+<li>Data is always fresh and updated</li>
+<li>Fully automated</li>
+<li>Not dependent on an operator</li>
 </ul>
-<h2 id="main-sections">Main Sections</h2>
-<h3 id="1-introduction">1. <a href="/1-introduction/">Introduction</a></h3>
+<p><strong>Schedule:</strong></p>
 <ul>
-<li>Workshop overview and learning objectives</li>
-<li>Architectural design and introduction to AWS services</li>
-<li>Prerequisites and setup</li>
+<li><strong>Current Weather</strong>: Every hour (24 times/day) - To monitor real-time weather</li>
 </ul>
-<h3 id="2-data-collection-with-openweathermap">2. <a href="/2-data-collection-openweathermap/">Data Collection with OpenWeatherMap</a></h3>
+<h2 id="step-1-set-up-eventbridge-rule-for-current-weather">Step 1: Set up EventBridge Rule for Current Weather</h2>
+
+<div class="notices tip" ><p><strong>This step will create a schedule to run the Lambda every hour to collect current weather.</strong></p>
+</div>
+
+<h3 id="11-access-eventbridge-console">1.1 Access EventBridge Console</h3>
+<ol>
+<li><strong>Go to AWS Console</strong> → Search for <strong>&ldquo;EventBridge&rdquo;</strong> (or <strong>&ldquo;CloudWatch&rdquo;</strong> → <strong>&ldquo;Events&rdquo;</strong>)</li>
+<li><strong>Click &ldquo;EventBridge&rdquo;</strong> → <strong>&ldquo;Rules&rdquo;</strong> in the left menu</li>
+<li><strong>Select the appropriate Region</strong> (e.g., <code>us-east-1</code>)</li>
+</ol>
+<p><img src="/images/data-collection/23b11.png" alt="EventBridge Console">
+<img src="/images/data-collection/23b12.png" alt="EventBridge Console"></p>
+<h3 id="12-create-rule-for-current-weather">1.2 Create Rule for Current Weather</h3>
+<ol>
+<li><strong>Click &ldquo;Create rule&rdquo;</strong></li>
+</ol>
+<p><img src="/images/data-collection/23b13.png" alt="Create Rule"></p>
+<ol start="2">
+<li><strong>Step 1 - Define rule detail:</strong>
 <ul>
-<li>Set up an OpenWeatherMap API account</li>
-<li>Create a Lambda function for data collection</li>
-<li>Configure automated data fetching</li>
-<li>Test and monitor the collection process</li>
+<li><strong>Name</strong>: <code>weather-current-hourly</code></li>
+<li><strong>Description</strong>: <code>Collects current weather data every hour for 6 Vietnamese cities</code></li>
+<li><strong>Event bus</strong>: <code>default</code></li>
+<li><strong>Rule type</strong>: <code>Schedule</code></li>
 </ul>
-<h3 id="3-serverless-data-processing-with-lambda">3. <a href="/3-serverless-processing-lambda/">Serverless Data Processing with Lambda</a></h3>
+</li>
+</ol>
+<p><img src="/images/data-collection/23b14.png" alt="Rule Details"></p>
+<ol start="3">
+<li><strong>Click &ldquo;Continue to create rule&rdquo;</strong></li>
+</ol>
+<h3 id="13-configure-schedule-pattern">1.3 Configure Schedule Pattern</h3>
+<ol>
+<li>
+<p><strong>Schedule pattern</strong>: Select <strong>&ldquo;A schedule that runs at a regular rate, such as every 10 minutes&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Rate expression</strong>: Select <strong>&ldquo;rate&rdquo;</strong> and enter:</p>
+<pre tabindex="0"><code>1 hour
+</code></pre></li>
+</ol>
+<p><img src="/images/data-collection/23b15.png" alt="Schedule Pattern"></p>
+<p><strong>Schedule Pattern Options:</strong></p>
 <ul>
-<li>Build a Lambda function for data transformation</li>
-<li>Convert raw weather JSON into an analytics format</li>
-<li>Implement data validation and enrichment</li>
-<li>Set up processing triggers</li>
-</ul>
-<h3 id="4-data-analysis-with-amazon-athena">4. <a href="/4-data-storage-solutions/">Data Analysis with Amazon Athena</a></h3>
+<li>
+<p><strong>Rate expression</strong>:</p>
 <ul>
-<li>Create an S3 data lake structure</li>
-<li>Set up Athena tables and schemas</li>
-<li>Write SQL queries for weather analysis</li>
-<li>Explore patterns and insights from the data</li>
+<li><code>rate(1 hour)</code> = every hour</li>
+<li><code>rate(30 minutes)</code> = every 30 minutes</li>
+<li><code>rate(1 day)</code> = every day</li>
 </ul>
-<h3 id="5-data-visualization-with-quicksight">5. <a href="/5-analytics-visualization/">Data Visualization with QuickSight</a></h3>
+</li>
+<li>
+<p><strong>Cron expression</strong> (advanced):</p>
 <ul>
-<li>Set up Amazon QuickSight</li>
-<li>Create a weather dashboard</li>
-<li>Build interactive visualizations</li>
-<li>Share and publish the dashboard</li>
+<li><code>cron(0 * * * ? *)</code> = every hour at minute 0</li>
+<li><code>cron(0 8,12,16,20 * * ? *)</code> = 4 times/day (8h, 12h, 16h, 20h)</li>
+<li><code>cron(0 0 * * ? *)</code> = every day at 00:00
+<img src="/images/data-collection/23b16.png" alt="Schedule Pattern"></li>
 </ul>
-<h3 id="6-resource-cleanup-and-next-steps">6. <a href="/6-cleanup-next-steps/">Resource Cleanup and Next Steps</a></h3>
+</li>
+</ul>
+<ol start="3">
+<li><strong>Click &ldquo;Next&rdquo;</strong></li>
+</ol>
+<h3 id="14-select-target-lambda-function">1.4 Select Target (Lambda Function)</h3>
+<ol>
+<li>
+<p><strong>Target types</strong>: Select <strong>&ldquo;AWS service&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Select a service</strong>: Select <strong>&ldquo;Lambda function&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Function</strong>: Select <strong><code>weather-current-collector</code></strong> (the function created in the previous step)</p>
+</li>
+</ol>
+<p><img src="/images/data-collection/23b17.png" alt="Select Target"></p>
+<ol start="4">
+<li><strong>Additional settings</strong>:
 <ul>
-<li>Comprehensive cleanup checklist</li>
-<li>Cost optimization strategies</li>
-<li>Suggestions for improvements and extensions</li>
-<li>Additional learning resources</li>
+<li><strong>Configure target input</strong>: Select <strong>&ldquo;Constant (JSON text)&rdquo;</strong></li>
+<li><strong>JSON text</strong>:</li>
 </ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge-schedule&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail-type&#34;</span>: <span style="color:#e6db74">&#34;Scheduled Event&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;detail&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;collection_type&#34;</span>: <span style="color:#e6db74">&#34;current_weather&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scheduled_time&#34;</span>: <span style="color:#e6db74">&#34;hourly&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;trigger_source&#34;</span>: <span style="color:#e6db74">&#34;eventbridge&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ol>
+<p><img src="/images/data-collection/23b18.png" alt="Target Input"></p>
+<p><strong>This JSON input will:</strong></p>
+<ul>
+<li>Tell Lambda this is a scheduled event (not a manual test)</li>
+<li>Help differentiate current weather collection</li>
+<li>Provide metadata for logging and monitoring</li>
+</ul>
+<ol start="5">
+<li><strong>Click &ldquo;Next&rdquo;</strong></li>
+</ol>
+<h3 id="15-configure-tags-and-review">1.5 Configure tags and Review</h3>
+<ol>
+<li>
+<p><strong>Tags (Optional)</strong>:</p>
+<ul>
+<li><strong>Key</strong>: <code>Project</code> → <strong>Value</strong>: <code>WeatherETL</code></li>
+<li><strong>Key</strong>: <code>Environment</code> → <strong>Value</strong>: <code>Production</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Review all settings</strong>:</p>
+<ul>
+<li>Name: <code>weather-current-hourly</code></li>
+<li>Schedule: <code>rate(1 hour)</code></li>
+<li>Target: <code>weather-current-collector</code></li>
+<li>State: <strong>Enabled</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Click &ldquo;Create rule&rdquo;</strong></p>
+</li>
+</ol>
+<p><img src="/images/data-collection/23b19.png" alt="Review Rule"></p>
+<p>The rule for current weather has been created successfully.</p>
+<p>The rule will trigger the <code>weather-current-collector</code> Lambda function every hour to collect current weather data.</p>
+<p><img src="/images/data-collection/23b20.png" alt="Review Rule"></p>
+
+<div class="notices success" ><p><strong>EventBridge Setup Complete!</strong></p>
+<p>The EventBridge rule has been created and will automatically trigger the Lambda function every hour.</p>
+<p><strong>Automated Workflow:</strong>
+<code>EventBridge</code> → <code>weather-current-collector</code> → <code>S3</code> → <code>CloudWatch Metrics</code></p>
+</div>
+
+<h2 id="step-3-set-up-monitoring-with-cloudwatch-alarms">Step 3: Set up Monitoring with CloudWatch Alarms</h2>
+<p><strong>Why is Monitoring Necessary?</strong></p>
+<p>When Lambda functions run automatically 24/7, you need to know immediately if there are problems:</p>
+<ul>
+<li>Lambda function fails</li>
+<li>Function runs too long</li>
+<li>Low success rate</li>
+<li>Unusual cost increase</li>
+</ul>
+<h3 id="31-create-sns-topic-for-email-alerts">3.1 Create SNS Topic for Email Alerts</h3>
+<p><strong>First, create an SNS Topic to receive email notifications for errors:</strong></p>
+<ol>
+<li><strong>AWS Console</strong> → <strong>&ldquo;SNS&rdquo;</strong> → <strong>&ldquo;Topics&rdquo;</strong> → <strong>&ldquo;Create topic&rdquo;</strong></li>
+</ol>
+<p><img src="/images/data-collection/23b31.png" alt="SNS Topic"></p>
+<ol start="2">
+<li>
+<p><strong>Topic configuration:</strong></p>
+<ul>
+<li><strong>Type</strong>: <code>Standard</code></li>
+<li><strong>Name</strong>: <code>weather-etl-alerts</code></li>
+<li><strong>Display name</strong>: <code>Weather ETL Alerts</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Create topic</strong></p>
+</li>
+<li>
+<p><strong>Create Subscription</strong>:</p>
+<ul>
+<li><strong>Protocol</strong>: <code>Email</code></li>
+<li><strong>Endpoint</strong>: <code>your-email@example.com</code></li>
+<li><strong>Confirm subscription</strong> via email</li>
+</ul>
+</li>
+</ol>
+<p><img src="/images/data-collection/23b32.png" alt="SNS Subscription"></p>
+<h3 id="32-create-cloudwatch-alarm-for-lambda-errors">3.2 Create CloudWatch Alarm for Lambda Errors</h3>
+<ol>
+<li>
+<p><strong>AWS Console</strong> → <strong>&ldquo;CloudWatch&rdquo;</strong> → <strong>&ldquo;Alarms&rdquo;</strong> → <strong>&ldquo;Create alarm&rdquo;</strong></p>
+</li>
+<li>
+<p><strong>Select metric</strong>:</p>
+<ul>
+<li><strong>Namespace</strong>: <code>AWS/Lambda</code></li>
+<li><strong>Metric name</strong>: <code>Errors</code></li>
+<li><strong>Dimensions</strong>:
+<ul>
+<li><strong>FunctionName</strong>: <code>weather-current-collector</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Specify metric and conditions</strong>:</p>
+<ul>
+<li><strong>Statistic</strong>: <code>Sum</code></li>
+<li><strong>Period</strong>: <code>5 minutes</code></li>
+<li><strong>Threshold type</strong>: <code>Static</code></li>
+<li><strong>Condition</strong>: <code>Greater/Equal</code></li>
+<li><strong>Threshold value</strong>: <code>1</code> (alert when there is ≥1 error in 5 minutes)</li>
+</ul>
+</li>
+</ol>
+<p><img src="/images/data-collection/23b33.png" alt="Alarm Conditions"></p>
+<ol start="4">
+<li>
+<p><strong>Configure actions</strong>:</p>
+<ul>
+<li><strong>Alarm state trigger</strong>: <code>In alarm</code></li>
+<li><strong>SNS topic</strong>: <code>weather-etl-alerts</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Add name and description</strong>:</p>
+<ul>
+<li><strong>Alarm name</strong>: <code>WeatherCurrentCollector-Errors</code></li>
+<li><strong>Description</strong>: <code>Alert when Lambda weather-current-collector has errors</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Create alarm</strong>
+<img src="/images/data-collection/23b34.png" alt="Alarm Conditions"></p>
+</li>
+</ol>
+<p><strong>Important</strong>: Ensure everything is working correctly before letting it run automatically.</p>
+<h2 id="cost-and-performance-optimization">Cost and Performance Optimization</h2>
+<h3 id="1-smart-scheduling-strategy">1. Smart Scheduling Strategy</h3>
+<p><strong>Instead of running at the same frequency 24/7, you can optimize:</strong></p>
+<ul>
+<li><strong>Peak hours</strong> (6:00-23:00): Every hour</li>
+<li><strong>Off-peak hours</strong> (23:00-6:00): Every 2 hours</li>
+<li><strong>Weekends</strong>: Every 2 hours (fewer people care about work-related weather)</li>
+</ul>
+<p><strong>Create multiple rules with different schedules:</strong></p>
+<p><strong>Rule 1 - Peak Hours:</strong></p>
+<pre tabindex="0"><code>cron(0 6-23 * * ? *)
+</code></pre><p><strong>Rule 2 - Off-peak Hours:</strong></p>
+<pre tabindex="0"><code>cron(0 0,2,4 * * ? *)
+</code></pre><h3 id="2-regional-optimization">2. Regional Optimization</h3>
+<p><strong>If you need to collect data for multiple regions:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span></code></pre></div>
+
+
+
+
+<footer class=" footline" >
 	
-  
+</footer>
+
         
         </div> 
         
@@ -560,6 +844,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -574,6 +859,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -607,6 +895,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -625,6 +914,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -694,8 +986,10 @@
 	 
 	 
 		
+			<a class="nav nav-prev" href="/2-data-collection-openweathermap/2.2-lambda-weather-collector/" title="2.2 Building the Lambda Weather Collector"> <i class="fa fa-chevron-left"></i></a>
 		
-			<a class="nav nav-next" href="/1-introduction/" title="Introduction" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+			<a class="nav nav-next" href="/3-serverless-processing-lambda/" title="Serverless Data Processing and Transformation" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -733,4 +1027,3 @@
 </script>
   </body>
 </html>
-

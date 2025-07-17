@@ -17,12 +17,42 @@
   </url><url>
     <loc>//localhost:1313/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/</loc>
     <lastmod>2025-01-03T08:30:00+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/2-data-collection-openweathermap/2.1-openweathermap-setup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/2.1-openweathermap-setup/"
+                />
   </url><url>
     <loc>//localhost:1313/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/</loc>
     <lastmod>2025-01-03T08:30:00+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/2-data-collection-openweathermap/2.2-lambda-weather-collector/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/2.2-lambda-weather-collector/"
+                />
   </url><url>
     <loc>//localhost:1313/vi/2-data-collection-openweathermap/2.3-automated-scheduling/</loc>
     <lastmod>2025-01-03T08:45:00+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/2-data-collection-openweathermap/2.3-automated-scheduling/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/2.3-automated-scheduling/"
+                />
   </url><url>
     <loc>//localhost:1313/vi/1-introduction/</loc>
     <lastmod>2025-07-09T09:00:00+00:00</lastmod>
@@ -39,18 +69,68 @@
   </url><url>
     <loc>//localhost:1313/vi/2-data-collection-openweathermap/</loc>
     <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/2-data-collection-openweathermap/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/2-data-collection-openweathermap/"
+                />
   </url><url>
     <loc>//localhost:1313/vi/3-serverless-processing-lambda/</loc>
     <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/3-serverless-processing-lambda/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/3-serverless-processing-lambda/"
+                />
   </url><url>
     <loc>//localhost:1313/vi/4-data-storage-solutions/</loc>
     <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/4-data-storage-solutions/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/4-data-storage-solutions/"
+                />
   </url><url>
     <loc>//localhost:1313/vi/5-analytics-visualization/</loc>
     <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/5-analytics-visualization/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/5-analytics-visualization/"
+                />
   </url><url>
     <loc>//localhost:1313/vi/6-cleanup-next-steps/</loc>
     <lastmod>2025-01-07T09:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="//localhost:1313/6-cleanup-next-steps/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="vi"
+                href="//localhost:1313/vi/6-cleanup-next-steps/"
+                />
   </url><url>
     <loc>//localhost:1313/vi/categories/</loc>
     <xhtml:link

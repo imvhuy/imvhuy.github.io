@@ -12,21 +12,21 @@
     <title>Thu thập Dữ liệu Thời tiết với OpenWeatherMap :: Hệ thống ETL Dữ liệu Thời tiết với AWS</title>
 
     
-    <link href="/css/nucleus.css?1752636930" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1752636930" rel="stylesheet">
-    <link href="/css/hybrid.css?1752636930" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1752636930" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1752636930" rel="stylesheet">
-    <link href="/css/auto-complete.css?1752636930" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1752636930" rel="stylesheet">
-    <link href="/css/theme.css?1752636930" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1752636930" rel="stylesheet">
+    <link href="/css/nucleus.css?1752729177" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1752729177" rel="stylesheet">
+    <link href="/css/hybrid.css?1752729177" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1752729177" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1752729177" rel="stylesheet">
+    <link href="/css/auto-complete.css?1752729177" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1752729177" rel="stylesheet">
+    <link href="/css/theme.css?1752729177" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1752729177" rel="stylesheet">
     
-    <link href="/css/theme-workshop.css?1752636930" rel="stylesheet">
+    <link href="/css/theme-workshop.css?1752729177" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1752636930"></script>
+    <script src="/js/jquery-3.3.1.min.js?1752729177"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -57,14 +57,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1752636930"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1752636930"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1752729177"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1752729177"></script>
 <script type="text/javascript">
     
         var baseurl = "\/\/localhost:1313\/\/vi";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1752636930"></script>
+<script type="text/javascript" src="/js/search.js?1752729177"></script>
 
     
   </div>
@@ -359,6 +359,18 @@
               
               
                   
+                    
+                    
+                      <option id="en" value="//localhost:1313/2-data-collection-openweathermap/">English</option>
+                    
+                  
+              
+                  
+              
+          
+              
+              
+                  
               
                   
                     
@@ -390,14 +402,16 @@
     
     <section id="footer">
       <left>
-     
-    
+        <b> Workshop</b> <br> 
+       <img src="https://hitwebcounter.com/counter/counter.php?page=7830891&style=0038&nbdigits=9&type=page&initCount=0" title="Migrate" Alt="web counter"   border="0" /></a>  <br>
+     <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0" title="Total CLoud Journey" Alt="web counter"   border="0"   />
 </left>
 <left>
     <br>
     <br>
         <b> Last Updated </b> <br>
-        <i><font color=orange>23-06-2025</font></i>
+        <i><font color=orange>17-07-2025</font></i>
     </left>
     <left>
         <br>
@@ -469,7 +483,6 @@
     <li><a href="#kiến-trúc-tổng-quan">Kiến trúc Tổng quan</a></li>
     <li><a href="#loại-dữ-liệu-thu-thập">Loại Dữ liệu Thu thập</a></li>
     <li><a href="#lịch-trình-thu-thập">Lịch trình Thu thập</a></li>
-    <li><a href="#ước-tính-chi-phí">Ước tính Chi phí</a></li>
     <li><a href="#kết-quả-mong-đợi">Kết quả Mong đợi</a></li>
     <li><a href="#bắt-đầu">Bắt đầu</a></li>
   </ul>
@@ -528,13 +541,8 @@
     style F fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
     style G fill:#f1f8e9,stroke:#558b2f,stroke-width:2px
 </code></pre><h2 id="loại-dữ-liệu-thu-thập">Loại Dữ liệu Thu thập</h2>
-<p>Thu thập dữ liệu thời tiết hiện tại cho <strong>6 tỉnh thành Việt Nam</strong>:</p>
-<ol>
-<li><strong>🏙️ Thành phố chính</strong>: Hà Nội, Hồ Chí Minh, Đà Nẵng</li>
-<li><strong>🌾 Khu vực nông nghiệp</strong>: Gia Lai, Cần Thơ</li>
-<li><strong>🏛️ Di sản văn hóa</strong>: Huế</li>
-</ol>
-<p><strong>📊 Dữ liệu thu thập</strong>:</p>
+<p>Thu thập dữ liệu thời tiết hiện tại cho <strong>6 tỉnh thành Việt Nam</strong>: Hà Nội, Hồ Chí Minh, Đà Nẵng, Gia Lai, Cần Thơ, Huế</p>
+<p><strong>Dữ liệu thu thập</strong>:</p>
 <ul>
 <li>Nhiệt độ (°C, °F), độ ẩm, áp suất</li>
 <li>Tốc độ gió, hướng gió, mây che phủ</li>
@@ -542,44 +550,7 @@
 <li>Metadata: timestamp, location, collection info</li>
 </ul>
 <h2 id="lịch-trình-thu-thập">Lịch trình Thu thập</h2>
-<p>⏰ <strong>Thời tiết Hiện tại</strong>: Mỗi giờ (24 lần/ngày × 6 thành phố = 144 data points/ngày)</p>
-<h2 id="ước-tính-chi-phí">Ước tính Chi phí</h2>
-<table>
-  <thead>
-      <tr>
-          <th>Dịch vụ</th>
-          <th>Sử dụng</th>
-          <th>Chi phí</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>OpenWeatherMap API</td>
-          <td>144 calls/ngày</td>
-          <td><strong>Free</strong></td>
-      </tr>
-      <tr>
-          <td>Lambda Executions</td>
-          <td>720 invocations/tháng</td>
-          <td><strong>Free Tier</strong></td>
-      </tr>
-      <tr>
-          <td>S3 Storage</td>
-          <td>500 MB dữ liệu</td>
-          <td><strong>Free Tier</strong></td>
-      </tr>
-      <tr>
-          <td>CloudWatch Logs</td>
-          <td>2 GB logs</td>
-          <td>$1.00</td>
-      </tr>
-      <tr>
-          <td><strong>Tổng</strong></td>
-          <td></td>
-          <td><strong>~$1.00/tháng</strong></td>
-      </tr>
-  </tbody>
-</table>
+<p><strong>Thời tiết Hiện tại</strong>: Mỗi giờ (24 lần/ngày × 6 thành phố = 144 data points/ngày)</p>
 
 <div class="notices tip" ><p>OpenWeatherMap cung cấp 1,000 lời gọi API miễn phí mỗi ngày, đủ cho workshop này.</p>
 </div>
@@ -804,19 +775,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1752636930"></script>
-    <script src="/js/perfect-scrollbar.min.js?1752636930"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1752636930"></script>
-    <script src="/js/jquery.sticky.js?1752636930"></script>
-    <script src="/js/featherlight.min.js?1752636930"></script>
-    <script src="/js/highlight.pack.js?1752636930"></script>
+    <script src="/js/clipboard.min.js?1752729177"></script>
+    <script src="/js/perfect-scrollbar.min.js?1752729177"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1752729177"></script>
+    <script src="/js/jquery.sticky.js?1752729177"></script>
+    <script src="/js/featherlight.min.js?1752729177"></script>
+    <script src="/js/highlight.pack.js?1752729177"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1752636930"></script>
-    <script src="/js/learn.js?1752636930"></script>
-    <script src="/js/hugo-learn.js?1752636930"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1752729177"></script>
+    <script src="/js/learn.js?1752729177"></script>
+    <script src="/js/hugo-learn.js?1752729177"></script>
 
-    <link href="/mermaid/mermaid.css?1752636930" rel="stylesheet" />
-    <script src="/mermaid/mermaid.js?1752636930"></script>
+    <link href="/mermaid/mermaid.css?1752729177" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1752729177"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

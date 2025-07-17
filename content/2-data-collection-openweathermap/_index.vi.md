@@ -55,13 +55,9 @@ graph TD
 
 ## Loại Dữ liệu Thu thập
 
-Thu thập dữ liệu thời tiết hiện tại cho **6 tỉnh thành Việt Nam**:
+Thu thập dữ liệu thời tiết hiện tại cho **6 tỉnh thành Việt Nam**: Hà Nội, Hồ Chí Minh, Đà Nẵng, Gia Lai, Cần Thơ, Huế
 
-1. **🏙️ Thành phố chính**: Hà Nội, Hồ Chí Minh, Đà Nẵng
-2. **🌾 Khu vực nông nghiệp**: Gia Lai, Cần Thơ
-3. **🏛️ Di sản văn hóa**: Huế
-
-**📊 Dữ liệu thu thập**:
+**Dữ liệu thu thập**:
 
 - Nhiệt độ (°C, °F), độ ẩm, áp suất
 - Tốc độ gió, hướng gió, mây che phủ
@@ -70,17 +66,7 @@ Thu thập dữ liệu thời tiết hiện tại cho **6 tỉnh thành Việt N
 
 ## Lịch trình Thu thập
 
-⏰ **Thời tiết Hiện tại**: Mỗi giờ (24 lần/ngày × 6 thành phố = 144 data points/ngày)
-
-## Ước tính Chi phí
-
-| Dịch vụ            | Sử dụng               | Chi phí          |
-| ------------------ | --------------------- | ---------------- |
-| OpenWeatherMap API | 144 calls/ngày        | **Free**         |
-| Lambda Executions  | 720 invocations/tháng | **Free Tier**    |
-| S3 Storage         | 500 MB dữ liệu        | **Free Tier**    |
-| CloudWatch Logs    | 2 GB logs             | $1.00            |
-| **Tổng**           |                       | **~$1.00/tháng** |
+**Thời tiết Hiện tại**: Mỗi giờ (24 lần/ngày × 6 thành phố = 144 data points/ngày)
 
 {{% notice tip %}}
 OpenWeatherMap cung cấp 1,000 lời gọi API miễn phí mỗi ngày, đủ cho workshop này.
